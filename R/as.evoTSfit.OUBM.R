@@ -1,0 +1,33 @@
+#'@title Class for fit to evolutionary sequence (time-series) models
+#'
+#'@description A function that combines useful information summarizing model fit.
+#'
+#'@param logL log-likelihood of model
+#'
+#'@param parameters maximum-likelihood estimates of the parameters
+#'
+#'@param modelName escription of the model
+#'
+#'@param method the parameterization used: Joint
+#'
+#'@param K number of parameters in the model
+#'
+#'@param n sample size
+#'
+#'@param iter the number of times the optimization method is run from different starting points. Default is NULL, meaning the optimization is run once.
+#'
+#'@details This function is used by the model-fitting routines for the univariate Ornstein-Uhlenbeck model where the optimum evolves as an Unbiased Random Walk to create standardized output
+#'
+#'@note This function is not likely to be called directly by the user.
+#'
+#'@author Kjetil Lysne Voje
+#'
+
+as.evoTSfit.OUBM<-function (logL, parameters, modelName, method, K, n, iter)
+{
+  ic <- paleoTS::IC(logL = logL, K = K, n = n, method = "AICc")
+  y <- list(logL = logL, AICc = ic, parameters = parameters,
+            modelName = modelName, method = method, K = K, n = n, iter = iter)
+  class(y) <- "paleoTSfit"
+  return(y)
+}

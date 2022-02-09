@@ -1,0 +1,27 @@
+Package: evoTS
+Title: Analyze Evolutionary Sequences (Time-Series of Phenotypic Change) 
+Version: 1.0
+Authors@R: 
+    person(given = "Kjetil Lysne",
+           family = "Voje",
+           role = c("aut", "cre"),
+           email = "k.l.voje@nhm.uio.no")
+Description: Facilitates analysis of evolutionary sequences of phenotypic change. The package extends the modeling framework in the paleoTS package and contains functions to fit a large range of univariate and multivariate evolutionary models. The log-likelihood surface of a model fitted to empirical data can also be assessed.   
+License: GPL (>= 2)
+Encoding: UTF-8
+Imports:
+	paleoTS (>= 0.4-4),
+	mvtnorm,
+	plotly,
+	pracma,
+	MASS,
+	stats,
+	utils
+Maintainer: Kjetil Lysne Voje <k.l.voje@nhm.uio.no>
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.2
+Suggests: 
+    rmarkdown,
+    knitr
+VignetteBuilder: knitr
