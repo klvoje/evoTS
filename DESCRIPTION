@@ -1,6 +1,6 @@
 Package: evoTS
 Title: Analyze Evolutionary Sequences (Time-Series of Phenotypic Change) 
-Version: 1.0
+Version: 1.0.0
 Authors@R: 
     person(given = "Kjetil Lysne",
            family = "Voje",
