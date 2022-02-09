@@ -1,12 +1,12 @@
 Package: evoTS
-Title: Analyze Evolutionary Sequences (Time-Series of Phenotypic Change) 
+Title: Analyze Evolutionary Sequences (Time-Series) of Phenotypic Change 
 Version: 1.0.0
 Authors@R: 
     person(given = "Kjetil Lysne",
            family = "Voje",
            role = c("aut", "cre"),
            email = "k.l.voje@nhm.uio.no")
-Description: Facilitates analysis of evolutionary sequences of phenotypic change. The package extends the modeling framework in the paleoTS package and contains functions to fit a large range of univariate and multivariate evolutionary models. The log-likelihood surface of a model fitted to empirical data can also be assessed.   
+Description: The evoTS package facilitates univariate and multivariate analysis of evolutionary sequences of phenotypic change. The goal of the evoTS package is to offer a large range of evolutionary models to enable more detailed studies of evolutionary changes within lineages.
 License: GPL (>= 2)
 Encoding: UTF-8
 Imports:
