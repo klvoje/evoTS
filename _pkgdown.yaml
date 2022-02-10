@@ -10,7 +10,7 @@ navbar:
     - 
       href: articles/evoTS_vignette.html
       icon: "fa-solid fa-shoe-prints"
-      text: "evoTS walkthrough"
+      text: "Walk-through"
     - 
       href: reference/index.html
       icon: fa-file-code-o
@@ -28,5 +28,5 @@ navbar:
   type: inverse
 template: 
   bootstrap: 5
-  bootswatch: litera 
+  bootswatch: flatly 
    

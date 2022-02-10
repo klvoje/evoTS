@@ -6,7 +6,7 @@
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
     
 
-    <nav class="navbar fixed-top navbar-inverse navbar-expand-lg bg-light"><div class="container">
+    <nav class="navbar fixed-top navbar-inverse navbar-expand-lg bg-primary"><div class="container">
     
     <a class="navbar-brand me-2" href="../index.html">evoTS</a>
 
@@ -29,7 +29,7 @@
   <a class="nav-link" href="../articles/evoTS_vignette.html">
     <span class="fa fa-solid fa-shoe-prints"></span>
      
-    evoTS walkthrough
+    Walk-through
   </a>
 </li>
 <li class="active nav-item">
@@ -113,30 +113,42 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Comparing 11 models [n = 30, method = Joint]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                                                logL K      AICc</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> GRW                                                       -20.75529 3  48.43365</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> URW                                                       -20.75551 2  45.95546</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Stasis                                                    -19.09184 2  42.62812</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> StrictStasis                                              -45.35306 1  92.84898</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Decel                                                     -42.19436 3  91.31179</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Accel                                                     -87.21654 3 181.35616</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> OU                                                        -16.56891 4  42.73783</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> OU model with moving optimum (ancestral state at optimum) -19.48955 4  48.57909</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> OU model with moving optimum                              -16.56892 5  45.63784</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Punc-1                                                    -17.29809 4  44.19619</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Bokma model                                               -16.98258 5  46.46515</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                                                 dAICc Akaike.wt</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> GRW                                                         5.8055290     0.018</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> URW                                                         3.3273444     0.062</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Stasis                                                      0.0000000     0.326</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> StrictStasis                                               50.2208586     0.000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Decel                                                      48.6836688     0.000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Accel                                                     138.7280451     0.000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> OU                                                          0.1097117     0.309</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> OU model with moving optimum (ancestral state at optimum)   5.9509725     0.017</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> OU model with moving optimum                                3.0097200     0.072</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Punc-1                                                      1.5680695     0.149</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Bokma model                                                 3.8370334     0.048</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                                                 logL K</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> GRW                                                        -21.16179 3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> URW                                                        -21.71044 2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Stasis                                                     -35.51830 2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> StrictStasis                                              -170.13468 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Decel                                                      -24.05413 3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Accel                                                      -23.66757 3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> OU                                                         -19.35754 4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> OU model with moving optimum (ancestral state at optimum)  -20.39391 4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> OU model with moving optimum                               -19.73085 5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Punc-1                                                     -21.37714 4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Bokma model                                                -19.46904 5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                                                AICc       dAICc</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> GRW                                                        49.24665   1.3813186</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> URW                                                        47.86533   0.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Stasis                                                     75.48105  27.6157176</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> StrictStasis                                              342.41222 294.5468860</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Decel                                                      55.03133   7.1659978</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Accel                                                      54.25822   6.3928899</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> OU                                                         48.31508   0.4497451</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> OU model with moving optimum (ancestral state at optimum)  50.38782   2.5224901</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> OU model with moving optimum                               51.96170   4.0963692</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Punc-1                                                     52.35428   4.4889523</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Bokma model                                                51.43807   3.5727424</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                                           Akaike.wt</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> GRW                                                           0.164</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> URW                                                           0.327</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Stasis                                                        0.000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> StrictStasis                                                  0.000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Decel                                                         0.009</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Accel                                                         0.013</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> OU                                                            0.261</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> OU model with moving optimum (ancestral state at optimum)     0.093</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> OU model with moving optimum                                  0.042</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Punc-1                                                        0.035</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Bokma model                                                   0.055</span>
 <span class="r-in"></span>
 </code></pre></div>
     </div>
