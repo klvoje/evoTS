@@ -38,4 +38,4 @@ devtools::install_github("klvoje/evoTS")
 
 ## Documentation
 
-The <a href="https://klvoje.github.io/evoTS/">package website</a> contains a vignette (detailed walk-through) on how to use the various features of the `evoTS` package. 
+The <a href="https://klvoje.github.io/evoTS/index.html">package website</a> contains a vignette (detailed walk-through) on how to use the various features of the `evoTS` package. 
