@@ -23,7 +23,7 @@ The `evoTS` package facilitates univariate and multivariate analysis of evolutio
 
 The `evoTS` package extends the modeling framework implemented in the <a href="https://cran.r-project.org/web/packages/paleoTS/index.html">`paleoTS` package</a> (Hunt 2006; 2008a; 2008b; Hunt *et al.* 2008; 2010; 2015) by containing functions to fit a large range of univariate and multivariate evolutionary models not implemented in `paleoTS`. The structure of `evoTS` have been implemented to mirror the user experience from `paleoTS` as much as possible. For example, all univariate models implemented in `evoTS` can be fitted to a `paleoTS` object, i.e. the data format used in `paleoTS`. The two packages are also completely compatible in how the fit of the models to empirical data are evaluated, which means the fit of all univariate models available in `paleoTS` and `evoTS` are directly comparable. 
 
-`evoTS` contains a range of multivariate models, including different versions of multivariate unbiased random walks and Ornsten-Uhlenbeck processes. Together, these models allow the user to test various hypotheses of adaptation using phenotypic time-series. 
+`evoTS` contains a range of multivariate models, including different versions of multivariate unbiased random walks and Ornstein-Uhlenbeck processes. Together, these models allow the user to test various hypotheses of adaptation using phenotypic time-series. 
 
 `evoTS` also contains functions for calculating likelihood surfaces of fitted models.
 <br /> 
