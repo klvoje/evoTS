@@ -1,24 +1,32 @@
-title: evoTS
-url: https://klvoje.github.io/evoTS/
-template:
-  params:
-  bootswatch: spacelab
-
-navbar:
+--- 
+name: evoTS
+navbar: 
+  components: ~
+  left: 
+    - 
+      href: index.html
+      icon: fa-home
+      text: Home
+    - 
+      href: articles/evoTS_vignette.html
+      icon: "fa-thin fa-person-walking"
+      text: "evoTS walkthrough"
+    - 
+      href: reference/index.html
+      icon: fa-file-code-o
+      text: Functions
+    - 
+      href: news/index.html
+      icon: "fa-regular fa-newspaper"
+      text: News
+  right: 
+    - 
+      href: "https://github.com/klvoje/evoTS"
+      icon: "fa-github fa-lg"
+      text: Github
+  title: evoTS
   type: inverse
-
-center:
-- icon: fa-home
-href: index.html
--icon fa-thin fa-person-walking
-text: "evoTS walk-through"
-href: articles/evoTS_vignette.html
--icon fa-file-code-o 
-text: "functions"
-href: reference/index.html
--icon fa-regular fa-newspaper
-text: "news"
-href: news/index.html
-- icon: fa-github fa-lg
-text: "github"
-href:  https://github.com/klvoje/evoTS
+template: 
+  bootstrap: 5
+  bootswatch: litera 
+   
