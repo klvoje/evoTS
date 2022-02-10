@@ -9,7 +9,7 @@ navbar:
       text: Home
     - 
       href: articles/evoTS_vignette.html
-      icon: "fa-thin fa-person-walking"
+      icon: "fa-solid fa-shoe-prints"
       text: "evoTS walkthrough"
     - 
       href: reference/index.html
