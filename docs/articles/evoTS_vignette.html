@@ -100,36 +100,33 @@ Voje</h4>
 
     
     
-<div style="page-break-after: always;"></div>
-<div class="section level2">
-<h2 id="about-evots">1.0 About <code>evoTS</code><a class="anchor" aria-label="anchor" href="#about-evots"></a>
-</h2>
-<p>The <code>evoTS</code> package facilitates univariate and
-multivariate analysis of evolutionary sequences of phenotypic change.
-The goal of the <code>evoTS</code> package is to offer a large range of
-evolutionary models to enable detailed studies of evolutionary change
-within lineages, in both the fossil record and in modern lineages.</p>
+<p><br> # 1.0 About <code>evoTS</code> The <code>evoTS</code> package
+facilitates univariate and multivariate analysis of evolutionary
+sequences of phenotypic change. The goal of the <code>evoTS</code>
+package is to offer a large range of evolutionary models to enable
+detailed studies of evolutionary change within lineages, in both the
+fossil record and in modern lineages.</p>
 <p>The <code>evoTS</code> package extends the modeling framework
 implemented in the
 <a href="https://cran.r-project.org/web/packages/paleoTS/index.html" class="external-link"><code>paleoTS</code>
 package</a> (Hunt 2006; 2008a; 2008b; Hunt <em>et al.</em> 2008; 2010;
 2015) by containing functions to fit a large range of univariate and
 multivariate evolutionary models not implemented in
-<code>paleoTS</code>. The structure of <code>evoTS</code> have been
-implemented to mirror the user experience from <code>paleoTS</code> as
-much as possible. For example, all univariate models implemented in
-<code>evoTS</code> can be fitted to a <code>paleoTS</code> object,
-i.e. the data format used in <code>paleoTS</code>. The two packages are
-also completely compatible in how the fit of the models to empirical
-data are evaluated, which means the fit of all univariate models
-available in <code>paleoTS</code> and <code>evoTS</code> are directly
-comparable.</p>
+<code>paleoTS</code>.</p>
+<p>The structure of <code>evoTS</code> have been implemented to mirror
+the user experience from <code>paleoTS</code> as much as possible. For
+example, all univariate models implemented in <code>evoTS</code> can be
+fitted to a <code>paleoTS</code> object, i.e. the data format used in
+<code>paleoTS</code>. The two packages are also completely compatible in
+how the fit of the models to empirical data are evaluated, which means
+the fit of all univariate models available in <code>paleoTS</code> and
+<code>evoTS</code> are directly comparable.</p>
 <p><code>evoTS</code> contains a range of multivariate models, including
 different versions of multivariate unbiased random walks and
 Ornstein-Uhlenbeck processes. Together, these models allow the user to
 test various hypotheses of adaptation using phenotypic time-series.</p>
 <p><code>evoTS</code> also contains functions for calculating likelihood
-surfaces of fitted models.</p>
+surfaces of fitted models. <br></p>
 <div class="section level3">
 <h3 id="compatibility-with-paleots-technical-info">1.1 Compatibility with <code>paleoTS</code> <strong>(technical
 info)</strong><a class="anchor" aria-label="anchor" href="#compatibility-with-paleots-technical-info"></a>
@@ -162,7 +159,6 @@ parameters and sampling errors.</p>
 <code>evoTS</code> are evaluated based on the small sample-corrected
 version of the AICc (Akaike 1974; Anderson et al. 2000).</p>
 <p><br><br></p>
-</div>
 </div>
 <div class="section level2">
 <h2 id="installation">2.0 Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
@@ -242,12 +238,14 @@ that supplement the models available in <code>paleoTS.</code></p>
 (GRW) and unbiased random walks (URW), stasis (modeled as a white noise
 process, i.e. uncorrelated variation around a constant mean), strict
 stasis (no real evolutionary change) and an Ornstein-Uhlenbeck (OU)
-processes assuming a fixed optimum. The <code>paleoTS</code> package
-also contains models of a punctuated mode of evolution where
+processes assuming a fixed optimum (see Hunt 2006 and Hunt <em>et
+al.</em> 2008 for info on these models). The <code>paleoTS</code>
+package also contains models of a punctuated mode of evolution where
 punctuations (jumps in phenotype space) separate different
-parameterizations of the stasis model. The <code>paleoTS</code> package
-also contains a few other mode shift models, i.e. where the model of
-evolution shifts at some point during the evolutionary sequence.</p>
+parameterizations of the stasis model (Hunt 2008). The
+<code>paleoTS</code> package also contains a few other mode shift
+models, i.e. where the model of evolution shifts at some point during
+the evolutionary sequence (Hunt 2008; Hunt <em>et al.</em> 2015).</p>
 <p>Several new univariate models have been implemented in the
 <code>evoTS</code> package. Functions are also available to fit mode
 shifts between all univariate models available in <code>evoTS</code> and
@@ -275,23 +273,22 @@ walk where the step variance (i.e. the variance of the normal
 distribution from which evolutionary steps are drawn) is reduced
 exponentially through time (Voje 2020). This model is closely related to
 the early burst model developed for phylogenetic comparative data
-(Blomberg <em>et al.</em> 2003; Harmon <em>et al.</em> 2010, Cooper and
-Purvis 2010), and describes a lineage that shows a reduced rate of
-evolution with time. As for the random walk model (Hunt 2006), the
-expected evolutionary divergence between ancestor and descendant
-populations is always zero in the model of decelerated evolution. The
-expected trait mean and its variance and covariance are given by the
-following expressions: <br><span class="math display">\[ E[z_{i}] =
-z_{0} \]</span> <br></p>
+(e.g. Harmon <em>et al.</em> 2010, Cooper and Purvis 2010), and
+describes a lineage that shows a reduced rate of evolution with time. As
+for the random walk model (Hunt 2006), the expected evolutionary
+divergence between ancestor and descendant populations is always zero in
+the model of decelerated evolution. The expected trait mean and its
+variance and covariance are given by the following expressions: <br><br></p>
+<p><span class="math display">\[ E[z_{i}] = z_{0} \]</span> <br></p>
 <p><span class="math display">\[ Var[z_{i}] = \sigma ^{2}
 _{step.0}e^{rt_i} + \epsilon _{i} \]</span> <br></p>
 <p><span class="math display">\[ Cov[z_{i},z_{j}] = \sigma ^{2}
 _{step.0}e^{rt_{min}} \]</span> <br></p>
 <p>where <span class="math inline">\(z_{i}\)</span> is the expected
 trait value for population <em>i</em> in the time series, <span class="math inline">\(z_{i}\)</span> is the ancestral trait mean, <span class="math inline">\(\sigma ^{2} _{step.0}\)</span> is the initial
-value for the step distribution, <em>r</em> describes the exponential
-decay in the <span class="math inline">\(\sigma ^{2}_{step.0}\)</span>
-through time and is constrained to be 0 or smaller, <span class="math inline">\(t_{i}\)</span> is the time interval from the
+value for the step distribution, <span class="math inline">\(r\)</span>
+describes the exponential decay in the <span class="math inline">\(\sigma ^{2}_{step.0}\)</span> through time and is
+constrained to be 0 or smaller, <span class="math inline">\(t_{i}\)</span> is the time interval from the
 ancestral population mean (the start of the fossil sequence, which has a
 time of 0) to the <em>i</em>th population, and <span class="math inline">\(t_{min}\)</span> is the time interval from the
 ancestral population to the oldest of the two populations <span class="math inline">\(z_{i}\)</span> and <span class="math inline">\(z_{j}\)</span>.</p>
@@ -351,7 +348,8 @@ the likelihood-surface of the fitted model, which is a possibility in
 <code>evoTS</code>.</p>
 <p>Investigating the likelihood surface can be helpful for several
 reasons.</p>
-<p>1.Computing the likelihood surface is a great way to explore which
+<ol style="list-style-type: decimal">
+<li><p>Computing the likelihood surface is a great way to explore which
 parameter combinations that have an almost identical likelihood compared
 to the maximum likelihood values. Investigating the log-likelihood
 surface is also an approach to assess uncertainty in the estimated
@@ -365,19 +363,19 @@ parameters (Edwards 1992). While standard errors computed from the
 Hessian matrix are always symmetric around the point estimate, the
 log-likelihood surface might not be (multivariate) normal. The reported
 upper and lower parameter estimates are therefore often not symmetrical
-around the maximum likelihood paraneter estimates.</p>
-<ol style="list-style-type: decimal">
-<li>Estimating parameters in a model using maximum likelihood always run
-the risk of returning parameters from a local and not a global optimum.
-Investigating the support surface for combinations of parameters is one
-way to explore the topology of the likelihood-surface.</li>
-</ol>
-<p>1.Ridges in the log-likelihood surface can make it challenging to
+around the maximum likelihood paraneter estimates.</p></li>
+<li><p>Estimating parameters in a model using maximum likelihood always
+run the risk of returning parameters from a local and not a global
+optimum. Investigating the support surface for combinations of
+parameters is one way to explore the topology of the
+likelihood-surface.</p></li>
+<li><p>Ridges in the log-likelihood surface can make it challenging to
 identify maximum likelihood estimates of the model parameters in certain
 cases. Flat ridges may for example cause identifiability issues and
 problems for the model to converge. Investigating the log-likelihood
 surface can therefore help diagnose challenges related to failures of
-models convergence.</p>
+models convergence.</p></li>
+</ol>
 <p>The <code>evoTS</code> package contain functions to create likelihood
 surfaces for univariate models in <code>evoTS</code> and
 <code>paleoTS</code> (e.g. <code>confidence.stasis</code>,
@@ -450,7 +448,10 @@ model of evolution.</p>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>      lower upper</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>vstep  <span class="fl">0.17</span>  <span class="fl">1.00</span></span>
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>r     <span class="sc">-</span><span class="fl">3.70</span> <span class="sc">-</span><span class="fl">0.28</span></span></code></pre></div>
-<p><br><img src="accel_logl_surface.png" width="80%" style="display: block; margin: auto;"><br></p>
+<p><br><img src="accel_logl_surface.png" width="80%" style="display: block; margin: auto;"><br> The 3D plot can be rotated vertically and horizontally to get a
+better overview of the likelihood surface, which is why the observation
+angle is different for this 3D plot compared to the 3D plot for the
+decelerated model.</p>
 </div>
 <div class="section level3">
 <h3 id="the-bokma-model">4.3 The Bokma model<a class="anchor" aria-label="anchor" href="#the-bokma-model"></a>
@@ -573,9 +574,21 @@ following expressions: <br><br><span class="math display">\[E[z_{i}] = e^{(-\alp
 \frac{ \sigma^{2}_{step}+\sigma^{2}_{\theta}}{2\alpha} \right] \left[
 1-e^{(-2\alpha t_{a})}\right]e^{-\alpha t_{ij}} +
 \sigma^{2}_{\theta}t_{a} \left[  1-\left[1+e^{-\alpha t_{ij}} \right]
-\left( 1-e^{-\alpha t_{a}} \right) \right] /  \alpha t_{i} + \epsilon
-_{i} \]</span> <br> The model can be fitted using the
-<code>opt.joint.OUBM</code> function. <br></p>
+\left( 1-e^{-\alpha t_{a}} \right) \right] /  \alpha t_{i}\]</span>
+<br> where <span class="math inline">\(z_{i}\)</span> is the expected
+trait value for the <em>i</em>th sample, <span class="math inline">\(z_{0}\)</span> is the ancestral trait mean, <span class="math inline">\(t_{i}\)</span> is the time interval from the
+ancestral population mean (the start of the time-series, which has a
+time of 0) to the <em>i</em>th sample, $$ is the optimum, $$ measures
+the rate of adaptation to the optimum, <span class="math inline">\(\sigma^{2}_{step}\)</span> is the variance of the
+stochastic perturbations of <em>z</em>, and <span class="math inline">\(\sigma^{2}_{\theta}\)</span> is the variance of
+the stochastic perturbations of the optimum, <span class="math inline">\(t_{a}\)</span> is the time interval from the
+ancestral population to the oldest of the two populations <span class="math inline">\(z_{i}\)</span> and <span class="math inline">\(z_{j}\)</span>, and <span class="math inline">\(t_{ij}\)</span> is the time separating two samples
+<span class="math inline">\(z_{i}\)</span> and <span class="math inline">\(z_{j}\)</span>. The estimation (sampling) error
+<span class="math inline">\(\epsilon_{i}\)</span> of the population
+means contribute to the expected variance between two population
+means.</p>
+<p>The model can be fitted using the <code>opt.joint.OUBM</code>
+function. <br></p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">opt.joint.OUBM</span>(ln.diameter)</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">"Running no iterations."</span></span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>logL</span>
@@ -972,10 +985,10 @@ following multivariate trait models:</p>
 the rate of evolution<a class="anchor" aria-label="anchor" href="#multivariate-unbiased-random-walks-with-and-without-changes-in-the-rate-of-evolution"></a>
 </h3>
 <p>Evolution as a multivariate unbiased random walk is modeled using an
-evolutionary rate matrix <strong>R</strong> (Felsenstein 1988). The
-diagonal elements in <strong>R</strong> represent the rate of evolution
-for the individual traits, while the off-diagonal elements represent the
-extent to which different traits co-evolve.</p>
+evolutionary rate matrix <strong>R</strong> (Felsenstein 1988; Revell
+and Harmon 2008). The diagonal elements in <strong>R</strong> represent
+the rate of evolution for the individual traits, while the off-diagonal
+elements represent the extent to which different traits co-evolve.</p>
 <p>The multivariate variance-covariance matrix for the unbiased random
 walk model (<strong>V</strong>) is computed using the Kronecker product
 of the <strong>R</strong> matrix and a “distance matrix”
@@ -1021,7 +1034,7 @@ maximum likelihood search for the <strong>R</strong> matrix. A common
 <p>To use the multivariate models, we first need multivariate data
 (e.g. at least two traits or variables).</p>
 <p>The data set on phenotypic evolution in <em>Stephanodiscus
-yellowstonensis</em> (Theirot et al. 2006) contains data on the number
+yellowstonensis</em> (Theriot et al. 2006) contains data on the number
 of ribs in addition to the size of the diameter we have analyzed so far.
 Before combining the rib and diameter data into a multivariate data set,
 we first do an approximate log-transformation of the rib data and
@@ -1318,11 +1331,11 @@ pull matrix), <span class="math inline">\(\theta\)</span> is a vector
 containing the optimum for each trait, <strong>R</strong> is a square
 matrix with dimensions equal to the number of investigated traits
 describing the stochastic changes in the traits (<strong>R</strong> is
-often called the drift matrix) . Under the assumption that the we only
-have one selective regime (optimum) per trait, the expected trait mean
-of the Ornstein-Uhlenbeck process is the weighted sum of the optimum and
-the root value (Hansen 1997): <br><br><span class="math display">\[E\left[Z_{i}\right]= e^{(-At_{i})}z_{0} +
-(1-e^{(-At_{i})}\theta)\]</span> <br> where <span class="math inline">\(Z_{i}\)</span> is the expected trait value for
+often called the drift matrix), and <span class="math inline">\(W\)</span> is the diffusion parameter. Under the
+assumption that the we only have one selective regime (optimum) per
+trait, the expected trait mean of the Ornstein-Uhlenbeck process is the
+weighted sum of the optimum and the root value (Hansen 1997): <br><br><span class="math display">\[E\left[Z_{i}\right]=
+e^{(-At_{i})}z_{0} + (1-e^{(-At_{i})}\theta)\]</span> <br> where <span class="math inline">\(Z_{i}\)</span> is the expected trait value for
 sample <em>i</em>, <span class="math inline">\(z_{0}\)</span> is the
 ancestral trait mean, <em>Θ</em> is the optimum, <strong>A</strong> is
 the pull matrix measuring the rate of adaptation to the optimum, and
@@ -1336,10 +1349,9 @@ the following expression: <br><br><span class="math display">\[Cov(z_{i}, z_{j})
 P^{-1}\Sigma\Sigma^{T}(P^{-1})^{T}\right)
 P^{T}\right]e^{-A^{T}t_{ij}}\]</span> <br> where <strong>P</strong> is
 the orthogonal matrix of eigenvectors of <strong>A</strong>, <span class="math inline">\(\Sigma\Sigma^{T}\)</span> is the Cholesky
-decomposition of the <strong>R</strong> matrix, <span class="math inline">\(\lambda_{i}\)</span> is the eigenvalue of the
-<em>i</em>th trait, <span class="math inline">\(t_{a}\)</span> is the
-time interval from the ancestral population to the oldest of the two
-populations <span class="math inline">\(z_{i}\)</span> and <span class="math inline">\(z_{j}\)</span>, and <span class="math inline">\(t_{ij}\)</span> is the time separating two samples
+decomposition of the <strong>R</strong> matrix, <span class="math inline">\(\lambda_{i}\)</span> is the <em>i</em>th
+eigenvalue of <strong>A</strong>, <span class="math inline">\(t_{a}\)</span> is the time interval from the
+ancestral population to the oldest of the two populations <span class="math inline">\(z_{i}\)</span> and <span class="math inline">\(z_{j}\)</span>, and <span class="math inline">\(t_{ij}\)</span> is the time separating two samples
 <span class="math inline">\(z_{i}\)</span> and <span class="math inline">\(z_{j}\)</span>, while <span class="math inline">\(\odot\)</span> represents the Hadamard
 (element-wise) product.</p>
 <p>Different ways to parameterize the <strong>A</strong> matrix allows
@@ -1537,13 +1549,31 @@ phylogenies. <em>Journal of Evolutionary Biology</em> 15:1048–1056..</p>
 <p>Clavel, J., G. Escarguel, G. Merceron. 2015. mvmorph: an r package
 for fitting multivariate evolutionary models to morphometric data.
 <em>Methods in Ecology and Evolution</em> 6:1311–1319.</p>
+<p>Cooper, N., and A. Purvis, 2010. Body size evolution in mammals:
+complexity in tempo and mode. <em>The American Naturalist</em>
+175:727–738.</p>
 <p>Edwards, A. W. F. 1992. Likelihood. expanded edition Johns Hopkins
 University Press. Baltimore, MD.</p>
+<p>Felsenstein, J. 1973. Maximum-likelihood estimation of evolutionary
+trees from continuous characters. <em>The American Journal of Human
+Genetics</em> 25:471–492.</p>
+<p>Felsenstein, J. 1988. Phylogenies and quantitative characters.
+<em>Annual Review of Ecology, Evolution, and Systematics</em>
+19:445–471.</p>
+<p>Freckleton R. P. 2012. Fast likelihood calculations for comparative
+analyses. <em>Methods in Ecology and Evolution</em> 3:940-947.</p>
+<p>Hadfield, J. D., and S. Nakagawa. 2010. General quantitative genetic
+methods for comparative biology: phylogenies, taxonomies and multi-trait
+models for continuous and categorical characters. <em>Journal of
+Evolutionary Biology</em> 23:494-508.</p>
 <p>Hansen, T. F. 1997. Stabilizing selection and the comparative
 analysis of adaptation. <em>Evolution</em> 51:1341–1351.</p>
 <p>Hansen, T. F., J. Pienaar, and S. H. Orzack. 2008. A comparative
 method for studying adaptation to a randomly evolving environment.
 <em>Evolution</em> 62:1965–1977.</p>
+<p>Harmon, L. J. et al. 2010. Early bursts of body size and shape
+evolution are rare in comparative data. <em>Evolution</em>
+64:2385–2396.</p>
 <p>Hunt, G. 2006. Fitting and comparing models of phyletic evolution:
 random walks and beyond. <em>Paleobiology</em> 32:578–601.</p>
 <p>Hunt, G. 2008a. Gradual or pulsed evolution: when should
@@ -1560,12 +1590,27 @@ adaptive optimum: phenotypic evolution in a fossil stickleback lineage.
 <p>Hunt, G., S. Wicaksono, J. E. Brown, and G. K. Macleod. 2010.
 Climate-driven body size trends in the ostracod fauna of the deep Indian
 Ocean. <em>Palaeontology</em> 53:1255-1268.</p>
+<p>Hunt, G. 2013. Testing the link between phenotypic evolution and
+speciation: an integrated palaeontological and phylogenetic analysis.
+<em>Methods in Ecololgy and Evolution</em> 4:714–723.</p>
 <p>Hunt, G., M. J. Hopkins, and S. Lidgard. 2015 Simple versus complex
 models of trait evolution and stasis as a response to environmental
 change. <em>PNAS</em> 112:4885–4890.</p>
+<p>Ingram, T. 2011. Speciation along a depth gradient in a marine
+adaptive radiation. Proceedings og the Royalal Society B Biological
+Sciences 278:613–618.</p>
+<p>Lande, R. 1979. Quantitative genetic analysis of multivariate
+evolution, applied to brain: body size allometry. <em>Evolution</em>
+33:402-416.</p>
 <p>Reitan, T., T. Schweder, and J. Henderiks. 2012. Phenotypic evolution
 studied by layered stochastic differential equations. <em>The Annals of
 Applied Statistics</em>. 6:1531–1551.</p>
+<p>Revell, L. J., and L. Harmon 2008. Testing quantitative genetic
+hypotheses about the evolutionary rate matrix for continuous characters.
+<em>Evolutionary Ecology Research</em> 10:311–331.</p>
+<p>Theriot, E. C., S. C., Fritz, C. Whitlock, C. and D. J. Conley. 2006.
+Late Quaternary rapid morphological evolution of an endemic diatom in
+Yellowstone Lake, Wyoming. <em>Paleobiology</em> 32:38–54.</p>
 <p>Voje, K. L. 2020. Testing eco‐evolutionary predictions using fossil
 data: Phyletic evolution following ecological opportunity.
 <em>Evolution</em> 74:188–200.</p>
