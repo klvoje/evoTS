@@ -92,7 +92,7 @@
                         <h4 data-toc-skip class="author">Kjetil L.
 Voje</h4>
             
-            <h4 data-toc-skip class="date">2022-02-10</h4>
+            <h4 data-toc-skip class="date">2022-02-11</h4>
       
       
       <div class="d-none name"><code>evoTS_vignette.Rmd</code></div>
@@ -105,53 +105,64 @@ Voje</h4>
 <h2 id="about-evots">1.0 About <code>evoTS</code><a class="anchor" aria-label="anchor" href="#about-evots"></a>
 </h2>
 <p>The <code>evoTS</code> package facilitates univariate and
-multivariate analysis of evolutionary sequences of phenotypic change
-from the fossil record and from cu The goal of the <code>evoTS</code>
-package is to offer a large range of evolutionary models to enable more
-detailed studies of evolutionary changes within lineages.</p>
+multivariate analysis of evolutionary sequences of phenotypic change.
+The goal of the <code>evoTS</code> package is to offer a large range of
+evolutionary models to enable detailed studies of evolutionary change
+within lineages, in both the fossil record and in modern lineages.</p>
 <p>The <code>evoTS</code> package extends the modeling framework
-available in the
-<a href="https://cran.r-project.org/web/packages/paleoTS/index.html" class="external-link">
-<code>paleoTS</code> package</a>. All model-fitting procedures in
-<code>evoTS</code> have been implemented to mirror the user experience
-from <code>paleoTS</code>. For example, all univariate models
-implemented in <code>evoTS</code> can be fitted to a
-<code>paleoTS</code> object, i.e. the data format used in
-<code>paleoTS</code>. The fit of all univariate models available in
-<code>paleoTS</code> and <code>evoTS</code> are directly comparable
-using the reported AICc.</p>
-<p><code>evoTS</code> contains functions that allow for fitting
-different models to separate parts of an evolutionary sequence.
-Functions for investigating likelihood surfaces of fitted models are
-also included.</p>
+implemented in the
+<a href="https://cran.r-project.org/web/packages/paleoTS/index.html" class="external-link"><code>paleoTS</code>
+package</a> (Hunt 2006; 2008a; 2008b; Hunt <em>et al.</em> 2008; 2010;
+2015) by containing functions to fit a large range of univariate and
+multivariate evolutionary models not implemented in
+<code>paleoTS</code>. The structure of <code>evoTS</code> have been
+implemented to mirror the user experience from <code>paleoTS</code> as
+much as possible. For example, all univariate models implemented in
+<code>evoTS</code> can be fitted to a <code>paleoTS</code> object,
+i.e. the data format used in <code>paleoTS</code>. The two packages are
+also completely compatible in how the fit of the models to empirical
+data are evaluated, which means the fit of all univariate models
+available in <code>paleoTS</code> and <code>evoTS</code> are directly
+comparable.</p>
 <p><code>evoTS</code> contains a range of multivariate models, including
 different versions of multivariate unbiased random walks and
-Ornsten-Uhlenbeck processes. Together, these models allow the user to
+Ornstein-Uhlenbeck processes. Together, these models allow the user to
 test various hypotheses of adaptation using phenotypic time-series.</p>
-<p>The <code>evoTS</code> package facilitates analysis of evolutionary
-sequences of phenotypic change. The package extends the modeling
-framework in the <code>paleoTS</code> package (Hunt 2006; 2008a; 2008b;
-Hunt <em>et al.</em> 2008; 2010; 2015) and contains functions to fit a
-large range of univariate and multivariate evolutionary models not
-implemented in <code>paleoTS</code>. The goal of the <code>evoTS</code>
-package is to offer a larger range of evolutionary models to te study of
-evolutionary changes within lineages.</p>
-<p>All model-fitting procedures in <code>evoTS</code> have been
-implemented to mirror the user experience from <code>paleoTS</code> in
-order to make the package easy to use for users with experince from
-<code>paleoTS</code>. For example, all the univariate models implemented
-in <code>evoTS</code> can be fitted to a paleoTS object (i.e. the data
-format used in <code>paleoTS</code>) and the fit of all univariate
-models in <code>paleoTS</code>and <code>evoTS</code> are directly
-comparable using the reported AICc. <code>evoTS</code> also contain
-functions that allow for more flexibility in fitting combinations of
-univariate models to different parts of a time-series. Functions for
-investigating likelihood surfaces of fitted models have also been
-developed.</p>
-<p><code>evoTS</code> also contains a range of multivariate models that
-can be fitted to evolutionary sequences (time-series). These models
-include different versions of multivariate Unbiased Random Walks and
-Ornsten-Uhlenbeck processes. <br><br></p>
+<p><code>evoTS</code> also contains functions for calculating likelihood
+surfaces of fitted models.</p>
+<div class="section level3">
+<h3 id="compatibility-with-paleots-technical-info">1.1 Compatibility with <code>paleoTS</code> <strong>(technical
+info)</strong><a class="anchor" aria-label="anchor" href="#compatibility-with-paleots-technical-info"></a>
+</h3>
+<p>As in the <code>paleoTS</code> package, all models implemented in
+<code>evoTS</code> assume that the population (sample) means in the
+sequence of ancestor-descendants have a joint distribution that is
+multivariate normal with an expected mean vector and covariance matrix
+that are functions of the parameters of each model, the time intervals
+separating the populations (samples) in the sequence, and the sampling
+variances of the trait means calculated for each population (sample).
+Given the assumption of multivariate normality, the expected
+distribution of sample means is given by their first, second, and mixed
+moments (covariance). As in the <code>paleoTS</code> package,
+<code>evoTS</code> use the built-in optimization routines in R for
+estimating maximum likelihood parameter estimates. The default
+hill-climbing optimization technique used in all univariate models in
+<code>evoTS</code> (L-BFGS-B) is a quasi-Newton method that constrains
+the optimization of certain parameters (e.g. so that variance parameters
+cannot be smaller than 0). All multivariate models use the Nelder-Mead
+hill climbing search algorithm as default.</p>
+<p>All models in <code>evoTS</code> have been implemented using the
+joint parameterization routine from the <code>paleoTS</code> package.
+The optimization is therefore fit using the actual sample values, with
+the autocorrelation among samples accounted for in the log-likelihood
+function. The joint distribution of sample means is multivariate normal,
+with means and variance-covariances determined by evolutionary
+parameters and sampling errors.</p>
+<p>As in the <code>paleoTS</code> package, relative model fit in
+<code>evoTS</code> are evaluated based on the small sample-corrected
+version of the AICc (Akaike 1974; Anderson et al. 2000).</p>
+<p><br><br></p>
+</div>
 </div>
 <div class="section level2">
 <h2 id="installation">2.0 Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
@@ -166,15 +177,14 @@ installed using devtools: <br></p>
 <div class="section level2">
 <h2 id="getting-data-into-evots">3.0 Getting data into <code>evoTS</code><a class="anchor" aria-label="anchor" href="#getting-data-into-evots"></a>
 </h2>
-<p>The functions in <code>evoTS</code> analyze data on the same format
-as <code>paleoTS</code>. An object of class paleoTS is the required
-input for most of the functions in `evoTS. To create a paleoTS object,
-you need vectors of trait/variable means, sample/population variances,
+<p>An object of class paleoTS is the required input for most of the
+functions in <code>evoTS</code>. To create a <code>paleoTS</code>
+object, you need vectors of trait means, sample/population variances,
 sample sizes and ages of the samples/populations.</p>
-<p>If you already have your data uploaded in R, one easy way to create a
-paleoTS object is to use the <code>as.paleoTS</code> function in the
-<code>paleoTS</code> package. <br></p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Creating dummy data </span></span>
+<p>One easy way to create a <code>paleoTS</code> object is to use the
+<code>as.paleoTS</code> function from the <code>paleoTS</code> package.
+<br></p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Creating example data </span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> trait_means<span class="ot">&lt;-</span><span class="fu">rnorm</span>(<span class="dv">20</span>)</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> trait_variance<span class="ot">&lt;-</span><span class="fu">rep</span>(<span class="fl">0.5</span>,<span class="dv">20</span>)</span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> sample_size<span class="ot">&lt;-</span><span class="fu">rep</span>(<span class="dv">30</span>,<span class="dv">20</span>)</span>
@@ -182,33 +192,36 @@ paleoTS object is to use the <code>as.paleoTS</code> function in the
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Create paleoTS object</span></span>
 <span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> indata.evoTS<span class="ot">&lt;-</span>paleoTS<span class="sc">::</span><span class="fu">as.paleoTS</span>(<span class="at">mm =</span> trait_means, <span class="at">vv =</span> trait_variance, <span class="at">nn =</span> sample_size, <span class="at">tt =</span> time_vector)</span></code></pre></div>
-<p><br> Another way to get data into evoTS is to use the function
-read.paleoTS from the <code>paleoTS</code> package. This function
-imports data from a text file with four columns corresponding to
-trait/variable means, sample/population variances, sample sizes and ages
-of the samples/populations and converts the input to a paleoTS
-object.</p>
+<p><br> Another way to get data into <code>evoTS</code> is to use the
+function <code>read.paleoTS</code> from the <code>paleoTS</code>
+package. This function imports data from a text file with four columns
+corresponding to trait means, sample/population variances, sample sizes
+and ages of the samples/populations, and converts the input to a
+<code>paleoTS</code> object.</p>
 <p>See also the <code>paleoTS</code> (<a href="https://cran.r-project.org/web/packages/paleoTS/vignettes/paleoTS_basics.html" class="external-link">vignette</a>)
-for more info on how to import data and create a paleoTS object.</p>
+for more info on how to import data and create a <code>paleoTS</code>
+object.</p>
 <div class="section level3">
 <h3 id="data-included-in-evots">3.1 Data included in <code>evoTS</code><a class="anchor" aria-label="anchor" href="#data-included-in-evots"></a>
 </h3>
 <p>Two evolutionary sequences (time-series) of phenotypic change are
 included in the <code>evoTS</code> package. The data are from the diatom
 lineage <em>Stephanodiscus yellowstonensis</em> and were originally
-published in Theriot <em>et al.</em> (2006).</p>
-<p>We will first investigate phenotypic changes in the diameter of
-<em>S. yellowstonensis</em>. The data are already an object of class
-<code>paleoTS</code>, which is the data type analyzed in
-<code>evoTS</code>. The diameter has been measured in micrometres, but
-we are interested in investigating proportional changes in the trat. We
-therefore first do an approximate log-transformation of the data.We then
-convert the time vector in the dataset to unit length (i.e. the length
-in time from the oldest to youngest sample/population in the dataset is
-1). Such a linear transformation of the time vector does not change how
-the estimated parameters describe the evolutionary dynamics in the data,
-but ease parameter estimation. We also plot the data to have a look at
-the patterns of phenotypic change. <br></p>
+published in Theriot <em>et al.</em> (2006). Each trait consists of 63
+samples spanning almost 14 000 years of phenotypic change.</p>
+<p>We will use these data to illustrate many of the functions
+implemented in <code>evoTS.</code></p>
+<p>We first investigate phenotypic changes in the diameter of <em>S.
+yellowstonensis</em>. The diameter has been measured in micrometers, but
+we are interested in investigating proportional changes in the trait. We
+therefore first do an approximate log-transformation of the data. We
+then convert the time vector in the dataset to unit length (i.e. the
+length in time from the oldest to youngest sample/population in the
+dataset becomes 1). Such a linear transformation of the time vector does
+not change how the estimated parameters describe the evolutionary
+dynamics in the data, but ease parameter estimation and interpretation
+of certain model parameters. We also plot the data to have a look at the
+phenotypic changes. <br></p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Doing an approximate log-transformation of the data</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span>ln.diameter<span class="ot">&lt;-</span>paleoTS<span class="sc">::</span><span class="fu">ln.paleoTS</span>(diameter_S.yellowstonensis)</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -223,16 +236,18 @@ the patterns of phenotypic change. <br></p>
 <div class="section level2">
 <h2 id="univariate-models-in-evots">4.0 Univariate models in <code>evoTS</code><a class="anchor" aria-label="anchor" href="#univariate-models-in-evots"></a>
 </h2>
+<p>The <code>evoTS</code> package contains a range of univariate models
+that supplement the models available in <code>paleoTS.</code></p>
 <p>The <code>paleoTS</code> package contains functions to fit biased
 (GRW) and unbiased random walks (URW), stasis (modeled as a white noise
 process, i.e. uncorrelated variation around a constant mean), strict
 stasis (no real evolutionary change) and an Ornstein-Uhlenbeck (OU)
-processes assuming a fixed optimum. The paleoTS package also contains
-models of a punctuated mode of evolution where stasis is the mode of
-evolution inbetween one or two jump in phenotype space
-(i.e. punctuation). It is also possible to fit certain models where the
-mode of evolution shifts at some point during the evolutionary
-sequence.</p>
+processes assuming a fixed optimum. The <code>paleoTS</code> package
+also contains models of a punctuated mode of evolution where
+punctuations (jumps in phenotype space) separate different
+parameterizations of the stasis model. The <code>paleoTS</code> package
+also contains a few other mode shift models, i.e. where the model of
+evolution shifts at some point during the evolutionary sequence.</p>
 <p>Several new univariate models have been implemented in the
 <code>evoTS</code> package. Functions are also available to fit mode
 shifts between all univariate models available in <code>evoTS</code> and
@@ -242,25 +257,44 @@ analyzed evolutionary sequence.</p>
 <p>The following univariate models have been implemented in the
 <code>evoTS</code> package:</p>
 <ol style="list-style-type: decimal">
-<li><p>Decerelated-evolution model (an unbiased random walk with an
+<li><p>A decerelated-evolution model (an unbiased random walk with an
 exponential decrease in the rate of change over time)</p></li>
-<li><p>Accelerated-evolution model (an unbiased random walk with an
+<li><p>A accelerated-evolution model (an unbiased random walk with an
 exponential increase in the rate of change over time)</p></li>
 <li><p>The Bokma model (a punctuated equilibrium model where two (or
-three) unbiased random walks are separated by one (or two) jump(s) in
-morphospace)</p></li>
-<li><p>Ornstein-Uhlenbeck process where the optimum changes according to
-an unbiased random walk.</p></li>
+three) unbiased random walks are separated by one (or two)
+jump(s)/punctuation(s) in morphospace)</p></li>
+<li><p>Ornstein-Uhlenbeck processes where the optimum changes according
+to an unbiased random walk.</p></li>
 </ol>
 <div class="section level3">
 <h3 id="decelerated-evolution-model">4.1 Decelerated-evolution model<a class="anchor" aria-label="anchor" href="#decelerated-evolution-model"></a>
 </h3>
-<p>The decelerated model of phyletic evolution is a unbiased random walk
-where the step variance (i.e. the variance of the normal distribution
-from which evolutionary steps are drawn) is reduced exponentially
-through time (Voje 2020). This model is closely related to the early
-burst model developed for phylogenetic comparative data (Blomberg <em>et
-al.</em> 2003; Harmon <em>et al.</em> 2010, Cooper and Purvis 2010).</p>
+<p>The decelerated model of phyletic evolution is an unbiased random
+walk where the step variance (i.e. the variance of the normal
+distribution from which evolutionary steps are drawn) is reduced
+exponentially through time (Voje 2020). This model is closely related to
+the early burst model developed for phylogenetic comparative data
+(Blomberg <em>et al.</em> 2003; Harmon <em>et al.</em> 2010, Cooper and
+Purvis 2010), and describes a lineage that shows a reduced rate of
+evolution with time. As for the random walk model (Hunt 2006), the
+expected evolutionary divergence between ancestor and descendant
+populations is always zero in the model of decelerated evolution. The
+expected trait mean and its variance and covariance are given by the
+following expressions: <br><span class="math display">\[ E[z_{i}] =
+z_{0} \]</span> <br></p>
+<p><span class="math display">\[ Var[z_{i}] = \sigma ^{2}
+_{step.0}e^{rt_i} + \epsilon _{i} \]</span> <br></p>
+<p><span class="math display">\[ Cov[z_{i},z_{j}] = \sigma ^{2}
+_{step.0}e^{rt_{min}} \]</span> <br></p>
+<p>where <span class="math inline">\(z_{i}\)</span> is the expected
+trait value for population <em>i</em> in the time series, <span class="math inline">\(z_{i}\)</span> is the ancestral trait mean, <span class="math inline">\(\sigma ^{2} _{step.0}\)</span> is the initial
+value for the step distribution, <em>r</em> describes the exponential
+decay in the <span class="math inline">\(\sigma ^{2}_{step.0}\)</span>
+through time and is constrained to be 0 or smaller, <span class="math inline">\(t_{i}\)</span> is the time interval from the
+ancestral population mean (the start of the fossil sequence, which has a
+time of 0) to the <em>i</em>th population, and <span class="math inline">\(t_{min}\)</span> is the time interval from the
+ancestral population to the oldest of the two populations <span class="math inline">\(z_{i}\)</span> and <span class="math inline">\(z_{j}\)</span>.</p>
 <p>The decerelated model of evolution can be fitted to data usign the
 <code>opt.joint.decel</code> function. <br></p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">opt.joint.decel</span>(ln.diameter)</span>
@@ -289,71 +323,89 @@ al.</em> 2003; Harmon <em>et al.</em> 2010, Cooper and Purvis 2010).</p>
 <span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a><span class="fu">attr</span>(,<span class="st">"class"</span>)</span>
 <span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">"paleoTSfit"</span></span></code></pre></div>
 <p><br> The output returns the log-likelihood of the model parameter
-(logl), the AICc score (AICc), the number (K) of estimated parameters
-(parameters), the length of the analysed time-series (n), the model name
-(Decel) and the method used to parameterize the model (Joint).
-<em>anc</em> is the estimated ancestral trait, <em>vstep</em> is initial
-value for the step distribution, and <em>r</em> describes the
-exponential decay in the <em>vstep</em> parameter through time. The
-half-life is (-ln(2)/r) 0.38. The half-life parameter is interpreted
-based on the time-scale used when analyzing the data. Since time from
-start to end in the has been scaled to unit length, the estimated
-half-life represent the percent of the total length of the time-series
-it takes for the rate of evolution to half. The total length of the
-analyzed time-series is 13,728 years, which means it takes 5,217 years
-for the rate of evolution to be halved.</p>
-<p>The evoTS package contains functions to explore the
-likelihood-surface of the fitted model. Investigating the likelihood
-surface can be helpful for several reasons.</p>
-<ol style="list-style-type: decimal">
-<li><p>Estimating parameters in a model using maximum likelihood always
-run the risk of returning parameters from a local and not a global
-optimum. Investigating the support surface for combinations of
-parameters is one way to explore the topology of the
-likelihood-surface.</p></li>
-<li><p>Computing the likelihood surface is a great way to explore which
+(<em>logl</em>), the AICc score (<em>AICc</em>), the number (<em>K</em>)
+of estimated parameters (<em>parameters</em>), the length of the
+analysed time-series (<em>n</em>), the model name (<em>modelName</em>)
+and the method used to parameterize the model (<em>method</em>). All
+<em>anc</em> is the estimated ancestral trait value, <em>vstep</em> is
+the initial value for the step distribution, and <em>r</em> describes
+the exponential decay in the <em>vstep</em> parameter through time.</p>
+<p>The time it takes to half the rate of evolution can be calculated
+based on the value of <em>r</em> using <span class="math inline">\(-ln(2)/r\)</span>. The half-life parameter is
+interpreted based on the time-scale used when analyzing the data. Since
+time from start to end in our data has been scaled to unit length, the
+estimated half-life represent the percent of the total length of the
+time-series it takes for the rate of evolution to half. The half-life is
+0.38 in this example. The total length of the analyzed time-series is
+13,728 years, which means it takes 5,217 years for the rate of evolution
+to be halved.</p>
+<p>What are the uncertainty of the estimated parameters in this model?
+One way to assess that is to set the <code>hess</code> argument to
+<code>TRUE</code> when running the model
+(<code>opt.joint.decel(ln.diameter, hess = TRUE)</code>). The Hessian
+matrix is a square matrix of partial second order derivative and it is
+possible to estimate the standard error of the model parameters by
+taking the square-root of the inverse of the matrix diagonal. Another
+way to assess the uncertainty of the estimated parameters is to explore
+the likelihood-surface of the fitted model, which is a possibility in
+<code>evoTS</code>.</p>
+<p>Investigating the likelihood surface can be helpful for several
+reasons.</p>
+<p>1.Computing the likelihood surface is a great way to explore which
 parameter combinations that have an almost identical likelihood compared
-to the maximum likelihood values. Ridges in the log-likelihood surface
-can make it challenging to identify maximum likelihood estimates of the
-model parameters in certain cases. Flat ridges may cause identifiability
-issues and problems for the model to converge.</p></li>
-<li><p>Investigating the likelihood surface is also an approach to
-assess uncertainty in the estimated parameters. A large range of
-parameter values that have almost the same log-likelihood is an
-indication that we should be careful when interpreting the
-maximum-likelihood (best) estimates of the parameters. The functions in
-<code>evoTS</code> calculating log-likelihood surfaces report the upper
-and lower parameter estimates that are within two support units of the
-best estimate as a way to assess uncertainty in parameters (Edwards
-1992).</p></li>
+to the maximum likelihood values. Investigating the log-likelihood
+surface is also an approach to assess uncertainty in the estimated
+parameters. A large range of parameter values that have almost the same
+log-likelihood is an indication that we should be careful when
+interpreting the maximum-likelihood (best) estimates of the parameters.
+The functions in <code>evoTS</code> calculating log-likelihood surfaces
+report the upper and lower parameter estimates that are within two
+support units of the best estimate as a way to assess uncertainty in
+parameters (Edwards 1992). While standard errors computed from the
+Hessian matrix are always symmetric around the point estimate, the
+log-likelihood surface might not be (multivariate) normal. The reported
+upper and lower parameter estimates are therefore often not symmetrical
+around the maximum likelihood paraneter estimates.</p>
+<ol style="list-style-type: decimal">
+<li>Estimating parameters in a model using maximum likelihood always run
+the risk of returning parameters from a local and not a global optimum.
+Investigating the support surface for combinations of parameters is one
+way to explore the topology of the likelihood-surface.</li>
 </ol>
-<p>Functions to create likelihood surfaces for univariate models in
-<code>evoTS</code> and <code>paleoTS</code> are included in
-<code>evoTS</code> (e.g. <code>confidence.stasis</code>,
+<p>1.Ridges in the log-likelihood surface can make it challenging to
+identify maximum likelihood estimates of the model parameters in certain
+cases. Flat ridges may for example cause identifiability issues and
+problems for the model to converge. Investigating the log-likelihood
+surface can therefore help diagnose challenges related to failures of
+models convergence.</p>
+<p>The <code>evoTS</code> package contain functions to create likelihood
+surfaces for univariate models in <code>evoTS</code> and
+<code>paleoTS</code> (e.g. <code>confidence.stasis</code>,
 <code>confidence.URW</code>, <code>confidence.GRW</code>,
-<code>confidence.OU</code>). These functions need a paleoTS object and a
-set of candidate values for the parameters to be evaluated. One way to
-define the candidate values is to use the <code>seq</code> function. The
-vectors given to the arguments vstep.vec and r.vec defines the pairwise
-combinations of parameters for which the function will estimate the
-log-likelihood. How fine-scaled the estimated log-likelihood surface is
-depends on the step size between the values in the input-vectors. The
-step-size therefore determines how accurate the representation of the
-support surface is, including the returned upper and lower estimates
-printed in the console. Note that the computed support surface is
-conditional on the best estimates of the other model parameters that are
-not part of the support surface (e.g. the estimated ancestral trait
-value). <br></p>
+<code>confidence.OU</code>). These functions need a <code>paleoTS</code>
+object and a set of candidate values for the parameters to be evaluated.
+One way to define the candidate values is to use the <code>seq</code>
+function. The vectors given to the arguments <code>vstep.vec</code> and
+<code>r.vec</code> defines the pairwise combinations of parameters for
+which the function will estimate the log-likelihood. The resolution of
+the input vectors therefore determines how accurate the visual
+representation of the support surface is, including the returned upper
+and lower estimates printed in the console. A higher resolution gives
+better precision, but demans more computation time. Note that the
+computed support surface is conditional on the best estimates of the
+other model parameters that are not part of the support surface
+(e.g. the estimated ancestral trait value is assumed to be 3.8868739 in
+the example below). <br></p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">confidence.decel</span>(ln.diameter, <span class="at">vstep.vec =</span> <span class="fu">seq</span>(<span class="dv">0</span>,<span class="fl">1.2</span>,<span class="fl">0.01</span>), <span class="at">r.vec =</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">5</span>,<span class="dv">0</span>,<span class="fl">0.01</span>))</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>      lower upper</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>vstep  <span class="fl">0.17</span>  <span class="fl">1.00</span></span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>r     <span class="sc">-</span><span class="fl">3.70</span> <span class="sc">-</span><span class="fl">0.28</span></span></code></pre></div>
 <p><br><img src="decel_logl_surface.png" width="80%" style="display: block; margin: auto;"><br> From the likelihood surface and from the printed confidence
-intervals, we see that r values between -0.28 and -3.70 are within 2
-log-likelihood units from the best estimate for this parameter. This
-suggests it is hard to exclude the possibility that the half-life of the
-decay in the rate of evolution is as much as 248% (34,045 years) or as
-low as 19% (2,608 years) of the time-interval investigated.</p>
+intervals, we see that <em>r</em> values between -3.70 and -0.28 are
+within 2 log-likelihood units from the best estimate for this parameter.
+This suggests it is hard to exclude the possibility that the half-life
+of the decay in the rate of evolution is as much as 248% (34,045 years)
+or as low as 19% (2,608 years) of the time-interval investigated.</p>
 </div>
 <div class="section level3">
 <h3 id="accelerated-evolution-model">4.2 Accelerated-evolution model<a class="anchor" aria-label="anchor" href="#accelerated-evolution-model"></a>
@@ -392,8 +444,8 @@ means the rate of evolution is accelerating with time.</p>
 <p><br> The accelerated evolution model has a lower (worse)
 log-likelihood and higher (worse) AICc score compared to the decelerated
 model of evolution.</p>
-<p>A support surface can be produced using the confidence.accel
-function. <br></p>
+<p>A support surface can be produced using the
+<code>confidence.accel</code> function. <br></p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">confidence.accel</span>(ln.diameter, <span class="at">vstep =</span> <span class="fu">seq</span>(<span class="dv">0</span>,<span class="dv">5</span>,<span class="fl">0.01</span>), <span class="at">r.vec =</span> <span class="fu">seq</span>(<span class="dv">0</span>,<span class="fl">1.5</span>, <span class="fl">0.005</span>))</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>      lower upper</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>vstep  <span class="fl">0.17</span>  <span class="fl">1.00</span></span>
@@ -407,71 +459,70 @@ function. <br></p>
 punctuated mode of evolution as a white noise process (stasis)
 punctuated by jumps in phenotype space (the function
 <code>opt.joint.punc</code>). Bokma (2002) suggested a different model
-as an interpretation of a punctuated mode of evolution along branches on
-a phylogeny (see also Ingram 2011 and Hunt 2013). According to Bokma’s
-(2002) model, a trait is evolving as a unbiased random walk in between
-punctuations. This model is implemented in the <code>evoTS</code>
-package and can be ran using the function <code>fit.PE.Bokma</code> The
-rate parameter (<em>vstep</em>) in the unbiased random walks before and
-adter a punctation event is free to differ. The function investigates
-and compares all possible locations for the punctuation and returns the
-shift point and the parameter values with the highest log-likelihood for
-each of the two unbiased random walks. The length of the shortest
-sequence (i.e. the number of samples/populations) that is used to
-parameterize each random walk is defined by the argument
-<code>minb.</code> The user can also define which sample/population in
-the time series that represents the punctuation event using the argument
-<code>shift.point</code> (e.g. shift.point=20). Fitting Bokma’s model
-with two punctuations and parameterizing three unbiased random walks can
-be done by using the function <code>fit.2.PE.Bokma</code>. <br></p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">fit.Bokma</span>(ln.diameter, <span class="at">minb=</span><span class="dv">10</span>)</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">"Searching for all possible switchpoints in timeseries"</span></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>Total <span class="co"># hypotheses:  44 </span></span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span>  <span class="dv">2</span>  <span class="dv">3</span>  <span class="dv">4</span>  <span class="dv">5</span>  <span class="dv">6</span>  <span class="dv">7</span>  <span class="dv">8</span>  <span class="dv">9</span>  <span class="dv">10</span>  <span class="dv">11</span>  <span class="dv">12</span>  <span class="dv">13</span>  <span class="dv">14</span>  <span class="dv">15</span>  <span class="dv">16</span>  <span class="dv">17</span>  <span class="dv">18</span>  <span class="dv">19</span>  <span class="dv">20</span>  <span class="dv">21</span>  <span class="dv">22</span>  <span class="dv">23</span>  <span class="dv">24</span>  <span class="dv">25</span>  <span class="dv">26</span>  <span class="dv">27</span>  <span class="dv">28</span>  <span class="dv">29</span>  <span class="dv">30</span>  <span class="dv">31</span>  <span class="dv">32</span>  <span class="dv">33</span>  <span class="dv">34</span>  <span class="dv">35</span>  <span class="dv">36</span>  <span class="dv">37</span>  <span class="dv">38</span>  <span class="dv">39</span>  <span class="dv">40</span>  <span class="dv">41</span>  <span class="dv">42</span>  <span class="dv">43</span>  <span class="dv">44</span>  </span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>logL</span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="fl">83.38311</span></span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>AICc</span>
-<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="sc">-</span><span class="fl">155.7136</span></span>
-<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>parameters</span>
-<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>       anc    vstep_1    new.opt    vstep_2     shift1 </span>
-<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a> <span class="fl">3.7157502</span>  <span class="fl">0.3419322</span>  <span class="fl">4.1349082</span>  <span class="fl">0.1668632</span> <span class="fl">18.0000000</span> </span>
-<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>modelName</span>
-<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">"PE.Bokma"</span></span>
-<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>method</span>
-<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">"Joint"</span></span>
-<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>K</span>
-<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="dv">5</span></span>
-<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>n</span>
-<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="dv">63</span></span>
-<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>all.logl</span>
-<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a> [<span class="dv">1</span>] <span class="fl">80.31088</span> <span class="fl">79.51765</span> <span class="fl">80.01722</span> <span class="fl">79.66074</span> <span class="fl">80.48083</span> <span class="fl">79.89100</span> <span class="fl">79.42840</span> <span class="fl">83.38311</span> <span class="fl">80.77101</span> <span class="fl">80.77826</span> <span class="fl">79.85728</span> <span class="fl">79.68613</span> <span class="fl">79.59643</span></span>
-<span id="cb8-30"><a href="#cb8-30" aria-hidden="true" tabindex="-1"></a>[<span class="dv">14</span>] <span class="fl">79.44200</span> <span class="fl">82.63356</span> <span class="fl">81.44387</span> <span class="fl">81.21899</span> <span class="fl">81.02157</span> <span class="fl">82.02478</span> <span class="fl">80.99060</span> <span class="fl">80.56377</span> <span class="fl">81.29680</span> <span class="fl">80.52947</span> <span class="fl">80.10540</span> <span class="fl">80.41855</span> <span class="fl">80.58089</span></span>
-<span id="cb8-31"><a href="#cb8-31" aria-hidden="true" tabindex="-1"></a>[<span class="dv">27</span>] <span class="fl">80.27750</span> <span class="fl">80.49915</span> <span class="fl">79.77512</span> <span class="fl">79.54571</span> <span class="fl">79.07448</span> <span class="fl">79.59706</span> <span class="fl">79.30831</span> <span class="fl">79.04140</span> <span class="fl">79.46599</span> <span class="fl">79.23228</span> <span class="fl">78.96974</span> <span class="fl">78.89496</span> <span class="fl">78.87805</span></span>
-<span id="cb8-32"><a href="#cb8-32" aria-hidden="true" tabindex="-1"></a>[<span class="dv">40</span>] <span class="fl">79.21300</span> <span class="fl">79.62620</span> <span class="fl">79.49839</span> <span class="fl">79.30760</span> <span class="fl">79.69878</span></span>
-<span id="cb8-33"><a href="#cb8-33" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-34"><a href="#cb8-34" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>GG</span>
-<span id="cb8-35"><a href="#cb8-35" aria-hidden="true" tabindex="-1"></a>     [,<span class="dv">1</span>] [,<span class="dv">2</span>] [,<span class="dv">3</span>] [,<span class="dv">4</span>] [,<span class="dv">5</span>] [,<span class="dv">6</span>] [,<span class="dv">7</span>] [,<span class="dv">8</span>] [,<span class="dv">9</span>] [,<span class="dv">10</span>] [,<span class="dv">11</span>] [,<span class="dv">12</span>] [,<span class="dv">13</span>] [,<span class="dv">14</span>] [,<span class="dv">15</span>] [,<span class="dv">16</span>] [,<span class="dv">17</span>] [,<span class="dv">18</span>] [,<span class="dv">19</span>] [,<span class="dv">20</span>]</span>
-<span id="cb8-36"><a href="#cb8-36" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>,]   <span class="dv">11</span>   <span class="dv">12</span>   <span class="dv">13</span>   <span class="dv">14</span>   <span class="dv">15</span>   <span class="dv">16</span>   <span class="dv">17</span>   <span class="dv">18</span>   <span class="dv">19</span>    <span class="dv">20</span>    <span class="dv">21</span>    <span class="dv">22</span>    <span class="dv">23</span>    <span class="dv">24</span>    <span class="dv">25</span>    <span class="dv">26</span>    <span class="dv">27</span>    <span class="dv">28</span>    <span class="dv">29</span>    <span class="dv">30</span></span>
-<span id="cb8-37"><a href="#cb8-37" aria-hidden="true" tabindex="-1"></a>     [,<span class="dv">21</span>] [,<span class="dv">22</span>] [,<span class="dv">23</span>] [,<span class="dv">24</span>] [,<span class="dv">25</span>] [,<span class="dv">26</span>] [,<span class="dv">27</span>] [,<span class="dv">28</span>] [,<span class="dv">29</span>] [,<span class="dv">30</span>] [,<span class="dv">31</span>] [,<span class="dv">32</span>] [,<span class="dv">33</span>] [,<span class="dv">34</span>] [,<span class="dv">35</span>] [,<span class="dv">36</span>] [,<span class="dv">37</span>] [,<span class="dv">38</span>] [,<span class="dv">39</span>]</span>
-<span id="cb8-38"><a href="#cb8-38" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>,]    <span class="dv">31</span>    <span class="dv">32</span>    <span class="dv">33</span>    <span class="dv">34</span>    <span class="dv">35</span>    <span class="dv">36</span>    <span class="dv">37</span>    <span class="dv">38</span>    <span class="dv">39</span>    <span class="dv">40</span>    <span class="dv">41</span>    <span class="dv">42</span>    <span class="dv">43</span>    <span class="dv">44</span>    <span class="dv">45</span>    <span class="dv">46</span>    <span class="dv">47</span>    <span class="dv">48</span>    <span class="dv">49</span></span>
-<span id="cb8-39"><a href="#cb8-39" aria-hidden="true" tabindex="-1"></a>     [,<span class="dv">40</span>] [,<span class="dv">41</span>] [,<span class="dv">42</span>] [,<span class="dv">43</span>] [,<span class="dv">44</span>]</span>
-<span id="cb8-40"><a href="#cb8-40" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>,]    <span class="dv">50</span>    <span class="dv">51</span>    <span class="dv">52</span>    <span class="dv">53</span>    <span class="dv">54</span></span>
-<span id="cb8-41"><a href="#cb8-41" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-42"><a href="#cb8-42" aria-hidden="true" tabindex="-1"></a><span class="fu">attr</span>(,<span class="st">"class"</span>)</span>
-<span id="cb8-43"><a href="#cb8-43" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">"paleoTSfit"</span></span></code></pre></div>
+as a punctuated mode of evolution along branches on a phylogeny (see
+also Ingram 2011 and Hunt 2013). According to Bokma’s (2002) model, a
+trait is evolving as a unbiased random walk in between punctuation. This
+model is implemented in the <code>evoTS</code> package and can be ran
+using the function <code>fit.Bokma</code>. The function investigates and
+compares all possible locations for the punctuation and returns the
+shift point and the maximum likelihood parameter values for the two
+unbiased random walks. The minimum length of the time-series (i.e. the
+number of samples/populations) that is used to parameterize each
+unbiased random walk is defined by the argument <code>minb.</code> The
+user can also define which sample/population in the time series that
+represents the punctuation event using the argument
+<code>shift.point</code> (e.g. <code>shift.point = 20</code>). Fitting
+Bokma’s model with two punctuations and three unbiased random walks can
+be done using the function <code>fit.2.Bokma</code>. <br></p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> Bokma.PE<span class="ot">&lt;-</span><span class="fu">fit.Bokma</span>(ln.diameter, <span class="at">minb=</span><span class="dv">10</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> Bokma.PE</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">"Searching for all possible switchpoints in timeseries"</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>Total <span class="co"># hypotheses:  44 </span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span>  <span class="dv">2</span>  <span class="dv">3</span>  <span class="dv">4</span>  <span class="dv">5</span>  <span class="dv">6</span>  <span class="dv">7</span>  <span class="dv">8</span>  <span class="dv">9</span>  <span class="dv">10</span>  <span class="dv">11</span>  <span class="dv">12</span>  <span class="dv">13</span>  <span class="dv">14</span>  <span class="dv">15</span>  <span class="dv">16</span>  <span class="dv">17</span>  <span class="dv">18</span>  <span class="dv">19</span>  <span class="dv">20</span>  <span class="dv">21</span>  <span class="dv">22</span>  <span class="dv">23</span>  <span class="dv">24</span>  <span class="dv">25</span>  <span class="dv">26</span>  <span class="dv">27</span>  <span class="dv">28</span>  <span class="dv">29</span>  <span class="dv">30</span>  <span class="dv">31</span>  <span class="dv">32</span>  <span class="dv">33</span>  <span class="dv">34</span>  <span class="dv">35</span>  <span class="dv">36</span>  <span class="dv">37</span>  <span class="dv">38</span>  <span class="dv">39</span>  <span class="dv">40</span>  <span class="dv">41</span>  <span class="dv">42</span>  <span class="dv">43</span>  <span class="dv">44</span>  </span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>logL</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="fl">83.38311</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>AICc</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="sc">-</span><span class="fl">155.7136</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>parameters</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>       anc    vstep_1    new.opt    vstep_2     shift1 </span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a> <span class="fl">3.7157502</span>  <span class="fl">0.3419322</span>  <span class="fl">4.1349082</span>  <span class="fl">0.1668632</span> <span class="fl">18.0000000</span> </span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>modelName</span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">"PE.Bokma"</span></span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>method</span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">"Joint"</span></span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>K</span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="dv">5</span></span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>n</span>
+<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="dv">63</span></span>
+<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>all.logl</span>
+<span id="cb8-30"><a href="#cb8-30" aria-hidden="true" tabindex="-1"></a> [<span class="dv">1</span>] <span class="fl">80.31088</span> <span class="fl">79.51765</span> <span class="fl">80.01722</span> <span class="fl">79.66074</span> <span class="fl">80.48083</span> <span class="fl">79.89100</span> <span class="fl">79.42840</span> <span class="fl">83.38311</span> <span class="fl">80.77101</span> <span class="fl">80.77826</span> <span class="fl">79.85728</span> <span class="fl">79.68613</span> <span class="fl">79.59643</span></span>
+<span id="cb8-31"><a href="#cb8-31" aria-hidden="true" tabindex="-1"></a>[<span class="dv">14</span>] <span class="fl">79.44200</span> <span class="fl">82.63356</span> <span class="fl">81.44387</span> <span class="fl">81.21899</span> <span class="fl">81.02157</span> <span class="fl">82.02478</span> <span class="fl">80.99060</span> <span class="fl">80.56377</span> <span class="fl">81.29680</span> <span class="fl">80.52947</span> <span class="fl">80.10540</span> <span class="fl">80.41855</span> <span class="fl">80.58089</span></span>
+<span id="cb8-32"><a href="#cb8-32" aria-hidden="true" tabindex="-1"></a>[<span class="dv">27</span>] <span class="fl">80.27750</span> <span class="fl">80.49915</span> <span class="fl">79.77512</span> <span class="fl">79.54571</span> <span class="fl">79.07448</span> <span class="fl">79.59706</span> <span class="fl">79.30831</span> <span class="fl">79.04140</span> <span class="fl">79.46599</span> <span class="fl">79.23228</span> <span class="fl">78.96974</span> <span class="fl">78.89496</span> <span class="fl">78.87805</span></span>
+<span id="cb8-33"><a href="#cb8-33" aria-hidden="true" tabindex="-1"></a>[<span class="dv">40</span>] <span class="fl">79.21300</span> <span class="fl">79.62620</span> <span class="fl">79.49839</span> <span class="fl">79.30760</span> <span class="fl">79.69878</span></span>
+<span id="cb8-34"><a href="#cb8-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-35"><a href="#cb8-35" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>GG</span>
+<span id="cb8-36"><a href="#cb8-36" aria-hidden="true" tabindex="-1"></a>     [,<span class="dv">1</span>] [,<span class="dv">2</span>] [,<span class="dv">3</span>] [,<span class="dv">4</span>] [,<span class="dv">5</span>] [,<span class="dv">6</span>] [,<span class="dv">7</span>] [,<span class="dv">8</span>] [,<span class="dv">9</span>] [,<span class="dv">10</span>] [,<span class="dv">11</span>] [,<span class="dv">12</span>] [,<span class="dv">13</span>] [,<span class="dv">14</span>] [,<span class="dv">15</span>] [,<span class="dv">16</span>] [,<span class="dv">17</span>] [,<span class="dv">18</span>] [,<span class="dv">19</span>] [,<span class="dv">20</span>]</span>
+<span id="cb8-37"><a href="#cb8-37" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>,]   <span class="dv">11</span>   <span class="dv">12</span>   <span class="dv">13</span>   <span class="dv">14</span>   <span class="dv">15</span>   <span class="dv">16</span>   <span class="dv">17</span>   <span class="dv">18</span>   <span class="dv">19</span>    <span class="dv">20</span>    <span class="dv">21</span>    <span class="dv">22</span>    <span class="dv">23</span>    <span class="dv">24</span>    <span class="dv">25</span>    <span class="dv">26</span>    <span class="dv">27</span>    <span class="dv">28</span>    <span class="dv">29</span>    <span class="dv">30</span></span>
+<span id="cb8-38"><a href="#cb8-38" aria-hidden="true" tabindex="-1"></a>     [,<span class="dv">21</span>] [,<span class="dv">22</span>] [,<span class="dv">23</span>] [,<span class="dv">24</span>] [,<span class="dv">25</span>] [,<span class="dv">26</span>] [,<span class="dv">27</span>] [,<span class="dv">28</span>] [,<span class="dv">29</span>] [,<span class="dv">30</span>] [,<span class="dv">31</span>] [,<span class="dv">32</span>] [,<span class="dv">33</span>] [,<span class="dv">34</span>] [,<span class="dv">35</span>] [,<span class="dv">36</span>] [,<span class="dv">37</span>] [,<span class="dv">38</span>] [,<span class="dv">39</span>]</span>
+<span id="cb8-39"><a href="#cb8-39" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>,]    <span class="dv">31</span>    <span class="dv">32</span>    <span class="dv">33</span>    <span class="dv">34</span>    <span class="dv">35</span>    <span class="dv">36</span>    <span class="dv">37</span>    <span class="dv">38</span>    <span class="dv">39</span>    <span class="dv">40</span>    <span class="dv">41</span>    <span class="dv">42</span>    <span class="dv">43</span>    <span class="dv">44</span>    <span class="dv">45</span>    <span class="dv">46</span>    <span class="dv">47</span>    <span class="dv">48</span>    <span class="dv">49</span></span>
+<span id="cb8-40"><a href="#cb8-40" aria-hidden="true" tabindex="-1"></a>     [,<span class="dv">40</span>] [,<span class="dv">41</span>] [,<span class="dv">42</span>] [,<span class="dv">43</span>] [,<span class="dv">44</span>]</span>
+<span id="cb8-41"><a href="#cb8-41" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>,]    <span class="dv">50</span>    <span class="dv">51</span>    <span class="dv">52</span>    <span class="dv">53</span>    <span class="dv">54</span></span>
+<span id="cb8-42"><a href="#cb8-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-43"><a href="#cb8-43" aria-hidden="true" tabindex="-1"></a><span class="fu">attr</span>(,<span class="st">"class"</span>)</span>
+<span id="cb8-44"><a href="#cb8-44" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">"paleoTSfit"</span></span></code></pre></div>
 <p><br> The model with the highest likelihood has a punctuation event
 at sample (population) 18. The rate of evolution before the punctuation
 (<em>v_step.1</em>) is about twice the magnitude of the rate of
 evolution after the punctuation (<em>v_step.2</em>).</p>
-<p>Note: <code>all.logl</code> lists the log-likelihoods for each of the
+<p>Note: <code>all.logl</code> lists the log-likelihoods for all
 investigated shift points. All investigated shift points are given by
 <code>GG</code>.</p>
 <p>The log-likelihood surface can be investigated using the
@@ -489,17 +540,14 @@ trait value (<em>anc</em>) and the new optimum after the punctuation
 <p><br><img src="boka_logl_surface.png" width="60%" style="display: block; margin: auto;"><br> We can compare the fit of the Bokma model to the alternative
 interpretation of a punctuated mode of evolution where the trait evolves
 according to a model of stasis in between the punctuation events. This
-model is implemented in <code>paleoTS</code> and can be fitted using the
-<code>fitGpunc</code> function: <br></p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> Bokma.PE<span class="ot">&lt;-</span><span class="fu">fit.PE.Bokma</span>(ln.diameter, <span class="at">minb=</span><span class="dv">10</span>, <span class="at">silent=</span><span class="cn">TRUE</span>)</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">"Searching for all possible switchpoints in timeseries"</span></span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> Stasis.PE<span class="ot">&lt;-</span>paleoTS<span class="sc">::</span><span class="fu">fitGpunc</span>(ln.diameter, <span class="at">minb=</span><span class="dv">10</span>, <span class="at">silent =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> Bokma.PE<span class="sc">$</span>AICc;Stasis.PE<span class="sc">$</span>AICc</span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="sc">-</span><span class="fl">155.7136</span></span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="sc">-</span><span class="fl">87.63458</span></span></code></pre></div>
-<p><br> The model where the trait evolves as a unbiased random walk
+model is implemented in the <code>paleoTS</code> package and can be
+fitted using the <code>fitGpunc</code> function: <br></p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> Stasis.PE<span class="ot">&lt;-</span>paleoTS<span class="sc">::</span><span class="fu">fitGpunc</span>(ln.diameter, <span class="at">minb=</span><span class="dv">10</span>, <span class="at">silent =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> Bokma.PE<span class="sc">$</span>AICc;Stasis.PE<span class="sc">$</span>AICc</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="sc">-</span><span class="fl">155.7136</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="sc">-</span><span class="fl">87.63458</span></span></code></pre></div>
+<p><br> The model where the trait evolves as a unbiased random walk in
 between the punctuation event (i.e. the Bokma model) has the best
 relative fit in this case. <br></p>
 </div>
@@ -507,15 +555,16 @@ relative fit in this case. <br></p>
 <h3 id="ornstein-uhlenbeck-model-with-moving-optimum-">4.4 Ornstein-Uhlenbeck model with moving optimum.<a class="anchor" aria-label="anchor" href="#ornstein-uhlenbeck-model-with-moving-optimum-"></a>
 </h3>
 <p>The <code>paleoTS</code> package includes an Ornstein-Uhlenbeck (OU)
-model of evolution with a single and fixed optimum (Hunt <em>et al.</em>
+model of evolution with a single, fixed optimum (Hunt <em>et al.</em>
 2008). This model portrays evolutionary adaptation of a trait towards a
-fixed peak on the adaptive landscape. The <code>evoTS</code> package
-contains an OU model where the optimum (peak) is not fixed but is
-constantly changing according to an unbiased random walk. Such a model
-was proposed by Hansen <em>et al.</em> (2008) for analyses of
-phylogenetic comparative data. Adjusted to describe evolution of a
-single lineage, the expected trait mean and its variance and covariance
-are given by the following expressions: <br><br><span class="math display">\[E[z_{i}] = e^{(-\alpha t_{i})}z_{0} +
+fixed peak on the adaptive landscape. However, peaks in the adaptive
+landscape might not be fixed and the <code>evoTS</code> package contains
+functions to fit OU models where the optimum (peak) is constantly
+changing according to an unbiased random walk. Such a model was proposed
+by Hansen <em>et al.</em> (2008) for analyses of phylogenetic
+comparative data. Adjusted to describe evolution of a single lineage,
+the expected trait mean and its variance and covariance are given by the
+following expressions: <br><br><span class="math display">\[E[z_{i}] = e^{(-\alpha t_{i})}z_{0} +
 [1-e^{-\alpha t_{i}}]\theta\]</span> <br><span class="math display">\[Var[z_{i}] =\left[ \frac{
 \sigma^{2}_{step}+\sigma^{2}_{\theta}}{2\alpha} \right] \left[
 1-e^{(-2\alpha t_{i})}\right] + \sigma^{2}_{\theta}t_{i}
@@ -556,25 +605,25 @@ _{i} \]</span> <br> The model can be fitted using the
 <span id="cb11-27"><a href="#cb11-27" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb11-28"><a href="#cb11-28" aria-hidden="true" tabindex="-1"></a><span class="fu">attr</span>(,<span class="st">"class"</span>)</span>
 <span id="cb11-29"><a href="#cb11-29" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">"paleoTSfit"</span></span></code></pre></div>
-<p><br> The <em>vstep.opt</em> parameter represent the rate of change
-in the optimum. This is extremely small (virtually zero), which means
-the optimum is essentially fixed. The alpha in the OU model represents
-the strength of the pull towards the optimum. A parameter that is easier
-to interpret compared to the alpha is the half-life
-(log(2)/<em>alpha</em>), which is the time it takes for the trait to
-move half-way to the optimum from the ancestral state. The half life is
-therefore a quantification of the speed of adaptation towards the
-optimal state. As for the decelerated and accelerated models of
-evolution, the interpretation of the half life depends on the
-time-interval covered by the time-series. Since the time-interval of the
-time-series is scaled to unit length (i.e. the time from the start to
-the end of the time-series is 1), this means the half-life can be
-interpreted as the percent of the total length of the time-series. The
-half-life in our example is (log(2)/<em>alpha</em> =) 0.16. According to
-this point estimate, it takes the trait 16% of the total length of the
+<p><br> The <em>vstep.opt</em> parameter describes the rate of change
+in the optimum. This is extremely small (virtually zero) in the example
+above, which means the optimum is essentially fixed. The alpha in the OU
+model represents the strength of the pull towards the optimum (Hansen
+1997). A parameter that is easier to interpret compared to the alpha is
+the half-life, <span class="math inline">\(ln(2)/ \alpha\)</span>, which
+is the time it takes for the trait to move half-way from the ancestral
+state to the optimum. The half life is therefore a quantification of the
+speed of adaptation towards the optimal state. As for the decelerated
+and accelerated models of evolution, the interpretation of the half life
+depends on the time-interval covered by the time-series. Since the
+time-interval of the time-series we analyze is scaled to unit length
+(i.e. the time from the start to the end of the time-series is 1), this
+means the half-life can be interpreted as the percent of the total
+length of the time-series. The half-life in our example is <span class="math inline">\(ln(2)/ \alpha\)</span> = 0.16. According to this
+point estimate, it takes the trait 16% of the total length of the
 time-series to evolve half-way towards the optimum, which is about
 (13,728 years * 0.16 =) 2197 years.</p>
-<p>Notice that the name of the first reported parameter is
+<p>Note that the name of the first reported parameter is
 <em>anc</em>/<em>theta.0</em>. This parameter represents the ancestral
 trait value, but also the value of the “ancestral” optimum. The default
 option in the <code>opt.joint.OUBM</code> function is to assume that the
@@ -610,12 +659,12 @@ setting <code>anc.opt = FALSE</code> <br></p>
 <span id="cb12-27"><a href="#cb12-27" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb12-28"><a href="#cb12-28" aria-hidden="true" tabindex="-1"></a><span class="fu">attr</span>(,<span class="st">"class"</span>)</span>
 <span id="cb12-29"><a href="#cb12-29" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">"paleoTSfit"</span></span></code></pre></div>
-<p><br> Notice that a separate “ancestral” value for the optimum
-(<em>theta.0</em>) is estimated which is different from the ancestral
-trait value. The rate of change in the optimum is still negligible,
-which means this model is virtually identical to a model where the
-optimum is fixed. This can be shown by fitting an OU model where the
-optimum is fixed, a model included in the <code>paleoTS</code> package.
+<p><br> Setting <code>opt.anc  = FALSE</code> estimates a separate
+“ancestral” value for the optimum (<em>theta.0</em>). The rate of change
+in the optimum (<code>vstep.opt</code>) is still negligible, which means
+this model is virtually identical to a model where the optimum is fixed.
+This can be shown by fitting an OU model where the optimum is fixed,
+which is the model included in the <code>paleoTS</code> package.
 <br></p>
 <div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> paleoTS<span class="sc">::</span><span class="fu">opt.joint.OU</span>(ln.diameter)</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>logL</span>
@@ -643,27 +692,27 @@ optimum is fixed, a model included in the <code>paleoTS</code> package.
 <span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a><span class="fu">attr</span>(,<span class="st">"class"</span>)</span>
 <span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">"paleoTSfit"</span></span></code></pre></div>
 <p><br> The fixed optimum model gives the same log-likelihood value as
-model where the optimum was allowed to change (but actually didn’t). The
-fixed optimum model has a better AICc score as this model contains one
-less parameter (the parameter describing the rate of change in the
+the model where the optimum was allowed to change (but actually didn’t).
+The fixed optimum model has a better AICc score as this model contains
+one less parameter (the parameter describing the rate of change in the
 optimum).</p>
 <p>It is good practice to repeat any numerical optimization procedure
 from different starting points. This is especially important when the
 model has several parameters, as parameter-rich models may contain more
 than one peak in the log-likelihood surface. The OUBM model is a type of
-model that may have several local peaks in the likelihood space. The
-user can choose the number of iterations of the numerical optimization
-of the OUBM model using the argument iterations. The function will
-return the parameter values from the run with the highest likelihood,
-along with the number of optima found and their distance in units of
-log-likelihood to the highest detected peak. The starting values in each
-iteration are drawn from a normal distribution with mean zero and a
+model that may have several local peaks in the likelihood space.</p>
+<p>The user can choose the number of iterations of the numerical
+optimization of the OUBM model using the argument
+<code>iterations.</code> The function will return the parameter values
+from the run with the highest log-likelihood. The starting values in
+each iteration are drawn from a normal distribution with mean zero and a
 standard deviation set by the user (default is 1). The initial values
-for the vstep, alpha and the omega parameters are constrained to be
-equal or largen than 0.</p>
-<p>Here, we run the opt.joint.OUBM function (assuming the trait value is
-perfectly adapted at the start of the sequence) from 1,000 different
-starting points: <br></p>
+for the <em>vstep</em> and <em>alpha</em> parameters are constrained to
+be equal or larger than 0.</p>
+<p>Here, we run the <code>opt.joint.OUBM</code> function (assuming the
+trait value is perfectly adapted at the start of the sequence) from 100
+different starting points (i.e. different initial parameter values):
+<br></p>
 <div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">opt.joint.OUBM</span>(ln.diameter, <span class="at">opt.anc =</span> <span class="cn">TRUE</span>, <span class="at">iterations =</span> <span class="dv">100</span>)</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>logL</span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="fl">78.5667</span></span>
@@ -693,44 +742,46 @@ starting points: <br></p>
 <span id="cb14-27"><a href="#cb14-27" aria-hidden="true" tabindex="-1"></a><span class="fu">attr</span>(,<span class="st">"class"</span>)</span>
 <span id="cb14-28"><a href="#cb14-28" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">"paleoTSfit"</span></span></code></pre></div>
 <p><br> From the output, we see that the likelihood score of the best
-model among the 100 model runs is identical to the score when running
-the model without iterations of the starting values of the parameters.
-However, the maximum likelihood parameter estimates are slightly
-different (e.g. a differce in the sixth decimal for the <em>vstep</em>
-parameter), but not to an extent that changes our interpretation of the
-trait dynamics. This suggests that the detected peak in the
-log-likelihood landscape is not completely smooth, and that there exists
-minuscule spikes very close to each other at the peak.</p>
+model among the 100 model runs is identical to the score when we ran the
+model without any iterations. However, the maximum likelihood parameter
+estimates are slightly different (e.g. a difference in the sixth decimal
+for the <em>vstep</em> parameter), but not to an extent that changes our
+interpretation of the trait dynamics. This suggests that the detected
+peak in the log-likelihood landscape is not completely smooth, and that
+there exists minuscule spikes very close to each other at the peak.</p>
 <p>The <code>evoTS</code> package contains functions to estimate
 likelihood surfaces for the different versions of the OU models
-(<code>confidence.OU</code> and <code>confidence.OU.BM</code>). In these
+(<code>confidence.OU</code> and <code>confidence.OUBM</code>). In these
 functions, the likelihood surface is not estimated as a function of the
 step variance and alpha parameter directly, but rather as a function of
 two related parameters that are easier to give a biological
-interpretation. The stationary variance (<em>vstep</em>/2**alpha<em>)
-represents the equilibrium variance of the OU process (Hansen et
-al. 2008) and describes the variance expected in the trait after the
-trait has reached the optimum. The half-life (log(2)/</em>alpha*) is the
-amount of time it takes for the trait to move half-way from the
-ancestral state to the optimum. The half-life is informative regarding
-the speed of adaptation toward the optimal state.</p>
+interpretation. The stationary variance, <span class="math inline">\(vstep/(2* \alpha)\)</span>, represents the
+equilibrium variance of the OU process (Hansen <em>et al.</em> 2008) and
+describes the variance expected in the trait after the trait has reached
+the optimum. The half-life <span class="math inline">\(log(2)/(\alpha)\)</span> is the amount of time it
+takes for the trait to move half-way from the ancestral state to the
+optimum. The half-life is informative regarding the speed of adaptation
+toward the optimal state.</p>
 <p>The OU model with a fixed optimum had the best relative model fit
 according to AICc among the three versions of the OU model we
-investigated. The half-life from this OU-model is (log(2)/ 11.8941) =
-0.0583. Since we scaled the time-interval of the time-series to unit
-length (i.e. the time from the start to the end of the time-series is
-1), this means it takes about 6% of the length of our data to get
-half-way to the optimal value. The total length of our time-series in
-years is 13,728, which means it takes (13728 * 0.0583 = ) 800 years to
-get half-way to the optimum. But this is only a point-estimate. We can
-explore the support interval around this point estimate of the half-life
-(and the stationary variance) using the <code>confidence.OU</code>
-function. <br></p>
+investigated. The half-life from this OU-model is <span class="math inline">\(log(2)/11.8941\)</span> = 0.0583. Since we scaled
+the time-interval of the time-series to unit length (i.e. the time from
+the start to the end of the time-series is 1), this means it takes about
+6% of the length of our data to get half-way to the optimal value. The
+total length of our time-series in years is 13,728, which means it takes
+(13728 * 0.0583 =) 800 years to get half-way to the optimum. But this is
+only a point-estimate. We can explore the support interval around this
+point estimate of the half-life (and the stationary variance) using the
+<code>confidence.OU</code> function. <br></p>
 <div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">confidence.OU</span>(ln.diameter, <span class="at">stat.var.vec=</span><span class="fu">seq</span>(<span class="dv">0</span>,<span class="fl">0.1</span>,<span class="fl">0.001</span>), <span class="at">h.vec=</span><span class="fu">seq</span>(<span class="dv">0</span>,<span class="fl">0.4</span>,<span class="fl">0.001</span>))</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>      lower upper</span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>stationary variance <span class="fl">0.007</span> <span class="fl">0.053</span></span>
 <span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>half<span class="sc">-</span>life           <span class="fl">0.029</span> <span class="fl">0.305</span></span></code></pre></div>
 <p><br><img src="OU_logl_surface.png" width="60%" style="display: block; margin: auto;"><br></p>
+<p>Half-life values up to 30% of the total length of the time-series are
+within two log-likelihood units from the best estimate. This indicates
+that substantially slower evolution than the point estimate of 6% cannot
+be ruled out as a possibility.</p>
 </div>
 <div class="section level3">
 <h3 id="fitting-all-univariate-models-in-evots-and-paleots">4.5 Fitting all univariate models in <code>evoTS</code> and
@@ -738,7 +789,7 @@ function. <br></p>
 </h3>
 <p>A quick way to evaluate the relative fit of all univariate models in
 the <code>evoTS</code> and <code>paleoTS</code>packages (excluding
-models with more than one puntuation) is to use the
+models with more than one puntuation/mode shift) is to use the
 <code>fit.all.univariate.models</code> function. <br></p>
 <div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">fit.all.univariate.models</span>(ln.diameter)</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="do">## Omitting some of the output to save length. </span></span>
@@ -757,41 +808,43 @@ models with more than one puntuation) is to use the
 <span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>OU w. moving optimum                <span class="fl">80.71298</span> <span class="dv">5</span> <span class="sc">-</span><span class="fl">150.37333</span>     <span class="fl">0.047</span></span>
 <span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>Punc<span class="dv">-1</span>                              <span class="fl">50.03827</span> <span class="dv">4</span>  <span class="sc">-</span><span class="fl">91.38688</span>     <span class="fl">0.000</span></span>
 <span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>PE.Bokma                            <span class="fl">83.38311</span> <span class="dv">5</span> <span class="sc">-</span><span class="fl">155.71359</span>     <span class="fl">0.685</span></span></code></pre></div>
-<p><br> The Bokma model where the trait evolves as a random walk
-before and after the punctuation outcompetes the OU model according to
+<p><br> The Bokma model outcompetes the OU model according to
 AICc.</p>
 <p>Where the jump happens can be investigated by plotting the data and
-putting a line at the estimated switch point. <br><br><img src="diameter_jump.png" width="60%" style="display: block; margin: auto;"><br><br> The switch point is estimated to ihappen where there is no
+putting a line at the estimated switch point. <br><br><img src="diameter_jump.png" width="60%" style="display: block; margin: auto;"><br><br> The switch point is estimated to happen where there is no
 obvious and large jump in the evolution of the trait along the y axis.
-The reason why this model fits better than the other candidate models
-might therefore be unrelated to the jump itself and may instead be due
-to the fact that the rate of evolution is allowed to be different before
-and after the punctuation. The rate parameter (<em>vstep_1</em>) of the
-unbiased random walk before the punctuation is indeed about twice as
-large as the rate parameter (<em>vstep_2</em>) in the unbiased random
-walk after the puntuation. <br></p>
+The reason why the Boka model fits better than the other candidate
+models we have investigated might therefore be unrelated to the jump
+itself and may instead be due to the fact that the rate of evolution is
+allowed to be different before and after the punctuation. The rate
+parameter of the unbiased random walk before the punctuation
+(<em>vstep_1</em>) in the Bokma model is indeed about twice as large as
+the rate parameter in the unbiased random walk after the punctuation
+(<em>vstep_2</em>). <br></p>
 <div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> Bokma.PE<span class="sc">$</span>parameters</span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>       anc    vstep_1    new.opt    vstep_2     shift1 </span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a> <span class="fl">3.7157502</span>  <span class="fl">0.3419322</span>  <span class="fl">4.1349082</span>  <span class="fl">0.1668632</span> <span class="fl">18.0000000</span> </span></code></pre></div>
-<p><br> We should therefore investigate whether a model that fits two
-separate unbiased random walks to two non-overlapping segments of the
-time-series is able to outcompete the Bokma model.</p>
+<p><br> A model that fits two separate unbiased random walks to two
+non-overlapping segments of the time-series, but where the mode shift
+does not involve a jump in phenotype space, might therefore outcompete
+the Bokma model.</p>
 </div>
 <div class="section level3">
 <h3 id="fitting-combinations-of-univariate-models-to-a-timeseries-mode-shift">4.6 Fitting combinations of univariate models to a timeseries (mode
 shift)<a class="anchor" aria-label="anchor" href="#fitting-combinations-of-univariate-models-to-a-timeseries-mode-shift"></a>
 </h3>
-<p>There is no a priori reason why a lineage should follow a single mode
+<p>There is no a priori reason why a lineage should follow only one mode
 of evolution. The <code>evoTS</code> package allows for investigating
-all pairwise model combinations of the models Stasis, Unbiased random
-walk (WRW), Trend (GRW) and Ornstein-Uhlenbek (OU) using the function
+all pairwise model combinations of the models stasis, unbiased random
+walk (WRW), trend (GRW) and Ornstein-Uhlenbek (OU) using the function
 <code>fit.two.univariate.models</code>.</p>
 <p>We are interested in investigating whether a model consisting of two
-different random walks fits the data better compared to a punctuated
-evolution model (The Bokma model). We can constrain the function to only
-investigate the same shift point as the one found to be the best for the
-Bokma model using the argument <code>shift.point</code>. However, we are
-interested in investigating all possible switch points. <br></p>
+different unbiased random walks fits the data better compared to a
+punctuated evolution model (The Bokma model). We can constrain the
+function to only investigate the same shift point as the one found to be
+the best for the Bokma model using the argument
+<code>shift.point</code>. However, we are interested in investigating
+all possible switch points. <br></p>
 <div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">fit.two.univariate.models</span>(ln.diameter, <span class="at">model1 =</span> <span class="st">"URW"</span>, <span class="at">model2 =</span> <span class="st">"URW"</span>, <span class="at">minb =</span> <span class="dv">10</span>)</span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">"Searching all possible switchpoints in the evolutionary sequence"</span></span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>Total <span class="co"># hypotheses:  44 </span></span>
@@ -831,13 +884,13 @@ interested in investigating all possible switch points. <br></p>
 <span id="cb18-37"><a href="#cb18-37" aria-hidden="true" tabindex="-1"></a><span class="fu">attr</span>(,<span class="st">"class"</span>)</span>
 <span id="cb18-38"><a href="#cb18-38" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">"paleoTSfit"</span></span></code></pre></div>
 <p><br> The fit of this model is similar (but worse) according to AICc
-compared to the Bokma model model.</p>
+compared to the Bokma model.</p>
 <p>It is also possible to use the function
 <code>fit.two.univariate.models</code> to fit all pairwise combinations
-of the four models by setting the <code>fit.all</code> argument as TRUE.
-If a shift point is not defined (using the <code>shift.point</code>
-argument), all possible shift points are investigated for all models.
-<br></p>
+of the four models by setting the <code>fit.all</code> argument as
+<code>TRUE.</code> If a shift point is not defined (using the
+<code>shift.point</code> argument), all possible shift points are
+investigated for all models. <br></p>
 <div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">fit.two.univariate.models</span>(ln.diameter, <span class="at">fit.all =</span> <span class="cn">TRUE</span>, <span class="at">minb =</span> <span class="dv">10</span>, )</span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">"Searching all possible switchpoints in the evolutionary sequence"</span></span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span>  <span class="dv">2</span>  <span class="dv">3</span>  <span class="dv">4</span>  <span class="dv">5</span>  <span class="dv">6</span>  <span class="dv">7</span>  <span class="dv">8</span>  <span class="dv">9</span>  <span class="dv">10</span>  <span class="dv">11</span>  <span class="dv">12</span>  <span class="dv">13</span>  <span class="dv">14</span>  <span class="dv">15</span>  <span class="dv">16</span>  <span class="dv">17</span>  <span class="dv">18</span>  <span class="dv">19</span>  <span class="dv">20</span>  <span class="dv">21</span>  <span class="dv">22</span>  <span class="dv">23</span>  <span class="dv">24</span>  <span class="dv">25</span>  <span class="dv">26</span>  <span class="dv">27</span>  <span class="dv">28</span>  <span class="dv">29</span>  <span class="dv">30</span>  <span class="dv">31</span>  <span class="dv">32</span>  <span class="dv">33</span>  <span class="dv">34</span>  <span class="dv">35</span>  <span class="dv">36</span>  <span class="dv">37</span>  <span class="dv">38</span>  <span class="dv">39</span>  <span class="dv">40</span>  <span class="dv">41</span>  <span class="dv">42</span>  <span class="dv">43</span>  <span class="dv">44</span>  </span>
@@ -890,15 +943,15 @@ argument), all possible shift points are investigated for all models.
 <span id="cb19-50"><a href="#cb19-50" aria-hidden="true" tabindex="-1"></a><span class="fu">attr</span>(,<span class="st">"class"</span>)</span>
 <span id="cb19-51"><a href="#cb19-51" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">"paleoTSfit"</span></span></code></pre></div>
 <p><br> The function returns a list of the highest log-likelihood
-found for each model. A detailed output from the model with the lowest
-AICc value among the 16 candidate models is also given. An OU-Stasis
-model with a shift point at sample (population) 38 has the best relative
-fit according to AICc. Note, however, that the model-combination
-Trend-OU (GRW-OU) has an almost equal AICc score relative to the best
-model. These two models show an almost identical relative fit to the
-data. Also, the combination of OU models (each with their own fixed
-optimum) shows a good relative fit to the data. All these three models
-have a better AICc score compared to the Bokma model. <br><br><br></p>
+found for each investigated model. A detailed output from the model with
+the lowest AICc value among the 16 candidate models is also given. An
+OU-Stasis model with a shift point at sample (population) 38 has the
+best relative fit according to AICc. Note, however, that the
+model-combination Trend-OU (GRW-OU) has an almost equal AICc score
+relative to the best model. Also the combination of OU models (each with
+their own fixed optimum) shows a good relative fit to the data. All
+these three models have a better AICc score compared to the Bokma model.
+<br><br><br></p>
 </div>
 </div>
 <div class="section level2">
@@ -919,45 +972,45 @@ following multivariate trait models:</p>
 the rate of evolution<a class="anchor" aria-label="anchor" href="#multivariate-unbiased-random-walks-with-and-without-changes-in-the-rate-of-evolution"></a>
 </h3>
 <p>Evolution as a multivariate unbiased random walk is modeled using an
-evolutionary rate matrix <strong>R</strong>. The diagonal elements in
-<strong>R</strong> represent the rate of evolution for the individual
-traits, while the off-diagonal elements represent the extent to which
-different traits co-evolve. The multivariate variance-covariance matrix
-for the Unbiased random walk model (<strong>V</strong>) is computed
-using the Kronecker product of the <strong>R</strong> matrix and a
-“distance matrix” <strong>C</strong>, describing the distance in time
-between the different samples/populations in the time-series. Sampling
-error of the trait mean (calculated as the sample variance divided by
-the sample size) is – as for all models in <code>evoTS</code> – added to
-the diagonal of the <strong>V</strong> matrix. To ensure symmetric
-positive definiteness of the <strong>V</strong> matrix during
-log-likelihood optimization, <strong>R</strong> is parameterized by its
-Cholesky decomposition as the cross-product of upper triangular
-matrices. In cases where different parts of the evolutionary time-series
-are described by <span class="math inline">\(R_{m}\)</span> matrices,
+evolutionary rate matrix <strong>R</strong> (Felsenstein 1988). The
+diagonal elements in <strong>R</strong> represent the rate of evolution
+for the individual traits, while the off-diagonal elements represent the
+extent to which different traits co-evolve.</p>
+<p>The multivariate variance-covariance matrix for the unbiased random
+walk model (<strong>V</strong>) is computed using the Kronecker product
+of the <strong>R</strong> matrix and a “distance matrix”
+<strong>C</strong>, describing the distance in time between the
+different samples/populations in the time-series. Sampling error of the
+trait mean (calculated as the sample variance divided by the sample
+size) is – as for all models in <code>evoTS</code> – added to the
+diagonal of the <strong>V</strong> matrix. To ensure symmetric positive
+definiteness of the <strong>V</strong> matrix during log-likelihood
+optimization, <strong>R</strong> is parameterized by its Cholesky
+decomposition as the cross-product of upper triangular matrices. In
+cases where different parts of the evolutionary time-series are
+described by <span class="math inline">\(R_{m}\)</span> matrices,
 <strong>V</strong> is computed as the sum of the different <span class="math inline">\(R_{m}\)</span> and <span class="math inline">\(C_{m}\)</span> matrices: <br><br><span class="math display">\[V = \sum_{i=1}^{m} R_{m} \otimes C_{m}\]</span>
 <br> The current implementation of the multivariate unbiased random
-walk model allows testing six variants of the model. The six variants of
-the model can be fitted using different specifications of <code>R</code>
-and <code>r</code> in the <code>fit.multivariate.URW</code>
-function.</p>
+walk model allows testing six variants of the model. All variants of the
+model can be fitted using different specifications of <code>R</code> and
+<code>r</code> in the <code>fit.multivariate.URW</code> function.</p>
 <p>The <code>R</code> option defines which elements in the
 <strong>R</strong> matrix that will be estimated. There are two options
 for the structure of the <strong>R</strong> matrix. Setting
 <code>R = "diagonal"</code> means only the diagonal elements of the
 <strong>R</strong> matrix will be estimated while off-diagonal elements
-are set to (see panel a below) This parameterization of the
-<strong>R</strong> matrix means the stochastic changes in the traits are
-assumed to be uncorrelated. Setting <code>R = "symmetric"</code> means
-all (both diagonal and off-diagonal) elements in the R matrix are
-estimated (panel b below). This parameterization means the stochastic
-changes in the traits are assumed to be correlated, i.e. that
-evolutonary changes are non-independent. <br><br><img src="R_matrices.png" width="40%" style="display: block; margin: auto;"><br><br> The argument <code>r</code> in the
+are set to 0 (see panel a below) This parameterization of the
+<strong>R</strong> matrix means the changes in the traits are assumed to
+be uncorrelated. Setting <code>R = "symmetric"</code> means all (both
+diagonal and off-diagonal) elements in the <strong>R</strong> matrix are
+estimated (panel b below). This parameterization means the changes in
+the traits are assumed to be correlated, i.e. that evolutonary changes
+are non-independent. <br><br><img src="R_matrices.png" width="40%" style="display: block; margin: auto;"><br><br> The argument <code>r</code> in the
 <code>fit.multivariate.URW</code> function defines whether the rate of
 change is assumed constant (“fixed”), asymptotically decreasing
 (“decel”), or asymptotically increasing (“accel”) with time. Defining
 <code>r</code> as “fixed” means a regular multivariate unbiased random
-walk will be fitted to the data. The “decel” and “accel” options fits
+walk will be fitted to the data. The “decel” and “accel” options fit
 multivariate versions of the decelerated and accelerated versions of the
 unbiased random walk, respectively. These latter two models deviate from
 the multivariate unbiaseed random walk in that the distance matrix
@@ -967,23 +1020,24 @@ maximum likelihood search for the <strong>R</strong> matrix. A common
 <em>r</em> parameter is assumed for all the traits.</p>
 <p>To use the multivariate models, we first need multivariate data
 (e.g. at least two traits or variables).</p>
-<p>The dataset on phenotypic evolution in <em>Stephanodiscus
+<p>The data set on phenotypic evolution in <em>Stephanodiscus
 yellowstonensis</em> (Theirot et al. 2006) contains data on the number
-of ribs in addition to the size measure we have analyzed so far. To make
-the rib data set ready for multivariate analyses together with the size
-(diameter) data set, we first do an approximate log-transformation of
-the riv data and convert the time vector to unit length. <br></p>
+of ribs in addition to the size of the diameter we have analyzed so far.
+Before combining the rib and diameter data into a multivariate data set,
+we first do an approximate log-transformation of the rib data and
+convert the time vector to unit length. <br></p>
 <div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Doing an approximate log-transformation of the data</span></span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> ln.ribs<span class="ot">&lt;-</span>paleoTS<span class="sc">::</span><span class="fu">ln.paleoTS</span>(ribs_S.yellowstonensis)</span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="do">## Convert the time vector to unit length</span></span>
 <span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> ln.ribs<span class="sc">$</span>tt<span class="ot">&lt;-</span>ln.ribs<span class="sc">$</span>tt<span class="sc">/</span>(<span class="fu">max</span>(ln.ribs<span class="sc">$</span>tt))</span></code></pre></div>
-<p><br> To make a multivariate data set ready to be analyzed in evoTS,
-we combine the two paleoTS objects into a multivariate evoTS object
-using the make.multivar.evoTS function. <br></p>
+<p><br> To make a multivariate data set ready to be analyzed in
+<code>evoTS</code>, we combine the two <code>paleoTS</code> objects into
+a multivariate <code>evoTS</code> object using the
+<code>make.multivar.evoTS</code> function. <br></p>
 <div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> diam.ln_ribs.ln<span class="ot">&lt;-</span><span class="fu">make.multivar.evoTS</span>(ln.diameter, ln.ribs)</span></code></pre></div>
-<p><br> We can use the plotevoTS.multivariate function to have a look
-at the combined data set. <br></p>
+<p><br> We can use the <code>plotevoTS.multivariate</code> function to
+have a look at the combined data set. <br></p>
 <div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">plotevoTS.multivariate</span>(diam.ln_ribs.ln, <span class="at">y_min=</span><span class="fl">3.4</span>, <span class="at">y_max=</span><span class="fl">4.8</span>, <span class="at">x.label =</span> <span class="st">"Relative time"</span>, <span class="at">pch=</span><span class="fu">c</span>(<span class="dv">20</span>,<span class="dv">20</span>)</span></code></pre></div>
 <p><br><img src="diam_and_ribs.png" width="60%" style="display: block; margin: auto;"><br><br> Eye-balling the data seems to suggest that the traits
 change in a coordinated fashion.</p>
@@ -1033,12 +1087,12 @@ the two traits and the evolutionary rate matrix <strong>R</strong>. The
 diagonal in the <strong>R</strong> matrix contains the step size (rate
 of evolution) parameters. The first trait (diameter) has about twice the
 rate of evolution as the second parameter (ribs). The off-diagonal
-elements are zero as this model is not estimating the covariation of the
-evolutionary changes.</p>
+elements are zero as this model is not estimating the covariance of the
+evolutionary changes in the two traits.</p>
 <p>Next, we fit a model that allows the off-diagonal elements in the R
 matrix to be different from zero. We do this by setting
 <code>R = symmetric</code>. We are still keeping the rate of change
-fixed. <br></p>
+fixed through time. <br></p>
 <div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">fit.multivariate.URW</span>(diam.ln_ribs.ln, <span class="at">R =</span> <span class="st">"symmetric"</span>, <span class="at">r =</span> <span class="st">"fixed"</span>)</span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">"Model converged successfully."</span></span>
 <span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>modelName</span>
@@ -1078,13 +1132,13 @@ fixed. <br></p>
 <p><br> A multivariate random walk has a much better fit compared to
 treating the traits univariately according to AICc. This indicates that
 the traits are not evolving independently of each other. The estimated
-<em>R</em> matrix indicates that the first trait has about half the rate
-of evolution as the second trait and that there is substantial
+<strong>R</strong> matrix indicates that the first trait has about half
+the rate of evolution as the second trait and that there is substantial
 covariance in the evolutionary changes of the two traits. The
 evolutionary correlation can be computed by standardizing the covariance
 with the product of the standard deviations on the diagonal (This can
-also be using the function cov3cor in the <code>stats</code> package).
-<br></p>
+also be using the function <code>cov3cor</code> in the
+<code>stats</code> package). <br></p>
 <div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fl">0.3878622</span><span class="sc">/</span>(<span class="fu">sqrt</span>(<span class="fl">0.2787967</span>)<span class="sc">*</span><span class="fu">sqrt</span>(<span class="fl">0.5635895</span>))</span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="fl">0.9784805</span></span>
 <span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1095,22 +1149,20 @@ also be using the function cov3cor in the <code>stats</code> package).
 <span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>          [,<span class="dv">1</span>]      [,<span class="dv">2</span>]</span>
 <span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>,] <span class="fl">1.0000000</span> <span class="fl">0.9784806</span></span>
 <span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>[<span class="dv">2</span>,] <span class="fl">0.9784806</span> <span class="fl">1.0000000</span></span></code></pre></div>
-<p><br> A correlation of 0.98 basically means the two traits can be
-considered to evolve as a single trait. Given that at least part of the
-deviation from a correlation of unity is due to measurement error, this
-is a very strong indication that the traits are evolving as one
-trait</p>
+<p><br> A correlation of 0.98 basically means the two traits evolve as
+a single trait, since at least part of the deviation from a correlation
+of unity is due to measurement error.</p>
 <p>Note that the <strong>R</strong> matrix is not describing the
 underlying genetic or phenotypic (co)variances of the traits. The
 <strong>R</strong> matrix is therefore not the same as a
-<strong>P</strong> (or <strong>G</strong>) matrix. However, the
-<strong>R</strong> matrix is tightly connected to these matrices within
-evolutionary quantitative genetics. For example, if the traits evolve
-only due to drift, the <strong>R</strong> matrix is expected to be
-proportional to the additive genetic variance–covariance matrix
-(<strong>G</strong>) matrix (Lande 1979; Felsenstein 1988). Estimating
-<strong>R</strong> can therefore aid in evolutionary interpretations of
-the fossil record anchored in evolutionary quantitative genetics.</p>
+<strong>P</strong> (or <strong>G</strong>) matrix in quantitative
+genetics. However, the <strong>R</strong> matrix is tightly connected to
+these matrices. For example, if the traits evolve only due to drift, the
+<strong>R</strong> matrix is expected to be proportional to the additive
+genetic variance–covariance matrix (<strong>G</strong>) (Lande 1979;
+Felsenstein 1988). Estimating <strong>R</strong> can therefore aid in
+evolutionary interpretations of the fossil record anchored in
+evolutionary quantitative genetics.</p>
 <p>Standard errors of the elements in the R matrix can be approximated
 by the square roots of the diagonal elements of the inverse of the
 negative of the Hessian matrix. These standard errors are automatically
@@ -1125,13 +1177,13 @@ somewhat follow the progress of the model fit is to set
 <code>trace = TRUE</code>. This allows the user to follow the progress
 of the optimization routine to minimize the likelihood function.</p>
 <p>The likelihood surface of multivariate models can contain several
-local peaks. It is therefore recommended to rerun the model fit from
-different starting points (i.e., different initial values). The number
-of iterations can be defined by the iterations argument (e.g.,
-<code>iterations = 10</code>). Initial values for the search algorithm
-are drawn from a normal distribution with a default standard deviation
-of 1. The user can set this standard deviation by the iter.sd argument.
-(e.g., <code>iter.sd = 0.5</code>).</p>
+local peaks. It is therefore recommended to rerun the model from
+different starting points (i.e., different initial parameter values).
+The number of iterations can be defined by the iterations argument
+(e.g., <code>iterations = 10</code>). Initial values for the search
+algorithm are drawn from a normal distribution with a default standard
+deviation of 1. The user can set this standard deviation by the iter.sd
+argument. (e.g., <code>iter.sd = 0.5</code>).</p>
 <p>We can check if we find evidence for a change in the
 <strong>R</strong> matrix along the time-series. This involves
 estimating a separate <strong>R</strong> matrix for two non-overlapping
@@ -1219,23 +1271,24 @@ each of the two segments is controlled by the <code>minb</code> argument
 <span id="cb26-74"><a href="#cb26-74" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb26-75"><a href="#cb26-75" aria-hidden="true" tabindex="-1"></a><span class="fu">attr</span>(,<span class="st">"class"</span>)</span>
 <span id="cb26-76"><a href="#cb26-76" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">"paleoTSfit"</span></span></code></pre></div>
-<p><br> Two <strong>R</strong> matrices are returned (R.1 and R.2),
-along with their standard errors (since we used
+<p><br> Two <strong>R</strong> matrices are returned (<em>R.1</em> and
+<em>R.2</em>), along with their standard errors (since we used
 <code>hess = TRUE</code>). The estimated shift point is 18
 (<em>shift1</em>), which is the same shift point we detected when
 fitting the Bokma model to the diameter time series. The rate of
 evolution is much larger in the second trait compared to the first trait
-(the diagonal elements in R.1) while the difference in rate of evolution
-is much smaller after the shift point (the diagonal elements in R.2).
-The evolutionary correlation is 0.98 and 0.99 before and after the shift
-point. The number of parameters (<em>K</em>) for this model is 9
-compared to 5 for the model where we estimated a single <em>R</em>
-matrix for the multivariate data set. The model with two <em>R</em>
-matrices has a lower (better) AICc score compared to the model with a
-single R matrix. This difference in AICc scores is likely to be a result
-of the differences in rates of evolution in R.1 and R.2 since the
-evolutionary correlation is estimated to be very similar in both R.1 and
-R.2.</p>
+(the diagonal elements in <em>R.1</em>) while the difference in rate of
+evolution is much smaller after the shift point (the diagonal elements
+in <em>R.2</em>). The evolutionary correlation is 0.98 and 0.99 before
+and after the shift point. The number of parameters (<em>K</em>) for
+this model is 9 compared to 5 for the model where we estimated a single
+<strong>R</strong> matrix for the multivariate data set. The model with
+two <strong>R</strong> matrices has a lower (better) AICc score compared
+to the model with a single <strong>R</strong> matrix. This difference in
+AICc scores is likely to be a result of the differences in rates of
+evolution in <em>R.1</em> and <em>R.2</em> since the evolutionary
+correlation is estimated to be very similar in both <em>R.1</em> and
+<em>R.2</em>.</p>
 <p>We now check if the multivariate accelerated and decelerated models
 have a better fit than the multivariate random walk models. <br></p>
 <div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> multi.accel<span class="ot">&lt;-</span><span class="fu">fit.multivariate.URW</span>(diam.ln_ribs.ln, <span class="at">R =</span> <span class="st">"symmetric"</span>, <span class="at">r =</span> <span class="st">"accel"</span>)</span>
@@ -1248,109 +1301,125 @@ have a better fit than the multivariate random walk models. <br></p>
 <p><br> The multivariate decelerated evolution model has a similar
 (but slightly worse) fit to the data compared to the multivariate
 unbiased random walk model with a single <strong>R</strong> matrix, but
-is outcompeted by the model with two <strong>R</strong> matrices.</p>
+is out competed by the model with a mode shift estimimating two
+<strong>R</strong> matrices.</p>
 </div>
 <div class="section level3">
 <h3 id="multivariate-ornstein-uhlenbeck-models">5.2 Multivariate Ornstein-Uhlenbeck models<a class="anchor" aria-label="anchor" href="#multivariate-ornstein-uhlenbeck-models"></a>
 </h3>
-<p>The multivariate Ornstein-Uhlenbeck process is described by the
-following differential equation: <br><br><span class="math display">\[dY = A(\theta(t)-Y(t))dt + RdW(t)\]</span> <br>
-where <em>A</em> is square matrix with dimensions equal to the number of
-investigated traits that describes the rate of evolution toward the
-optimal trait values (<strong>A</strong> is often called the pull
-matrix), <span class="math inline">\(\theta\)</span> is a vector
+<p>Adapted to describe evolution of traits within the same lineage, the
+multivariate Ornstein-Uhlenbeck process is described by the following
+differential equation (Bartoszek <em>et al.</em> 2012; Reitan <em>et
+al.</em> 2012; Clavel <em>et al.</em> 2015): <br><br><span class="math display">\[dY = A(\theta(t)-Y(t))dt + RdW(t)\]</span> <br>
+where <strong>A</strong> is square matrix with dimensions equal to the
+number of investigated traits that describes the rate of evolution
+toward the optimal trait values (<strong>A</strong> is often called the
+pull matrix), <span class="math inline">\(\theta\)</span> is a vector
 containing the optimum for each trait, <strong>R</strong> is a square
 matrix with dimensions equal to the number of investigated traits
 describing the stochastic changes in the traits (<strong>R</strong> is
-often called the drift matrix) (Bartoszek <em>et al.</em> 2012; Reitan
-<em>et al.</em> 2012; Clavel <em>et al.</em> 2015). Under the assumption
-that the we only have one selective regime (optimum) per trait, the
-expected trait mean of the Ornstein-Uhlenbeck process is the weighted
-sum of the optimum and the root value (Hansen 1997): <br><br><span class="math display">\[E\left[Z_{i}\right]= e^{(-At_{i})}z_{0} +
+often called the drift matrix) . Under the assumption that the we only
+have one selective regime (optimum) per trait, the expected trait mean
+of the Ornstein-Uhlenbeck process is the weighted sum of the optimum and
+the root value (Hansen 1997): <br><br><span class="math display">\[E\left[Z_{i}\right]= e^{(-At_{i})}z_{0} +
 (1-e^{(-At_{i})}\theta)\]</span> <br> where <span class="math inline">\(Z_{i}\)</span> is the expected trait value for
 sample <em>i</em>, <span class="math inline">\(z_{0}\)</span> is the
-ancestral trait mean, <em>Θ</em> is the optimum, <em>A</em> is the pull
-matrix measures the rate of adaptation to the optimum, and <span class="math inline">\(t_{i}\)</span> is the time interval from the
+ancestral trait mean, <em>Θ</em> is the optimum, <strong>A</strong> is
+the pull matrix measuring the rate of adaptation to the optimum, and
+<span class="math inline">\(t_{i}\)</span> is the time interval from the
 ancestral population mean (the start of the time-series, which has a
-time of 0) to the ith population mean.</p>
-<p>The variance and covariance of sample means are given by the
-following expression: <br><br><span class="math display">\[Cov(z_{i}, z_{j})=\left[P\left( \left[
+time of 0) to the <em>i</em>th population mean.</p>
+<p>The variance and covariance of sample/population means are given by
+the following expression: <br><br><span class="math display">\[Cov(z_{i}, z_{j})=\left[P\left( \left[
 \frac{1}{\lambda_{k} + \lambda_{l}} \left( 1-e^{-({\lambda_{k} +
 \lambda_{l})}t_{a}}\right)\right]_{1\le kl \le m}   \odot
 P^{-1}\Sigma\Sigma^{T}(P^{-1})^{T}\right)
-P^{T}\right]e^{-A^{T}t_{ij}}\]</span> <br> where P is the orthogonal
-matrix of eigenvectors of A, <span class="math inline">\(\Sigma\Sigma^{T}\)</span> is the Cholesky
-decomposition of the <em>R</em> matrix, <span class="math inline">\(\lambda_{i}\)</span> is the eigenvalue of the ith
-trait, <span class="math inline">\(t_{a}\)</span> is the time interval
-from the ancestral population to the oldest of the two populations <span class="math inline">\(z_{i}\)</span> and <span class="math inline">\(z_{j}\)</span>, and <span class="math inline">\(t_{ij}\)</span> is the time separating two samples
-z_i and z_j, while <span class="math inline">\(\odot\)</span> represents
-the Hadamard (element-wise) product.</p>
-<p>Different ways to parameterize the A matrix allows testing a range of
-evolutionary hyptheses using the multivariate OU process. While the R
-matrix in the multivariate version of unbiased random walk (and in the
-multivariate OU model) either needs to be diagonal (only elements on the
-diagonal while off-diagonal elements are zero) or complete (in the sense
-that both the diagonal and off-diagonal elements are non-zero), this is
-not the case for the A matrix. Generally, we can divide up the
-hypotheses being tested using the multivariate OU into four different
-types: <br></p>
+P^{T}\right]e^{-A^{T}t_{ij}}\]</span> <br> where <strong>P</strong> is
+the orthogonal matrix of eigenvectors of <strong>A</strong>, <span class="math inline">\(\Sigma\Sigma^{T}\)</span> is the Cholesky
+decomposition of the <strong>R</strong> matrix, <span class="math inline">\(\lambda_{i}\)</span> is the eigenvalue of the
+<em>i</em>th trait, <span class="math inline">\(t_{a}\)</span> is the
+time interval from the ancestral population to the oldest of the two
+populations <span class="math inline">\(z_{i}\)</span> and <span class="math inline">\(z_{j}\)</span>, and <span class="math inline">\(t_{ij}\)</span> is the time separating two samples
+<span class="math inline">\(z_{i}\)</span> and <span class="math inline">\(z_{j}\)</span>, while <span class="math inline">\(\odot\)</span> represents the Hadamard
+(element-wise) product.</p>
+<p>Different ways to parameterize the <strong>A</strong> matrix allows
+testing a range of evolutionary hyptheses using the multivariate OU
+process. While the <strong>R</strong> matrix in the multivariate version
+of the unbiased random walk (and in the multivariate OU model) either
+needs to be diagonal (only elements on the diagonal while off-diagonal
+elements are zero) or complete (in the sense that both the diagonal and
+off-diagonal elements are non-zero), this is not the case for the
+<strong>A</strong> matrix. Generally, we can divide up the hypotheses
+being tested using the multivariate OU into four different types:
+<br></p>
 <ul>
-<li><p>Independent evolution (only diagonal elements in both the A and
-the R matrix, i.e. equivalent as fitting univariate models to each trait
-separately.)</p></li>
-<li><p>Independent adaptation (only diagonal elements in the A matrix
-while the R matrix is completely parameterized. In such a model, the
-traits are adapting independently toward their optima, but the
-stochastic changes in the trait are correlated.)</p></li>
+<li><p>Independent evolution (only diagonal elements in both the
+<strong>A</strong> and the <strong>R</strong> matrix, i.e. equivalent as
+fitting univariate models to each trait separately.)</p></li>
+<li><p>Independent adaptation (only diagonal elements in the
+<strong>A</strong> matrix while the <strong>R</strong> matrix is
+completely parameterized. In such a model, the traits are adapting
+independently toward their optima, but the stochastic changes in the
+traits are correlated.)</p></li>
 <li><p>At least one trait affects the optimum of the other trait. The
-diagonal and at least one of the off-diagonal elements in the A matrix
-is non-zero. It is the trait in the column of the non-zero off-diagonal
-element that affects the optimum of the trait in the row of the non-zero
-off-diagonal element. The the stochastic changes in the trait can be
-either correlated or non-correlated.</p></li>
-<li><p>At least two traits affect each others optimum. Symmetric
-off-diagonal elements are present in the A matrix. The the stochastic
+diagonal and at least one of the off-diagonal elements in the
+<strong>A</strong> matrix is non-zero. It is the trait in the column of
+the non-zero off-diagonal element that affects the optimum of the trait
+in the row of the non-zero off-diagonal element. A negative off-diagonal
+element means the trait evolves toward the optimum determined by the the
+other trait, while a positive off-diagonal element means the trait
+evolve away from the optimum determined by the other trait. The the
+stochastic changes in the trait can be either correlated or
+non-correlated.</p></li>
+<li><p>The same traits affect each others optimum (but to different
+degrees). The same off-diagonal elements on both sides of the diagonal
+are parameterized in the <strong>A</strong> matrix. The the stochastic
 changes in the trait can be either correlated or non-correlated. <br>
-For a dataset consisting of two traits, there are four possible
-parameterization of the A matrix (see panels below). Independent
-adaptation of both traits (panel a), trait Y affecting the optimum of
-trait X (panel b), trait X affects the optimum of trait Y, and the
-traits X and why affects each others optimum (panel d). Each of these
-four ways of parameterizing the A matrix can be combined with an R
-matrix with elements only on the diagonal (the stochastic changes in the
-traits are uncorrelated) or a completely parameterized R matrix (the
-stochastic changes in the traits are correlated).<br><br><img src="A_matrices.png" width="40%" style="display: block; margin: auto;"><br> It is also possible to implement a model where the last trait in
-the data set evolve as an unbiased random walk which affects the optima
+For a data set consisting of two traits, there are four possible
+parameterizations of the <strong>A</strong> matrix (see panels below).
+Independent adaptation of both traits (panel a), trait Y affecting the
+optimum of trait X (panel b), trait X affecting the optimum of trait Y,
+and the traits X and Y affecting each others optima (panel d). Each of
+these four ways of parameterizing the <strong>A</strong> matrix can be
+combined with an <strong>R</strong> matrix with elements only on the
+diagonal (the stochastic changes in the traits are uncorrelated) or a
+completely parameterized <strong>R</strong> matrix (the stochastic
+changes in the traits are correlated).<br><br><img src="A_matrices.png" width="40%" style="display: block; margin: auto;"><br> It is also possible to implement a model where the last trait in
+the data set evolves as an unbiased random walk which affects the optima
 for all other traits in the data set. This model can be fitted by
-defining A.matrix =“OUBM”, which sets the last diagonal element in the A
-matrix to zero. A zero diagonal element in the A matrix means there is
-no tendency for this trait to evolve towards an optimal value (which is
-the case for an unbiased random walk. Setting A.matrix =“OUBM” will
-automaticall define the R matrix to only have diagonal elements
-(i.e. this option for the A matrix will override how the R matrix is
-defined by the user).</p></li>
+defining <code>A.matrix ="OUBM"</code>, which sets the last diagonal
+element in the <strong>A</strong> matrix to zero. A zero diagonal
+element in the <strong>A</strong> matrix means there is no tendency for
+this trait to evolve towards an optimal value (which is the case for an
+unbiased random walk). Setting <code>A.matrix ="OUBM"</code> will
+automaticall define the <strong>R</strong> matrix to only have diagonal
+elements (i.e. this option for the <strong>A</strong> matrix will
+override how the <strong>R</strong> matrix is defined by the
+user).</p></li>
 </ul>
 <p>Multivariate Ornstein-Uhlenbeck models can be fitted using two
-different funcions in the <code>evoTS</code> package. The function
-<code>fit.multivariate.OU</code> allows the user to define the
-parameterization of the A and R matrix using different arguments for the
-A and R matrices. The A.matrix can either be defined as “diag” (panel a
-above), “upper.tri” (panel b above) and “lower.tri” (panel c above), and
-“full” (panel d above). Default is “diag”. The R.matrix can be defined
-as “diag” or “symmetric”. The function
-<code>fit.multivariate.OU.user.defined</code> lets the user define which
-elements in the A and R matrices that should be parameterized. This
-function therefore allows full flexibility for the type of hypotheses
-that are being tested as the parameterization is not constrained to
-follow the pre-defined options for the A matrix available in the
-function <code>fit.multivariate.OU</code>.</p>
-<p>We will investigate whether the two traits from the S.
-yellowstonensis lineage show evidence of independent evolution (only
-diagonal elements in the A and R matrices) or whether only the
-adaptation part of the trait dynamics is independent in the two traits
-(diagonal A matrix and symmetric R matrix). We will test these
-hypotheses using the <code>fit.multivariate.OU</code> function.
-<br></p>
+different functions in <code>evoTS</code>. The function
+<code>fit.multivariate.OU</code> allows the user to use pre-defined
+arguments for the <strong>A</strong> and <strong>R</strong> matrices to
+parameterize these matrices. The <code>A.matrix</code> can either be
+defined as “diag” (panel a above), “upper.tri” (panel b above),
+“lower.tri” (panel c above), and “full” (panel d above). Default is
+“diag”. The <code>R.matrix</code> can be defined as “diag” or
+“symmetric”.</p>
+<p>The function <code>fit.multivariate.OU.user.defined</code> lets the
+user define which elements in the <strong>A</strong> and
+<strong>R</strong> matrices that will be parameterized. This function
+allows full flexibility for the type of hypotheses that are being tested
+as the parameterization is not constrained to follow the pre-defined
+options for the <strong>A</strong> matrix available in the function
+<code>fit.multivariate.OU</code>.</p>
+<p>We will investigate whether the two traits from the <em>S.
+yellowstonensis</em> lineage show evidence of independent evolution
+(only diagonal elements in the <strong>A</strong> and <strong>R</strong>
+matrices) or whether only the adaptation part of the trait dynamics is
+independent in the two traits (diagonal <strong>A</strong> matrix and
+symmetric <strong>R</strong> matrix). We will test these hypotheses
+using the <code>fit.multivariate.OU</code> function. <br></p>
 <div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> OUOU.model1<span class="ot">&lt;-</span><span class="fu">fit.multivariate.OU</span>(diam.ln_ribs.ln, <span class="at">A.matrix=</span><span class="st">"diag"</span>, <span class="at">R.matrix=</span><span class="st">"diag"</span>)</span>
 <span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> OUOU.model2<span class="ot">&lt;-</span><span class="fu">fit.multivariate.OU</span>(diam.ln_ribs.ln, <span class="at">A.matrix=</span><span class="st">"diag"</span>, <span class="at">R.matrix=</span><span class="st">"symmetric"</span>)</span>
 <span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> OUOU.model1<span class="sc">$</span>AICc;OUOU.model2<span class="sc">$</span>AICc</span>
@@ -1404,21 +1473,20 @@ hypotheses using the <code>fit.multivariate.OU</code> function.
 <span id="cb28-51"><a href="#cb28-51" aria-hidden="true" tabindex="-1"></a>[<span class="dv">2</span>,] <span class="fl">0.5612106</span> <span class="fl">1.0000000</span></span></code></pre></div>
 <p><br> The model with independent adaptation and correlated
 stochastic changes is much better than the independent evolution model.
-This is not necessarily surprising as we know the changes in the traits
-are correlated from our investigation of the multivariate unbiased
-random walk models. The half-life for the log diameter and log number of
-ribs are 6.1% and 4.9% of the length of the time-series, which
-translates into (13728 * 0.061 =) 837 and (13728 * 0.049 =) 673 years
-respectively. The correlation of the stochastic changes is substantial,
-but much reduced compared to the estimate of the correlation from the
-unbiased random walks. This is because a substantial part of the trait
+The half-life for the log diameter and log number of ribs are 6.1% and
+4.9% of the length of the time-series, which translates into (13728 *
+0.061 =) 837 and (13728 * 0.049 =) 673 years respectively. The
+correlation of the stochastic changes is substantial, but much reduced
+compared to the estimate of the correlation from the multivariate
+unbiased random walk. This is because a substantial part of the trait
 dynamics in a multivariate OU model is due to the deterministic approach
 of the traits towards the optima. The model has an almost identical
 relative fit compared to the multivariate unbiased random walk according
-to AICc, but is out-competed by the unbiased random walk with a switch
-in the rate of evolution.</p>
-<p>We now test more if a more complex parameterization of the A matrix
-gives us a better relative fit. <br></p>
+to AICc, but is out competed by the unbiased random walk with a a mode
+shift.</p>
+<p>We now test if a more complex parameterization of the
+<strong>A</strong> matrix gives us a better relative model fit according
+to AICc. <br></p>
 <div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> OUOU.model3<span class="ot">&lt;-</span><span class="fu">fit.multivariate.OU</span>(diam.ln_ribs.ln, <span class="at">A.matrix=</span><span class="st">"upper.tri"</span>, <span class="at">R.matrix=</span><span class="st">"symmetric"</span>)</span>
 <span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> OUOU.model4<span class="ot">&lt;-</span><span class="fu">fit.multivariate.OU</span>(diam.ln_ribs.ln, <span class="at">A.matrix=</span><span class="st">"full"</span>, <span class="at">R.matrix=</span><span class="st">"symmetric"</span>)</span>
 <span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> OUOU.model5<span class="ot">&lt;-</span><span class="fu">fit.multivariate.OU</span>(diam.ln_ribs.ln, <span class="at">A.matrix=</span><span class="st">"OUBM"</span>)</span>
@@ -1426,26 +1494,30 @@ gives us a better relative fit. <br></p>
 <span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="sc">-</span><span class="fl">349.9107</span></span>
 <span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="sc">-</span><span class="fl">349.8412</span></span>
 <span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="sc">-</span><span class="fl">301.516</span></span></code></pre></div>
-<p><br> None of the models with off-diagonal elements in the A matrix
-show a better relative fit than the model with a diagonal A and a
-symmetric R matrix. The best model we have investigated remains the
-multivariate unbiased random walk with a mode shift, allowing two
-different unbiased random walks explain the trait dynamics.</p>
+<p><br> None of the models with off-diagonal elements in the
+<strong>A</strong> matrix show a better relative fit than the model with
+a diagonal <strong>A</strong> and a symmetric <strong>R</strong> matrix.
+The best model we have investigated remains the multivariate unbiased
+random walk with a mode shift, allowing two different unbiased random
+walks to explain the trait dynamics.</p>
 <p>However, before we trust this result, we should make sure to run the
-multivariate OU models from different initial starting values, to
-increase our chances of finding a (potentially) different peak in the
+multivariate models from different initial starting values, this to
+increase our chances of finding a potentially higher peak on the
 log-likelihood surface. The number of iterations can be defined by the
 <code>iterations</code> argument. The starting values are drawn from a
 normal distribution with a standard deviation of one. The user can
 define a larger or smaller standard deviation using the argument
-<code>iter.sd</code>. trace = TRUE allows the user to keep an eye on how
-the optimization proceeds.</p>
-<p>To illustrate how the user can define which elements in the A and R
-matrices that should be parameterized using the function
+<code>iter.sd</code>. <code>trace = TRUE</code> allows the user to keep
+an eye on how the optimization proceeds.</p>
+<p>To illustrate how the user can define which elements in the
+<strong>A</strong> and <strong>R</strong> matrices that should be
+parameterized using the function
 <code>fit.multivariate.OU.user.defined</code>, we can fit a lower
-triangle A matrix and a symmetric R matrix. A lower triangle A matrix
-means the diameter is affecting the optimum of the number of ribs.
-<br></p>
+triangle <strong>A</strong> matrix and a symmetric <strong>R</strong>
+matrix. A lower triangle <strong>A</strong> matrix means the diameter is
+affecting the optimum of the number of ribs. Which elements in
+<strong>A</strong> and <strong>R</strong> that should be parameterized
+or set to zero is given by 1 and 0 respectively. <br></p>
 <div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> A <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">1</span>), <span class="at">nrow=</span><span class="dv">2</span>, <span class="at">byrow=</span><span class="cn">TRUE</span>)</span>
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> R <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>), <span class="at">nrow=</span><span class="dv">2</span>, <span class="at">byrow=</span><span class="cn">TRUE</span>)</span>
 <span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> OUOU.model6<span class="ot">&lt;-</span><span class="fu">fit.multivariate.OU.user.defined</span>(diam.ln_ribs.ln, <span class="at">A.user=</span>A, <span class="at">R.user=</span>R)</span>
