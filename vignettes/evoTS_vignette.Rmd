@@ -15,8 +15,8 @@ knitr::opts_chunk$set(
   comment = "#>"
 )
 ```
-
 <br />
+
 # 1.0 About `evoTS`
 The `evoTS` package facilitates univariate and multivariate analysis of evolutionary sequences of phenotypic change. The goal of the `evoTS` package is to offer a large range of evolutionary models to enable detailed studies of evolutionary change within lineages, in both the fossil record and in modern lineages. 
 
@@ -29,7 +29,7 @@ The structure of `evoTS` have been implemented to mirror the user experience fro
 `evoTS` also contains functions for calculating likelihood surfaces of fitted models.
 <br />
 
-## 1.1 Compatibility with `paleoTS` **(technical info)**
+### 1.1 Compatibility with `paleoTS` **(technical info)**
 
 As in the `paleoTS` package, all models implemented in `evoTS`  assume that the population (sample) means in the sequence of ancestor-descendants have a joint distribution that is multivariate normal with an expected mean vector and covariance matrix that are functions of the parameters of each model, the time intervals separating the populations (samples) in the sequence, and the sampling variances of the trait means calculated for each population (sample). Given the assumption of multivariate normality, the expected distribution of sample means is given by their first, second, and mixed moments (covariance). As in the `paleoTS` package, `evoTS` use the built-in optimization routines in R for estimating maximum likelihood parameter estimates. The default hill-climbing optimization technique used in all univariate models in `evoTS` (L-BFGS-B) is a quasi-Newton method that constrains the optimization of certain parameters (e.g. so that variance parameters cannot be smaller than 0). All multivariate models use the Nelder-Mead hill climbing search algorithm as default. 
 
@@ -331,7 +331,7 @@ $$Var[z_{i}] =\left[ \frac{ \sigma^{2}_{step}+\sigma^{2}_{\theta}}{2\alpha} \rig
 <br /> 
 $$Cov[z_{i},z_{j}] =\left[ \frac{ \sigma^{2}_{step}+\sigma^{2}_{\theta}}{2\alpha} \right] \left[ 1-e^{(-2\alpha t_{a})}\right]e^{-\alpha t_{ij}} + \sigma^{2}_{\theta}t_{a} \left[  1-\left[1+e^{-\alpha t_{ij}} \right] \left( 1-e^{-\alpha t_{a}} \right) \right] /  \alpha t_{i}$$
 <br /> 
-where $z_{i}$ is the expected trait value for the *i*th sample, $z_{0}$ is the ancestral trait mean, $t_{i}$ is the time interval from the ancestral population mean (the start of the time-series, which has a time of 0) to the *i*th sample, $\theta $ is the optimum, $\alpha $ measures the rate of adaptation to the optimum, $\sigma^{2}_{step}$ is the variance of the stochastic perturbations of *z*, and $\sigma^{2}_{\theta}$ is the variance of the stochastic perturbations of the optimum, $t_{a}$ is the time interval from the ancestral population to the oldest of the two populations $z_{i}$ and $z_{j}$, and $t_{ij}$ is the time separating two samples $z_{i}$ and $z_{j}$. The estimation (sampling) error $\epsilon_{i}$ of the population means contribute to the expected variance between two population means. 
+where $z_{i}$ is the expected trait value for the *i*th sample, $z_{0}$ is the ancestral trait mean, $t_{i}$ is the time interval from the ancestral population mean (the start of the time-series, which has a time of 0) to the *i*th sample, $\theta$ is the optimum, $\alpha $ measures the rate of adaptation to the optimum, $\sigma^{2}_{step}$ is the variance of the stochastic perturbations of *z*, and $\sigma^{2}_{\theta}$ is the variance of the stochastic perturbations of the optimum, $t_{a}$ is the time interval from the ancestral population to the oldest of the two populations $z_{i}$ and $z_{j}$, and $t_{ij}$ is the time separating two samples $z_{i}$ and $z_{j}$. The estimation (sampling) error $\epsilon_{i}$ of the population means contribute to the expected variance between two population means. 
 
 The model can be fitted using the `opt.joint.OUBM` function.
 <br /> 
@@ -474,7 +474,7 @@ attr(,"class")
 <br /> 
 From the output, we see that the likelihood score of the best model among the 100 model runs is identical to the score when we ran the model without any iterations. However, the maximum likelihood parameter estimates are slightly different (e.g. a difference in the sixth decimal for the *vstep* parameter), but not to an extent that changes our interpretation of the trait dynamics. This suggests that the detected peak in the log-likelihood landscape is not completely smooth, and that there exists minuscule spikes very close to each other at the peak.
 
-The `evoTS` package contains functions to estimate likelihood surfaces for the different versions of the OU models (`confidence.OU` and `confidence.OUBM`). In these functions, the likelihood surface is not estimated as a function of the step variance and alpha parameter directly, but rather as a function of two related parameters that are easier to give a biological interpretation. The stationary variance, $vstep/(2* \alpha)$, represents the equilibrium variance of the OU process (Hansen *et al.* 2008) and describes the variance expected in the trait after the trait has reached the optimum. The half-life $log(2)/(\alpha)$ is the amount of time it takes for the trait to move half-way from the ancestral state to the optimum. The half-life is informative regarding the speed of adaptation toward the optimal state. 
+The `evoTS` package contains functions to estimate likelihood surfaces for the different versions of the OU models (`confidence.OU` and `confidence.OUBM`). In these functions, the likelihood surface is not estimated as a function of the step variance and alpha parameter directly, but rather as a function of two related parameters that are easier to give a biological interpretation. The stationary variance, $vstep/(2* \alpha)$, represents the equilibrium variance of the OU process (Hansen *et al.* 2008) and describes the variance expected in the trait after the trait has reached the optimum. The half-life, $log(2)/(\alpha)$, is the amount of time it takes for the trait to move half-way from the ancestral state to the optimum. The half-life is informative regarding the speed of adaptation toward the optimal state. 
 
 The OU model with a fixed optimum had the best relative model fit according to AICc among the three versions of the OU model we investigated. The half-life from this OU-model is $log(2)/11.8941$ = 0.0583. Since we scaled the time-interval of the time-series to unit length (i.e. the time from the start to the end of the time-series is 1), this means it takes about 6% of the length of our data to get half-way to the optimal value. The total length of our time-series in years is 13,728, which means it takes (13728 * 0.0583 =) 800 years to get half-way to the optimum. But this is only a point-estimate. We can explore the support interval around this point estimate of the half-life (and the stationary variance) using the `confidence.OU` function.
 <br /> 
@@ -536,7 +536,7 @@ The switch point is estimated to happen where there is no obvious and large jump
 A model that fits two separate unbiased random walks to two non-overlapping segments of the time-series, but where the mode shift does not involve a jump in phenotype space, might therefore outcompete the Bokma model. 
 
 ## 4.6	 Fitting combinations of univariate models to a timeseries (mode shift)
-There is no a priori reason why a lineage should follow only one mode of evolution. The `evoTS` package allows for investigating all pairwise model combinations of the models stasis, unbiased random walk (WRW), trend (GRW) and Ornstein-Uhlenbek (OU) using the function `fit.two.univariate.models`.
+There is no a priori reason why a lineage should follow only one mode of evolution. The `evoTS` package allows for investigating all pairwise model combinations of the models stasis, unbiased random walk (URW), trend (GRW) and Ornstein-Uhlenbek (OU) using the function `fit.two.univariate.models`.
 
 We are interested in investigating whether a model consisting of two different unbiased random walks fits the data better compared to a punctuated evolution model (The Bokma model). We can constrain the function to only investigate the same shift point as the one found to be the best for the Bokma model using the argument `shift.point`. However, we are interested in investigating all possible switch points.
 <br /> 
