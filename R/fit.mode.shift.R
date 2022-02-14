@@ -48,10 +48,10 @@
 #'x <- paleoTS::sim.GRW(30)
 #'
 #'## Fit a the model to the data by defining shift points.
-#'fit.two.univariate.models(x, model1="URW", model2="Stasis")
+#'fit.mode.shift(x, model1="URW", model2="Stasis")
 #'
 
-fit.two.univariate.models<-function (y, model1=c("Stasis", "URW", "GRW", "OU"), model2=c("Stasis", "URW", "GRW", "OU"), fit.all=FALSE, minb = 7, shift.point = NULL, pool = TRUE, silent = FALSE, hess = FALSE)
+fit.mode.shift<-function (y, model1=c("Stasis", "URW", "GRW", "OU"), model2=c("Stasis", "URW", "GRW", "OU"), fit.all=FALSE, minb = 7, shift.point = NULL, pool = TRUE, silent = FALSE, hess = FALSE)
 {
   ns <- length(y$mm)
   ng <- 2

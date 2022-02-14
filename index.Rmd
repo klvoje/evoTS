@@ -20,11 +20,11 @@ knitr::opts_chunk$set(
   
   The `evoTS` package facilitates univariate and multivariate analysis of evolutionary sequences of phenotypic change. The goal of the `evoTS` package is to offer a large range of evolutionary models to enable more detailed studies of evolutionary changes within lineages.
 
-The `evoTS` package extends the modeling framework available in the <a href="https://cran.r-project.org/web/packages/paleoTS/index.html"> `paleoTS` package</a>. All model-fitting procedures in `evoTS` have been implemented to mirror the user experience from `paleoTS`. For example, all univariate models implemented in `evoTS` can be fitted to a `paleoTS` object, i.e. the data format used in `paleoTS`. The fit of all univariate models available in `paleoTS` and `evoTS` are directly comparable using the reported AICc. 
+The `evoTS` package extends the modeling framework available in the <a href="https://cran.r-project.org/web/packages/paleoTS/index.html"> `paleoTS` package</a>. evoTS` has been developed to mirror the user experience from `paleoTS` as much as possible. All univariate models implemented in `evoTS` can be fitted to a `paleoTS` object, i.e. the data format used in `paleoTS`. The fit of all univariate models available in `paleoTS` and `evoTS` are directly comparable using the reported AICc. 
 
-`evoTS` contains functions that allow for fitting different models to separate parts of an evolutionary sequence. Functions for investigating likelihood surfaces of fitted models are also included.
+`evoTS` contains a range of multivariate models, including different versions of multivariate unbiased random walks and Ornstein-Uhlenbeck processes. Together, these models allow the user to test various hypotheses of trait evolution, e.g.  whether traits change in a correlated or uncorrelated manner, whether one trait/variable affects the optimum of a second trait (Granger causality), whether adaptation in different traits happen independently toward fixed optima etc. 
 
-`evoTS` contains a range of multivariate models, including different versions of multivariate unbiased random walks and Ornsten-Uhlenbeck processes. Together, these models allow the user to test various hypotheses of adaptation using phenotypic time-series. 
+`evoTS` also contains functions for calculating the topology of the likelihood surfaces of fitted models, a useful feature to investigate the range of parameter values with approximately equal likelihood as the best parameter estimates.
 
 
 ## Installation

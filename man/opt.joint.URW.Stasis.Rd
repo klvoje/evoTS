@@ -27,7 +27,7 @@ opt.joint.URW.Stasis(
 \item{hess}{logical, indicating whether to calculate standard errors from the Hessian matrix.}
 }
 \description{
-A collections of functions that serves the function fit.2.models. See fit.2.models for info.
+A collections of functions that serves the function fit.mode.shift See fit.mode.shift for info.
 }
 \details{
 In general, users will not be access these functions directly, but instead use the wrapper function, which use these functions to find the best-supported parameter values.

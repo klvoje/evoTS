@@ -1,6 +1,6 @@
 #' @title Optimization and log-likelihoods for pairs of models.
 #'
-#' @description A collections of functions that serves the function fit.2.models. See fit.2.models for info.
+#' @description A collections of functions that serves the function fit.mode.shift See fit.mode.shift for info.
 #'
 #' @param y a paleoTS object.
 #'
