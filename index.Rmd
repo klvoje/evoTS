@@ -31,7 +31,7 @@ The `evoTS` package extends the modeling framework available in the <a href="htt
 
 The evoTS package is available on GitHub and can be installed using devtools: 
   
-  ``` r
+``` r
 install.packages("devtools")
 devtools::install_github("klvoje/evoTS")
 ```
