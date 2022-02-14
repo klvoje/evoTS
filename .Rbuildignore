@@ -1,5 +1,9 @@
 ^evoTS\.Rproj$
 ^\.Rproj\.user$
 ^README\.Rmd$
-^doc$
+^index\.Rmd$
+^docs$
 ^Meta$
+^_pkgdown\.yaml$
+vignettes/
+^README\.Rmd$
