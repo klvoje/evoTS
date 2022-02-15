@@ -80,13 +80,13 @@ We first investigate phenotypic changes in the diameter of *S. yellowstonensis*.
 <br /> 
 ```{r eval = FALSE}
 ## Doing an approximate log-transformation of the data
->ln.diameter<-paleoTS::ln.paleoTS(diameter_S.yellowstonensis)
+> ln.diameter<-paleoTS::ln.paleoTS(diameter_S.yellowstonensis)
 
 ## Convert the time vector to unit length
->ln.diameter$tt<-ln.diameter$tt/(max(ln.diameter$tt))
+> ln.diameter$tt<-ln.diameter$tt/(max(ln.diameter$tt))
 
 ## Plotting the data
->plot(ln.diameter.paleoTS)
+> plot(ln.diameter)
 ````
 <br /> 
 ```{r  out.width = "60%", echo = FALSE, fig.align="center"}
