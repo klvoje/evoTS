@@ -976,33 +976,32 @@ We will investigate whether the two traits from the *S. yellowstonensis* lineage
 > OUOU.model2<-fit.multivariate.OU(diam.ln_ribs.ln, A.matrix="diag", R.matrix="symmetric")
 > OUOU.model1$AICc;OUOU.model2$AICc
 [1] -267.3968
-[1] -352.6936
+[1] -352.6937
 > OUOU.model2
-
 $logL
-[1] 187.0449
+[1] 187.045
 
 $AICc
-[1] -352.6936
+[1] -352.6937
 
 $ancestral.values
-[1] 3.723814 4.019919
+[1] 3.723682 4.019902
 
 $optima
-[1] 3.884587 4.292756
+[1] 3.884589 4.292722
 
 $A
          [,1]     [,2]
-[1,] 11.32494  0.00000
-[2,]  0.00000 14.17131
+[1,] 11.32464  0.00000
+[2,]  0.00000 14.16996
 
 $half.life
-[1] 0.06120538 0.04891201
+[1] 0.06120697 0.04891666
 
 $R
            [,1]       [,2]
-[1,] 0.01981394 0.07535918
-[2,] 0.07535918 0.91001729
+[1,] 0.01985206 0.07543067
+[2,] 0.07543067 0.91041225
 
 $method
 [1] "Joint"
