@@ -45,7 +45,8 @@ fit.2.Bokma<-function (y, minb = 10, pool = TRUE, silent = FALSE, hess = FALSE, 
 {
   ng <- 3
   ns <- length(y$mm)
-
+  y$start.age<-NULL
+  
   if(is.numeric(shift.point) == TRUE) GG <-shift.point else GG <- shifts(ns, ng, minb = minb)
   GG<-as.matrix(GG)
   if (ncol(GG) == 1) print("Fitting the model for a user-defined switchpoint") else print("Searching for all possible switchpoints in timeseries")

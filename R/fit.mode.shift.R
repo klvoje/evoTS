@@ -55,7 +55,7 @@ fit.mode.shift<-function (y, model1=c("Stasis", "URW", "GRW", "OU"), model2=c("S
 {
   ns <- length(y$mm)
   ng <- 2
-
+  y$start.age<-NULL
   if(is.numeric(shift.point) == TRUE) GG <-shift.point else GG <- shifts(ns, ng, minb = minb)
   GG<-as.matrix(GG)
   if (ncol(GG) == 1) print("Fitting the model for a user-defined switchpoint") else print("Searching all possible switchpoints in the evolutionary sequence")

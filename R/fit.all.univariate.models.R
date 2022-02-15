@@ -23,6 +23,7 @@
 
 fit.all.univariate.models<-function (y)
 {
+  y$start.age<-NULL
   args <- list()
   check.var <- TRUE
   if (length(args) > 0)

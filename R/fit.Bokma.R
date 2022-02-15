@@ -45,6 +45,7 @@ fit.Bokma<-function (y, minb = 10, pool = TRUE, silent = FALSE, hess = FALSE, sh
 {
   ng <- 2
   ns <- length(y$mm)
+  y$start.age<-NULL
 
   if(is.numeric(shift.point) == TRUE) GG <-shift.point else GG <- shifts(ns, ng, minb = minb)
   GG<-as.matrix(GG)
