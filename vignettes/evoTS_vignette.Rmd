@@ -47,12 +47,12 @@ The `evoTS` package is available on GitHub and can be installed using devtools:
 > devtools::install_github("klvoje/evoTS")
 ```
 <br /> 
-The package will soon also be available on CRAN.
+The package will soon be available on CRAN.
 <br /> 
 <br /> 
 
 # 3.0 Getting data into `evoTS`
-An object of class paleoTS is the required input for most of the functions in `evoTS`. To create a `paleoTS` object, you need vectors of trait means, sample/population variances, sample sizes and ages of the samples/populations. 
+An object of class `paleoTS` is the required input for most of the functions in `evoTS`. To create a `paleoTS` object, you need vectors of trait means, sample/population variances, sample sizes and ages of the samples/populations. 
 
 One easy way to create a `paleoTS` object is to use the `as.paleoTS` function from the `paleoTS` package. 
 <br /> 
@@ -76,7 +76,7 @@ Two evolutionary sequences (time-series) of phenotypic change are included in th
 
 We will use these data to illustrate many of the functions implemented in `evoTS.` 
 
-We first investigate phenotypic changes in the diameter of *S. yellowstonensis*. The diameter has been measured in micrometers, but we are interested in investigating proportional changes in the trait. We therefore first do an approximate log-transformation of the data. We then convert the time vector in the data set to unit length (i.e. the length in time from the oldest to youngest sample/population in the data set becomes 1). Such a linear transformation of the time vector does not change how the estimated parameters describe the evolutionary dynamics in the data, but ease parameter estimation and interpretation of certain model parameters. We also plot the data to have a look at the phenotypic changes.
+We first investigate phenotypic change in the diameter of *S. yellowstonensis*. The diameter has been measured in micrometers, but we are interested in investigating proportional changes in the trait. We therefore first do an approximate log-transformation of the data. We then convert the time vector in the data set to unit length (i.e. the length in time from the oldest to youngest sample/population in the data set becomes 1). Such a linear transformation of the time vector does not change how the estimated parameters describe the evolutionary dynamics in the data, but ease parameter estimation and interpretation of certain model parameters. We also plot the data to have a look at the phenotypic changes.
 <br /> 
 ```{r eval = FALSE}
 ## Doing an approximate log-transformation of the data
@@ -518,6 +518,12 @@ Bokma model                                                 83.38311 5 -155.7135
 The Bokma model out competes the OU model according to AICc. 
 
 Where the jump happens can be investigated by plotting the data and putting a line at the estimated switch point.
+
+```{r eval = FALSE}
+> plotpaleoTS(ln.diameter)
+> 
+> abline(v=ln.diameter$tt[18], col="red", lty=2, lwd=2)
+```
 <br /> 
 <br /> 
 ```{r  out.width = "60%", echo = FALSE, fig.align="center"}
