@@ -89,7 +89,7 @@ We first investigate phenotypic change in the diameter of *S. yellowstonensis*. 
 > plotpaleoTS(ln.diameter)
 ````
 <br /> 
-```{r  out.width = "100%", echo = FALSE, fig.align="center"}
+```{r  out.width = "70%", echo = FALSE, fig.align="center"}
 knitr::include_graphics("diameter.png") 
 ```
 <br /> 
@@ -521,12 +521,11 @@ Where the jump happens can be investigated by plotting the data and putting a li
 
 ```{r eval = FALSE}
 > plotpaleoTS(ln.diameter)
-> 
 > abline(v=ln.diameter$tt[18], col="red", lty=2, lwd=2)
 ```
 <br /> 
 <br /> 
-```{r  out.width = "100%", echo = FALSE, fig.align="center"}
+```{r  out.width = "70%", echo = FALSE, fig.align="center"}
 knitr::include_graphics("diameter_jump.png") 
 ```
 <br /> 
