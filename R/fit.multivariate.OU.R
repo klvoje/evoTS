@@ -21,7 +21,7 @@
 #' @details A detailed explanation of the predefined models that can be fitted using the function is given in the vignette, but a short summary is provided here. Note that this function provides the user with fixed options for how to parameterize the A and R matrices. For full flexibility, the user is allowed to customize the parameterization of the A and R matrix in the 'fit.multivariate.OU.user.defined' function.
 #' The type of trait dynamics is defined based on how the pull matrix (A) and drift matrix (R) are defined. The function allows testing four broad categories of models: 1 Independent evolution (A.matrix ="diag", R.matrix = "diag"); 2 Independent adaptation (A.matrix ="diag", R.matrix = "symmetric"); 3 Non-independent adaptation (A.matrix = "upper.tri"/"lower.tri"/full", R.matrix = "diagonal"); 4 Non-independent evolution (A.matrix = "upper.tri"/"lower.tri"/"full", R.matrix = "symmetric").
 #' Setting the A.matrix to "diagonal" means the traits do not affect each others optimum (A matrix). A "diagonal" R matrix means the stochastic changes in the traits are assumed to be uncorrelated. A "symmetric" R matrix means the stochastic changes in the traits are assumed to be correlated, i.e. that they are non-independent. A "full" parameterization of A estimates the effect of each trait on the optima on the other traits.
-#' The "upper.tri" option parameterize the model in such a way that the first layer (first trait in the data set) adapts non-independently because its optimum is affected by all other traits included in the data set, while the bottom layer (the last trait in the data set) adapts independently (as an Ornstein Uhlenbeck process). Layers in between the upper- and lower layer (not the first or last trait in the data set (if there are more than two traits in the data set)) evolve non-independently as their optimum is affected by all layers/traits below themselves. The option "lower.tri" defines the causality the oposite way compared to "upper.tri".
+#' The "upper.tri" option parameterize the model in such a way that the first layer (first trait in the data set) adapts non-independently because its optimum is affected by all other traits included in the data set, while the bottom layer (the last trait in the data set) adapts independently (as an Ornstein Uhlenbeck process). Layers in between the upper- and lower layer (not the first or last trait in the data set (if there are more than two traits in the data set)) evolve non-independently as their optimum is affected by all layers/traits below themselves. The option "lower.tri" defines the causality the opposite way compared to "upper.tri".
 #' It is also possible to implement a model where the bottom layer (last trait in the data set) evolve as an Unbiased random walk (akin to a Brownian motion) which affects the optima for all other traits in the data set (i.e. all layers except the bottom layer). This model can be fitted by defining A.matrix ="OUBM", which will override how the R matrix is defined.
 #'
 #' The function searches - using an optimization routine - for the maximum-likelihood solution for the chosen multivariate Ornstein-Uhlenbeck model. The argument 'method' is passed to the 'optim' function and is included for the convenience of users to better control the optimization routine. Note that the the default method (Nelder-Mead) seems to work for most evolutionary sequences. The method L-BFGS-B allows box-constraints on some parameters (e.g. non-negative variance parameters) and is faster than Nelder-Mead, but is less stable than the default method (Nelder-Mead).
@@ -426,12 +426,12 @@ fit.multivariate.OU<-function (yy, A.matrix="diag", R.matrix="symmetric", method
     l.low.tri<-length(nr.off.diag[nr.off.diag==TRUE])
     A[lower.tri(A)] <- w$par[(length(diag(A))+1):(length(diag(A))+l.low.tri)]
 
-    Chol<-diag(w$par[(length(diag(A))+l.upp.tri+1):((length(diag(A))+l.upp.tri+m))])
+    Chol<-diag(w$par[(length(diag(A))+l.low.tri+1):((length(diag(A))+l.low.tri+m))])
     R<-t(Chol)%*%Chol
 
-    optima<-c(w$par[(length(diag(A))+l.upp.tri+m+1):((length(diag(A))+l.upp.tri+m+m))])
+    optima<-c(w$par[(length(diag(A))+l.low.tri+m+1):((length(diag(A))+l.low.tri+m+m))])
 
-    ancestral.values<-c(w$par[(length(diag(A))+l.upp.tri+m+m+1):(length(diag(A))+l.upp.tri+m+m+m)])
+    ancestral.values<-c(w$par[(length(diag(A))+l.low.tri+m+m+1):(length(diag(A))+l.low.tri+m+m+m)])
 
   }
 
@@ -442,15 +442,15 @@ fit.multivariate.OU<-function (yy, A.matrix="diag", R.matrix="symmetric", method
     l.low.tri.A<-length(nr.off.diag.A[nr.off.diag.A==TRUE])
     A[lower.tri(A)] <- w$par[(length(diag(A))+1):(length(diag(A))+l.low.tri.A)]
 
-    Chol<-diag(w$par[(length(diag(A))+l.upp.tri.A+1):(length(diag(A))+l.upp.tri.A+m)])
+    Chol<-diag(w$par[(length(diag(A))+l.low.tri.A+1):(length(diag(A))+l.low.tri.A+m)])
     nr.off.diag.R<-upper.tri(Chol)
     l.upp.tri.R<-length(nr.off.diag.R[nr.off.diag.R==TRUE])
-    Chol[upper.tri(Chol)] <- w$par[(length(diag(A))+l.upp.tri.A+m+1):(length(diag(A))+l.upp.tri.A+m+l.upp.tri.R)]
+    Chol[upper.tri(Chol)] <- w$par[(length(diag(A))+l.low.tri.A+m+1):(length(diag(A))+l.low.tri.A+m+l.upp.tri.R)]
     R<-t(Chol)%*%Chol
 
-    optima<-c(w$par[(length(diag(A))+l.upp.tri.A+m+l.upp.tri.R+1):(length(diag(A))+l.upp.tri.A+m+l.upp.tri.R+m)])
+    optima<-c(w$par[(length(diag(A))+l.low.tri.A+m+l.upp.tri.R+1):(length(diag(A))+l.low.tri.A+m+l.upp.tri.R+m)])
 
-    ancestral.values<-c(w$par[(length(diag(A))+l.upp.tri.A+m+l.upp.tri.R+m+1):(length(diag(A))+l.upp.tri.A+m+l.upp.tri.R+m+m)])
+    ancestral.values<-c(w$par[(length(diag(A))+l.low.tri.A+m+l.upp.tri.R+m+1):(length(diag(A))+l.low.tri.A+m+l.upp.tri.R+m+m)])
   }
 
   if(A.matrix=="OUBM"){

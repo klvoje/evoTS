@@ -10,7 +10,7 @@
 #'
 #'@param pool indicating whether to pool variances across samples
 #'
-#'@return the function returns the range of parameter values that are within two log-likelohood units from the best (maximum) parameter estimate and a log-likelihood surface.
+#'@return the function returns the range of parameter values that are within two log-likelihood units from the best (maximum) parameter estimate and a log-likelihood surface.
 #'
 #'@note How fine-scaled the estimated log-likelihood surface is depends on the step size between the values in the input-vectors. The step-size therefore determines how accurate the representation of the support surface is, including the returned upper and lower estimates printed in the console. The range of the input vectors needs to be increased if the confidence interval includes the boundary of the input vector. Note also that it might be wise to include the maximum likelihood estimates as part of the input vectors. The computed support surface is conditional on the best estimates of the other model parameters that are not part of the support surface (e.g. the estimated ancestral trait value).
 #'

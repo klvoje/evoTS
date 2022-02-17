@@ -37,7 +37,7 @@
 #'## Fit a multivariate Unbiased Random Walk with an increasing rate of change through time.
 #'opt.accel.single.R(indata)
 #'
-#' @importFrom graphics lines par points segments
+#' @importFrom graphics lines par points segments mtext polygon
 #' @importFrom stats C cov na.exclude optim rnorm var
 #' @importFrom utils combn tail
 

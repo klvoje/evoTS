@@ -25,7 +25,7 @@ loglik.surface.Bokma(
 
 \item{anc}{the assumed ancestral state}
 
-\item{new.opt}{the new optimum (ancestral state for the Unbiased Random Walk after te punctuation)}
+\item{new.opt}{the new optimum (ancestral state for the Unbiased Random Walk after the punctuation)}
 
 \item{pool}{indicating whether to pool variances across samples}
 }

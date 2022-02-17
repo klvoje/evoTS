@@ -26,3 +26,4 @@ Suggests:
     knitr
 VignetteBuilder: knitr
 Depends: R (>= 3.5.0)
+URE: https://klvoje.github.io/evoTS/index.html

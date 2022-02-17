@@ -12,7 +12,7 @@
 #'@param evoTS.8 an univariate evolutionary sequences (time-series) on the format used in paleoTS (optional)
 #'@param evoTS.9 an univariate evolutionary sequences (time-series) on the format used in paleoTS (optional)
 #'@param evoTS.10 an univariate evolutionary sequences (time-series) on the format used in paleoTS (optional)
-#'@details See the function as.paleoTS for details. See alsdo read.paleoTS, which is often a more convenient way for getting the relevant data from text files.
+#'@details See the function as.paleoTS for details. See also read.paleoTS, which is often a more convenient way for getting the relevant data from text files.
 #'@return a multivariate evoTS object that can be analysed with functions fitting multivariate models (e.g. fit.multivariate.OU, fit.multivariate.URW)
 #'
 #'@author Kjetil Lysne Voje

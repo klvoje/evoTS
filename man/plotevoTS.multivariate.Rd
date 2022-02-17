@@ -54,7 +54,7 @@ plotevoTS.multivariate(
 The results are plotted.
 }
 \description{
-Function to plot multiovariate evolutionary sequence (time-series), showing trait means over time.
+Function to plot multivariate evolutionary sequence (time-series), showing trait means over time.
 }
 \examples{
 ## Generate two evolutionary sequences (time-sries)

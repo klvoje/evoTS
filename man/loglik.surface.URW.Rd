@@ -14,7 +14,7 @@ loglik.surface.URW(y, vstep.vec, pool = TRUE)
 \item{pool}{indicating whether to pool variances across samples}
 }
 \value{
-the function returns the range of parameter values that are within two log-likelohood units from the best (maximum) parameter estimate and a log-likelihood surface.
+the function returns the range of parameter values that are within two log-likelihood units from the best (maximum) parameter estimate and a log-likelihood surface.
 }
 \description{
 Function to calculate the log-likelihood surface for a part of parameter space for a Unbiased Random Walk.

@@ -6,7 +6,7 @@
 #'
 #'@param parameters maximum-likelihood estimates of the parameters
 #'
-#'@param modelName escription of the model
+#'@param modelName description of the model
 #'
 #'@param method the parameterization used: Joint
 #'

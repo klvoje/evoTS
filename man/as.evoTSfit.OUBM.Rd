@@ -11,7 +11,7 @@ as.evoTSfit.OUBM(logL, parameters, modelName, method, K, n, iter)
 
 \item{parameters}{maximum-likelihood estimates of the parameters}
 
-\item{modelName}{escription of the model}
+\item{modelName}{description of the model}
 
 \item{method}{the parameterization used: Joint}
 

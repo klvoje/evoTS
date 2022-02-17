@@ -45,7 +45,7 @@ a multivariate evoTS object that can be analysed with functions fitting multivar
 Function to make a multivariate data set consisting of two or more evolutionary sequences (time-series).
 }
 \details{
-See the function as.paleoTS for details. See alsdo read.paleoTS, which is often a more convenient way for getting the relevant data from text files.
+See the function as.paleoTS for details. See also read.paleoTS, which is often a more convenient way for getting the relevant data from text files.
 }
 \examples{
 ## Generate two evolutionary sequences (time-sries)

@@ -12,7 +12,7 @@
 #'
 #'@param minb the minimum number of samples within a segment to consider
 #'
-#'@param shift.point The sample that split the time-series into two segments. The samples are passed to the argument as a vector. Default is NULL, which means all possible switch points will be assessed constrained by how minib is defined.
+#'@param shift.point The sample that split the time-series into two segments. The samples are passed to the argument as a vector. Default is NULL, which means all possible switch points will be assessed constrained by how minb is defined.
 #'
 #' @param pool logical indicating whether to pool variances across samples
 #'

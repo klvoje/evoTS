@@ -12,7 +12,7 @@
 #'
 #' @param hess logical, indicating whether to calculate standard errors from the Hessian matrix.
 #'
-#' @param shift.point The samples that split the time-series into three segments. The samples are passed to the argument as a vector. Default is NULL, which means all possible switch points will be assessed constrained by how minib is defined.
+#' @param shift.point The samples that split the time-series into three segments. The samples are passed to the argument as a vector. Default is NULL, which means all possible switch points will be assessed constrained by how minb is defined.
 #'
 #' @details This function is equivalent to a Unbiased Random Walk model fitted to three separate segments of an evolutionary sequence.
 #'

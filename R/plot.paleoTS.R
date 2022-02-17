@@ -1,6 +1,6 @@
 #'@title Plot a paleoTS object 
 #'
-#'@description Plot a paleoTS object (slighty modifived version of the same function in paleoTS)
+#'@description Plot a paleoTS object (slighty modified version of the same function in paleoTS)
 #'
 #' @param x a paleoTS object
 #'
@@ -30,7 +30,7 @@ plotpaleoTS <-function (x, nse = 1, pool = FALSE, add = FALSE, modelFit = NULL,
     pch = 19, lwd = 1.5, ylim=NULL, ...) 
 {
     if (pool) 
-        x <- pool.var(x, ret.paleoTS = TRUE)
+        x <- paleoTS::pool.var(x, ret.paleoTS = TRUE)
     se <- sqrt(x$vv/x$nn)
     lci <- x$mm - (nse * se)
     uci <- x$mm + (nse * se)

@@ -11,6 +11,7 @@ loglik.surface.OUBM(
   anc = NULL,
   theta.0 = NULL,
   vo = NULL,
+  opt.anc = TRUE,
   pool = TRUE
 )
 }
@@ -26,6 +27,8 @@ loglik.surface.OUBM(
 \item{theta.0}{the optimum}
 
 \item{vo}{the variance (vstep) parameter for the optimum}
+
+\item{opt.anc}{logical, indicating whether the the ancestral trait state is at the optimum.}
 
 \item{pool}{indicating whether to pool variances across samples}
 }

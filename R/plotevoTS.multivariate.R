@@ -1,6 +1,6 @@
 #'@title Plots multivariate evolutionary sequence (time-series) data set
 #'
-#'@description Function to plot multiovariate evolutionary sequence (time-series), showing trait means over time.
+#'@description Function to plot multivariate evolutionary sequence (time-series), showing trait means over time.
 #'
 #' @param yy a multivariate evoTS object
 #'

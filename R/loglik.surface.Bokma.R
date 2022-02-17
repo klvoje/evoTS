@@ -12,7 +12,7 @@
 #'
 #'@param anc the assumed ancestral state
 #'
-#'@param new.opt the new optimum (ancestral state for the Unbiased Random Walk after te punctuation)
+#'@param new.opt the new optimum (ancestral state for the Unbiased Random Walk after the punctuation)
 #'
 #'@param pool indicating whether to pool variances across samples
 #'

@@ -25,7 +25,7 @@ separate parts of an evolutionary sequence. Functions for investigating
 likelihood surfaces of fitted models are also included.
 
 `evoTS` contains a range of multivariate models, including different
-versions of multivariate unbiased random walks and Ornsten-Uhlenbeck
+versions of multivariate unbiased random walks and Ornstein-Uhlenbeck
 processes. Together, these models allow the user to test various
 hypotheses of adaptation using phenotypic time-series.
 

@@ -14,6 +14,8 @@
 #'
 #'@param vo the variance (vstep) parameter for the optimum
 #'
+#'@param opt.anc logical, indicating whether the the ancestral trait state is at the optimum.
+#'
 #'@param pool indicating whether to pool variances across samples
 #'
 #'@return the function returns the range of parameter values that are within two log-likelihood units from the best (maximum) parameter estimate and a log-likelihood surface.
@@ -41,7 +43,7 @@
 #'## loglik.surface.OUBM(x, stat.var.vec=seq(0,4,0.01), h.vec=seq(0.0,5, 0.1))
 
 
-loglik.surface.OUBM<-function(y, stat.var.vec, h.vec, anc = NULL, theta.0 = NULL, vo=NULL, pool = TRUE){
+loglik.surface.OUBM<-function(y, stat.var.vec, h.vec, anc = NULL, theta.0 = NULL, vo=NULL, opt.anc=TRUE, pool = TRUE){
 
   x<-NULL
 
@@ -52,9 +54,22 @@ loglik.surface.OUBM<-function(y, stat.var.vec, h.vec, anc = NULL, theta.0 = NULL
   y <- paleoTS::pool.var(y, ret.paleoTS = TRUE)
   y$tt <- y$tt - min(y$tt)
   n <- length(y$mm)
-  if (is.numeric(anc) == TRUE) anc<-anc else anc <- opt.joint.OUBM(y)$parameters[1]
-  if (is.numeric(theta.0) == TRUE) theta.0<-theta.0 else theta.0 <- opt.joint.OUBM(y)$parameters[3]
-  if (is.numeric(vo) == TRUE) vo<-vo else vo <- opt.joint.OUBM(y)$parameters[4]
+  
+  if(opt.anc==TRUE){
+    anc <- opt.joint.OUBM(y)$parameters[1]
+    theta.0 <- opt.joint.OUBM(y)$parameters[1]
+    vo <- opt.joint.OUBM(y)$parameters[4]
+  } 
+  
+  if(opt.anc==FALSE){
+    anc <- opt.joint.OUBM(y)$parameters[1]
+    theta.0 <- opt.joint.OUBM(y)$parameters[3]
+    vo <- opt.joint.OUBM(y)$parameters[5]
+  } 
+  
+  if (is.numeric(anc) == TRUE) anc<-anc 
+  if (is.numeric(theta.0) == TRUE) theta.0<-theta.0 
+  if (is.numeric(vo) == TRUE) vo<-vo 
 
   loglik<-matrix(NA, ncol=length(stat.var.vec), nrow=length(h.vec))
   stat.var.limit<-rep(NA, length(stat.var.vec))

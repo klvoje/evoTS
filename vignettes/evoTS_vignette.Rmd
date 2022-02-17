@@ -244,7 +244,7 @@ The `paleoTS` package contains models that portray a punctuated mode of evolutio
 > Bokma.PE<-fit.Bokma(ln.diameter, minb=10)
 > Bokma.PE
 
-[1] "Searching for all possible switchpoints in timeseries"
+[1] "Searching for all possible switchpoints in time series"
 Total # hypotheses:  44 
 1  2  3  4  5  6  7  8  9  10  11  12  13  14  15  16  17  18  19  20  21  22  23  24  25  26  27  28  29  30  31  32  33  34  35  36  37  38  39  40  41  42  43  44  
 $logL
@@ -308,11 +308,11 @@ knitr::include_graphics("boka_logl_surface.png")
 We can compare the fit of the Bokma model to the alternative interpretation of a punctuated mode of evolution where the trait evolves according to a model of stasis in between the punctuation events. This model is implemented in the `paleoTS` package and can be fitted using the `fitGpunc` function:
 <br /> 
 ```{r eval = FALSE}
-> Stasis.PE<-paleoTS::fitGpunc(ln.diameter, minb=10, silent = TRUE)
+> Stasis.PE<-paleoTS::fitGpunc(ln.diameter, minb = 10, silent = TRUE, oshare = FALSE)
 
 > Bokma.PE$AICc;Stasis.PE$AICc
 [1] -155.7136
-[1] -87.64496
+[1] -114.9293
 ```
 <br /> 
 The model where the trait evolves as a unbiased random walk in between the punctuation event (i.e. the Bokma model) has the best relative fit in this case. 
@@ -540,7 +540,7 @@ The switch point is estimated to happen where there is no obvious and large jump
 <br /> 
 A model that fits two separate unbiased random walks to two non-overlapping segments of the time-series, but where the mode shift does not involve a jump in phenotype space, might therefore out compete the Bokma model. 
 
-## 4.6	 Fitting combinations of univariate models to a timeseries (mode shift)
+## 4.6	 Fitting combinations of univariate models to a time series (mode shift)
 There is no a priori reason why a lineage should follow only one mode of evolution. In addition to the Bokma model where a mode shift is associated with a jump in phenotype space (punctuation), the `evoTS` package allows for investigating all pairwise model combinations of the models stasis, unbiased random walk (URW), trend (GRW) and Ornstein-Uhlenbeck (OU) process with a fixed optimum using the function `fit.mode.shift`.
 
 We are interested in investigating whether a model consisting of two different unbiased random walks fits the data better compared to a punctuated evolution model (The Bokma model). We can constrain the function to only investigate the same shift point as the one found to be the best for the Bokma model using the argument `shift.point`. However, we are interested in investigating all possible switch points.
@@ -836,7 +836,7 @@ We can check if we find evidence for a change in the **R** matrix along the time
 <br /> 
 ```{r eval = FALSE}
 > fit.multivariate.URW.shift(diam.ln_ribs.ln, hess = TRUE)
-[1] "Searching for all possible switchpoints in timeseries"
+[1] "Searching for all possible switchpoints in time series"
 Total # hypotheses:  44 
 1  [1] "Model converged successfully."
 2  [1] "Model converged successfully."
@@ -1104,7 +1104,7 @@ Hunt, G. 2013. Testing the link between phenotypic evolution and speciation: an 
 
 Hunt, G., M. J. Hopkins, and S. Lidgard. 2015 Simple versus complex models of trait evolution and stasis as a response to environmental change. *PNAS* 112:4885–4890.
 
-Ingram, T. 2011. Speciation along a depth gradient in a marine adaptive radiation. Proceedings og the Royalal Society B Biological Sciences 278:613–618.
+Ingram, T. 2011. Speciation along a depth gradient in a marine adaptive radiation. Proceedings og the Royal Society B Biological Sciences 278:613–618.
 
 Lande, R. 1979. Quantitative genetic analysis of multivariate evolution, applied to brain: body size allometry. *Evolution* 33:402-416.
 

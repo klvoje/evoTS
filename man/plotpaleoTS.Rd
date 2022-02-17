@@ -39,7 +39,7 @@ plotpaleoTS(
 The results are plotted.
 }
 \description{
-Plot a paleoTS object (slighty modifived version of the same function in paleoTS)
+Plot a paleoTS object (slighty modified version of the same function in paleoTS)
 }
 \author{
 Kjetil Lysne Voje

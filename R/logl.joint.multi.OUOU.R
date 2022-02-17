@@ -163,13 +163,13 @@ logL.joint.multi.OUOU<-function (init.par, yy, A.matrix, R.matrix){
     D<-diag(eigen(A)$values)
 
     ### The R (drift) matrix ###
-    Chol<-diag(init.par[(length(diag(A))+l.upp.tri+1):((length(diag(A))+l.upp.tri+m))])
+    Chol<-diag(init.par[(length(diag(A))+l.low.tri+1):((length(diag(A))+l.low.tri+m))])
 
     ### Theta (optimal trait values) ###
-    optima<-c(init.par[(length(diag(A))+l.upp.tri+m+1):((length(diag(A))+l.upp.tri+m+m))])
+    optima<-c(init.par[(length(diag(A))+l.low.tri+m+1):((length(diag(A))+l.low.tri+m+m))])
 
     ### The ancestral trait values ###
-    anc<-c(init.par[(length(diag(A))+l.upp.tri+m+m+1):(length(diag(A))+l.upp.tri+m+m+m)])
+    anc<-c(init.par[(length(diag(A))+l.low.tri+m+m+1):(length(diag(A))+l.low.tri+m+m+m)])
 
   }
 
@@ -184,16 +184,16 @@ logL.joint.multi.OUOU<-function (init.par, yy, A.matrix, R.matrix){
     D<-diag(eigen(A)$values)
 
     ### The R (drift) matrix ###
-    Chol<-diag(init.par[(length(diag(A))+l.upp.tri.A+1):(length(diag(A))+l.upp.tri.A+m)])
+    Chol<-diag(init.par[(length(diag(A))+l.low.tri.A+1):(length(diag(A))+l.low.tri.A+m)])
     nr.off.diag.R<-upper.tri(Chol)
     l.upp.tri.R<-length(nr.off.diag.R[nr.off.diag.R==TRUE])
-    Chol[upper.tri(Chol)] <- init.par[(length(diag(A))+l.upp.tri.A+m+1):(length(diag(A))+l.upp.tri.A+m+l.upp.tri.R)]
+    Chol[upper.tri(Chol)] <- init.par[(length(diag(A))+l.low.tri.A+m+1):(length(diag(A))+l.low.tri.A+m+l.upp.tri.R)]
 
     ### Theta (optimal trait values) ###
-    optima<-c(init.par[(length(diag(A))+l.upp.tri.A+m+l.upp.tri.R+1):(length(diag(A))+l.upp.tri.A+m+l.upp.tri.R+m)])
+    optima<-c(init.par[(length(diag(A))+l.low.tri.A+m+l.upp.tri.R+1):(length(diag(A))+l.low.tri.A+m+l.upp.tri.R+m)])
 
     ### The ancestral trait values ###
-    anc<-c(init.par[(length(diag(A))+l.upp.tri.A+m+l.upp.tri.R+m+1):(length(diag(A))+l.upp.tri.A+m+l.upp.tri.R+m+m)])
+    anc<-c(init.par[(length(diag(A))+l.low.tri.A+m+l.upp.tri.R+m+1):(length(diag(A))+l.low.tri.A+m+l.upp.tri.R+m+m)])
   }
 
   if(A.matrix=="OUBM"){
