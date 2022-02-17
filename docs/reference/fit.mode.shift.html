@@ -100,7 +100,7 @@
 <dt>minb</dt>
 <dd><p>the minimum number of samples within a segment to consider</p></dd>
 <dt>shift.point</dt>
-<dd><p>The sample that split the time-series into two segments. The samples are passed to the argument as a vector. Default is NULL, which means all possible switch points will be assessed constrained by how minib is defined.</p></dd>
+<dd><p>The sample that split the time-series into two segments. The samples are passed to the argument as a vector. Default is NULL, which means all possible switch points will be assessed constrained by how minb is defined.</p></dd>
 <dt>pool</dt>
 <dd><p>logical indicating whether to pool variances across samples</p></dd>
 <dt>silent</dt>
@@ -157,14 +157,14 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> Total # hypotheses:  17 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1  2  3  4  5  6  7  8  9  10  11  12  13  14  15  16  17  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $logL</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] -4.291149</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] -15.29531</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $AICc</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 21.0823</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 43.09062</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $parameters</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>          anc        vstep        theta        omega       shift1 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  0.034781681  0.007048245  0.115958820  0.045500691 17.000000000 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        anc      vstep      theta      omega     shift1 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> -0.4815807  0.0103414 -0.4407306  0.2068360  9.0000000 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $modelName</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "URW-Stasis"</span>
@@ -182,13 +182,13 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 30</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $all.logl</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] -8.069249 -7.812640 -7.321868 -6.833151 -8.298922 -7.573575 -7.412065</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [8] -6.649905 -5.764544 -4.291149 -7.852674 -7.643077 -8.776066 -9.222036</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [15] -8.506628 -7.807407 -7.104007</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] -15.68000 -15.29531 -16.27135 -17.19263 -16.24726 -16.38189 -16.64453</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [8] -17.20228 -16.80003 -16.36312 -15.79756 -15.93484 -15.89091 -17.87657</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [15] -17.65894 -17.08712 -16.45967</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $GG</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> shift1 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     17 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      9 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"class")</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "paleoTSfit"</span>

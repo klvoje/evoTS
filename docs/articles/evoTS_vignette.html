@@ -92,7 +92,7 @@
                         <h4 data-toc-skip class="author">Kjetil L.
 Voje</h4>
             
-            <h4 data-toc-skip class="date">2022-02-15</h4>
+            <h4 data-toc-skip class="date">2022-02-17</h4>
       
       
       <div class="d-none name"><code>evoTS_vignette.Rmd</code></div>
@@ -485,7 +485,7 @@ be done using the function <code>fit.2.Bokma</code>. <br></p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> Bokma.PE<span class="ot">&lt;-</span><span class="fu">fit.Bokma</span>(ln.diameter, <span class="at">minb=</span><span class="dv">10</span>)</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> Bokma.PE</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">"Searching for all possible switchpoints in timeseries"</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">"Searching for all possible switchpoints in time series"</span></span>
 <span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>Total <span class="co"># hypotheses:  44 </span></span>
 <span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span>  <span class="dv">2</span>  <span class="dv">3</span>  <span class="dv">4</span>  <span class="dv">5</span>  <span class="dv">6</span>  <span class="dv">7</span>  <span class="dv">8</span>  <span class="dv">9</span>  <span class="dv">10</span>  <span class="dv">11</span>  <span class="dv">12</span>  <span class="dv">13</span>  <span class="dv">14</span>  <span class="dv">15</span>  <span class="dv">16</span>  <span class="dv">17</span>  <span class="dv">18</span>  <span class="dv">19</span>  <span class="dv">20</span>  <span class="dv">21</span>  <span class="dv">22</span>  <span class="dv">23</span>  <span class="dv">24</span>  <span class="dv">25</span>  <span class="dv">26</span>  <span class="dv">27</span>  <span class="dv">28</span>  <span class="dv">29</span>  <span class="dv">30</span>  <span class="dv">31</span>  <span class="dv">32</span>  <span class="dv">33</span>  <span class="dv">34</span>  <span class="dv">35</span>  <span class="dv">36</span>  <span class="dv">37</span>  <span class="dv">38</span>  <span class="dv">39</span>  <span class="dv">40</span>  <span class="dv">41</span>  <span class="dv">42</span>  <span class="dv">43</span>  <span class="dv">44</span>  </span>
 <span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>logL</span>
@@ -550,11 +550,11 @@ interpretation of a punctuated mode of evolution where the trait evolves
 according to a model of stasis in between the punctuation events. This
 model is implemented in the <code>paleoTS</code> package and can be
 fitted using the <code>fitGpunc</code> function: <br></p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> Stasis.PE<span class="ot">&lt;-</span>paleoTS<span class="sc">::</span><span class="fu">fitGpunc</span>(ln.diameter, <span class="at">minb=</span><span class="dv">10</span>, <span class="at">silent =</span> <span class="cn">TRUE</span>)</span>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> Stasis.PE<span class="ot">&lt;-</span>paleoTS<span class="sc">::</span><span class="fu">fitGpunc</span>(ln.diameter, <span class="at">minb =</span> <span class="dv">10</span>, <span class="at">silent =</span> <span class="cn">TRUE</span>, <span class="at">oshare =</span> <span class="cn">FALSE</span>)</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> Bokma.PE<span class="sc">$</span>AICc;Stasis.PE<span class="sc">$</span>AICc</span>
 <span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="sc">-</span><span class="fl">155.7136</span></span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="sc">-</span><span class="fl">87.64496</span></span></code></pre></div>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="sc">-</span><span class="fl">114.9293</span></span></code></pre></div>
 <p><br> The model where the trait evolves as a unbiased random walk in
 between the punctuation event (i.e. the Bokma model) has the best
 relative fit in this case. <br></p>
@@ -857,8 +857,8 @@ does not involve a jump in phenotype space, might therefore out compete
 the Bokma model.</p>
 </div>
 <div class="section level3">
-<h3 id="fitting-combinations-of-univariate-models-to-a-timeseries-mode-shift">4.6 Fitting combinations of univariate models to a timeseries (mode
-shift)<a class="anchor" aria-label="anchor" href="#fitting-combinations-of-univariate-models-to-a-timeseries-mode-shift"></a>
+<h3 id="fitting-combinations-of-univariate-models-to-a-time-series-mode-shift">4.6 Fitting combinations of univariate models to a time series (mode
+shift)<a class="anchor" aria-label="anchor" href="#fitting-combinations-of-univariate-models-to-a-time-series-mode-shift"></a>
 </h3>
 <p>There is no a priori reason why a lineage should follow only one mode
 of evolution. In addition to the Bokma model where a mode shift is
@@ -1253,7 +1253,7 @@ option). The length of the smallest number of samples (populations) in
 each of the two segments is controlled by the <code>minb</code> argument
 (the default is 10). <br></p>
 <div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">fit.multivariate.URW.shift</span>(diam.ln_ribs.ln, <span class="at">hess =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">"Searching for all possible switchpoints in timeseries"</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">"Searching for all possible switchpoints in time series"</span></span>
 <span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>Total <span class="co"># hypotheses:  44 </span></span>
 <span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span>  [<span class="dv">1</span>] <span class="st">"Model converged successfully."</span></span>
 <span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a><span class="dv">2</span>  [<span class="dv">1</span>] <span class="st">"Model converged successfully."</span></span>
@@ -1664,7 +1664,7 @@ speciation: an integrated palaeontological and phylogenetic analysis.
 models of trait evolution and stasis as a response to environmental
 change. <em>PNAS</em> 112:4885–4890.</p>
 <p>Ingram, T. 2011. Speciation along a depth gradient in a marine
-adaptive radiation. Proceedings og the Royalal Society B Biological
+adaptive radiation. Proceedings og the Royal Society B Biological
 Sciences 278:613–618.</p>
 <p>Lande, R. 1979. Quantitative genetic analysis of multivariate
 evolution, applied to brain: body size allometry. <em>Evolution</em>

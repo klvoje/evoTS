@@ -81,6 +81,7 @@
   anc <span class="op">=</span> <span class="cn">NULL</span>,
   theta.0 <span class="op">=</span> <span class="cn">NULL</span>,
   vo <span class="op">=</span> <span class="cn">NULL</span>,
+  opt.anc <span class="op">=</span> <span class="cn">TRUE</span>,
   pool <span class="op">=</span> <span class="cn">TRUE</span>
 <span class="op">)</span></code></pre></div>
     </div>
@@ -99,6 +100,8 @@
 <dd><p>the optimum</p></dd>
 <dt>vo</dt>
 <dd><p>the variance (vstep) parameter for the optimum</p></dd>
+<dt>opt.anc</dt>
+<dd><p>logical, indicating whether the the ancestral trait state is at the optimum.</p></dd>
 <dt>pool</dt>
 <dd><p>indicating whether to pool variances across samples</p></dd>
 </dl></div>
@@ -126,13 +129,13 @@
 <span class="r-in"></span>
 <span class="r-in"><span class="co">##calculate half-life from model output</span></span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span><span class="op">/</span><span class="va">x1</span><span class="op">$</span><span class="va">parameters</span><span class="op">[</span><span class="fl">3</span><span class="op">]</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     alpha </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 0.1126414 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    alpha </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1.582984 </span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co">##calculate stationary variance from model output</span></span>
 <span class="r-in"><span class="va">x1</span><span class="op">$</span><span class="va">parameters</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span><span class="op">/</span><span class="op">(</span><span class="fl">2</span><span class="op">*</span><span class="va">x1</span><span class="op">$</span><span class="va">parameters</span><span class="op">[</span><span class="fl">3</span><span class="op">]</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> vstep.trait </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  0.08124252 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   0.4316036 </span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co">## Create log-likelihood surface (the example may take &gt; 5 seconds to run)</span></span>
 <span class="r-in"><span class="co">## loglik.surface.OUBM(x, stat.var.vec=seq(0,4,0.01), h.vec=seq(0.0,5, 0.1))</span></span>
