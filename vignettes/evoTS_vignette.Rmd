@@ -89,7 +89,7 @@ We first investigate phenotypic change in the diameter of *S. yellowstonensis*. 
 > plotpaleoTS(ln.diameter)
 ````
 <br /> 
-```{r  out.width = "70%", echo = FALSE, fig.align="center"}
+```{r  out.width = "100%", echo = FALSE, fig.align="center"}
 knitr::include_graphics("diameter.png") 
 ```
 <br /> 
@@ -328,7 +328,7 @@ $$Var[z_{i}] =\left[ \frac{ \sigma^{2}_{step}+\sigma^{2}_{\theta}}{2\alpha} \rig
 <br /> 
 $$Cov[z_{i},z_{j}] =\left[ \frac{ \sigma^{2}_{step}+\sigma^{2}_{\theta}}{2\alpha} \right] \left[ 1-e^{(-2\alpha t_{a})}\right]e^{-\alpha t_{ij}} + \sigma^{2}_{\theta}t_{a} \left[  1-\left[1+e^{-\alpha t_{ij}} \right] \left( 1-e^{-\alpha t_{a}} \right) \right] /  \alpha t_{i}$$
 <br /> 
-where $z_{i}$ is the expected trait value for the *i*th sample, $z_{0}$ is the ancestral trait mean, $t_{i}$ is the time interval from the ancestral population mean (the start of the time-series, which has a time of 0) to the *i*th sample, $\theta$ is the optimum, $\alpha $ measures the rate of adaptation to the optimum, $\sigma^{2}_{step}$ is the variance of the stochastic perturbations of *z*, and $\sigma^{2}_{\theta}$ is the variance of the stochastic perturbations of the optimum, $t_{a}$ is the time interval from the ancestral population to the oldest of the two populations $z_{i}$ and $z_{j}$, and $t_{ij}$ is the time separating two samples $z_{i}$ and $z_{j}$. The estimation (sampling) error $\epsilon_{i}$ of the population means contribute to the expected variance between two population means. 
+where $z_{i}$ is the expected trait value for the *i*th sample, $z_{0}$ is the ancestral trait mean, $t_{i}$ is the time interval from the ancestral population mean (the start of the time-series, which has a time of 0) to the *i*th sample, $\theta$ is the optimum, $\alpha$ measures the rate of adaptation to the optimum, $\sigma^{2}_{step}$ is the variance of the stochastic perturbations of *z*, and $\sigma^{2}_{\theta}$ is the variance of the stochastic perturbations of the optimum, $t_{a}$ is the time interval from the ancestral population to the oldest of the two populations $z_{i}$ and $z_{j}$, and $t_{ij}$ is the time separating two samples $z_{i}$ and $z_{j}$. The estimation (sampling) error $\epsilon_{i}$ of the population means contribute to the expected variance between two population means. 
 
 The model can be fitted using the `opt.joint.OUBM` function.
 <br /> 
@@ -485,7 +485,7 @@ stationary variance 0.007 0.053
 half-life           0.029 0.305
 ```
 <br /> 
-```{r  out.width = "60%", echo = FALSE, fig.align="center"}
+```{r  out.width = "80%", echo = FALSE, fig.align="center"}
 knitr::include_graphics("OU_logl_surface.png") 
 ```
 <br /> 
@@ -493,31 +493,42 @@ knitr::include_graphics("OU_logl_surface.png")
 Half-life values up to 30% of the total length of the time-series are within two log-likelihood units from the best estimate. This indicates that substantially slower evolution than the point estimate of 6% cannot be ruled out as a possibility. 
 
 ## 4.5	 Fitting all univariate models in `evoTS` and `paleoTS`
-A quick way to evaluate the relative fit of all univariate models in the `evoTS` and `paleoTS`packages (excluding models with more than one punctuation/mode shift) is to use the `fit.all.univariate.models` function. 
+A quick way to evaluate the relative fit of all univariate models in the `evoTS` and `paleoTS`packages (excluding models with mode shifts) is to use the `fit.all.univariate` function. 
 <br /> 
 ```{r eval = FALSE}
-> fit.all.univariate.models(ln.diameter)
+> fit.all.univariate(ln.diameter)
 ## Omitting some of the output to save length. 
 
-Comparing 11 models [n = 63, method = Joint]
+Comparing 9 models [n = 63, method = Joint]
 
                                                                 logL K       AICc       dAICc Akaike.wt
-GRW                                                         77.64073 3 -148.87469    6.838905     0.022
-URW                                                         77.57018 2 -150.94035    4.773241     0.063
-Stasis                                                      39.84019 2  -75.48039   80.233205     0.000
-StrictStasis                                              -707.46411 1 1416.99379 1572.707381     0.000
-Decel                                                       76.77642 3 -147.14607    8.567527     0.009
-Accel                                                       73.80287 3 -141.19896   14.514630     0.000
-OU                                                          80.71298 4 -152.73631    2.977287     0.155
-OU model with moving optimum (ancestral state at optimum)   78.56670 4 -148.44374    7.269854     0.018
-OU model with moving optimum                                80.71298 5 -150.37333    5.340265     0.047
-Punc-1                                                      50.03827 4  -91.38688   64.326713     0.000
-Bokma model                                                 83.38311 5 -155.71359    0.000000     0.685
+GRW                                                         77.64073 3 -148.87469    3.861618     0.071
+URW                                                         77.57018 2 -150.94035    1.795953     0.200
+Stasis                                                      39.84019 2  -75.48039   77.255917     0.000
+StrictStasis                                              -707.46411 1 1416.99379 1569.730094     0.000
+Decel                                                       76.77642 3 -147.14607    5.590239     0.030
+Accel                                                       73.80287 3 -141.19896   11.537343     0.002
+OU                                                          80.71298 4 -152.73631    0.000000     0.490
+OU model with moving optimum (ancestral state at optimum)   78.56670 4 -148.44374    4.292567     0.057
+OU model with moving optimum                                80.71298 5 -150.37333    2.362978     0.150
 ```
 <br /> 
 The Bokma model out competes the OU model according to AICc. 
 
-Where the jump happens can be investigated by plotting the data and putting a line at the estimated switch point.
+The `paleoTS` package has a model where stasis is interrupted by a punctuation event. This is a different way to model a punctuated mode of evolution compared to the Bokma model. We can compare these two versions of a punctuated mode of evolution using the `fit.PE.models` function. 
+
+```{r eval = FALSE}
+> fit.PE.models(ln.diameter, minb = 10)
+## Omitting some of the output to save length.
+
+Comparing 2 models [n = 63, method = Joint]
+
+                logL K      AICc    dAICc Akaike.wt
+Punc-1      62.99097 5 -114.9293 40.78429         0
+Bokma model 83.38311 5 -155.7136  0.00000         1
+```
+
+The Bokma model has a much better fit relative to the model where stasis in interrupted by a punctuation event. Where the jump happens can be investigated by plotting the data and putting a line at the estimated switch point, i.e. the first sample/population after the punctuation event.
 
 ```{r eval = FALSE}
 > plotpaleoTS(ln.diameter)
@@ -525,12 +536,12 @@ Where the jump happens can be investigated by plotting the data and putting a li
 ```
 <br /> 
 <br /> 
-```{r  out.width = "70%", echo = FALSE, fig.align="center"}
+```{r  out.width = "100%", echo = FALSE, fig.align="center"}
 knitr::include_graphics("diameter_jump.png") 
 ```
 <br /> 
 <br /> 
-The switch point is estimated to happen where there is no obvious and large jump in the evolution of the trait along the y axis. The reason why the Bokma model fits better than the other candidate models we have investigated might therefore be unrelated to the jump itself and may instead be due to the fact that the rate of evolution is allowed to be different before and after the punctuation. The rate parameter of the unbiased random walk before the punctuation (*vstep_1*) in the Bokma model is indeed about twice as large as the rate parameter in the unbiased random walk after the punctuation (*vstep_2*). 
+The switch point is estimated to happen where there is jump in the evolution of the trait along the y axis, but the jump in trait space (along the y axis) does not look larger than changes between some of the other samples in the time series. The reason why the Bokma model fits better than the other candidate models we have investigated might therefore be unrelated to the jump itself and may instead be due to the fact that the rate of evolution is allowed to be different before and after the punctuation. The rate parameter of the unbiased random walk before the punctuation (*vstep_1*) in the Bokma model is indeed about twice as large as the rate parameter in the unbiased random walk after the punctuation (*vstep_2*). 
 <br /> 
 ```{r eval = FALSE}
 > Bokma.PE$parameters
@@ -685,7 +696,7 @@ The current implementation of the multivariate unbiased random walk model allows
 The `R` option defines which elements in the **R** matrix that will be estimated. There are two options for the structure of the **R** matrix. Setting `R = "diagonal"` means only the diagonal elements of the **R** matrix will be estimated while off-diagonal elements are set to 0 (see panel a below) This parameterization of the **R** matrix means the changes in the traits are assumed to be uncorrelated. Setting `R = "symmetric"` means all (both diagonal and off-diagonal) elements in the **R** matrix are estimated (panel b below). This parameterization  means the changes in the traits are assumed to be correlated, i.e. that evolutionary changes are non-independent.
 <br /> 
 <br /> 
-```{r  out.width = "40%", echo = FALSE, fig.align="center"}
+```{r  out.width = "60%", echo = FALSE, fig.align="center"}
 knitr::include_graphics("R_matrices.png") 
 ```
 <br />
@@ -716,7 +727,7 @@ We can use the `plotevoTS.multivariate` function to have a look at the combined 
 > plotevoTS.multivariate(diam.ln_ribs.ln, y_min=3.4, y_max=4.8, x.label = "Relative time", pch=c(20,20))
 ````
 <br /> 
-```{r  out.width = "60%", echo = FALSE, fig.align="center"}
+```{r  out.width = "100%", echo = FALSE, fig.align="center"}
 knitr::include_graphics("diam_and_ribs.png") 
 ```
 <br /> 
@@ -959,12 +970,13 @@ Different ways to parameterize the **A** matrix allows testing a range of evolut
 * At least one trait affects the optimum of the other trait. The diagonal and at least one of the off-diagonal elements in the **A** matrix is non-zero. It is the trait in the column of the non-zero off-diagonal element that affects the optimum of the trait in the row of the non-zero off-diagonal element. A negative off-diagonal element means the trait evolves toward the optimum determined by the the other trait, while a positive off-diagonal element means the trait evolve away from the optimum determined by the other trait. The the stochastic changes in the trait can be either correlated or non-correlated.
 
 * The same traits affect each others optimum (but to different degrees). The same off-diagonal elements on both sides of the diagonal are parameterized in the **A** matrix. The the stochastic changes in the trait can be either correlated or non-correlated.
-<br /> 
+<br />
+
 An **A** matrix with off-diagonal elements investigates <a href="https://en.wikipedia.org/wiki/Granger_causality">(Granger)</a> causality between the two traits/variables (Granger 1969; Schweder 1970). Simply speaking, we have evidence for Granger causality if observations in one time series is useful for forecasting observations in one or several other time series, which would be the case if one trait affects the optimum that another trait tracks with a lag. Multivariate OU models therefore enable us to move beyond interpreting correlations among variables. While correlation is a measure of linear dependence between two random variables, the time dimension (i.e. the lag/evolutionary inertia in the tracking of the changing optimum) of the potential relationship between two variables is important in Granger causality. And while a correlation is symmetric (the correlation between X and Y is the same as the correlation between Y and X), this is not necessarily the case for Granger causality. X can (Granger) cause Y, without Y Granger-causing X.  
 
 For a data set consisting of two traits, there are four possible parameterizations of the **A** matrix (see panels below). Independent adaptation of both traits (panel a), trait Y affecting the optimum of trait X (panel b), trait X affecting the optimum of trait Y, and the traits X and Y affecting each others optima (panel d). Each of these four ways of parameterizing the **A** matrix can be combined with an **R** matrix with elements only on the diagonal (the stochastic changes in the traits are uncorrelated) or a completely parameterized **R** matrix (the stochastic changes in the traits are correlated).  
 <br /> 
-```{r  out.width = "40%", echo = FALSE, fig.align="center"}
+```{r  out.width = "60%", echo = FALSE, fig.align="center"}
 knitr::include_graphics("A_matrices.png") 
 ```
 <br /> 

@@ -61,8 +61,8 @@ The models have been implemented to be compatible with the joint parameterizatio
 ## Generate a evoTS objects by simulating a multivariate dataset
 x <- paleoTS::sim.GRW(30)
 
-## Fit a the model to the data by defining shift points.
-fit.mode.shift(x, model1="URW", model2="Stasis")
+## Fit a the model to the data by defining shift points (the example may take > 5 seconds to run)
+## fit.mode.shift(x, model1="URW", model2="Stasis")
 
 }
 \references{

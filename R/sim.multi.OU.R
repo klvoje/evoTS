@@ -132,11 +132,13 @@ sim.multi.OU<-function(ns = 30, anc = c(0,0), optima = c(3, 2),
       for (i in 2:ns) {
       for (j in 1:m){
 
-         x <- rnorm(nn[j], mean = MM[j,i], sd = sqrt(vp))
-      mm[j,i] <- mean(x)
+         x <- MASS::mvrnorm(nn[j], mu = MM[j,i], Sigma = sqrt(vp)) #NEW. rnorm can't handle irrational numbers.
+         #x <- ?rnorm(nn[j], mean = MM[j,i], sd = sqrt(vp))
+      mm[j,i] <- mean(as.numeric(x)) #as.numeric is needed in case irrational numbers are present in x.
       vv[j,i] <- var(x)
     }
 
+        
   }
 
 

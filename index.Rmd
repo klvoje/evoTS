@@ -20,7 +20,7 @@ knitr::opts_chunk$set(
   
   The `evoTS` package facilitates univariate and multivariate analysis of evolutionary sequences of phenotypic change. The goal of the `evoTS` package is to offer a large range of evolutionary models to enable more detailed studies of evolutionary changes within lineages.
 
-The `evoTS` package extends the modeling framework available in the <a href="https://cran.r-project.org/web/packages/paleoTS/index.html"> `paleoTS` package</a>. evoTS` has been developed to mirror the user experience from `paleoTS` as much as possible. All univariate models implemented in `evoTS` can be fitted to a `paleoTS` object, i.e. the data format used in `paleoTS`. The fit of all univariate models available in `paleoTS` and `evoTS` are directly comparable using the reported AICc. 
+The `evoTS` package extends the modeling framework available in the <a https://CRAN.R-project.org/package=paleoTS"> `paleoTS` package</a>. evoTS` has been developed to mirror the user experience from `paleoTS` as much as possible. All univariate models implemented in `evoTS` can be fitted to a `paleoTS` object, i.e. the data format used in `paleoTS`. The fit of all univariate models available in `paleoTS` and `evoTS` are directly comparable using the reported AICc. 
 
 `evoTS` contains a range of multivariate models, including different versions of multivariate unbiased random walks and Ornstein-Uhlenbeck processes. Together, these models allow the user to test various hypotheses of trait evolution, e.g.  whether traits change in a correlated or uncorrelated manner, whether one trait/variable affects the optimum of a second trait (Granger causality), whether adaptation in different traits happen independently toward fixed optima etc. 
 

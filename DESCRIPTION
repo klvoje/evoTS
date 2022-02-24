@@ -24,6 +24,5 @@ RoxygenNote: 7.1.2
 Suggests: 
     rmarkdown,
     knitr
-VignetteBuilder: knitr
 Depends: R (>= 3.5.0)
-URE: https://klvoje.github.io/evoTS/index.html
+URL: https://klvoje.github.io/evoTS/index.html

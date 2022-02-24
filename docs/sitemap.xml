@@ -43,6 +43,9 @@
     <loc>/reference/fit.OU.OU.OU.html</loc>
   </url>
   <url>
+    <loc>/reference/fit.PE.models.html</loc>
+  </url>
+  <url>
     <loc>/reference/fit.Stasis.trend.Stasis.html</loc>
   </url>
   <url>
@@ -56,6 +59,9 @@
   </url>
   <url>
     <loc>/reference/fit.URW.trend.URW.html</loc>
+  </url>
+  <url>
+    <loc>/reference/fit.all.univariate.html</loc>
   </url>
   <url>
     <loc>/reference/fit.all.univariate.models.html</loc>

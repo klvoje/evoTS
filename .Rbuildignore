@@ -7,3 +7,4 @@
 ^_pkgdown\.yaml$
 vignettes/
 ^README\.Rmd$
+cran-comments.md

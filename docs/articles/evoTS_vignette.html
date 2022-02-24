@@ -92,7 +92,7 @@
                         <h4 data-toc-skip class="author">Kjetil L.
 Voje</h4>
             
-            <h4 data-toc-skip class="date">2022-02-17</h4>
+            <h4 data-toc-skip class="date">2022-02-24</h4>
       
       
       <div class="d-none name"><code>evoTS_vignette.Rmd</code></div>
@@ -233,7 +233,7 @@ changes. <br></p>
 <span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="do">## Plotting the data</span></span>
 <span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">plotpaleoTS</span>(ln.diameter)</span></code></pre></div>
-<p><br><img src="diameter.png" width="70%" style="display: block; margin: auto;"><br></p>
+<p><br><img src="diameter.png" width="100%" style="display: block; margin: auto;"><br></p>
 </div>
 </div>
 <div class="section level2">
@@ -586,9 +586,9 @@ are given by the following expressions: <br><br><span class="math display">\[E[z
 <br> where <span class="math inline">\(z_{i}\)</span> is the expected
 trait value for the <em>i</em>th sample, <span class="math inline">\(z_{0}\)</span> is the ancestral trait mean, <span class="math inline">\(t_{i}\)</span> is the time interval from the
 ancestral population mean (the start of the time-series, which has a
-time of 0) to the <em>i</em>th sample, <span class="math inline">\(\theta\)</span> is the optimum, $$ measures the
-rate of adaptation to the optimum, <span class="math inline">\(\sigma^{2}_{step}\)</span> is the variance of the
-stochastic perturbations of <em>z</em>, and <span class="math inline">\(\sigma^{2}_{\theta}\)</span> is the variance of
+time of 0) to the <em>i</em>th sample, <span class="math inline">\(\theta\)</span> is the optimum, <span class="math inline">\(\alpha\)</span> measures the rate of adaptation to
+the optimum, <span class="math inline">\(\sigma^{2}_{step}\)</span> is
+the variance of the stochastic perturbations of <em>z</em>, and <span class="math inline">\(\sigma^{2}_{\theta}\)</span> is the variance of
 the stochastic perturbations of the optimum, <span class="math inline">\(t_{a}\)</span> is the time interval from the
 ancestral population to the oldest of the two populations <span class="math inline">\(z_{i}\)</span> and <span class="math inline">\(z_{j}\)</span>, and <span class="math inline">\(t_{ij}\)</span> is the time separating two samples
 <span class="math inline">\(z_{i}\)</span> and <span class="math inline">\(z_{j}\)</span>. The estimation (sampling) error
@@ -801,7 +801,7 @@ point estimate of the half-life (and the stationary variance) using the
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>      lower upper</span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>stationary variance <span class="fl">0.007</span> <span class="fl">0.053</span></span>
 <span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>half<span class="sc">-</span>life           <span class="fl">0.029</span> <span class="fl">0.305</span></span></code></pre></div>
-<p><br><img src="OU_logl_surface.png" width="60%" style="display: block; margin: auto;"><br></p>
+<p><br><img src="OU_logl_surface.png" width="80%" style="display: block; margin: auto;"><br></p>
 <p>Half-life values up to 30% of the total length of the time-series are
 within two log-likelihood units from the best estimate. This indicates
 that substantially slower evolution than the point estimate of 6% cannot
@@ -813,44 +813,59 @@ be ruled out as a possibility.</p>
 </h3>
 <p>A quick way to evaluate the relative fit of all univariate models in
 the <code>evoTS</code> and <code>paleoTS</code>packages (excluding
-models with more than one punctuation/mode shift) is to use the
-<code>fit.all.univariate.models</code> function. <br></p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">fit.all.univariate.models</span>(ln.diameter)</span>
+models with mode shifts) is to use the <code>fit.all.univariate</code>
+function. <br></p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">fit.all.univariate</span>(ln.diameter)</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="do">## Omitting some of the output to save length. </span></span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>Comparing <span class="dv">11</span> models [n <span class="ot">=</span> <span class="dv">63</span>, method <span class="ot">=</span> Joint]</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>Comparing <span class="dv">9</span> models [n <span class="ot">=</span> <span class="dv">63</span>, method <span class="ot">=</span> Joint]</span>
 <span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>                                                                logL K       AICc       dAICc Akaike.wt</span>
-<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>GRW                                                         <span class="fl">77.64073</span> <span class="dv">3</span> <span class="sc">-</span><span class="fl">148.87469</span>    <span class="fl">6.838905</span>     <span class="fl">0.022</span></span>
-<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>URW                                                         <span class="fl">77.57018</span> <span class="dv">2</span> <span class="sc">-</span><span class="fl">150.94035</span>    <span class="fl">4.773241</span>     <span class="fl">0.063</span></span>
-<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>Stasis                                                      <span class="fl">39.84019</span> <span class="dv">2</span>  <span class="sc">-</span><span class="fl">75.48039</span>   <span class="fl">80.233205</span>     <span class="fl">0.000</span></span>
-<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>StrictStasis                                              <span class="sc">-</span><span class="fl">707.46411</span> <span class="dv">1</span> <span class="fl">1416.99379</span> <span class="fl">1572.707381</span>     <span class="fl">0.000</span></span>
-<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>Decel                                                       <span class="fl">76.77642</span> <span class="dv">3</span> <span class="sc">-</span><span class="fl">147.14607</span>    <span class="fl">8.567527</span>     <span class="fl">0.009</span></span>
-<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>Accel                                                       <span class="fl">73.80287</span> <span class="dv">3</span> <span class="sc">-</span><span class="fl">141.19896</span>   <span class="fl">14.514630</span>     <span class="fl">0.000</span></span>
-<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>OU                                                          <span class="fl">80.71298</span> <span class="dv">4</span> <span class="sc">-</span><span class="fl">152.73631</span>    <span class="fl">2.977287</span>     <span class="fl">0.155</span></span>
-<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>OU model with moving <span class="fu">optimum</span> (ancestral state at optimum)   <span class="fl">78.56670</span> <span class="dv">4</span> <span class="sc">-</span><span class="fl">148.44374</span>    <span class="fl">7.269854</span>     <span class="fl">0.018</span></span>
-<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>OU model with moving optimum                                <span class="fl">80.71298</span> <span class="dv">5</span> <span class="sc">-</span><span class="fl">150.37333</span>    <span class="fl">5.340265</span>     <span class="fl">0.047</span></span>
-<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>Punc<span class="dv">-1</span>                                                      <span class="fl">50.03827</span> <span class="dv">4</span>  <span class="sc">-</span><span class="fl">91.38688</span>   <span class="fl">64.326713</span>     <span class="fl">0.000</span></span>
-<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>Bokma model                                                 <span class="fl">83.38311</span> <span class="dv">5</span> <span class="sc">-</span><span class="fl">155.71359</span>    <span class="fl">0.000000</span>     <span class="fl">0.685</span></span></code></pre></div>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>GRW                                                         <span class="fl">77.64073</span> <span class="dv">3</span> <span class="sc">-</span><span class="fl">148.87469</span>    <span class="fl">3.861618</span>     <span class="fl">0.071</span></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>URW                                                         <span class="fl">77.57018</span> <span class="dv">2</span> <span class="sc">-</span><span class="fl">150.94035</span>    <span class="fl">1.795953</span>     <span class="fl">0.200</span></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>Stasis                                                      <span class="fl">39.84019</span> <span class="dv">2</span>  <span class="sc">-</span><span class="fl">75.48039</span>   <span class="fl">77.255917</span>     <span class="fl">0.000</span></span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>StrictStasis                                              <span class="sc">-</span><span class="fl">707.46411</span> <span class="dv">1</span> <span class="fl">1416.99379</span> <span class="fl">1569.730094</span>     <span class="fl">0.000</span></span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>Decel                                                       <span class="fl">76.77642</span> <span class="dv">3</span> <span class="sc">-</span><span class="fl">147.14607</span>    <span class="fl">5.590239</span>     <span class="fl">0.030</span></span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>Accel                                                       <span class="fl">73.80287</span> <span class="dv">3</span> <span class="sc">-</span><span class="fl">141.19896</span>   <span class="fl">11.537343</span>     <span class="fl">0.002</span></span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>OU                                                          <span class="fl">80.71298</span> <span class="dv">4</span> <span class="sc">-</span><span class="fl">152.73631</span>    <span class="fl">0.000000</span>     <span class="fl">0.490</span></span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>OU model with moving <span class="fu">optimum</span> (ancestral state at optimum)   <span class="fl">78.56670</span> <span class="dv">4</span> <span class="sc">-</span><span class="fl">148.44374</span>    <span class="fl">4.292567</span>     <span class="fl">0.057</span></span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>OU model with moving optimum                                <span class="fl">80.71298</span> <span class="dv">5</span> <span class="sc">-</span><span class="fl">150.37333</span>    <span class="fl">2.362978</span>     <span class="fl">0.150</span></span></code></pre></div>
 <p><br> The Bokma model out competes the OU model according to
 AICc.</p>
-<p>Where the jump happens can be investigated by plotting the data and
-putting a line at the estimated switch point.</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">plotpaleoTS</span>(ln.diameter)</span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">abline</span>(<span class="at">v=</span>ln.diameter<span class="sc">$</span>tt[<span class="dv">18</span>], <span class="at">col=</span><span class="st">"red"</span>, <span class="at">lty=</span><span class="dv">2</span>, <span class="at">lwd=</span><span class="dv">2</span>)</span></code></pre></div>
-<p><br><br><img src="diameter_jump.png" width="70%" style="display: block; margin: auto;"><br><br> The switch point is estimated to happen where there is no
-obvious and large jump in the evolution of the trait along the y axis.
-The reason why the Bokma model fits better than the other candidate
-models we have investigated might therefore be unrelated to the jump
-itself and may instead be due to the fact that the rate of evolution is
-allowed to be different before and after the punctuation. The rate
-parameter of the unbiased random walk before the punctuation
-(<em>vstep_1</em>) in the Bokma model is indeed about twice as large as
-the rate parameter in the unbiased random walk after the punctuation
-(<em>vstep_2</em>). <br></p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> Bokma.PE<span class="sc">$</span>parameters</span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>       anc    vstep_1    new.opt    vstep_2     shift1 </span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a> <span class="fl">3.7157496</span>  <span class="fl">0.3419321</span>  <span class="fl">4.1349097</span>  <span class="fl">0.1668655</span> <span class="fl">18.0000000</span>  </span></code></pre></div>
+<p>The <code>paleoTS</code> package has a model where stasis is
+interrupted by a punctuation event. This is a different way to model a
+punctuated mode of evolution compared to the Bokma model. We can compare
+these two versions of a punctuated mode of evolution using the
+<code>fit.PE.models</code> function.</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">fit.PE.models</span>(ln.diameter, <span class="at">minb =</span> <span class="dv">10</span>)</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="do">## Omitting some of the output to save length.</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>Comparing <span class="dv">2</span> models [n <span class="ot">=</span> <span class="dv">63</span>, method <span class="ot">=</span> Joint]</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>                logL K      AICc    dAICc Akaike.wt</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>Punc<span class="dv">-1</span>      <span class="fl">62.99097</span> <span class="dv">5</span> <span class="sc">-</span><span class="fl">114.9293</span> <span class="fl">40.78429</span>         <span class="dv">0</span></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>Bokma model <span class="fl">83.38311</span> <span class="dv">5</span> <span class="sc">-</span><span class="fl">155.7136</span>  <span class="fl">0.00000</span>         <span class="dv">1</span></span></code></pre></div>
+<p>The Bokma model has a much better fit relative to the model where
+stasis in interrupted by a punctuation event. Where the jump happens can
+be investigated by plotting the data and putting a line at the estimated
+switch point, i.e. the first sample/population after the punctuation
+event.</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">plotpaleoTS</span>(ln.diameter)</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">abline</span>(<span class="at">v=</span>ln.diameter<span class="sc">$</span>tt[<span class="dv">18</span>], <span class="at">col=</span><span class="st">"red"</span>, <span class="at">lty=</span><span class="dv">2</span>, <span class="at">lwd=</span><span class="dv">2</span>)</span></code></pre></div>
+<p><br><br><img src="diameter_jump.png" width="100%" style="display: block; margin: auto;"><br><br> The switch point is estimated to happen where there is
+jump in the evolution of the trait along the y axis, but the jump in
+trait space (along the y axis) does not look larger than changes between
+some of the other samples in the time series. The reason why the Bokma
+model fits better than the other candidate models we have investigated
+might therefore be unrelated to the jump itself and may instead be due
+to the fact that the rate of evolution is allowed to be different before
+and after the punctuation. The rate parameter of the unbiased random
+walk before the punctuation (<em>vstep_1</em>) in the Bokma model is
+indeed about twice as large as the rate parameter in the unbiased random
+walk after the punctuation (<em>vstep_2</em>). <br></p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> Bokma.PE<span class="sc">$</span>parameters</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>       anc    vstep_1    new.opt    vstep_2     shift1 </span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a> <span class="fl">3.7157496</span>  <span class="fl">0.3419321</span>  <span class="fl">4.1349097</span>  <span class="fl">0.1668655</span> <span class="fl">18.0000000</span>  </span></code></pre></div>
 <p><br> A model that fits two separate unbiased random walks to two
 non-overlapping segments of the time-series, but where the mode shift
 does not involve a jump in phenotype space, might therefore out compete
@@ -874,47 +889,47 @@ function to only investigate the same shift point as the one found to be
 the best for the Bokma model using the argument
 <code>shift.point</code>. However, we are interested in investigating
 all possible switch points. <br></p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">fit.mode.shift</span>(ln.diameter, <span class="at">model1 =</span> <span class="st">"URW"</span>, <span class="at">model2 =</span> <span class="st">"URW"</span>, <span class="at">minb =</span> <span class="dv">10</span>)</span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">"Searching all possible switchpoints in the evolutionary sequence"</span></span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>Total <span class="co"># hypotheses:  44 </span></span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span>  <span class="dv">2</span>  <span class="dv">3</span>  <span class="dv">4</span>  <span class="dv">5</span>  <span class="dv">6</span>  <span class="dv">7</span>  <span class="dv">8</span>  <span class="dv">9</span>  <span class="dv">10</span>  <span class="dv">11</span>  <span class="dv">12</span>  <span class="dv">13</span>  <span class="dv">14</span>  <span class="dv">15</span>  <span class="dv">16</span>  <span class="dv">17</span>  <span class="dv">18</span>  <span class="dv">19</span>  <span class="dv">20</span>  <span class="dv">21</span>  <span class="dv">22</span>  <span class="dv">23</span>  <span class="dv">24</span>  <span class="dv">25</span>  <span class="dv">26</span>  <span class="dv">27</span>  <span class="dv">28</span>  <span class="dv">29</span>  <span class="dv">30</span>  <span class="dv">31</span>  <span class="dv">32</span>  <span class="dv">33</span>  <span class="dv">34</span>  <span class="dv">35</span>  <span class="dv">36</span>  <span class="dv">37</span>  <span class="dv">38</span>  <span class="dv">39</span>  <span class="dv">40</span>  <span class="dv">41</span>  <span class="dv">42</span>  <span class="dv">43</span>  <span class="dv">44</span>  </span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>logL</span>
-<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="fl">79.27473</span></span>
-<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>AICc</span>
-<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="sc">-</span><span class="fl">149.8598</span></span>
-<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>parameters</span>
-<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>       anc      vstep      vstep     shift1 </span>
-<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a> <span class="fl">3.7304865</span>  <span class="fl">0.2432606</span>  <span class="fl">0.2494830</span> <span class="fl">52.0000000</span> </span>
-<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>modelName</span>
-<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">"URW-URW"</span></span>
-<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>method</span>
-<span id="cb19-19"><a href="#cb19-19" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">"Joint"</span></span>
-<span id="cb19-20"><a href="#cb19-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-21"><a href="#cb19-21" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>se</span>
-<span id="cb19-22"><a href="#cb19-22" aria-hidden="true" tabindex="-1"></a><span class="cn">NULL</span></span>
-<span id="cb19-23"><a href="#cb19-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-24"><a href="#cb19-24" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>K</span>
-<span id="cb19-25"><a href="#cb19-25" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="dv">4</span></span>
-<span id="cb19-26"><a href="#cb19-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-27"><a href="#cb19-27" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>n</span>
-<span id="cb19-28"><a href="#cb19-28" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="dv">63</span></span>
-<span id="cb19-29"><a href="#cb19-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-30"><a href="#cb19-30" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>all.logl</span>
-<span id="cb19-31"><a href="#cb19-31" aria-hidden="true" tabindex="-1"></a> [<span class="dv">1</span>] <span class="fl">70.86731</span> <span class="fl">68.59747</span> <span class="fl">62.65156</span> <span class="fl">65.41455</span> <span class="fl">53.23718</span> <span class="fl">60.25449</span> <span class="fl">56.19608</span> <span class="fl">45.50594</span> <span class="fl">42.55632</span> <span class="fl">44.70092</span> <span class="fl">46.05836</span> <span class="fl">46.58797</span> <span class="fl">48.14004</span></span>
-<span id="cb19-32"><a href="#cb19-32" aria-hidden="true" tabindex="-1"></a>[<span class="dv">14</span>] <span class="fl">44.19647</span> <span class="fl">67.63474</span> <span class="fl">57.82010</span> <span class="fl">64.69928</span> <span class="fl">69.73926</span> <span class="fl">58.45089</span> <span class="fl">55.26295</span> <span class="fl">53.40897</span> <span class="fl">64.95625</span> <span class="fl">66.97684</span> <span class="fl">66.65108</span> <span class="fl">72.98220</span> <span class="fl">65.42928</span></span>
-<span id="cb19-33"><a href="#cb19-33" aria-hidden="true" tabindex="-1"></a>[<span class="dv">27</span>] <span class="fl">71.12637</span> <span class="fl">76.39216</span> <span class="fl">74.96141</span> <span class="fl">74.07654</span> <span class="fl">74.06923</span> <span class="fl">77.98640</span> <span class="fl">75.27489</span> <span class="fl">73.96364</span> <span class="fl">78.18181</span> <span class="fl">74.92223</span> <span class="fl">75.10229</span> <span class="fl">77.07127</span> <span class="fl">77.28518</span></span>
-<span id="cb19-34"><a href="#cb19-34" aria-hidden="true" tabindex="-1"></a>[<span class="dv">40</span>] <span class="fl">79.12256</span> <span class="fl">75.99980</span> <span class="fl">79.27473</span> <span class="fl">76.45725</span> <span class="fl">70.37393</span></span>
-<span id="cb19-35"><a href="#cb19-35" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-36"><a href="#cb19-36" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>GG</span>
-<span id="cb19-37"><a href="#cb19-37" aria-hidden="true" tabindex="-1"></a>shift1 </span>
-<span id="cb19-38"><a href="#cb19-38" aria-hidden="true" tabindex="-1"></a>    <span class="dv">52</span> </span>
-<span id="cb19-39"><a href="#cb19-39" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-40"><a href="#cb19-40" aria-hidden="true" tabindex="-1"></a><span class="fu">attr</span>(,<span class="st">"class"</span>)</span>
-<span id="cb19-41"><a href="#cb19-41" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">"paleoTSfit"</span></span></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">fit.mode.shift</span>(ln.diameter, <span class="at">model1 =</span> <span class="st">"URW"</span>, <span class="at">model2 =</span> <span class="st">"URW"</span>, <span class="at">minb =</span> <span class="dv">10</span>)</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">"Searching all possible switchpoints in the evolutionary sequence"</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>Total <span class="co"># hypotheses:  44 </span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span>  <span class="dv">2</span>  <span class="dv">3</span>  <span class="dv">4</span>  <span class="dv">5</span>  <span class="dv">6</span>  <span class="dv">7</span>  <span class="dv">8</span>  <span class="dv">9</span>  <span class="dv">10</span>  <span class="dv">11</span>  <span class="dv">12</span>  <span class="dv">13</span>  <span class="dv">14</span>  <span class="dv">15</span>  <span class="dv">16</span>  <span class="dv">17</span>  <span class="dv">18</span>  <span class="dv">19</span>  <span class="dv">20</span>  <span class="dv">21</span>  <span class="dv">22</span>  <span class="dv">23</span>  <span class="dv">24</span>  <span class="dv">25</span>  <span class="dv">26</span>  <span class="dv">27</span>  <span class="dv">28</span>  <span class="dv">29</span>  <span class="dv">30</span>  <span class="dv">31</span>  <span class="dv">32</span>  <span class="dv">33</span>  <span class="dv">34</span>  <span class="dv">35</span>  <span class="dv">36</span>  <span class="dv">37</span>  <span class="dv">38</span>  <span class="dv">39</span>  <span class="dv">40</span>  <span class="dv">41</span>  <span class="dv">42</span>  <span class="dv">43</span>  <span class="dv">44</span>  </span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>logL</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="fl">79.27473</span></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>AICc</span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="sc">-</span><span class="fl">149.8598</span></span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>parameters</span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>       anc      vstep      vstep     shift1 </span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a> <span class="fl">3.7304865</span>  <span class="fl">0.2432606</span>  <span class="fl">0.2494830</span> <span class="fl">52.0000000</span> </span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>modelName</span>
+<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">"URW-URW"</span></span>
+<span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-18"><a href="#cb20-18" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>method</span>
+<span id="cb20-19"><a href="#cb20-19" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">"Joint"</span></span>
+<span id="cb20-20"><a href="#cb20-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-21"><a href="#cb20-21" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>se</span>
+<span id="cb20-22"><a href="#cb20-22" aria-hidden="true" tabindex="-1"></a><span class="cn">NULL</span></span>
+<span id="cb20-23"><a href="#cb20-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-24"><a href="#cb20-24" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>K</span>
+<span id="cb20-25"><a href="#cb20-25" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="dv">4</span></span>
+<span id="cb20-26"><a href="#cb20-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-27"><a href="#cb20-27" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>n</span>
+<span id="cb20-28"><a href="#cb20-28" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="dv">63</span></span>
+<span id="cb20-29"><a href="#cb20-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-30"><a href="#cb20-30" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>all.logl</span>
+<span id="cb20-31"><a href="#cb20-31" aria-hidden="true" tabindex="-1"></a> [<span class="dv">1</span>] <span class="fl">70.86731</span> <span class="fl">68.59747</span> <span class="fl">62.65156</span> <span class="fl">65.41455</span> <span class="fl">53.23718</span> <span class="fl">60.25449</span> <span class="fl">56.19608</span> <span class="fl">45.50594</span> <span class="fl">42.55632</span> <span class="fl">44.70092</span> <span class="fl">46.05836</span> <span class="fl">46.58797</span> <span class="fl">48.14004</span></span>
+<span id="cb20-32"><a href="#cb20-32" aria-hidden="true" tabindex="-1"></a>[<span class="dv">14</span>] <span class="fl">44.19647</span> <span class="fl">67.63474</span> <span class="fl">57.82010</span> <span class="fl">64.69928</span> <span class="fl">69.73926</span> <span class="fl">58.45089</span> <span class="fl">55.26295</span> <span class="fl">53.40897</span> <span class="fl">64.95625</span> <span class="fl">66.97684</span> <span class="fl">66.65108</span> <span class="fl">72.98220</span> <span class="fl">65.42928</span></span>
+<span id="cb20-33"><a href="#cb20-33" aria-hidden="true" tabindex="-1"></a>[<span class="dv">27</span>] <span class="fl">71.12637</span> <span class="fl">76.39216</span> <span class="fl">74.96141</span> <span class="fl">74.07654</span> <span class="fl">74.06923</span> <span class="fl">77.98640</span> <span class="fl">75.27489</span> <span class="fl">73.96364</span> <span class="fl">78.18181</span> <span class="fl">74.92223</span> <span class="fl">75.10229</span> <span class="fl">77.07127</span> <span class="fl">77.28518</span></span>
+<span id="cb20-34"><a href="#cb20-34" aria-hidden="true" tabindex="-1"></a>[<span class="dv">40</span>] <span class="fl">79.12256</span> <span class="fl">75.99980</span> <span class="fl">79.27473</span> <span class="fl">76.45725</span> <span class="fl">70.37393</span></span>
+<span id="cb20-35"><a href="#cb20-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-36"><a href="#cb20-36" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>GG</span>
+<span id="cb20-37"><a href="#cb20-37" aria-hidden="true" tabindex="-1"></a>shift1 </span>
+<span id="cb20-38"><a href="#cb20-38" aria-hidden="true" tabindex="-1"></a>    <span class="dv">52</span> </span>
+<span id="cb20-39"><a href="#cb20-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-40"><a href="#cb20-40" aria-hidden="true" tabindex="-1"></a><span class="fu">attr</span>(,<span class="st">"class"</span>)</span>
+<span id="cb20-41"><a href="#cb20-41" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">"paleoTSfit"</span></span></code></pre></div>
 <p><br> The fit of this model is similar (but worse) according to AICc
 compared to the Bokma model.</p>
 <p>It is also possible to use the function <code>fit.mode.shift</code>
@@ -922,60 +937,60 @@ to fit all pairwise combinations of the four models by setting the
 <code>fit.all</code> argument as <code>TRUE.</code> If a shift point is
 not defined (using the <code>shift.point</code> argument), all possible
 shift points are investigated for all models. <br></p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">fit.mode.shift</span>(ln.diameter, <span class="at">fit.all =</span> <span class="cn">TRUE</span>, <span class="at">minb =</span> <span class="dv">10</span>)</span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">"Searching all possible switchpoints in the evolutionary sequence"</span></span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span>  <span class="dv">2</span>  <span class="dv">3</span>  <span class="dv">4</span>  <span class="dv">5</span>  <span class="dv">6</span>  <span class="dv">7</span>  <span class="dv">8</span>  <span class="dv">9</span>  <span class="dv">10</span>  <span class="dv">11</span>  <span class="dv">12</span>  <span class="dv">13</span>  <span class="dv">14</span>  <span class="dv">15</span>  <span class="dv">16</span>  <span class="dv">17</span>  <span class="dv">18</span>  <span class="dv">19</span>  <span class="dv">20</span>  <span class="dv">21</span>  <span class="dv">22</span>  <span class="dv">23</span>  <span class="dv">24</span>  <span class="dv">25</span>  <span class="dv">26</span>  <span class="dv">27</span>  <span class="dv">28</span>  <span class="dv">29</span>  <span class="dv">30</span>  <span class="dv">31</span>  <span class="dv">32</span>  <span class="dv">33</span>  <span class="dv">34</span>  <span class="dv">35</span>  <span class="dv">36</span>  <span class="dv">37</span>  <span class="dv">38</span>  <span class="dv">39</span>  <span class="dv">40</span>  <span class="dv">41</span>  <span class="dv">42</span>  <span class="dv">43</span>  <span class="dv">44</span>  </span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>Comparing <span class="dv">16</span> models [n <span class="ot">=</span> <span class="dv">63</span>, method <span class="ot">=</span> Joint]</span>
-<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>                  logL K       AICc      dAICc Akaike.wt</span>
-<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>Stasis<span class="sc">-</span>Stasis <span class="fl">53.24711</span> <span class="dv">4</span>  <span class="sc">-</span><span class="fl">97.80456</span> <span class="fl">64.3140156</span>     <span class="fl">0.000</span></span>
-<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>Stasis<span class="sc">-</span>URW    <span class="fl">72.84306</span> <span class="dv">4</span> <span class="sc">-</span><span class="fl">136.99646</span> <span class="fl">25.1221145</span>     <span class="fl">0.000</span></span>
-<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>Stasis<span class="sc">-</span>GRW    <span class="fl">72.84414</span> <span class="dv">5</span> <span class="sc">-</span><span class="fl">134.63564</span> <span class="fl">27.4829349</span>     <span class="fl">0.000</span></span>
-<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>Stasis<span class="sc">-</span>OU     <span class="fl">74.97027</span> <span class="dv">6</span> <span class="sc">-</span><span class="fl">136.44053</span> <span class="fl">25.6780478</span>     <span class="fl">0.000</span></span>
-<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>URW<span class="sc">-</span>URW       <span class="fl">79.27473</span> <span class="dv">4</span> <span class="sc">-</span><span class="fl">149.85981</span> <span class="fl">12.2587671</span>     <span class="fl">0.001</span></span>
-<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>URW<span class="sc">-</span>GRW       <span class="fl">79.54430</span> <span class="dv">5</span> <span class="sc">-</span><span class="fl">148.03597</span> <span class="fl">14.0826065</span>     <span class="fl">0.000</span></span>
-<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>URW<span class="sc">-</span>OU        <span class="fl">85.34081</span> <span class="dv">6</span> <span class="sc">-</span><span class="fl">157.18163</span>  <span class="fl">4.9369506</span>     <span class="fl">0.026</span></span>
-<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a>GRW<span class="sc">-</span>GRW       <span class="fl">84.03615</span> <span class="dv">6</span> <span class="sc">-</span><span class="fl">154.57229</span>  <span class="fl">7.5462836</span>     <span class="fl">0.007</span></span>
-<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a>GRW<span class="sc">-</span>OU        <span class="fl">88.87002</span> <span class="dv">7</span> <span class="sc">-</span><span class="fl">161.70368</span>  <span class="fl">0.4148986</span>     <span class="fl">0.254</span></span>
-<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a>OU<span class="sc">-</span>OU         <span class="fl">90.26555</span> <span class="dv">8</span> <span class="sc">-</span><span class="fl">161.86443</span>  <span class="fl">0.2541469</span>     <span class="fl">0.275</span></span>
-<span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a>OU<span class="sc">-</span>GRW        <span class="fl">84.14765</span> <span class="dv">7</span> <span class="sc">-</span><span class="fl">152.25894</span>  <span class="fl">9.8596410</span>     <span class="fl">0.002</span></span>
-<span id="cb20-18"><a href="#cb20-18" aria-hidden="true" tabindex="-1"></a>OU<span class="sc">-</span>URW        <span class="fl">83.90670</span> <span class="dv">6</span> <span class="sc">-</span><span class="fl">154.31340</span>  <span class="fl">7.8051743</span>     <span class="fl">0.006</span></span>
-<span id="cb20-19"><a href="#cb20-19" aria-hidden="true" tabindex="-1"></a>OU<span class="sc">-</span>Stasis     <span class="fl">87.80929</span> <span class="dv">6</span> <span class="sc">-</span><span class="fl">162.11858</span>  <span class="fl">0.0000000</span>     <span class="fl">0.312</span></span>
-<span id="cb20-20"><a href="#cb20-20" aria-hidden="true" tabindex="-1"></a>GRW<span class="sc">-</span>URW       <span class="fl">83.79338</span> <span class="dv">5</span> <span class="sc">-</span><span class="fl">156.53412</span>  <span class="fl">5.5844543</span>     <span class="fl">0.019</span></span>
-<span id="cb20-21"><a href="#cb20-21" aria-hidden="true" tabindex="-1"></a>GRW<span class="sc">-</span>Stasis    <span class="fl">86.49922</span> <span class="dv">6</span> <span class="sc">-</span><span class="fl">159.49844</span>  <span class="fl">2.6201411</span>     <span class="fl">0.084</span></span>
-<span id="cb20-22"><a href="#cb20-22" aria-hidden="true" tabindex="-1"></a>URW<span class="sc">-</span>Stasis    <span class="fl">83.36672</span> <span class="dv">5</span> <span class="sc">-</span><span class="fl">155.68080</span>  <span class="fl">6.4377793</span>     <span class="fl">0.012</span></span>
-<span id="cb20-23"><a href="#cb20-23" aria-hidden="true" tabindex="-1"></a>[[<span class="dv">1</span>]]</span>
-<span id="cb20-24"><a href="#cb20-24" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>logL</span>
-<span id="cb20-25"><a href="#cb20-25" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="fl">87.80929</span></span>
-<span id="cb20-26"><a href="#cb20-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-27"><a href="#cb20-27" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>AICc</span>
-<span id="cb20-28"><a href="#cb20-28" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="sc">-</span><span class="fl">162.1186</span></span>
-<span id="cb20-29"><a href="#cb20-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-30"><a href="#cb20-30" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>parameters</span>
-<span id="cb20-31"><a href="#cb20-31" aria-hidden="true" tabindex="-1"></a>         anc        vstep     theta_OU        alpha        omega       shift1 </span>
-<span id="cb20-32"><a href="#cb20-32" aria-hidden="true" tabindex="-1"></a> <span class="fl">3.705695031</span>  <span class="fl">0.327387632</span>  <span class="fl">3.817864883</span>  <span class="fl">5.226471406</span>  <span class="fl">0.001870449</span> <span class="fl">38.000000000</span> </span>
-<span id="cb20-33"><a href="#cb20-33" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-34"><a href="#cb20-34" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>modelName</span>
-<span id="cb20-35"><a href="#cb20-35" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">"OU-Stasis"</span></span>
-<span id="cb20-36"><a href="#cb20-36" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-37"><a href="#cb20-37" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>method</span>
-<span id="cb20-38"><a href="#cb20-38" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">"Joint"</span></span>
-<span id="cb20-39"><a href="#cb20-39" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-40"><a href="#cb20-40" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>se</span>
-<span id="cb20-41"><a href="#cb20-41" aria-hidden="true" tabindex="-1"></a><span class="cn">NULL</span></span>
-<span id="cb20-42"><a href="#cb20-42" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-43"><a href="#cb20-43" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>K</span>
-<span id="cb20-44"><a href="#cb20-44" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="dv">6</span></span>
-<span id="cb20-45"><a href="#cb20-45" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-46"><a href="#cb20-46" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>n</span>
-<span id="cb20-47"><a href="#cb20-47" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="dv">63</span></span>
-<span id="cb20-48"><a href="#cb20-48" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-49"><a href="#cb20-49" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>GG</span>
-<span id="cb20-50"><a href="#cb20-50" aria-hidden="true" tabindex="-1"></a>shift1 </span>
-<span id="cb20-51"><a href="#cb20-51" aria-hidden="true" tabindex="-1"></a>    <span class="dv">38</span> </span>
-<span id="cb20-52"><a href="#cb20-52" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-53"><a href="#cb20-53" aria-hidden="true" tabindex="-1"></a><span class="fu">attr</span>(,<span class="st">"class"</span>)</span>
-<span id="cb20-54"><a href="#cb20-54" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">"paleoTSfit"</span></span></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">fit.mode.shift</span>(ln.diameter, <span class="at">fit.all =</span> <span class="cn">TRUE</span>, <span class="at">minb =</span> <span class="dv">10</span>)</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">"Searching all possible switchpoints in the evolutionary sequence"</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span>  <span class="dv">2</span>  <span class="dv">3</span>  <span class="dv">4</span>  <span class="dv">5</span>  <span class="dv">6</span>  <span class="dv">7</span>  <span class="dv">8</span>  <span class="dv">9</span>  <span class="dv">10</span>  <span class="dv">11</span>  <span class="dv">12</span>  <span class="dv">13</span>  <span class="dv">14</span>  <span class="dv">15</span>  <span class="dv">16</span>  <span class="dv">17</span>  <span class="dv">18</span>  <span class="dv">19</span>  <span class="dv">20</span>  <span class="dv">21</span>  <span class="dv">22</span>  <span class="dv">23</span>  <span class="dv">24</span>  <span class="dv">25</span>  <span class="dv">26</span>  <span class="dv">27</span>  <span class="dv">28</span>  <span class="dv">29</span>  <span class="dv">30</span>  <span class="dv">31</span>  <span class="dv">32</span>  <span class="dv">33</span>  <span class="dv">34</span>  <span class="dv">35</span>  <span class="dv">36</span>  <span class="dv">37</span>  <span class="dv">38</span>  <span class="dv">39</span>  <span class="dv">40</span>  <span class="dv">41</span>  <span class="dv">42</span>  <span class="dv">43</span>  <span class="dv">44</span>  </span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>Comparing <span class="dv">16</span> models [n <span class="ot">=</span> <span class="dv">63</span>, method <span class="ot">=</span> Joint]</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>                  logL K       AICc      dAICc Akaike.wt</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>Stasis<span class="sc">-</span>Stasis <span class="fl">53.24711</span> <span class="dv">4</span>  <span class="sc">-</span><span class="fl">97.80456</span> <span class="fl">64.3140156</span>     <span class="fl">0.000</span></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>Stasis<span class="sc">-</span>URW    <span class="fl">72.84306</span> <span class="dv">4</span> <span class="sc">-</span><span class="fl">136.99646</span> <span class="fl">25.1221145</span>     <span class="fl">0.000</span></span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>Stasis<span class="sc">-</span>GRW    <span class="fl">72.84414</span> <span class="dv">5</span> <span class="sc">-</span><span class="fl">134.63564</span> <span class="fl">27.4829349</span>     <span class="fl">0.000</span></span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>Stasis<span class="sc">-</span>OU     <span class="fl">74.97027</span> <span class="dv">6</span> <span class="sc">-</span><span class="fl">136.44053</span> <span class="fl">25.6780478</span>     <span class="fl">0.000</span></span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>URW<span class="sc">-</span>URW       <span class="fl">79.27473</span> <span class="dv">4</span> <span class="sc">-</span><span class="fl">149.85981</span> <span class="fl">12.2587671</span>     <span class="fl">0.001</span></span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>URW<span class="sc">-</span>GRW       <span class="fl">79.54430</span> <span class="dv">5</span> <span class="sc">-</span><span class="fl">148.03597</span> <span class="fl">14.0826065</span>     <span class="fl">0.000</span></span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>URW<span class="sc">-</span>OU        <span class="fl">85.34081</span> <span class="dv">6</span> <span class="sc">-</span><span class="fl">157.18163</span>  <span class="fl">4.9369506</span>     <span class="fl">0.026</span></span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>GRW<span class="sc">-</span>GRW       <span class="fl">84.03615</span> <span class="dv">6</span> <span class="sc">-</span><span class="fl">154.57229</span>  <span class="fl">7.5462836</span>     <span class="fl">0.007</span></span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a>GRW<span class="sc">-</span>OU        <span class="fl">88.87002</span> <span class="dv">7</span> <span class="sc">-</span><span class="fl">161.70368</span>  <span class="fl">0.4148986</span>     <span class="fl">0.254</span></span>
+<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a>OU<span class="sc">-</span>OU         <span class="fl">90.26555</span> <span class="dv">8</span> <span class="sc">-</span><span class="fl">161.86443</span>  <span class="fl">0.2541469</span>     <span class="fl">0.275</span></span>
+<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a>OU<span class="sc">-</span>GRW        <span class="fl">84.14765</span> <span class="dv">7</span> <span class="sc">-</span><span class="fl">152.25894</span>  <span class="fl">9.8596410</span>     <span class="fl">0.002</span></span>
+<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a>OU<span class="sc">-</span>URW        <span class="fl">83.90670</span> <span class="dv">6</span> <span class="sc">-</span><span class="fl">154.31340</span>  <span class="fl">7.8051743</span>     <span class="fl">0.006</span></span>
+<span id="cb21-19"><a href="#cb21-19" aria-hidden="true" tabindex="-1"></a>OU<span class="sc">-</span>Stasis     <span class="fl">87.80929</span> <span class="dv">6</span> <span class="sc">-</span><span class="fl">162.11858</span>  <span class="fl">0.0000000</span>     <span class="fl">0.312</span></span>
+<span id="cb21-20"><a href="#cb21-20" aria-hidden="true" tabindex="-1"></a>GRW<span class="sc">-</span>URW       <span class="fl">83.79338</span> <span class="dv">5</span> <span class="sc">-</span><span class="fl">156.53412</span>  <span class="fl">5.5844543</span>     <span class="fl">0.019</span></span>
+<span id="cb21-21"><a href="#cb21-21" aria-hidden="true" tabindex="-1"></a>GRW<span class="sc">-</span>Stasis    <span class="fl">86.49922</span> <span class="dv">6</span> <span class="sc">-</span><span class="fl">159.49844</span>  <span class="fl">2.6201411</span>     <span class="fl">0.084</span></span>
+<span id="cb21-22"><a href="#cb21-22" aria-hidden="true" tabindex="-1"></a>URW<span class="sc">-</span>Stasis    <span class="fl">83.36672</span> <span class="dv">5</span> <span class="sc">-</span><span class="fl">155.68080</span>  <span class="fl">6.4377793</span>     <span class="fl">0.012</span></span>
+<span id="cb21-23"><a href="#cb21-23" aria-hidden="true" tabindex="-1"></a>[[<span class="dv">1</span>]]</span>
+<span id="cb21-24"><a href="#cb21-24" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>logL</span>
+<span id="cb21-25"><a href="#cb21-25" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="fl">87.80929</span></span>
+<span id="cb21-26"><a href="#cb21-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-27"><a href="#cb21-27" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>AICc</span>
+<span id="cb21-28"><a href="#cb21-28" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="sc">-</span><span class="fl">162.1186</span></span>
+<span id="cb21-29"><a href="#cb21-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-30"><a href="#cb21-30" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>parameters</span>
+<span id="cb21-31"><a href="#cb21-31" aria-hidden="true" tabindex="-1"></a>         anc        vstep     theta_OU        alpha        omega       shift1 </span>
+<span id="cb21-32"><a href="#cb21-32" aria-hidden="true" tabindex="-1"></a> <span class="fl">3.705695031</span>  <span class="fl">0.327387632</span>  <span class="fl">3.817864883</span>  <span class="fl">5.226471406</span>  <span class="fl">0.001870449</span> <span class="fl">38.000000000</span> </span>
+<span id="cb21-33"><a href="#cb21-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-34"><a href="#cb21-34" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>modelName</span>
+<span id="cb21-35"><a href="#cb21-35" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">"OU-Stasis"</span></span>
+<span id="cb21-36"><a href="#cb21-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-37"><a href="#cb21-37" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>method</span>
+<span id="cb21-38"><a href="#cb21-38" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">"Joint"</span></span>
+<span id="cb21-39"><a href="#cb21-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-40"><a href="#cb21-40" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>se</span>
+<span id="cb21-41"><a href="#cb21-41" aria-hidden="true" tabindex="-1"></a><span class="cn">NULL</span></span>
+<span id="cb21-42"><a href="#cb21-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-43"><a href="#cb21-43" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>K</span>
+<span id="cb21-44"><a href="#cb21-44" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="dv">6</span></span>
+<span id="cb21-45"><a href="#cb21-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-46"><a href="#cb21-46" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>n</span>
+<span id="cb21-47"><a href="#cb21-47" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="dv">63</span></span>
+<span id="cb21-48"><a href="#cb21-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-49"><a href="#cb21-49" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>GG</span>
+<span id="cb21-50"><a href="#cb21-50" aria-hidden="true" tabindex="-1"></a>shift1 </span>
+<span id="cb21-51"><a href="#cb21-51" aria-hidden="true" tabindex="-1"></a>    <span class="dv">38</span> </span>
+<span id="cb21-52"><a href="#cb21-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-53"><a href="#cb21-53" aria-hidden="true" tabindex="-1"></a><span class="fu">attr</span>(,<span class="st">"class"</span>)</span>
+<span id="cb21-54"><a href="#cb21-54" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">"paleoTSfit"</span></span></code></pre></div>
 <p><br> The function returns a list of the highest log-likelihood
 found for each investigated model. A detailed output from the model with
 the lowest AICc value among the 16 candidate models is also given. An
@@ -1062,7 +1077,7 @@ be uncorrelated. Setting <code>R = "symmetric"</code> means all (both
 diagonal and off-diagonal) elements in the <strong>R</strong> matrix are
 estimated (panel b below). This parameterization means the changes in
 the traits are assumed to be correlated, i.e. that evolutionary changes
-are non-independent. <br><br><img src="R_matrices.png" width="40%" style="display: block; margin: auto;"><br><br> The argument <code>r</code> in the
+are non-independent. <br><br><img src="R_matrices.png" width="60%" style="display: block; margin: auto;"><br><br> The argument <code>r</code> in the
 <code>fit.multivariate.URW</code> function defines whether the rate of
 change is assumed constant (“fixed”), asymptotically decreasing
 (“decel”), or asymptotically increasing (“accel”) with time. Defining
@@ -1083,62 +1098,62 @@ of ribs in addition to the size of the diameter we have analyzed so far.
 Before combining the rib and diameter data into a multivariate data set,
 we first do an approximate log-transformation of the rib data and
 convert the time vector to unit length. <br></p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Doing an approximate log-transformation of the data</span></span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> ln.ribs<span class="ot">&lt;-</span>paleoTS<span class="sc">::</span><span class="fu">ln.paleoTS</span>(ribs_S.yellowstonensis)</span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="do">## Convert the time vector to unit length</span></span>
-<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> ln.ribs<span class="sc">$</span>tt<span class="ot">&lt;-</span>ln.ribs<span class="sc">$</span>tt<span class="sc">/</span>(<span class="fu">max</span>(ln.ribs<span class="sc">$</span>tt))</span></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Doing an approximate log-transformation of the data</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> ln.ribs<span class="ot">&lt;-</span>paleoTS<span class="sc">::</span><span class="fu">ln.paleoTS</span>(ribs_S.yellowstonensis)</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="do">## Convert the time vector to unit length</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> ln.ribs<span class="sc">$</span>tt<span class="ot">&lt;-</span>ln.ribs<span class="sc">$</span>tt<span class="sc">/</span>(<span class="fu">max</span>(ln.ribs<span class="sc">$</span>tt))</span></code></pre></div>
 <p><br> To make a multivariate data set ready to be analyzed in
 <code>evoTS</code>, we combine the two <code>paleoTS</code> objects into
 a multivariate <code>evoTS</code> object using the
 <code>make.multivar.evoTS</code> function. <br></p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> diam.ln_ribs.ln<span class="ot">&lt;-</span><span class="fu">make.multivar.evoTS</span>(ln.diameter, ln.ribs)</span></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> diam.ln_ribs.ln<span class="ot">&lt;-</span><span class="fu">make.multivar.evoTS</span>(ln.diameter, ln.ribs)</span></code></pre></div>
 <p><br> We can use the <code>plotevoTS.multivariate</code> function to
 have a look at the combined data set. <br></p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">plotevoTS.multivariate</span>(diam.ln_ribs.ln, <span class="at">y_min=</span><span class="fl">3.4</span>, <span class="at">y_max=</span><span class="fl">4.8</span>, <span class="at">x.label =</span> <span class="st">"Relative time"</span>, <span class="at">pch=</span><span class="fu">c</span>(<span class="dv">20</span>,<span class="dv">20</span>))</span></code></pre></div>
-<p><br><img src="diam_and_ribs.png" width="60%" style="display: block; margin: auto;"><br><br> Eye-balling the data seems to suggest that the traits
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">plotevoTS.multivariate</span>(diam.ln_ribs.ln, <span class="at">y_min=</span><span class="fl">3.4</span>, <span class="at">y_max=</span><span class="fl">4.8</span>, <span class="at">x.label =</span> <span class="st">"Relative time"</span>, <span class="at">pch=</span><span class="fu">c</span>(<span class="dv">20</span>,<span class="dv">20</span>))</span></code></pre></div>
+<p><br><img src="diam_and_ribs.png" width="100%" style="display: block; margin: auto;"><br><br> Eye-balling the data seems to suggest that the traits
 change in a coordinated fashion.</p>
 <p>We first fit a multivariate unbiased random walk model where the
 off-diagonal elements in the <strong>R</strong> matrix are zero, and the
 rate of evolution is assumes constant. This is equivalent as fitting to
 separate univariate unbiased random walks models to each of the two
 time-series. <br></p>
-<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">fit.multivariate.URW</span>(diam.ln_ribs.ln, <span class="at">R =</span> <span class="st">"diag"</span>, <span class="at">r =</span> <span class="st">"fixed"</span>)</span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">"Model converged successfully."</span></span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>modelName</span>
-<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">"Multivariate Random walk (R matrix with zero off-diagonal elements)"</span></span>
-<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>logL</span>
-<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="fl">135.8697</span></span>
-<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>AICc</span>
-<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="sc">-</span><span class="fl">263.0498</span></span>
-<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>ancestral.values</span>
-<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="fl">3.715649</span> <span class="fl">4.013975</span></span>
-<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-15"><a href="#cb24-15" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>R</span>
-<span id="cb24-16"><a href="#cb24-16" aria-hidden="true" tabindex="-1"></a>          [,<span class="dv">1</span>]      [,<span class="dv">2</span>]</span>
-<span id="cb24-17"><a href="#cb24-17" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>,] <span class="fl">0.2555386</span> <span class="fl">0.0000000</span></span>
-<span id="cb24-18"><a href="#cb24-18" aria-hidden="true" tabindex="-1"></a>[<span class="dv">2</span>,] <span class="fl">0.0000000</span> <span class="fl">0.4695467</span></span>
-<span id="cb24-19"><a href="#cb24-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-20"><a href="#cb24-20" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>SE.R</span>
-<span id="cb24-21"><a href="#cb24-21" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="cn">NA</span></span>
-<span id="cb24-22"><a href="#cb24-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-23"><a href="#cb24-23" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>method</span>
-<span id="cb24-24"><a href="#cb24-24" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">"Joint"</span></span>
-<span id="cb24-25"><a href="#cb24-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-26"><a href="#cb24-26" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>K</span>
-<span id="cb24-27"><a href="#cb24-27" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="dv">4</span></span>
-<span id="cb24-28"><a href="#cb24-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-29"><a href="#cb24-29" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>n</span>
-<span id="cb24-30"><a href="#cb24-30" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="dv">63</span></span>
-<span id="cb24-31"><a href="#cb24-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-32"><a href="#cb24-32" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>iter</span>
-<span id="cb24-33"><a href="#cb24-33" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="cn">NA</span></span>
-<span id="cb24-34"><a href="#cb24-34" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-35"><a href="#cb24-35" aria-hidden="true" tabindex="-1"></a><span class="fu">attr</span>(,<span class="st">"class"</span>)</span>
-<span id="cb24-36"><a href="#cb24-36" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">"paleoTSfit"</span></span></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">fit.multivariate.URW</span>(diam.ln_ribs.ln, <span class="at">R =</span> <span class="st">"diag"</span>, <span class="at">r =</span> <span class="st">"fixed"</span>)</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">"Model converged successfully."</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>modelName</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">"Multivariate Random walk (R matrix with zero off-diagonal elements)"</span></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>logL</span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="fl">135.8697</span></span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>AICc</span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="sc">-</span><span class="fl">263.0498</span></span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>ancestral.values</span>
+<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="fl">3.715649</span> <span class="fl">4.013975</span></span>
+<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>R</span>
+<span id="cb25-16"><a href="#cb25-16" aria-hidden="true" tabindex="-1"></a>          [,<span class="dv">1</span>]      [,<span class="dv">2</span>]</span>
+<span id="cb25-17"><a href="#cb25-17" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>,] <span class="fl">0.2555386</span> <span class="fl">0.0000000</span></span>
+<span id="cb25-18"><a href="#cb25-18" aria-hidden="true" tabindex="-1"></a>[<span class="dv">2</span>,] <span class="fl">0.0000000</span> <span class="fl">0.4695467</span></span>
+<span id="cb25-19"><a href="#cb25-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-20"><a href="#cb25-20" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>SE.R</span>
+<span id="cb25-21"><a href="#cb25-21" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="cn">NA</span></span>
+<span id="cb25-22"><a href="#cb25-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-23"><a href="#cb25-23" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>method</span>
+<span id="cb25-24"><a href="#cb25-24" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">"Joint"</span></span>
+<span id="cb25-25"><a href="#cb25-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-26"><a href="#cb25-26" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>K</span>
+<span id="cb25-27"><a href="#cb25-27" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="dv">4</span></span>
+<span id="cb25-28"><a href="#cb25-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-29"><a href="#cb25-29" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>n</span>
+<span id="cb25-30"><a href="#cb25-30" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="dv">63</span></span>
+<span id="cb25-31"><a href="#cb25-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-32"><a href="#cb25-32" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>iter</span>
+<span id="cb25-33"><a href="#cb25-33" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="cn">NA</span></span>
+<span id="cb25-34"><a href="#cb25-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-35"><a href="#cb25-35" aria-hidden="true" tabindex="-1"></a><span class="fu">attr</span>(,<span class="st">"class"</span>)</span>
+<span id="cb25-36"><a href="#cb25-36" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">"paleoTSfit"</span></span></code></pre></div>
 <p><br> The returned parameters include the ancestral trait values for
 the two traits and the evolutionary rate matrix <strong>R</strong>. The
 diagonal in the <strong>R</strong> matrix contains the step size (rate
@@ -1150,42 +1165,42 @@ evolutionary changes in the two traits.</p>
 matrix to be different from zero. We do this by setting
 <code>R = symmetric</code>. We are still keeping the rate of change
 fixed through time. <br></p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">fit.multivariate.URW</span>(diam.ln_ribs.ln, <span class="at">R =</span> <span class="st">"symmetric"</span>, <span class="at">r =</span> <span class="st">"fixed"</span>)</span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">"Model converged successfully."</span></span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>modelName</span>
-<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">"Multivariate Random walk (R matrix with non-zero off-diagonal elements)"</span></span>
-<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>logL</span>
-<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="fl">181.8526</span></span>
-<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>AICc</span>
-<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="sc">-</span><span class="fl">352.6525</span></span>
-<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>ancestral.values</span>
-<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="fl">3.719176</span> <span class="fl">4.029796</span></span>
-<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>R</span>
-<span id="cb25-16"><a href="#cb25-16" aria-hidden="true" tabindex="-1"></a>          [,<span class="dv">1</span>]      [,<span class="dv">2</span>]</span>
-<span id="cb25-17"><a href="#cb25-17" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>,] <span class="fl">0.2787967</span> <span class="fl">0.3878622</span></span>
-<span id="cb25-18"><a href="#cb25-18" aria-hidden="true" tabindex="-1"></a>[<span class="dv">2</span>,] <span class="fl">0.3878622</span> <span class="fl">0.5635895</span></span>
-<span id="cb25-19"><a href="#cb25-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-20"><a href="#cb25-20" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>SE.R</span>
-<span id="cb25-21"><a href="#cb25-21" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="cn">NA</span></span>
-<span id="cb25-22"><a href="#cb25-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-23"><a href="#cb25-23" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>method</span>
-<span id="cb25-24"><a href="#cb25-24" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">"Joint"</span></span>
-<span id="cb25-25"><a href="#cb25-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-26"><a href="#cb25-26" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>K</span>
-<span id="cb25-27"><a href="#cb25-27" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="dv">5</span></span>
-<span id="cb25-28"><a href="#cb25-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-29"><a href="#cb25-29" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>n</span>
-<span id="cb25-30"><a href="#cb25-30" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="dv">63</span></span>
-<span id="cb25-31"><a href="#cb25-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-32"><a href="#cb25-32" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>iter</span>
-<span id="cb25-33"><a href="#cb25-33" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="cn">NA</span></span>
-<span id="cb25-34"><a href="#cb25-34" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-35"><a href="#cb25-35" aria-hidden="true" tabindex="-1"></a><span class="fu">attr</span>(,<span class="st">"class"</span>)</span>
-<span id="cb25-36"><a href="#cb25-36" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">"paleoTSfit"</span></span></code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">fit.multivariate.URW</span>(diam.ln_ribs.ln, <span class="at">R =</span> <span class="st">"symmetric"</span>, <span class="at">r =</span> <span class="st">"fixed"</span>)</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">"Model converged successfully."</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>modelName</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">"Multivariate Random walk (R matrix with non-zero off-diagonal elements)"</span></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>logL</span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="fl">181.8526</span></span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>AICc</span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="sc">-</span><span class="fl">352.6525</span></span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>ancestral.values</span>
+<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="fl">3.719176</span> <span class="fl">4.029796</span></span>
+<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-15"><a href="#cb26-15" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>R</span>
+<span id="cb26-16"><a href="#cb26-16" aria-hidden="true" tabindex="-1"></a>          [,<span class="dv">1</span>]      [,<span class="dv">2</span>]</span>
+<span id="cb26-17"><a href="#cb26-17" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>,] <span class="fl">0.2787967</span> <span class="fl">0.3878622</span></span>
+<span id="cb26-18"><a href="#cb26-18" aria-hidden="true" tabindex="-1"></a>[<span class="dv">2</span>,] <span class="fl">0.3878622</span> <span class="fl">0.5635895</span></span>
+<span id="cb26-19"><a href="#cb26-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-20"><a href="#cb26-20" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>SE.R</span>
+<span id="cb26-21"><a href="#cb26-21" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="cn">NA</span></span>
+<span id="cb26-22"><a href="#cb26-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-23"><a href="#cb26-23" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>method</span>
+<span id="cb26-24"><a href="#cb26-24" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">"Joint"</span></span>
+<span id="cb26-25"><a href="#cb26-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-26"><a href="#cb26-26" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>K</span>
+<span id="cb26-27"><a href="#cb26-27" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="dv">5</span></span>
+<span id="cb26-28"><a href="#cb26-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-29"><a href="#cb26-29" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>n</span>
+<span id="cb26-30"><a href="#cb26-30" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="dv">63</span></span>
+<span id="cb26-31"><a href="#cb26-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-32"><a href="#cb26-32" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>iter</span>
+<span id="cb26-33"><a href="#cb26-33" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="cn">NA</span></span>
+<span id="cb26-34"><a href="#cb26-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-35"><a href="#cb26-35" aria-hidden="true" tabindex="-1"></a><span class="fu">attr</span>(,<span class="st">"class"</span>)</span>
+<span id="cb26-36"><a href="#cb26-36" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">"paleoTSfit"</span></span></code></pre></div>
 <p><br> A multivariate random walk has a much better fit compared to
 treating the traits univariately according to AICc. This indicates that
 the traits are not evolving independently of each other. The estimated
@@ -1196,16 +1211,16 @@ evolutionary correlation can be computed by standardizing the covariance
 with the product of the standard deviations on the diagonal (This can
 also be using the function <code>cov3cor</code> in the
 <code>stats</code> package). <br></p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fl">0.3878622</span><span class="sc">/</span>(<span class="fu">sqrt</span>(<span class="fl">0.2787967</span>)<span class="sc">*</span><span class="fu">sqrt</span>(<span class="fl">0.5635895</span>))</span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="fl">0.9784805</span></span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Or alternatively:</span></span>
-<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> model1<span class="ot">&lt;-</span><span class="fu">fit.multivariate.URW</span>(diam.ln_ribs.ln, <span class="at">R =</span> <span class="st">"symmetric"</span>, <span class="at">r =</span> <span class="st">"fixed"</span>)</span>
-<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">"Model converged successfully."</span></span>
-<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> stats<span class="sc">::</span><span class="fu">cov2cor</span>(model1<span class="sc">$</span>R)</span>
-<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>          [,<span class="dv">1</span>]      [,<span class="dv">2</span>]</span>
-<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>,] <span class="fl">1.0000000</span> <span class="fl">0.9784806</span></span>
-<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>[<span class="dv">2</span>,] <span class="fl">0.9784806</span> <span class="fl">1.0000000</span></span></code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fl">0.3878622</span><span class="sc">/</span>(<span class="fu">sqrt</span>(<span class="fl">0.2787967</span>)<span class="sc">*</span><span class="fu">sqrt</span>(<span class="fl">0.5635895</span>))</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="fl">0.9784805</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Or alternatively:</span></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> model1<span class="ot">&lt;-</span><span class="fu">fit.multivariate.URW</span>(diam.ln_ribs.ln, <span class="at">R =</span> <span class="st">"symmetric"</span>, <span class="at">r =</span> <span class="st">"fixed"</span>)</span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">"Model converged successfully."</span></span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> stats<span class="sc">::</span><span class="fu">cov2cor</span>(model1<span class="sc">$</span>R)</span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>          [,<span class="dv">1</span>]      [,<span class="dv">2</span>]</span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>,] <span class="fl">1.0000000</span> <span class="fl">0.9784806</span></span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>[<span class="dv">2</span>,] <span class="fl">0.9784806</span> <span class="fl">1.0000000</span></span></code></pre></div>
 <p><br> A correlation of 0.98 basically means the two traits evolve as
 a single trait, since at least part of the deviation from a correlation
 of unity is due to measurement error.</p>
@@ -1252,82 +1267,82 @@ points in the time series by not defining a shift point (the default
 option). The length of the smallest number of samples (populations) in
 each of the two segments is controlled by the <code>minb</code> argument
 (the default is 10). <br></p>
-<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">fit.multivariate.URW.shift</span>(diam.ln_ribs.ln, <span class="at">hess =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">"Searching for all possible switchpoints in time series"</span></span>
-<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>Total <span class="co"># hypotheses:  44 </span></span>
-<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span>  [<span class="dv">1</span>] <span class="st">"Model converged successfully."</span></span>
-<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a><span class="dv">2</span>  [<span class="dv">1</span>] <span class="st">"Model converged successfully."</span></span>
-<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Omitted some of the printed output </span></span>
-<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a><span class="dv">44</span>  [<span class="dv">1</span>] <span class="st">"Model converged successfully."</span></span>
-<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>modelName</span>
-<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">"Multivariate Random walk with two R matrices (with non-zero off-diagonal elements)"</span></span>
-<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>logL</span>
-<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="fl">189.7424</span></span>
-<span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-15"><a href="#cb27-15" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>AICc</span>
-<span id="cb27-16"><a href="#cb27-16" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="sc">-</span><span class="fl">358.0887</span></span>
-<span id="cb27-17"><a href="#cb27-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-18"><a href="#cb27-18" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>ancestral.values</span>
-<span id="cb27-19"><a href="#cb27-19" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="fl">3.728940</span> <span class="fl">4.055547</span></span>
-<span id="cb27-20"><a href="#cb27-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-21"><a href="#cb27-21" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>R</span>
-<span id="cb27-22"><a href="#cb27-22" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>R<span class="sc">$</span>R<span class="fl">.1</span></span>
-<span id="cb27-23"><a href="#cb27-23" aria-hidden="true" tabindex="-1"></a>          [,<span class="dv">1</span>]      [,<span class="dv">2</span>]</span>
-<span id="cb27-24"><a href="#cb27-24" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>,] <span class="fl">0.3633035</span> <span class="fl">0.6331324</span></span>
-<span id="cb27-25"><a href="#cb27-25" aria-hidden="true" tabindex="-1"></a>[<span class="dv">2</span>,] <span class="fl">0.6331324</span> <span class="fl">1.1402896</span></span>
-<span id="cb27-26"><a href="#cb27-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-27"><a href="#cb27-27" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>R<span class="sc">$</span>R<span class="fl">.2</span></span>
-<span id="cb27-28"><a href="#cb27-28" aria-hidden="true" tabindex="-1"></a>          [,<span class="dv">1</span>]      [,<span class="dv">2</span>]</span>
-<span id="cb27-29"><a href="#cb27-29" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>,] <span class="fl">0.2220926</span> <span class="fl">0.2712090</span></span>
-<span id="cb27-30"><a href="#cb27-30" aria-hidden="true" tabindex="-1"></a>[<span class="dv">2</span>,] <span class="fl">0.2712090</span> <span class="fl">0.3376271</span></span>
-<span id="cb27-31"><a href="#cb27-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-32"><a href="#cb27-32" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-33"><a href="#cb27-33" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>SE.R</span>
-<span id="cb27-34"><a href="#cb27-34" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>SE.R<span class="sc">$</span>SE.R<span class="fl">.1</span></span>
-<span id="cb27-35"><a href="#cb27-35" aria-hidden="true" tabindex="-1"></a>           [,<span class="dv">1</span>]       [,<span class="dv">2</span>]</span>
-<span id="cb27-36"><a href="#cb27-36" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>,] <span class="fl">0.01701042</span> <span class="fl">0.02975274</span></span>
-<span id="cb27-37"><a href="#cb27-37" aria-hidden="true" tabindex="-1"></a>[<span class="dv">2</span>,] <span class="fl">0.02975274</span> <span class="fl">0.06850436</span></span>
-<span id="cb27-38"><a href="#cb27-38" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-39"><a href="#cb27-39" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>SE.R<span class="sc">$</span>SE.R<span class="fl">.2</span></span>
-<span id="cb27-40"><a href="#cb27-40" aria-hidden="true" tabindex="-1"></a>            [,<span class="dv">1</span>]        [,<span class="dv">2</span>]</span>
-<span id="cb27-41"><a href="#cb27-41" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>,] <span class="fl">0.003426091</span> <span class="fl">0.004333208</span></span>
-<span id="cb27-42"><a href="#cb27-42" aria-hidden="true" tabindex="-1"></a>[<span class="dv">2</span>,] <span class="fl">0.004333208</span> <span class="fl">0.006481010</span></span>
-<span id="cb27-43"><a href="#cb27-43" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-44"><a href="#cb27-44" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-45"><a href="#cb27-45" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>method</span>
-<span id="cb27-46"><a href="#cb27-46" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">"Joint"</span></span>
-<span id="cb27-47"><a href="#cb27-47" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-48"><a href="#cb27-48" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>K</span>
-<span id="cb27-49"><a href="#cb27-49" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="dv">9</span></span>
-<span id="cb27-50"><a href="#cb27-50" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-51"><a href="#cb27-51" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>n</span>
-<span id="cb27-52"><a href="#cb27-52" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="dv">63</span></span>
-<span id="cb27-53"><a href="#cb27-53" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-54"><a href="#cb27-54" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>iter</span>
-<span id="cb27-55"><a href="#cb27-55" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="cn">NA</span></span>
-<span id="cb27-56"><a href="#cb27-56" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-57"><a href="#cb27-57" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>parameters</span>
-<span id="cb27-58"><a href="#cb27-58" aria-hidden="true" tabindex="-1"></a>shift1 </span>
-<span id="cb27-59"><a href="#cb27-59" aria-hidden="true" tabindex="-1"></a>    <span class="dv">18</span> </span>
-<span id="cb27-60"><a href="#cb27-60" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-61"><a href="#cb27-61" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>all.logl</span>
-<span id="cb27-62"><a href="#cb27-62" aria-hidden="true" tabindex="-1"></a> [<span class="dv">1</span>] <span class="fl">186.3352</span> <span class="fl">184.1136</span> <span class="fl">185.2123</span> <span class="fl">188.5563</span> <span class="fl">188.9149</span> <span class="fl">186.5875</span> <span class="fl">186.0033</span> <span class="fl">189.7424</span> <span class="fl">186.3212</span> <span class="fl">186.2200</span> <span class="fl">185.5447</span></span>
-<span id="cb27-63"><a href="#cb27-63" aria-hidden="true" tabindex="-1"></a>[<span class="dv">12</span>] <span class="fl">184.9384</span> <span class="fl">184.4486</span> <span class="fl">184.0647</span> <span class="fl">187.5535</span> <span class="fl">185.1279</span> <span class="fl">186.3236</span> <span class="fl">186.3285</span> <span class="fl">187.3570</span> <span class="fl">185.9061</span> <span class="fl">185.2030</span> <span class="fl">186.0518</span></span>
-<span id="cb27-64"><a href="#cb27-64" aria-hidden="true" tabindex="-1"></a>[<span class="dv">23</span>] <span class="fl">186.3088</span> <span class="fl">184.8322</span> <span class="fl">184.9602</span> <span class="fl">184.2766</span> <span class="fl">185.0280</span> <span class="fl">185.3865</span> <span class="fl">184.2946</span> <span class="fl">183.7373</span> <span class="fl">182.9746</span> <span class="fl">182.5979</span> <span class="fl">181.3128</span></span>
-<span id="cb27-65"><a href="#cb27-65" aria-hidden="true" tabindex="-1"></a>[<span class="dv">34</span>] <span class="fl">180.8803</span> <span class="fl">181.0370</span> <span class="fl">180.4002</span> <span class="fl">179.8530</span> <span class="fl">179.5366</span> <span class="fl">179.5296</span> <span class="fl">179.5023</span> <span class="fl">179.6067</span> <span class="fl">179.4793</span> <span class="fl">179.3429</span> <span class="fl">179.4833</span></span>
-<span id="cb27-66"><a href="#cb27-66" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-67"><a href="#cb27-67" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>GG</span>
-<span id="cb27-68"><a href="#cb27-68" aria-hidden="true" tabindex="-1"></a>     [,<span class="dv">1</span>] [,<span class="dv">2</span>] [,<span class="dv">3</span>] [,<span class="dv">4</span>] [,<span class="dv">5</span>] [,<span class="dv">6</span>] [,<span class="dv">7</span>] [,<span class="dv">8</span>] [,<span class="dv">9</span>] [,<span class="dv">10</span>] [,<span class="dv">11</span>] [,<span class="dv">12</span>] [,<span class="dv">13</span>] [,<span class="dv">14</span>] [,<span class="dv">15</span>] [,<span class="dv">16</span>] [,<span class="dv">17</span>] [,<span class="dv">18</span>]</span>
-<span id="cb27-69"><a href="#cb27-69" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>,]   <span class="dv">11</span>   <span class="dv">12</span>   <span class="dv">13</span>   <span class="dv">14</span>   <span class="dv">15</span>   <span class="dv">16</span>   <span class="dv">17</span>   <span class="dv">18</span>   <span class="dv">19</span>    <span class="dv">20</span>    <span class="dv">21</span>    <span class="dv">22</span>    <span class="dv">23</span>    <span class="dv">24</span>    <span class="dv">25</span>    <span class="dv">26</span>    <span class="dv">27</span>    <span class="dv">28</span></span>
-<span id="cb27-70"><a href="#cb27-70" aria-hidden="true" tabindex="-1"></a>     [,<span class="dv">19</span>] [,<span class="dv">20</span>] [,<span class="dv">21</span>] [,<span class="dv">22</span>] [,<span class="dv">23</span>] [,<span class="dv">24</span>] [,<span class="dv">25</span>] [,<span class="dv">26</span>] [,<span class="dv">27</span>] [,<span class="dv">28</span>] [,<span class="dv">29</span>] [,<span class="dv">30</span>] [,<span class="dv">31</span>] [,<span class="dv">32</span>] [,<span class="dv">33</span>] [,<span class="dv">34</span>]</span>
-<span id="cb27-71"><a href="#cb27-71" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>,]    <span class="dv">29</span>    <span class="dv">30</span>    <span class="dv">31</span>    <span class="dv">32</span>    <span class="dv">33</span>    <span class="dv">34</span>    <span class="dv">35</span>    <span class="dv">36</span>    <span class="dv">37</span>    <span class="dv">38</span>    <span class="dv">39</span>    <span class="dv">40</span>    <span class="dv">41</span>    <span class="dv">42</span>    <span class="dv">43</span>    <span class="dv">44</span></span>
-<span id="cb27-72"><a href="#cb27-72" aria-hidden="true" tabindex="-1"></a>     [,<span class="dv">35</span>] [,<span class="dv">36</span>] [,<span class="dv">37</span>] [,<span class="dv">38</span>] [,<span class="dv">39</span>] [,<span class="dv">40</span>] [,<span class="dv">41</span>] [,<span class="dv">42</span>] [,<span class="dv">43</span>] [,<span class="dv">44</span>]</span>
-<span id="cb27-73"><a href="#cb27-73" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>,]    <span class="dv">45</span>    <span class="dv">46</span>    <span class="dv">47</span>    <span class="dv">48</span>    <span class="dv">49</span>    <span class="dv">50</span>    <span class="dv">51</span>    <span class="dv">52</span>    <span class="dv">53</span>    <span class="dv">54</span></span>
-<span id="cb27-74"><a href="#cb27-74" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-75"><a href="#cb27-75" aria-hidden="true" tabindex="-1"></a><span class="fu">attr</span>(,<span class="st">"class"</span>)</span>
-<span id="cb27-76"><a href="#cb27-76" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">"paleoTSfit"</span></span></code></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">fit.multivariate.URW.shift</span>(diam.ln_ribs.ln, <span class="at">hess =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">"Searching for all possible switchpoints in time series"</span></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>Total <span class="co"># hypotheses:  44 </span></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span>  [<span class="dv">1</span>] <span class="st">"Model converged successfully."</span></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a><span class="dv">2</span>  [<span class="dv">1</span>] <span class="st">"Model converged successfully."</span></span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Omitted some of the printed output </span></span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a><span class="dv">44</span>  [<span class="dv">1</span>] <span class="st">"Model converged successfully."</span></span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>modelName</span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">"Multivariate Random walk with two R matrices (with non-zero off-diagonal elements)"</span></span>
+<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>logL</span>
+<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="fl">189.7424</span></span>
+<span id="cb28-14"><a href="#cb28-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-15"><a href="#cb28-15" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>AICc</span>
+<span id="cb28-16"><a href="#cb28-16" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="sc">-</span><span class="fl">358.0887</span></span>
+<span id="cb28-17"><a href="#cb28-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-18"><a href="#cb28-18" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>ancestral.values</span>
+<span id="cb28-19"><a href="#cb28-19" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="fl">3.728940</span> <span class="fl">4.055547</span></span>
+<span id="cb28-20"><a href="#cb28-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-21"><a href="#cb28-21" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>R</span>
+<span id="cb28-22"><a href="#cb28-22" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>R<span class="sc">$</span>R<span class="fl">.1</span></span>
+<span id="cb28-23"><a href="#cb28-23" aria-hidden="true" tabindex="-1"></a>          [,<span class="dv">1</span>]      [,<span class="dv">2</span>]</span>
+<span id="cb28-24"><a href="#cb28-24" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>,] <span class="fl">0.3633035</span> <span class="fl">0.6331324</span></span>
+<span id="cb28-25"><a href="#cb28-25" aria-hidden="true" tabindex="-1"></a>[<span class="dv">2</span>,] <span class="fl">0.6331324</span> <span class="fl">1.1402896</span></span>
+<span id="cb28-26"><a href="#cb28-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-27"><a href="#cb28-27" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>R<span class="sc">$</span>R<span class="fl">.2</span></span>
+<span id="cb28-28"><a href="#cb28-28" aria-hidden="true" tabindex="-1"></a>          [,<span class="dv">1</span>]      [,<span class="dv">2</span>]</span>
+<span id="cb28-29"><a href="#cb28-29" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>,] <span class="fl">0.2220926</span> <span class="fl">0.2712090</span></span>
+<span id="cb28-30"><a href="#cb28-30" aria-hidden="true" tabindex="-1"></a>[<span class="dv">2</span>,] <span class="fl">0.2712090</span> <span class="fl">0.3376271</span></span>
+<span id="cb28-31"><a href="#cb28-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-32"><a href="#cb28-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-33"><a href="#cb28-33" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>SE.R</span>
+<span id="cb28-34"><a href="#cb28-34" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>SE.R<span class="sc">$</span>SE.R<span class="fl">.1</span></span>
+<span id="cb28-35"><a href="#cb28-35" aria-hidden="true" tabindex="-1"></a>           [,<span class="dv">1</span>]       [,<span class="dv">2</span>]</span>
+<span id="cb28-36"><a href="#cb28-36" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>,] <span class="fl">0.01701042</span> <span class="fl">0.02975274</span></span>
+<span id="cb28-37"><a href="#cb28-37" aria-hidden="true" tabindex="-1"></a>[<span class="dv">2</span>,] <span class="fl">0.02975274</span> <span class="fl">0.06850436</span></span>
+<span id="cb28-38"><a href="#cb28-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-39"><a href="#cb28-39" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>SE.R<span class="sc">$</span>SE.R<span class="fl">.2</span></span>
+<span id="cb28-40"><a href="#cb28-40" aria-hidden="true" tabindex="-1"></a>            [,<span class="dv">1</span>]        [,<span class="dv">2</span>]</span>
+<span id="cb28-41"><a href="#cb28-41" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>,] <span class="fl">0.003426091</span> <span class="fl">0.004333208</span></span>
+<span id="cb28-42"><a href="#cb28-42" aria-hidden="true" tabindex="-1"></a>[<span class="dv">2</span>,] <span class="fl">0.004333208</span> <span class="fl">0.006481010</span></span>
+<span id="cb28-43"><a href="#cb28-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-44"><a href="#cb28-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-45"><a href="#cb28-45" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>method</span>
+<span id="cb28-46"><a href="#cb28-46" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">"Joint"</span></span>
+<span id="cb28-47"><a href="#cb28-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-48"><a href="#cb28-48" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>K</span>
+<span id="cb28-49"><a href="#cb28-49" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="dv">9</span></span>
+<span id="cb28-50"><a href="#cb28-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-51"><a href="#cb28-51" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>n</span>
+<span id="cb28-52"><a href="#cb28-52" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="dv">63</span></span>
+<span id="cb28-53"><a href="#cb28-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-54"><a href="#cb28-54" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>iter</span>
+<span id="cb28-55"><a href="#cb28-55" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="cn">NA</span></span>
+<span id="cb28-56"><a href="#cb28-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-57"><a href="#cb28-57" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>parameters</span>
+<span id="cb28-58"><a href="#cb28-58" aria-hidden="true" tabindex="-1"></a>shift1 </span>
+<span id="cb28-59"><a href="#cb28-59" aria-hidden="true" tabindex="-1"></a>    <span class="dv">18</span> </span>
+<span id="cb28-60"><a href="#cb28-60" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-61"><a href="#cb28-61" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>all.logl</span>
+<span id="cb28-62"><a href="#cb28-62" aria-hidden="true" tabindex="-1"></a> [<span class="dv">1</span>] <span class="fl">186.3352</span> <span class="fl">184.1136</span> <span class="fl">185.2123</span> <span class="fl">188.5563</span> <span class="fl">188.9149</span> <span class="fl">186.5875</span> <span class="fl">186.0033</span> <span class="fl">189.7424</span> <span class="fl">186.3212</span> <span class="fl">186.2200</span> <span class="fl">185.5447</span></span>
+<span id="cb28-63"><a href="#cb28-63" aria-hidden="true" tabindex="-1"></a>[<span class="dv">12</span>] <span class="fl">184.9384</span> <span class="fl">184.4486</span> <span class="fl">184.0647</span> <span class="fl">187.5535</span> <span class="fl">185.1279</span> <span class="fl">186.3236</span> <span class="fl">186.3285</span> <span class="fl">187.3570</span> <span class="fl">185.9061</span> <span class="fl">185.2030</span> <span class="fl">186.0518</span></span>
+<span id="cb28-64"><a href="#cb28-64" aria-hidden="true" tabindex="-1"></a>[<span class="dv">23</span>] <span class="fl">186.3088</span> <span class="fl">184.8322</span> <span class="fl">184.9602</span> <span class="fl">184.2766</span> <span class="fl">185.0280</span> <span class="fl">185.3865</span> <span class="fl">184.2946</span> <span class="fl">183.7373</span> <span class="fl">182.9746</span> <span class="fl">182.5979</span> <span class="fl">181.3128</span></span>
+<span id="cb28-65"><a href="#cb28-65" aria-hidden="true" tabindex="-1"></a>[<span class="dv">34</span>] <span class="fl">180.8803</span> <span class="fl">181.0370</span> <span class="fl">180.4002</span> <span class="fl">179.8530</span> <span class="fl">179.5366</span> <span class="fl">179.5296</span> <span class="fl">179.5023</span> <span class="fl">179.6067</span> <span class="fl">179.4793</span> <span class="fl">179.3429</span> <span class="fl">179.4833</span></span>
+<span id="cb28-66"><a href="#cb28-66" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-67"><a href="#cb28-67" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>GG</span>
+<span id="cb28-68"><a href="#cb28-68" aria-hidden="true" tabindex="-1"></a>     [,<span class="dv">1</span>] [,<span class="dv">2</span>] [,<span class="dv">3</span>] [,<span class="dv">4</span>] [,<span class="dv">5</span>] [,<span class="dv">6</span>] [,<span class="dv">7</span>] [,<span class="dv">8</span>] [,<span class="dv">9</span>] [,<span class="dv">10</span>] [,<span class="dv">11</span>] [,<span class="dv">12</span>] [,<span class="dv">13</span>] [,<span class="dv">14</span>] [,<span class="dv">15</span>] [,<span class="dv">16</span>] [,<span class="dv">17</span>] [,<span class="dv">18</span>]</span>
+<span id="cb28-69"><a href="#cb28-69" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>,]   <span class="dv">11</span>   <span class="dv">12</span>   <span class="dv">13</span>   <span class="dv">14</span>   <span class="dv">15</span>   <span class="dv">16</span>   <span class="dv">17</span>   <span class="dv">18</span>   <span class="dv">19</span>    <span class="dv">20</span>    <span class="dv">21</span>    <span class="dv">22</span>    <span class="dv">23</span>    <span class="dv">24</span>    <span class="dv">25</span>    <span class="dv">26</span>    <span class="dv">27</span>    <span class="dv">28</span></span>
+<span id="cb28-70"><a href="#cb28-70" aria-hidden="true" tabindex="-1"></a>     [,<span class="dv">19</span>] [,<span class="dv">20</span>] [,<span class="dv">21</span>] [,<span class="dv">22</span>] [,<span class="dv">23</span>] [,<span class="dv">24</span>] [,<span class="dv">25</span>] [,<span class="dv">26</span>] [,<span class="dv">27</span>] [,<span class="dv">28</span>] [,<span class="dv">29</span>] [,<span class="dv">30</span>] [,<span class="dv">31</span>] [,<span class="dv">32</span>] [,<span class="dv">33</span>] [,<span class="dv">34</span>]</span>
+<span id="cb28-71"><a href="#cb28-71" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>,]    <span class="dv">29</span>    <span class="dv">30</span>    <span class="dv">31</span>    <span class="dv">32</span>    <span class="dv">33</span>    <span class="dv">34</span>    <span class="dv">35</span>    <span class="dv">36</span>    <span class="dv">37</span>    <span class="dv">38</span>    <span class="dv">39</span>    <span class="dv">40</span>    <span class="dv">41</span>    <span class="dv">42</span>    <span class="dv">43</span>    <span class="dv">44</span></span>
+<span id="cb28-72"><a href="#cb28-72" aria-hidden="true" tabindex="-1"></a>     [,<span class="dv">35</span>] [,<span class="dv">36</span>] [,<span class="dv">37</span>] [,<span class="dv">38</span>] [,<span class="dv">39</span>] [,<span class="dv">40</span>] [,<span class="dv">41</span>] [,<span class="dv">42</span>] [,<span class="dv">43</span>] [,<span class="dv">44</span>]</span>
+<span id="cb28-73"><a href="#cb28-73" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>,]    <span class="dv">45</span>    <span class="dv">46</span>    <span class="dv">47</span>    <span class="dv">48</span>    <span class="dv">49</span>    <span class="dv">50</span>    <span class="dv">51</span>    <span class="dv">52</span>    <span class="dv">53</span>    <span class="dv">54</span></span>
+<span id="cb28-74"><a href="#cb28-74" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-75"><a href="#cb28-75" aria-hidden="true" tabindex="-1"></a><span class="fu">attr</span>(,<span class="st">"class"</span>)</span>
+<span id="cb28-76"><a href="#cb28-76" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">"paleoTSfit"</span></span></code></pre></div>
 <p><br> Two <strong>R</strong> matrices are returned (<em>R.1</em> and
 <em>R.2</em>), along with their standard errors (since we used
 <code>hess = TRUE</code>). The estimated shift point is 18
@@ -1348,13 +1363,13 @@ correlation is estimated to be very similar in both <em>R.1</em> and
 <em>R.2</em>.</p>
 <p>We now check if the multivariate accelerated and decelerated models
 have a better fit than the multivariate random walk models. <br></p>
-<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> multi.accel<span class="ot">&lt;-</span><span class="fu">fit.multivariate.URW</span>(diam.ln_ribs.ln, <span class="at">R =</span> <span class="st">"symmetric"</span>, <span class="at">r =</span> <span class="st">"accel"</span>)</span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">"Model converged successfully."</span></span>
-<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> multi.decel<span class="ot">&lt;-</span><span class="fu">fit.multivariate.URW</span>(diam.ln_ribs.ln, <span class="at">R =</span> <span class="st">"symmetric"</span>, <span class="at">r =</span> <span class="st">"decel"</span>)</span>
-<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">"Model converged successfully."</span></span>
-<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> multi.accel<span class="sc">$</span>AICc;multi.decel<span class="sc">$</span>AICc</span>
-<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="sc">-</span><span class="fl">336.454</span></span>
-<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="sc">-</span><span class="fl">351.5167</span></span></code></pre></div>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> multi.accel<span class="ot">&lt;-</span><span class="fu">fit.multivariate.URW</span>(diam.ln_ribs.ln, <span class="at">R =</span> <span class="st">"symmetric"</span>, <span class="at">r =</span> <span class="st">"accel"</span>)</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">"Model converged successfully."</span></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> multi.decel<span class="ot">&lt;-</span><span class="fu">fit.multivariate.URW</span>(diam.ln_ribs.ln, <span class="at">R =</span> <span class="st">"symmetric"</span>, <span class="at">r =</span> <span class="st">"decel"</span>)</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">"Model converged successfully."</span></span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> multi.accel<span class="sc">$</span>AICc;multi.decel<span class="sc">$</span>AICc</span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="sc">-</span><span class="fl">336.454</span></span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="sc">-</span><span class="fl">351.5167</span></span></code></pre></div>
 <p><br> The multivariate decelerated evolution model has a similar
 (but slightly worse) fit to the data compared to the multivariate
 unbiased random walk model with a single <strong>R</strong> matrix, but
@@ -1432,8 +1447,10 @@ non-correlated.</p></li>
 <li><p>The same traits affect each others optimum (but to different
 degrees). The same off-diagonal elements on both sides of the diagonal
 are parameterized in the <strong>A</strong> matrix. The the stochastic
-changes in the trait can be either correlated or non-correlated. <br>
-An <strong>A</strong> matrix with off-diagonal elements investigates
+changes in the trait can be either correlated or non-correlated.
+<br></p></li>
+</ul>
+<p>An <strong>A</strong> matrix with off-diagonal elements investigates
 <a href="https://en.wikipedia.org/wiki/Granger_causality" class="external-link">(Granger)</a>
 causality between the two traits/variables (Granger 1969; Schweder
 1970). Simply speaking, we have evidence for Granger causality if
@@ -1448,8 +1465,7 @@ potential relationship between two variables is important in Granger
 causality. And while a correlation is symmetric (the correlation between
 X and Y is the same as the correlation between Y and X), this is not
 necessarily the case for Granger causality. X can (Granger) cause Y,
-without Y Granger-causing X.</p></li>
-</ul>
+without Y Granger-causing X.</p>
 <p>For a data set consisting of two traits, there are four possible
 parameterizations of the <strong>A</strong> matrix (see panels below).
 Independent adaptation of both traits (panel a), trait Y affecting the
@@ -1459,7 +1475,7 @@ these four ways of parameterizing the <strong>A</strong> matrix can be
 combined with an <strong>R</strong> matrix with elements only on the
 diagonal (the stochastic changes in the traits are uncorrelated) or a
 completely parameterized <strong>R</strong> matrix (the stochastic
-changes in the traits are correlated).<br><br><img src="A_matrices.png" width="40%" style="display: block; margin: auto;"><br> It is also possible to implement a model where the last trait in
+changes in the traits are correlated).<br><br><img src="A_matrices.png" width="60%" style="display: block; margin: auto;"><br> It is also possible to implement a model where the last trait in
 the data set evolves as an unbiased random walk which affects the optima
 for all other traits in the data set. This model can be fitted by
 defining <code>A.matrix ="OUBM"</code>, which sets the last diagonal
@@ -1493,56 +1509,56 @@ matrices) or whether only the adaptation part of the trait dynamics is
 independent in the two traits (diagonal <strong>A</strong> matrix and
 symmetric <strong>R</strong> matrix). We will test these hypotheses
 using the <code>fit.multivariate.OU</code> function. <br></p>
-<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> OUOU.model1<span class="ot">&lt;-</span><span class="fu">fit.multivariate.OU</span>(diam.ln_ribs.ln, <span class="at">A.matrix=</span><span class="st">"diag"</span>, <span class="at">R.matrix=</span><span class="st">"diag"</span>)</span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> OUOU.model2<span class="ot">&lt;-</span><span class="fu">fit.multivariate.OU</span>(diam.ln_ribs.ln, <span class="at">A.matrix=</span><span class="st">"diag"</span>, <span class="at">R.matrix=</span><span class="st">"symmetric"</span>)</span>
-<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> OUOU.model1<span class="sc">$</span>AICc;OUOU.model2<span class="sc">$</span>AICc</span>
-<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="sc">-</span><span class="fl">267.3968</span></span>
-<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="sc">-</span><span class="fl">352.6937</span></span>
-<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> OUOU.model2</span>
-<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>logL</span>
-<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="fl">187.045</span></span>
-<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>AICc</span>
-<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="sc">-</span><span class="fl">352.6937</span></span>
-<span id="cb29-12"><a href="#cb29-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-13"><a href="#cb29-13" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>ancestral.values</span>
-<span id="cb29-14"><a href="#cb29-14" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="fl">3.723682</span> <span class="fl">4.019902</span></span>
-<span id="cb29-15"><a href="#cb29-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-16"><a href="#cb29-16" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>optima</span>
-<span id="cb29-17"><a href="#cb29-17" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="fl">3.884589</span> <span class="fl">4.292722</span></span>
-<span id="cb29-18"><a href="#cb29-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-19"><a href="#cb29-19" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>A</span>
-<span id="cb29-20"><a href="#cb29-20" aria-hidden="true" tabindex="-1"></a>         [,<span class="dv">1</span>]     [,<span class="dv">2</span>]</span>
-<span id="cb29-21"><a href="#cb29-21" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>,] <span class="fl">11.32464</span>  <span class="fl">0.00000</span></span>
-<span id="cb29-22"><a href="#cb29-22" aria-hidden="true" tabindex="-1"></a>[<span class="dv">2</span>,]  <span class="fl">0.00000</span> <span class="fl">14.16996</span></span>
-<span id="cb29-23"><a href="#cb29-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-24"><a href="#cb29-24" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>half.life</span>
-<span id="cb29-25"><a href="#cb29-25" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="fl">0.06120697</span> <span class="fl">0.04891666</span></span>
-<span id="cb29-26"><a href="#cb29-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-27"><a href="#cb29-27" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>R</span>
-<span id="cb29-28"><a href="#cb29-28" aria-hidden="true" tabindex="-1"></a>           [,<span class="dv">1</span>]       [,<span class="dv">2</span>]</span>
-<span id="cb29-29"><a href="#cb29-29" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>,] <span class="fl">0.01985206</span> <span class="fl">0.07543067</span></span>
-<span id="cb29-30"><a href="#cb29-30" aria-hidden="true" tabindex="-1"></a>[<span class="dv">2</span>,] <span class="fl">0.07543067</span> <span class="fl">0.91041225</span></span>
-<span id="cb29-31"><a href="#cb29-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-32"><a href="#cb29-32" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>method</span>
-<span id="cb29-33"><a href="#cb29-33" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">"Joint"</span></span>
-<span id="cb29-34"><a href="#cb29-34" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-35"><a href="#cb29-35" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>K</span>
-<span id="cb29-36"><a href="#cb29-36" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="dv">9</span></span>
-<span id="cb29-37"><a href="#cb29-37" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-38"><a href="#cb29-38" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>n</span>
-<span id="cb29-39"><a href="#cb29-39" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="dv">63</span></span>
-<span id="cb29-40"><a href="#cb29-40" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-41"><a href="#cb29-41" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>iter</span>
-<span id="cb29-42"><a href="#cb29-42" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="cn">NA</span></span>
-<span id="cb29-43"><a href="#cb29-43" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-44"><a href="#cb29-44" aria-hidden="true" tabindex="-1"></a><span class="fu">attr</span>(,<span class="st">"class"</span>)</span>
-<span id="cb29-45"><a href="#cb29-45" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">"paleoTSfit"</span></span>
-<span id="cb29-46"><a href="#cb29-46" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-47"><a href="#cb29-47" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span>stats<span class="sc">::</span><span class="fu">cov2cor</span>(OUOU.model2<span class="sc">$</span>R)</span>
-<span id="cb29-48"><a href="#cb29-48" aria-hidden="true" tabindex="-1"></a>          [,<span class="dv">1</span>]      [,<span class="dv">2</span>]</span>
-<span id="cb29-49"><a href="#cb29-49" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>,] <span class="fl">1.0000000</span> <span class="fl">0.5612106</span></span>
-<span id="cb29-50"><a href="#cb29-50" aria-hidden="true" tabindex="-1"></a>[<span class="dv">2</span>,] <span class="fl">0.5612106</span> <span class="fl">1.0000000</span></span></code></pre></div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> OUOU.model1<span class="ot">&lt;-</span><span class="fu">fit.multivariate.OU</span>(diam.ln_ribs.ln, <span class="at">A.matrix=</span><span class="st">"diag"</span>, <span class="at">R.matrix=</span><span class="st">"diag"</span>)</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> OUOU.model2<span class="ot">&lt;-</span><span class="fu">fit.multivariate.OU</span>(diam.ln_ribs.ln, <span class="at">A.matrix=</span><span class="st">"diag"</span>, <span class="at">R.matrix=</span><span class="st">"symmetric"</span>)</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> OUOU.model1<span class="sc">$</span>AICc;OUOU.model2<span class="sc">$</span>AICc</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="sc">-</span><span class="fl">267.3968</span></span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="sc">-</span><span class="fl">352.6937</span></span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> OUOU.model2</span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>logL</span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="fl">187.045</span></span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>AICc</span>
+<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="sc">-</span><span class="fl">352.6937</span></span>
+<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-13"><a href="#cb30-13" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>ancestral.values</span>
+<span id="cb30-14"><a href="#cb30-14" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="fl">3.723682</span> <span class="fl">4.019902</span></span>
+<span id="cb30-15"><a href="#cb30-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-16"><a href="#cb30-16" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>optima</span>
+<span id="cb30-17"><a href="#cb30-17" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="fl">3.884589</span> <span class="fl">4.292722</span></span>
+<span id="cb30-18"><a href="#cb30-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-19"><a href="#cb30-19" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>A</span>
+<span id="cb30-20"><a href="#cb30-20" aria-hidden="true" tabindex="-1"></a>         [,<span class="dv">1</span>]     [,<span class="dv">2</span>]</span>
+<span id="cb30-21"><a href="#cb30-21" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>,] <span class="fl">11.32464</span>  <span class="fl">0.00000</span></span>
+<span id="cb30-22"><a href="#cb30-22" aria-hidden="true" tabindex="-1"></a>[<span class="dv">2</span>,]  <span class="fl">0.00000</span> <span class="fl">14.16996</span></span>
+<span id="cb30-23"><a href="#cb30-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-24"><a href="#cb30-24" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>half.life</span>
+<span id="cb30-25"><a href="#cb30-25" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="fl">0.06120697</span> <span class="fl">0.04891666</span></span>
+<span id="cb30-26"><a href="#cb30-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-27"><a href="#cb30-27" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>R</span>
+<span id="cb30-28"><a href="#cb30-28" aria-hidden="true" tabindex="-1"></a>           [,<span class="dv">1</span>]       [,<span class="dv">2</span>]</span>
+<span id="cb30-29"><a href="#cb30-29" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>,] <span class="fl">0.01985206</span> <span class="fl">0.07543067</span></span>
+<span id="cb30-30"><a href="#cb30-30" aria-hidden="true" tabindex="-1"></a>[<span class="dv">2</span>,] <span class="fl">0.07543067</span> <span class="fl">0.91041225</span></span>
+<span id="cb30-31"><a href="#cb30-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-32"><a href="#cb30-32" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>method</span>
+<span id="cb30-33"><a href="#cb30-33" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">"Joint"</span></span>
+<span id="cb30-34"><a href="#cb30-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-35"><a href="#cb30-35" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>K</span>
+<span id="cb30-36"><a href="#cb30-36" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="dv">9</span></span>
+<span id="cb30-37"><a href="#cb30-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-38"><a href="#cb30-38" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>n</span>
+<span id="cb30-39"><a href="#cb30-39" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="dv">63</span></span>
+<span id="cb30-40"><a href="#cb30-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-41"><a href="#cb30-41" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>iter</span>
+<span id="cb30-42"><a href="#cb30-42" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="cn">NA</span></span>
+<span id="cb30-43"><a href="#cb30-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-44"><a href="#cb30-44" aria-hidden="true" tabindex="-1"></a><span class="fu">attr</span>(,<span class="st">"class"</span>)</span>
+<span id="cb30-45"><a href="#cb30-45" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">"paleoTSfit"</span></span>
+<span id="cb30-46"><a href="#cb30-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-47"><a href="#cb30-47" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span>stats<span class="sc">::</span><span class="fu">cov2cor</span>(OUOU.model2<span class="sc">$</span>R)</span>
+<span id="cb30-48"><a href="#cb30-48" aria-hidden="true" tabindex="-1"></a>          [,<span class="dv">1</span>]      [,<span class="dv">2</span>]</span>
+<span id="cb30-49"><a href="#cb30-49" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>,] <span class="fl">1.0000000</span> <span class="fl">0.5612106</span></span>
+<span id="cb30-50"><a href="#cb30-50" aria-hidden="true" tabindex="-1"></a>[<span class="dv">2</span>,] <span class="fl">0.5612106</span> <span class="fl">1.0000000</span></span></code></pre></div>
 <p><br> The model with independent adaptation and correlated
 stochastic changes is much better than the independent evolution model.
 The half-life for the log diameter and log number of ribs are 6.1% and
@@ -1559,13 +1575,13 @@ shift.</p>
 <p>We now test if a more complex parameterization of the
 <strong>A</strong> matrix gives us a better relative model fit according
 to AICc. <br></p>
-<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> OUOU.model3<span class="ot">&lt;-</span><span class="fu">fit.multivariate.OU</span>(diam.ln_ribs.ln, <span class="at">A.matrix=</span><span class="st">"upper.tri"</span>, <span class="at">R.matrix=</span><span class="st">"symmetric"</span>)</span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> OUOU.model4<span class="ot">&lt;-</span><span class="fu">fit.multivariate.OU</span>(diam.ln_ribs.ln, <span class="at">A.matrix=</span><span class="st">"full"</span>, <span class="at">R.matrix=</span><span class="st">"symmetric"</span>)</span>
-<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> OUOU.model5<span class="ot">&lt;-</span><span class="fu">fit.multivariate.OU</span>(diam.ln_ribs.ln, <span class="at">A.matrix=</span><span class="st">"OUBM"</span>)</span>
-<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> OUOU.model3<span class="sc">$</span>AICc;OUOU.model4<span class="sc">$</span>AICc;OUOU.model5<span class="sc">$</span>AICc</span>
-<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="sc">-</span><span class="fl">349.9107</span></span>
-<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="sc">-</span><span class="fl">349.8412</span></span>
-<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="sc">-</span><span class="fl">301.516</span></span></code></pre></div>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> OUOU.model3<span class="ot">&lt;-</span><span class="fu">fit.multivariate.OU</span>(diam.ln_ribs.ln, <span class="at">A.matrix=</span><span class="st">"upper.tri"</span>, <span class="at">R.matrix=</span><span class="st">"symmetric"</span>)</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> OUOU.model4<span class="ot">&lt;-</span><span class="fu">fit.multivariate.OU</span>(diam.ln_ribs.ln, <span class="at">A.matrix=</span><span class="st">"full"</span>, <span class="at">R.matrix=</span><span class="st">"symmetric"</span>)</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> OUOU.model5<span class="ot">&lt;-</span><span class="fu">fit.multivariate.OU</span>(diam.ln_ribs.ln, <span class="at">A.matrix=</span><span class="st">"OUBM"</span>)</span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> OUOU.model3<span class="sc">$</span>AICc;OUOU.model4<span class="sc">$</span>AICc;OUOU.model5<span class="sc">$</span>AICc</span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="sc">-</span><span class="fl">349.9107</span></span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="sc">-</span><span class="fl">349.8412</span></span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="sc">-</span><span class="fl">301.516</span></span></code></pre></div>
 <p><br> None of the models with off-diagonal elements in the
 <strong>A</strong> matrix show a better relative fit than the model with
 a diagonal <strong>A</strong> and a symmetric <strong>R</strong> matrix.
@@ -1590,11 +1606,11 @@ matrix. A lower triangle <strong>A</strong> matrix means the diameter is
 affecting the optimum of the number of ribs. Which elements in
 <strong>A</strong> and <strong>R</strong> that should be parameterized
 or set to zero is given by 1 and 0 respectively. <br></p>
-<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> A <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">1</span>), <span class="at">nrow=</span><span class="dv">2</span>, <span class="at">byrow=</span><span class="cn">TRUE</span>)</span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> R <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>), <span class="at">nrow=</span><span class="dv">2</span>, <span class="at">byrow=</span><span class="cn">TRUE</span>)</span>
-<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> OUOU.model6<span class="ot">&lt;-</span><span class="fu">fit.multivariate.OU.user.defined</span>(diam.ln_ribs.ln, <span class="at">A.user=</span>A, <span class="at">R.user=</span>R)</span>
-<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> OUOU.model6<span class="sc">$</span>AICc</span>
-<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="sc">-</span><span class="fl">349.357</span></span></code></pre></div>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> A <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">1</span>), <span class="at">nrow=</span><span class="dv">2</span>, <span class="at">byrow=</span><span class="cn">TRUE</span>)</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> R <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>), <span class="at">nrow=</span><span class="dv">2</span>, <span class="at">byrow=</span><span class="cn">TRUE</span>)</span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> OUOU.model6<span class="ot">&lt;-</span><span class="fu">fit.multivariate.OU.user.defined</span>(diam.ln_ribs.ln, <span class="at">A.user=</span>A, <span class="at">R.user=</span>R)</span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> OUOU.model6<span class="sc">$</span>AICc</span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="sc">-</span><span class="fl">349.357</span></span></code></pre></div>
 <p><br><br></p>
 </div>
 </div>

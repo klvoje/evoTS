@@ -1,8 +1,12 @@
-#' @title Fit all univariate models to an evolutionary sequence (time-series).
+#' @title Fit univariate punctuation models to an evolutionary sequence (time-series).
 #'
-#' @description Wrapper function to find maximum likelihood solutions for all univariate models to an evolutionary sequence (time-series).
+#' @description Wrapper function to find maximum likelihood solutions for univariate univariate punctuation models to an evolutionary sequence (time-series).
 #'
 #' @param y an univariate paleoTS object.
+#' 
+#' @param minb the minimum number of samples within a segment to consider
+#' 
+#' @param fit.2.punc logical, indicating whether to fit models with 2 mode shifts
 #'
 #'@return The function returns a list of all investigated models and their highest log-likelihood (and their corresponding AICc and AICc weight).
 #'
@@ -17,11 +21,11 @@
 #'## Generate an univariate evolutionary sequence data set
 #'x <- paleoTS::sim.GRW(30)
 #'
-#'## Fit a the model to the data by defining shift points.
-#'fit.all.univariate.models(x)
+#'## Fit univariate punctuation models (the example may take > 5 seconds to run)
+#'##fit.PE.models(x)
 #'
 
-fit.all.univariate.models<-function (y)
+fit.PE.models<-function (y, minb=7, fit.2.punc=FALSE)
 {
   y$start.age<-NULL
   args <- list()
@@ -37,18 +41,18 @@ fit.all.univariate.models<-function (y)
     if (pv <= 0.05)
       warning(wm)
   }
-    m1 <- paleoTS::opt.joint.GRW(y)
-    m2 <- paleoTS::opt.joint.URW(y)
-    m3 <- paleoTS::opt.joint.Stasis(y)
-    m4 <- opt.joint.StrictStasis(y)
-    m5 <- opt.joint.decel(y)
-    m6 <- opt.joint.accel(y)
-    m7 <- paleoTS::opt.joint.OU(y)
-    m8 <- opt.joint.OUBM(y, opt.anc = TRUE)
-    m9 <- opt.joint.OUBM(y, opt.anc = FALSE)
-    m10 <- paleoTS::fitGpunc(y, method="Joint")
-    m11 <- fit.Bokma(y)
+  
+  if (fit.2.punc==FALSE){
+    m1 <- paleoTS::fitGpunc(y, method="Joint", minb = minb, oshare=FALSE)
+    m2 <- fit.Bokma(y, minb = minb)
+  }
 
-  mc <- paleoTS::compareModels(m1, m2, m3, m4, m5, m6, m7, m8, m9, m10, m11, silent = FALSE)
+  if (fit.2.punc==TRUE){
+    m1 <- paleoTS::fitGpunc(y, method="Joint", minb = minb, ng = 3, oshare=FALSE)
+    m2 <- fit.2.Bokma(y, minb = minb)
+  }
+  
+  mc <- paleoTS::compareModels(m1, m2, silent = FALSE)
   invisible(mc)
+  
 }

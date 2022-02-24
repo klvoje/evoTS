@@ -14,7 +14,7 @@
 #'
 #' @keywords datasets
 #'
-#' @references Theriot et al. 2006. Paleobiology 32:38-54 (\href{https://www.ncbi.nlm.nih.gov/pubmed/23979570}{PubMed})
+#' @references Theriot et al. 2006. Late Quaternary rapid morphological evolution of an endemic diatom in Yellowstone Lake, Wyoming. Paleobiology 32:38-54 
 #'
 #' @examples
 #' ln.diameter<-paleoTS::ln.paleoTS(diameter_S.yellowstonensis)

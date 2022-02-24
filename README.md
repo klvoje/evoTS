@@ -12,8 +12,8 @@ package is to offer a large range of evolutionary models to enable more
 detailed studies of evolutionary changes within lineages.
 
 The `evoTS` package extends the modeling framework available in the
-<a href="https://cran.r-project.org/web/packages/paleoTS/index.html">
-`paleoTS` package</a>. All model-fitting procedures in `evoTS` have been
+<a href="https://CRAN.R-project.org/package=paleoTS"> `paleoTS`
+package</a>. All model-fitting procedures in `evoTS` have been
 implemented to mirror the user experience from `paleoTS`. For example,
 all univariate models implemented in `evoTS` can be fitted to a
 `paleoTS` object, i.e. the data format used in `paleoTS`. The fit of all
