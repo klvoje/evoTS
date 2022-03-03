@@ -38,7 +38,9 @@ logL.joint.OU.BM<-function (p, y, opt.anc)
   ff <- function(a, b) abs(a - b)
   tij<-outer(y$tt, y$tt, FUN = ff)
   ta<-outer(y$tt, y$tt, pmin)
-  VCOV<- ((vo+vs)/(2 * aa)) * (1 - exp(-2 * aa * ta)) * exp(-aa *tij) + (vo*ta*(1-((1+exp(-aa*tij))*(1-exp(-aa*ta))/(aa*ta))))
+  #VCOV<- ((vo+vs)/(2 * aa)) * (1 - exp(-2 * aa * ta)) * exp(-aa *tij) + (vo*ta*(1-((1+exp(-aa*tij))*(1-exp(-aa*ta))/(aa*ta))))
+  VCOV<- ((vo+vs)/(2 * aa)) * (1 - exp(-2 * aa * ta)) * exp(-aa *tij) + vo*ta*(1-(1+exp(-aa*tij))*(1-exp(-aa*ta))/(aa*ta))
+  
   VCOV[1,]<-0;
   VCOV[,1]<-0;
   #VCOV<-((vo+vs)/(2 * aa)) * (1 - exp(-2 * aa * y$tt))   + (vo*y$tt*(1 - ((2*(1-exp(-aa*y$tt)))/(aa*y$tt))))

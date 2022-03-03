@@ -34,27 +34,32 @@
 #'plot(x)
 
 
-sim.OUBM<-function (ns = 20, anc = 0, theta.0 = 0, alpha = 0.3, vstep.trait = 0.1, vstep.opt = 0.1,
+sim.OUBM<-function (ns = 20, anc = 0, theta.0 = 1, alpha = 0.3, vstep.trait = 0.1, vstep.opt = 0.1,
           vp = 1, nn = rep(20, ns), tt = 0:(ns - 1))
 {
   vs<-vstep.trait
   vo<-vstep.opt
-
+  aa<-alpha
   ou.MM <- function(anc, theta.0, aa, tt) theta.0*(1 - exp(-aa*tt)) + anc*exp(-aa*tt)
-  ou.VV <-function(vo, vs, aa, tt)  ((vo+vs)/(2 * aa)) * (1 - exp(-2 * aa * tt)) + (vo*tt*(1-(2*(1-exp(-aa*tt)))))/(aa*tt)
-
+  ou.VV <-function(vo, vs, aa, tt)  ((vo+vs)/(2 * aa)) * (1 - exp(-2 * aa * tt)) + vo*tt*((1-2*(1-exp(-aa*tt)))/(aa*tt))
+  
   MM <- array(dim = ns)
   mm <- array(dim = ns)
   vv <- array(dim = ns)
   dt <- diff(tt)
   MM[1] <- anc
-  x <- stats::rnorm(nn[1], mean = MM[1], sd = sqrt(vp))
-  mm[1] <- mean(x)
-  vv[1] <- var(x)
-  for (i in 2:ns) {
-    ex <- ou.MM(MM[i - 1], theta.0, alpha, dt[i - 1])
-    vx <- ou.VV(vo, vs, alpha, dt[i - 1])
-    MM[i] <- rnorm(1, ex, sqrt(vx))
+  
+  ff <- function(a, b) abs(a - b)
+  tij<-outer(tt, tt, FUN = ff)
+  ta<-outer(tt, tt, pmin)
+  VCOV<- ((vo+vs)/(2 * aa)) * (1 - exp(-2 * aa * ta)) * exp(-aa *tij) + vo*ta*(1-(1+exp(-aa*tij))*(1-exp(-aa*ta))/(aa*ta))
+  VCOV[,1]<-0
+  VCOV[1,]<-0
+  
+  ex <- ou.MM(MM[1], theta.0, alpha, tt)
+  MM<-MASS::mvrnorm(n = 1, mu=ex, Sigma=VCOV)#, tol = 1e-6, empirical = TRUE, EISPACK = FALSE)
+  
+  for (i in 1:ns) {
     x <- stats::rnorm(nn[i], mean = MM[i], sd = sqrt(vp))
     mm[i] <- mean(x)
     vv[i] <- var(x)

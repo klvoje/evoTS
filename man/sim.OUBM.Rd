@@ -7,7 +7,7 @@
 sim.OUBM(
   ns = 20,
   anc = 0,
-  theta.0 = 0,
+  theta.0 = 1,
   alpha = 0.3,
   vstep.trait = 0.1,
   vstep.opt = 0.1,
