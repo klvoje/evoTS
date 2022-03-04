@@ -92,7 +92,7 @@
                         <h4 data-toc-skip class="author">Kjetil L.
 Voje</h4>
             
-            <h4 data-toc-skip class="date">2022-02-24</h4>
+            <h4 data-toc-skip class="date">2022-03-04</h4>
       
       
       <div class="d-none name"><code>evoTS_vignette.Rmd</code></div>
@@ -574,15 +574,15 @@ was proposed by Hansen <em>et al.</em> (2008) for analyses of
 phylogenetic comparative data. Adjusted to describe evolution of a
 single lineage, the expected trait mean and its variance and covariance
 are given by the following expressions: <br><br><span class="math display">\[E[z_{i}] = e^{(-\alpha t_{i})}z_{0} +
-[1-e^{-\alpha t_{i}}]\theta\]</span> <br><span class="math display">\[Var[z_{i}] =\left[ \frac{
-\sigma^{2}_{step}+\sigma^{2}_{\theta}}{2\alpha} \right] \left[
-1-e^{(-2\alpha t_{i})}\right] + \sigma^{2}_{\theta}t_{i}
-\left[  1-2(1-e^{-\alpha t_{i}}) \right]/\alpha t_{i} + \epsilon _{i}
+(1-e^{-\alpha t_{i}})\theta\]</span> <br><span class="math display">\[Var[z_{i}] =\left[ \frac{
+\sigma^{2}_{step}+\sigma^{2}_{\theta}}{2\alpha} \right] \left(
+1-e^{(-2\alpha t_{i})}\right) + \sigma^{2}_{\theta}t_{i}
+\left[  1-2(1-e^{-\alpha t_{i}}) /\alpha t_{i}\right] + \epsilon _{i}
 \]</span> <br><span class="math display">\[Cov[z_{i},z_{j}] =\left[
-\frac{ \sigma^{2}_{step}+\sigma^{2}_{\theta}}{2\alpha} \right] \left[
-1-e^{(-2\alpha t_{a})}\right]e^{-\alpha t_{ij}} +
-\sigma^{2}_{\theta}t_{a} \left[  1-\left[1+e^{-\alpha t_{ij}} \right]
-\left( 1-e^{-\alpha t_{a}} \right) \right] /  \alpha t_{i}\]</span>
+\frac{ \sigma^{2}_{step}+\sigma^{2}_{\theta}}{2\alpha} \right] \left(
+1-e^{(-2\alpha t_{a})}\right)e^{-\alpha t_{ij}} +
+\sigma^{2}_{\theta}t_{a} \left[  1-\left(1+e^{-\alpha t_{ij}} \right)
+\left( 1-e^{-\alpha t_{a}} \right) /  \alpha t_{i}\right]\]</span>
 <br> where <span class="math inline">\(z_{i}\)</span> is the expected
 trait value for the <em>i</em>th sample, <span class="math inline">\(z_{0}\)</span> is the ancestral trait mean, <span class="math inline">\(t_{i}\)</span> is the time interval from the
 ancestral population mean (the start of the time-series, which has a
@@ -1052,15 +1052,15 @@ elements represent the extent to which different traits co-evolve.</p>
 walk model (<strong>V</strong>) is computed using the Kronecker product
 of the <strong>R</strong> matrix and a “distance matrix”
 <strong>C</strong>, describing the distance in time between the
-different samples/populations in the time-series. Sampling error of the
-trait mean (calculated as the sample variance divided by the sample
-size) is – as for all models in <code>evoTS</code> – added to the
-diagonal of the <strong>V</strong> matrix. To ensure symmetric positive
-definiteness of the <strong>V</strong> matrix during log-likelihood
-optimization, <strong>R</strong> is parameterized by its Cholesky
-decomposition as the cross-product of upper triangular matrices. In
-cases where different parts of the evolutionary time-series are
-described by <span class="math inline">\(R_{m}\)</span> matrices,
+different samples/populations in the time-series. <br><br><span class="math display">\[V = \sum_{i=1}^{m} R \otimes C\]</span> <br>
+Sampling error of the trait mean (calculated as the sample variance
+divided by the sample size) is – as for all models in <code>evoTS</code>
+– added to the diagonal of the <strong>V</strong> matrix. To ensure
+symmetric positive definiteness of the <strong>V</strong> matrix during
+log-likelihood optimization, <strong>R</strong> is parameterized by its
+Cholesky decomposition as the cross-product of upper triangular
+matrices. In cases where different parts of the evolutionary time-series
+are described by <span class="math inline">\(R_{m}\)</span> matrices,
 <strong>V</strong> is computed as the sum of the different <span class="math inline">\(R_{m}\)</span> and <span class="math inline">\(C_{m}\)</span> matrices: <br><br><span class="math display">\[V = \sum_{i=1}^{m} R_{m} \otimes C_{m}\]</span>
 <br> The current implementation of the multivariate unbiased random
 walk model allows testing six variants of the model. All variants of the

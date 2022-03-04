@@ -322,11 +322,11 @@ The model where the trait evolves as a unbiased random walk in between the punct
 An Ornstein-Uhlebeck model describe the evolution of a trait towards an optimum. The `paleoTS` package includes an Ornstein-Uhlenbeck (OU) model of evolution with a single, fixed optimum (Hunt *et al.* 2008), i.e. it portrays evolutionary adaptation of a trait towards a fixed peak on the adaptive landscape. However, peaks in the adaptive landscape might not be fixed and the `evoTS` package contains functions to fit OU models where the optimum (peak) is constantly changing according to an unbiased random walk. Such a model was proposed by Hansen *et al.* (2008) for analyses of phylogenetic comparative data. Adjusted to describe evolution of a single lineage, the expected trait mean and its variance and covariance are given by the following expressions:
 <br /> 
 <br /> 
-$$E[z_{i}] = e^{(-\alpha t_{i})}z_{0} + [1-e^{-\alpha t_{i}}]\theta$$
+$$E[z_{i}] = e^{(-\alpha t_{i})}z_{0} + (1-e^{-\alpha t_{i}})\theta$$
 <br /> 
-$$Var[z_{i}] =\left[ \frac{ \sigma^{2}_{step}+\sigma^{2}_{\theta}}{2\alpha} \right] \left[ 1-e^{(-2\alpha t_{i})}\right] + \sigma^{2}_{\theta}t_{i} \left[  1-2(1-e^{-\alpha t_{i}}) \right]/\alpha t_{i} + \epsilon _{i} $$
+$$Var[z_{i}] =\left[ \frac{ \sigma^{2}_{step}+\sigma^{2}_{\theta}}{2\alpha} \right] \left( 1-e^{(-2\alpha t_{i})}\right) + \sigma^{2}_{\theta}t_{i} \left[  1-2(1-e^{-\alpha t_{i}}) /\alpha t_{i}\right] + \epsilon _{i} $$
 <br /> 
-$$Cov[z_{i},z_{j}] =\left[ \frac{ \sigma^{2}_{step}+\sigma^{2}_{\theta}}{2\alpha} \right] \left[ 1-e^{(-2\alpha t_{a})}\right]e^{-\alpha t_{ij}} + \sigma^{2}_{\theta}t_{a} \left[  1-\left[1+e^{-\alpha t_{ij}} \right] \left( 1-e^{-\alpha t_{a}} \right) \right] /  \alpha t_{i}$$
+$$Cov[z_{i},z_{j}] =\left[ \frac{ \sigma^{2}_{step}+\sigma^{2}_{\theta}}{2\alpha} \right] \left( 1-e^{(-2\alpha t_{a})}\right)e^{-\alpha t_{ij}} + \sigma^{2}_{\theta}t_{a} \left[  1-\left(1+e^{-\alpha t_{ij}} \right) \left( 1-e^{-\alpha t_{a}} \right) /  \alpha t_{i}\right]$$
 <br /> 
 where $z_{i}$ is the expected trait value for the *i*th sample, $z_{0}$ is the ancestral trait mean, $t_{i}$ is the time interval from the ancestral population mean (the start of the time-series, which has a time of 0) to the *i*th sample, $\theta$ is the optimum, $\alpha$ measures the rate of adaptation to the optimum, $\sigma^{2}_{step}$ is the variance of the stochastic perturbations of *z*, and $\sigma^{2}_{\theta}$ is the variance of the stochastic perturbations of the optimum, $t_{a}$ is the time interval from the ancestral population to the oldest of the two populations $z_{i}$ and $z_{j}$, and $t_{ij}$ is the time separating two samples $z_{i}$ and $z_{j}$. The estimation (sampling) error $\epsilon_{i}$ of the population means contribute to the expected variance between two population means. 
 
@@ -686,7 +686,12 @@ Traits are rarely changing independently of each other due to shared genetics or
 ## 5.1 Multivariate unbiased random walks with and without changes in the rate of evolution
 Evolution as a multivariate unbiased random walk is modeled using an evolutionary rate matrix **R** (Felsenstein 1988; Revell and Harmon 2008). The diagonal elements in **R** represent the rate of evolution for the individual traits, while the off-diagonal elements represent the extent to which different traits co-evolve. 
 
-The multivariate variance-covariance matrix for the unbiased random walk model (**V**) is computed using the Kronecker product of the **R** matrix and a “distance matrix” **C**, describing the distance in time between the different samples/populations in the time-series. Sampling error of the trait mean (calculated as the sample variance divided by the sample size) is – as for all models in `evoTS` – added to the diagonal of the **V** matrix. To ensure symmetric positive definiteness of the **V** matrix during log-likelihood optimization, **R** is parameterized by its Cholesky decomposition as the cross-product of upper triangular matrices. In cases where different parts of the evolutionary time-series are described by $R_{m}$ matrices, **V** is computed as the sum of the different $R_{m}$ and $C_{m}$ matrices:
+The multivariate variance-covariance matrix for the unbiased random walk model (**V**) is computed using the Kronecker product of the **R** matrix and a “distance matrix” **C**, describing the distance in time between the different samples/populations in the time-series. 
+<br /> 
+<br /> 
+$$V = \sum_{i=1}^{m} R \otimes C$$
+<br /> 
+Sampling error of the trait mean (calculated as the sample variance divided by the sample size) is – as for all models in `evoTS` – added to the diagonal of the **V** matrix. To ensure symmetric positive definiteness of the **V** matrix during log-likelihood optimization, **R** is parameterized by its Cholesky decomposition as the cross-product of upper triangular matrices. In cases where different parts of the evolutionary time-series are described by $R_{m}$ matrices, **V** is computed as the sum of the different $R_{m}$ and $C_{m}$ matrices:
 <br /> 
 <br /> 
 $$V = \sum_{i=1}^{m} R_{m} \otimes C_{m}$$

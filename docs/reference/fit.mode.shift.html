@@ -151,47 +151,8 @@
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co">## Generate a evoTS objects by simulating a multivariate dataset</span></span>
 <span class="r-in"><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu">paleoTS</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/paleoTS/man/sim.GRW.html" class="external-link">sim.GRW</a></span><span class="op">(</span><span class="fl">30</span><span class="op">)</span></span>
 <span class="r-in"></span>
-<span class="r-in"><span class="co">## Fit a the model to the data by defining shift points.</span></span>
-<span class="r-in"><span class="fu">fit.mode.shift</span><span class="op">(</span><span class="va">x</span>, model1<span class="op">=</span><span class="st">"URW"</span>, model2<span class="op">=</span><span class="st">"Stasis"</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Searching all possible switchpoints in the evolutionary sequence"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Total # hypotheses:  17 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1  2  3  4  5  6  7  8  9  10  11  12  13  14  15  16  17  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $logL</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] -21.36127</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $AICc</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 55.22253</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $parameters</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>        anc      vstep      theta      omega     shift1 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> -0.8804438  0.1071503 -1.0960368  0.1219400 11.0000000 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $modelName</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "URW-Stasis"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $method</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Joint"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $se</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $K</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $n</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 30</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $all.logl</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] -27.38892 -26.11001 -24.23547 -21.36127 -22.56301 -24.00461 -23.89320</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [8] -23.32546 -23.08078 -24.19002 -24.33454 -24.62081 -25.24766 -25.54002</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [15] -24.65130 -24.74548 -23.91718</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $GG</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> shift1 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     11 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"class")</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "paleoTSfit"</span>
+<span class="r-in"><span class="co">## Fit a the model to the data by defining shift points (the example may take &gt; 5 seconds to run)</span></span>
+<span class="r-in"><span class="co">## fit.mode.shift(x, model1="URW", model2="Stasis")</span></span>
 <span class="r-in"></span>
 </code></pre></div>
     </div>

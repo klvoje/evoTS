@@ -105,19 +105,8 @@
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co">## Generate an univariate evolutionary sequence data set</span></span>
 <span class="r-in"><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu">paleoTS</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/paleoTS/man/sim.GRW.html" class="external-link">sim.GRW</a></span><span class="op">(</span><span class="fl">30</span><span class="op">)</span></span>
 <span class="r-in"></span>
-<span class="r-in"><span class="co">## Fit a the model to the data by defining shift points.</span></span>
-<span class="r-in"><span class="fu">fit.PE.models</span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Total # hypotheses:  17 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1  2  3  4  5  6  7  8  9  10  11  12  13  14  15  16  17  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Searching for all possible switchpoints in timeseries"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Total # hypotheses:  17 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1  2  3  4  5  6  7  8  9  10  11  12  13  14  15  16  17  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Comparing 2 models [n = 30, method = Joint]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                  logL K     AICc    dAICc Akaike.wt</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Punc-1      -21.20599 5 54.91198 10.21257     0.006</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Bokma model -16.09971 5 44.69941  0.00000     0.994</span>
+<span class="r-in"><span class="co">## Fit univariate punctuation models (the example may take &gt; 5 seconds to run)</span></span>
+<span class="r-in"><span class="co">##fit.PE.models(x)</span></span>
 <span class="r-in"></span>
 </code></pre></div>
     </div>
