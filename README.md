@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# evoTS - univariate and multivariate models of phenotypic evolution within lineages
+# evoTS - analysis of evolutionary sequences of phenotypic change
 
 <!-- badges: start -->
 <!-- badges: end -->
