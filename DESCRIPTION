@@ -26,3 +26,4 @@ Suggests:
     knitr
 Depends: R (>= 3.5.0)
 URL: https://klvoje.github.io/evoTS/index.html
+BugReports: https://github.com/klvoje/evoTS/issues
