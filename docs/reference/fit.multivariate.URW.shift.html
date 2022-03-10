@@ -64,7 +64,7 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="" class="logo" alt=""><h1>Fit separate multivariate Unbiased Random Walk models to two different segments of a multivariate evolutionary sequence (time-series).</h1>
-      
+      <small class="dont-index">Source: <a href="https://github.com/klvoje/evoTS/blob/HEAD/R/fit.multivariate.URW.shift.R" class="external-link"><code>R/fit.multivariate.URW.shift.R</code></a></small>
       <div class="d-none name"><code>fit.multivariate.URW.shift.Rd</code></div>
     </div>
 
@@ -78,6 +78,7 @@
   <span class="va">yy</span>,
   minb <span class="op">=</span> <span class="fl">10</span>,
   hess <span class="op">=</span> <span class="cn">FALSE</span>,
+  pool <span class="op">=</span> <span class="cn">TRUE</span>,
   shift.point <span class="op">=</span> <span class="cn">NULL</span>,
   method <span class="op">=</span> <span class="st">"L-BFGS-B"</span>,
   trace <span class="op">=</span> <span class="cn">FALSE</span>,
@@ -94,6 +95,8 @@
 <dd><p>the minimum number of samples within a segment to consider.</p></dd>
 <dt>hess</dt>
 <dd><p>logical, indicating whether to calculate standard errors from the Hessian matrix.</p></dd>
+<dt>pool</dt>
+<dd><p>indicating whether to pool variances across samples</p></dd>
 <dt>shift.point</dt>
 <dd><p>the sample in the time series that represents the first sample in the second segment.</p></dd>
 <dt>method</dt>
@@ -136,7 +139,7 @@
 <span class="r-in"></span>
 <span class="r-in"><span class="co">## Fit two multivariate Unbiased Random Walk models to separate parts of the time-series.</span></span>
 <span class="r-in"><span class="fu">fit.multivariate.URW.shift</span><span class="op">(</span><span class="va">x</span>, shift.point <span class="op">=</span> <span class="fl">31</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Fitting the model for a user-defined switchpoint"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Fitting the model for a user-defined shift point"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Total # hypotheses:  1 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1  [1] "Model converged successfully."</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -144,24 +147,24 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Multivariate Random walk with two R matrices (with non-zero off-diagonal elements)"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $logL</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 129.3837</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 111.9877</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $AICc</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] -237.1674</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] -202.3754</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $ancestral.values</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1]  0.03074676 -0.11636581</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] -0.09263615  0.09855760</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $R</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $R$R.1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>             [,1]        [,2]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]  0.58904457 -0.01738915</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] -0.01738915  0.69225746</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>              [,1]         [,2]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]  0.698587685 -0.006053505</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] -0.006053505  0.934924482</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $R$R.2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             [,1]        [,2]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]  0.58239423 -0.02300392</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] -0.02300392  0.34442373</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]  0.75239636 -0.03205571</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] -0.03205571  0.53376343</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $SE.R</span>
@@ -184,7 +187,7 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span>     31 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $all.logl</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 129.3837</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 111.9877</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $GG</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      [,1]</span>

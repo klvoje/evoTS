@@ -64,7 +64,7 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="" class="logo" alt=""><h1>Calculate the log-likelihood surface for a part of parameter space</h1>
-      
+      <small class="dont-index">Source: <a href="https://github.com/klvoje/evoTS/blob/HEAD/R/loglik.surface.OU.R" class="external-link"><code>R/loglik.surface.OU.R</code></a></small>
       <div class="d-none name"><code>loglik.surface.OU.Rd</code></div>
     </div>
 
@@ -123,12 +123,12 @@
 <span class="r-in"><span class="co">##calculate half-life from model output</span></span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span><span class="op">/</span><span class="va">x1</span><span class="op">$</span><span class="va">parameters</span><span class="op">[</span><span class="fl">4</span><span class="op">]</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    alpha </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2.459901 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1.887171 </span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co">##calculate stationary variance from model output</span></span>
 <span class="r-in"><span class="va">x1</span><span class="op">$</span><span class="va">parameters</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span><span class="op">/</span><span class="op">(</span><span class="fl">2</span><span class="op">*</span><span class="va">x1</span><span class="op">$</span><span class="va">parameters</span><span class="op">[</span><span class="fl">4</span><span class="op">]</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      vstep </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 0.04191375 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 0.09372793 </span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co">## Create log-likelihood surface (the example may take &gt; 5 seconds to run)</span></span>
 <span class="r-in"><span class="co">## loglik.surface.OU(x, stat.var.vec=seq(0.001,0.5,0.01), h.vec=seq(0.01,10, 0.1))</span></span>

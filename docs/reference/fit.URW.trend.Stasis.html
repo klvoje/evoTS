@@ -64,7 +64,7 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="" class="logo" alt=""><h1>Fit three models (Unbiased Random Walk, General Random Walk (trend), Stasis) to three segments of an evolutionary sequence (time-series).</h1>
-      
+      <small class="dont-index">Source: <a href="https://github.com/klvoje/evoTS/blob/HEAD/R/fit.URW.trend.Stasis.R" class="external-link"><code>R/fit.URW.trend.Stasis.R</code></a></small>
       <div class="d-none name"><code>fit.URW.trend.Stasis.Rd</code></div>
     </div>
 
@@ -97,7 +97,7 @@
 <dt>hess</dt>
 <dd><p>logical, indicating whether to calculate standard errors from the Hessian matrix.</p></dd>
 <dt>shift.point</dt>
-<dd><p>The samples that split the time-series into three segments. The samples are passed to the argument as a vector. Default is NULL, which means all possible switch points will be assessed constrained by how minb is defined.
+<dd><p>The samples that split the time-series into three segments. The samples are passed to the argument as a vector. Default is NULL, which means all possible shift points will be assessed constrained by how minb is defined.
 #'</p></dd>
 </dl></div>
     <div class="section level2">
@@ -141,18 +141,18 @@
 <span class="r-in"></span>
 <span class="r-in"><span class="co">## Fit a the model to the data by defining shift points.</span></span>
 <span class="r-in"><span class="fu">fit.URW.trend.Stasis</span><span class="op">(</span><span class="va">x</span>, shift.point <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">20</span>,<span class="fl">40</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Fitting the model for a user-defined switchpoint"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Fitting the model for a user-defined shift point"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Total # hypotheses:  1 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $logL</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] -34.44406</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] -36.53416</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $AICc</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 87.71165</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 91.89185</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $parameters</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         anc       vstep       mstep       vstep       theta       omega </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> -0.23643299  0.02762352  0.05146176  0.12968901  0.15987002  0.26095025 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  0.23432050  0.02734288  0.09997635  0.27275720  2.58181895  0.20425581 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      shift1      shift2 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 20.00000000 40.00000000 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -172,7 +172,7 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 60</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $all.logl</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] -34.44406</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] -36.53416</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $GG</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      [,1]</span>

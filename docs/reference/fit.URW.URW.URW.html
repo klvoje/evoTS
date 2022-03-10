@@ -64,7 +64,7 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="" class="logo" alt=""><h1>Fit Unbiased Random Walk models to three different segments of an evolutionary sequence (time-series).</h1>
-      
+      <small class="dont-index">Source: <a href="https://github.com/klvoje/evoTS/blob/HEAD/R/fit.URW.URW.URW.R" class="external-link"><code>R/fit.URW.URW.URW.R</code></a></small>
       <div class="d-none name"><code>fit.URW.URW.URW.Rd</code></div>
     </div>
 
@@ -97,7 +97,7 @@
 <dt>hess</dt>
 <dd><p>logical, indicating whether to calculate standard errors from the Hessian matrix.</p></dd>
 <dt>shift.point</dt>
-<dd><p>The samples that split the time-series into three segments. The samples are passed to the argument as a vector. Default is NULL, which means all possible switch points will be assessed constrained by how minb is defined.</p></dd>
+<dd><p>The samples that split the time-series into three segments. The samples are passed to the argument as a vector. Default is NULL, which means all possible shift points will be assessed constrained by how minb is defined.</p></dd>
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
@@ -144,18 +144,18 @@
 <span class="r-in"></span>
 <span class="r-in"><span class="co">## Fit a the model to the data by defining shift points.</span></span>
 <span class="r-in"><span class="fu">fit.URW.URW.URW</span><span class="op">(</span><span class="va">x</span>, shift.point <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">20</span>,<span class="fl">40</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Fitting the model for a user-defined switchpoint"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Fitting the model for a user-defined shift point"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Total # hypotheses:  1 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $logL</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] -35.60057</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] -25.90992</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $AICc</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 84.78605</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 65.40475</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $parameters</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         anc       vstep       vstep       vstep      shift1      shift2 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  0.45841541  0.13996251  0.05696109  0.10019391 20.00000000 40.00000000 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  0.13951474  0.03956371  0.06469139  0.06136033 20.00000000 40.00000000 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $modelName</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "URW-URW-URW"</span>
@@ -173,7 +173,7 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 60</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $all.logl</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] -35.60057</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] -25.90992</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $GG</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      [,1]</span>

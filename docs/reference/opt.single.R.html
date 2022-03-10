@@ -64,7 +64,7 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="" class="logo" alt=""><h1>Fit multivariate Unbiased Random Walk model.</h1>
-      
+      <small class="dont-index">Source: <a href="https://github.com/klvoje/evoTS/blob/HEAD/R/opt.single.R" class="external-link"><code>R/opt.single.R</code></a></small>
       <div class="d-none name"><code>opt.single.R.Rd</code></div>
     </div>
 
@@ -78,6 +78,7 @@
   <span class="va">yy</span>,
   method <span class="op">=</span> <span class="st">"L-BFGS-B"</span>,
   hess <span class="op">=</span> <span class="cn">FALSE</span>,
+  pool <span class="op">=</span> <span class="cn">TRUE</span>,
   trace <span class="op">=</span> <span class="cn">FALSE</span>,
   iterations <span class="op">=</span> <span class="cn">NULL</span>,
   iter.sd <span class="op">=</span> <span class="cn">NULL</span>
@@ -92,6 +93,8 @@
 <dd><p>optimization method, passed to function optim. Default is "L-BFGS-B".</p></dd>
 <dt>hess</dt>
 <dd><p>logical, indicating whether to calculate standard errors from the Hessian matrix.</p></dd>
+<dt>pool</dt>
+<dd><p>indicating whether to pool variances across samples</p></dd>
 <dt>trace</dt>
 <dd><p>logical, indicating whether information on the progress of the optimization is printed.</p></dd>
 <dt>iterations</dt>
@@ -135,18 +138,18 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Multivariate Random walk (R matrix with non-zero off-diagonal elements)"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $logL</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 64.76039</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 59.84558</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $AICc</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] -117.0208</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] -107.1912</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $ancestral.values</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.2994046 0.1733613</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.06516548 0.08489893</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $R</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>            [,1]       [,2]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.47199402 0.03870121</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.03870121 0.33077765</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>              [,1]         [,2]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]  0.554729610 -0.002442362</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] -0.002442362  0.389870272</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $SE.R</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] NA</span>

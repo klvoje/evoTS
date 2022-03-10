@@ -64,7 +64,7 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="" class="logo" alt=""><h1>Fit three models (Unbiased Random Walk, General Random Walk (trend), Unbiased Random Walk) to three segments of an evolutionary sequence (time-series).</h1>
-      
+      <small class="dont-index">Source: <a href="https://github.com/klvoje/evoTS/blob/HEAD/R/fit.URW.trend.URW.R" class="external-link"><code>R/fit.URW.trend.URW.R</code></a></small>
       <div class="d-none name"><code>fit.URW.trend.URW.Rd</code></div>
     </div>
 
@@ -97,7 +97,7 @@
 <dt>hess</dt>
 <dd><p>logical, indicating whether to calculate standard errors from the Hessian matrix.</p></dd>
 <dt>shift.point</dt>
-<dd><p>The samples that split the time-series into three segments. The samples are passed to the argument as a vector. Default is NULL, which means all possible switch points will be assessed constrained by how minb is defined.
+<dd><p>The samples that split the time-series into three segments. The samples are passed to the argument as a vector. Default is NULL, which means all possible shift points will be assessed constrained by how minb is defined.
 #'</p></dd>
 </dl></div>
     <div class="section level2">
@@ -141,18 +141,20 @@
 <span class="r-in"></span>
 <span class="r-in"><span class="co">## Fit a the model to the data by defining shift points.</span></span>
 <span class="r-in"><span class="fu">fit.URW.trend.URW</span><span class="op">(</span><span class="va">x</span>, shift.point <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">20</span>,<span class="fl">40</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Fitting the model for a user-defined switchpoint"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Fitting the model for a user-defined shift point"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Total # hypotheses:  1 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $logL</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] -47.65688</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] -44.66847</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $AICc</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 111.4676</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 105.4908</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $parameters</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>        anc      vstep      mstep      vstep      vstep     shift1     shift2 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> -0.2566106  0.1776659 -0.1154583  0.3647197  0.1368231 20.0000000 40.0000000 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         anc       vstep       mstep       vstep       vstep      shift1 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  0.03796689  0.14665332 -0.04774946  0.17673740  0.13155993 20.00000000 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      shift2 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 40.00000000 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $modelName</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "URW-Trend-URW"</span>
@@ -170,7 +172,7 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 60</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $all.logl</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] -47.65688</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] -44.66847</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $GG</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      [,1]</span>

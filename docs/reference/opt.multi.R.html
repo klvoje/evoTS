@@ -64,7 +64,7 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="" class="logo" alt=""><h1>Fit separate multivariate Unbiased Random Walk models to two different segments of a multivariate evolutionary sequence (time-series).</h1>
-      
+      <small class="dont-index">Source: <a href="https://github.com/klvoje/evoTS/blob/HEAD/R/opt.multi.R" class="external-link"><code>R/opt.multi.R</code></a></small>
       <div class="d-none name"><code>opt.multi.R.Rd</code></div>
     </div>
 
@@ -74,7 +74,16 @@
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">opt.multi.R</span><span class="op">(</span><span class="va">yy</span>, <span class="va">gg</span>, <span class="va">method</span>, hess <span class="op">=</span> <span class="cn">FALSE</span>, <span class="va">trace</span>, <span class="va">iterations</span>, <span class="va">iter.sd</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">opt.multi.R</span><span class="op">(</span>
+  <span class="va">yy</span>,
+  <span class="va">gg</span>,
+  <span class="va">method</span>,
+  hess <span class="op">=</span> <span class="cn">FALSE</span>,
+  pool <span class="op">=</span> <span class="cn">TRUE</span>,
+  <span class="va">trace</span>,
+  <span class="va">iterations</span>,
+  <span class="va">iter.sd</span>
+<span class="op">)</span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -87,6 +96,8 @@
 <dd><p>optimization method, passed to function optim. Default is "L-BFGS-B".</p></dd>
 <dt>hess</dt>
 <dd><p>logical, indicating whether to calculate standard errors from the Hessian matrix.</p></dd>
+<dt>pool</dt>
+<dd><p>indicating whether to pool variances across samples</p></dd>
 <dt>trace</dt>
 <dd><p>logical, indicating whether information on the progress of the optimization is printed.</p></dd>
 <dt>iterations</dt>

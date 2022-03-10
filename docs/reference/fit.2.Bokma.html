@@ -64,7 +64,7 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="" class="logo" alt=""><h1>Fit three Unbiased Random Walk models separated by punctuations (Bokma model) to an evolutionary sequence (time-series).</h1>
-      
+      <small class="dont-index">Source: <a href="https://github.com/klvoje/evoTS/blob/HEAD/R/fit.2.Bokma.R" class="external-link"><code>R/fit.2.Bokma.R</code></a></small>
       <div class="d-none name"><code>fit.2.Bokma.Rd</code></div>
     </div>
 
@@ -97,7 +97,7 @@
 <dt>hess</dt>
 <dd><p>logical, indicating whether to calculate standard errors from the Hessian matrix.</p></dd>
 <dt>shift.point</dt>
-<dd><p>The samples that split the time-series into three segments. The samples are passed to the argument as a vector. Default is NULL, which means all possible switch points will be assessed constrained by how minb is defined.
+<dd><p>The samples that split the time-series into three segments. The samples are passed to the argument as a vector. Default is NULL, which means all possible shift points will be assessed constrained by how minb is defined.
 #'</p></dd>
 </dl></div>
     <div class="section level2">
@@ -141,20 +141,20 @@
 <span class="r-in"></span>
 <span class="r-in"><span class="co">## Fit a the model to the data by defining shift points.</span></span>
 <span class="r-in"><span class="fu">fit.2.Bokma</span><span class="op">(</span><span class="va">x</span>, shift.point <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">20</span>,<span class="fl">40</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Fitting the model for a user-defined switchpoint"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Fitting the model for a user-defined shift point"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Total # hypotheses:  1 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $logL</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] -28.36445</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] -33.33445</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $AICc</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 75.55242</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 85.49242</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $parameters</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>          anc      vstep_1        opt.2      vstep_2        opt.3      vstep_3 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> -0.008272702  0.099495139  0.246886856  0.031214578  0.838800859  0.092187823 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       shift1       shift2 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 20.000000000 40.000000000 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         anc     vstep_1       opt.2     vstep_2       opt.3     vstep_3 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> -0.06396959  0.02169079  0.66859811  0.17783477 -1.04470272  0.12475782 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      shift1      shift2 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 20.00000000 40.00000000 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $modelName</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Bokma model with two punctuations"</span>
@@ -172,7 +172,7 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 60</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $all.logl</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] -28.36445</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] -33.33445</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $GG</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      [,1]</span>
