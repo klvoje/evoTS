@@ -24,7 +24,7 @@ fit.URW.trend.URW(
 
 \item{hess}{logical, indicating whether to calculate standard errors from the Hessian matrix.}
 
-\item{shift.point}{The samples that split the time-series into three segments. The samples are passed to the argument as a vector. Default is NULL, which means all possible switch points will be assessed constrained by how minb is defined.
+\item{shift.point}{The samples that split the time-series into three segments. The samples are passed to the argument as a vector. Default is NULL, which means all possible shift points will be assessed constrained by how minb is defined.
 #'}
 }
 \value{

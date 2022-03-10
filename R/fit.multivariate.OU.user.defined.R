@@ -11,13 +11,29 @@
 #' @param method optimization method, passed to function optim. Default is "Nelder-Mead".
 #'
 #' @param hess logical, indicating whether to calculate standard errors from the Hessian matrix.
-#'
+#' 
+#' @param pool indicating whether to pool variances across samples
+#' 
 #' @param trace logical, indicating whether information on the progress of the optimization is printed.
 #'
 #' @param iterations the number of times the optimization method is run from different starting points. Default is NULL, meaning the optimization is run once.
 #'
 #' @param iter.sd defines the standard deviation of the Gaussian distribution from which starting values for the optimization routine is run. Default is 1.
 #'
+#' @param user.init.diag.A starting values for the optimization routine of the diagonal elements of the A matrix. Default is NULL. 
+#' 
+#' @param user.init.upper.diag.A starting values for the optimization routine of the upper diagonal elements of the A matrix. Default is NULL.
+#' 
+#' @param user.init.lower.diag.A starting values for the optimization routine of the lower diagonal elements of the A matrix. Default is NULL.
+#' 
+#' @param user.init.diag.R starting values for the optimization routine of the diagonal elements of the R matrix. Default is NULL. 
+#' 
+#' @param user.init.off.diag.R starting values for the optimization routine of the off-diagonal elements of the R matrix. Default is NULL.
+#' 
+#' @param user.init.theta starting values for the optimization routine of the optima. Default is NULL.
+#' 
+#' @param user.init.anc starting values for the optimization routine of the ancestral values. Default is NULL.
+#' 
 #' @details This function provides users the flexibility to define their own A and R matrices. The possibility to define any A matrices enable detailed investigation of specific evolutionary hypotheses. The parameters to be estimated in the matrices are indicated by the value 1. All other entries in the matrix must be 0.
 #'
 #' The function searches - using an optimization routine - for the maximum-likelihood solution for the chosen multivariate Ornstein-Uhlenbeck model. The argument 'method' is passed to the 'optim' function and is included for the convenience of users to better control the optimization routine. Note that the the default method (Nelder-Mead) seems to work for most evolutionary sequences. The method L-BFGS-B allows box-constraints on some parameters (e.g. non-negative variance parameters) and is faster than Nelder-Mead, but is less stable than the default method (Nelder-Mead).
@@ -25,6 +41,8 @@
 #' Initial estimates to start the optimization come from maximum-likelihood estimates of the univariate Ornstein-Uhlenbeck model (from the paleoTS package) fitted to each time-series separately.
 #'
 #' It is good practice to repeat any numerical optimization procedure from different starting points. This is especially important for complex models as the log-likelihood surface might contain more than one peak. The number of iterations is controlled by the argument 'iterations'. The function will report the model parameters from the iteration with the highest log-likelihood.
+#' 
+#' There is no guarantee that the likelihood can be computed with the initial parameters provided by the function. The starting values for fitting the multivariate OU model are based on maximum likelihood parameter estimates for the univariate OU model fitted to each trait separately, which seems to provide sensible (and working) initial parameter estimates for almost all tested data sets. However, the provided initial parameters may fail depending on the nature of the data. If an error message is returned saying "function cannot be evaluated at initial parameters", the user can try to start the optimization procedure from other initial parameter values using "user.init.diag.A", "user.init.upper.diag.A", "user.init.lower.diag.A", "user.init.diag.R", "user.init.off.diag.R", "user.init.theta", and "user.init.anc." It is usually the initial guess of the off-diagonal elements of the A and R matrices that prevents the optimization routine to work. It is therefore recommended to only try to change these initial values before experimenting with different starting values for the diagonal of the A and R matrices.  
 #'
 #'@return First part of the output reports the log-likelihood of the model and its AICc score. The second part of the output is the maximum log-likelihood model parameters (ancestral.values, optima, A, and R). The half-life is also provided, which is the  The last part of the output gives information about the number of parameters in the model (K), number of samples in the data (n) and number of times the optimization routine was run (iter).
 #'
@@ -52,11 +70,22 @@
 #'##fit.multivariate.OU.user.defined(x, A.user=A, R.user=R, trace=TRUE)
 #'
 
-fit.multivariate.OU.user.defined<-function (yy, A.user=NULL, R.user=NULL, method="Nelder-Mead", hess = FALSE, trace=FALSE, iterations=NULL, iter.sd=NULL)
-{
+fit.multivariate.OU.user.defined<-function (yy, A.user=NULL, R.user=NULL, method="Nelder-Mead", hess = FALSE, pool = TRUE, trace=FALSE, iterations=NULL, iter.sd=NULL, user.init.diag.A = NULL, user.init.upper.diag.A = NULL, user.init.lower.diag.A = NULL, user.init.diag.R = NULL, user.init.off.diag.R = NULL, user.init.theta = NULL, user.init.anc = NULL)
+  {
 
   y <- n <- anc.values <- NULL
   m <-ncol(yy$xx) # number of traits
+  
+  
+  if (pool==TRUE) { 
+    for (i in 1:m){
+      
+      tmp<-paleoTS::as.paleoTS(yy$xx[,i], yy$vv[,i], yy$nn[,i], yy$tt[,i])
+      tmp<- paleoTS::pool.var(tmp, ret.paleoTS = TRUE)
+      yy$vv[,i]<-tmp$vv
+    }
+  }
+  
   trait_array<-array(data=NA, dim=(c(length(yy$xx[,1]), 4, m)))
 
   for (i in 1:m){
@@ -110,6 +139,15 @@ fit.multivariate.OU.user.defined<-function (yy, A.user=NULL, R.user=NULL, method
     {
     if (tmp_diag_A.user[i]==1) {init.theta[i]<-yy$xx[length(yy$xx[,1]),i]}
   }
+  
+  #Check for user defined starting values
+  if (is.null(user.init.diag.A) == FALSE) init.diag.A<-user.init.diag.A
+  if (is.null(user.init.upper.diag.A) == FALSE) init.upper.diag.A<-user.init.upper.diag.A
+  if (is.null(user.init.lower.diag.A) == FALSE) init.lower.diag.A<-user.init.lower.diag.A
+  if (is.null(user.init.diag.R) == FALSE) init.diag.R<-user.init.diag.R
+  if (is.null(user.init.off.diag.R) == FALSE) init.off.diag.R<-user.init.off.diag.R
+  if (is.null(user.init.theta) == FALSE) init.theta<-user.init.theta
+  if (is.null(user.init.anc) == FALSE) init.anc<-user.init.anc
 
   init.par<-c(init.diag.A, init.upper.diag.A, init.lower.diag.A, init.diag.R, init.off.diag.R, init.theta, init.anc)
   lower.limit<-c(rep(NA,length(init.diag.A)), rep(NA,length(init.upper.diag.A)),  rep(NA,length(init.lower.diag.A)), rep(0, length(init.diag.R)), rep(0, length(init.off.diag.R)), rep(NA, length(init.theta)), rep(NA, length(init.anc)))
@@ -117,6 +155,7 @@ fit.multivariate.OU.user.defined<-function (yy, A.user=NULL, R.user=NULL, method
   ##### Start of iteration routine #####
 
   if (is.numeric(iterations)) {
+    tryCatch({
     if(is.numeric(iter.sd) == FALSE) iter.sd <-1
     log.lik.tmp<-rep(NA, iterations)
     www<-list()
@@ -150,7 +189,8 @@ fit.multivariate.OU.user.defined<-function (yy, A.user=NULL, R.user=NULL, method
     for (j in 1:iterations){
       if(max(na.exclude(log.lik.tmp)) == www[[j]]$value) best.run<-www[[j]]
     }
-  }
+    }, error=function(e){cat("ERROR :",conditionMessage(e), "\n")})
+    }
 
   ##### End of iteration routine #####
 

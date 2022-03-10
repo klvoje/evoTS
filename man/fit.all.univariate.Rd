@@ -4,10 +4,12 @@
 \alias{fit.all.univariate}
 \title{Fit all univariate models to an evolutionary sequence (time-series).}
 \usage{
-fit.all.univariate(y)
+fit.all.univariate(y, pool = TRUE)
 }
 \arguments{
 \item{y}{an univariate paleoTS object.}
+
+\item{pool}{indicating whether to pool variances across samples}
 }
 \value{
 The function returns a list of all investigated models and their highest log-likelihood (and their corresponding AICc and AICc weight).
@@ -20,7 +22,7 @@ Wrapper function to find maximum likelihood solutions for all univariate models 
 x <- paleoTS::sim.GRW(30)
 
 ## Fit a the model to the data by defining shift points.
-fit.all.univariate(x)
+fit.all.univariate(x, pool = TRUE)
 
 }
 \references{

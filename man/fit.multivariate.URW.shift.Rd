@@ -8,6 +8,7 @@ fit.multivariate.URW.shift(
   yy,
   minb = 10,
   hess = FALSE,
+  pool = TRUE,
   shift.point = NULL,
   method = "L-BFGS-B",
   trace = FALSE,
@@ -21,6 +22,8 @@ fit.multivariate.URW.shift(
 \item{minb}{the minimum number of samples within a segment to consider.}
 
 \item{hess}{logical, indicating whether to calculate standard errors from the Hessian matrix.}
+
+\item{pool}{indicating whether to pool variances across samples}
 
 \item{shift.point}{the sample in the time series that represents the first sample in the second segment.}
 

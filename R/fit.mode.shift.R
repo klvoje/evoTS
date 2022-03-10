@@ -12,7 +12,7 @@
 #'
 #'@param minb the minimum number of samples within a segment to consider
 #'
-#'@param shift.point The sample that split the time-series into two segments. The samples are passed to the argument as a vector. Default is NULL, which means all possible switch points will be assessed constrained by how minb is defined.
+#'@param shift.point The sample that split the time-series into two segments. The samples are passed to the argument as a vector. Default is NULL, which means all possible shift points will be assessed constrained by how minb is defined.
 #'
 #' @param pool logical indicating whether to pool variances across samples
 #'
@@ -58,7 +58,7 @@ fit.mode.shift<-function (y, model1=c("Stasis", "URW", "GRW", "OU"), model2=c("S
   y$start.age<-NULL
   if(is.numeric(shift.point) == TRUE) GG <-shift.point else GG <- shifts(ns, ng, minb = minb)
   GG<-as.matrix(GG)
-  if (ncol(GG) == 1) print("Fitting the model for a user-defined switchpoint") else print("Searching all possible switchpoints in the evolutionary sequence")
+  if (ncol(GG) == 1) print("Fitting the model for a user-defined shift point") else print("Searching all possible shift points in the evolutionary sequence")
 
 
   if(fit.all == TRUE){
@@ -66,7 +66,7 @@ fit.mode.shift<-function (y, model1=c("Stasis", "URW", "GRW", "OU"), model2=c("S
   nc <- ncol(GG)
   #Create empty list
   wl <- list()
-  #create array with length = to switch points and where every entry ) -Inf
+  #create array with length = to shift points and where every entry ) -Inf
   logl <- array(-Inf, dim = nc)
 
   a1 <- vector(mode = "list", length = nc)
@@ -92,7 +92,7 @@ fit.mode.shift<-function (y, model1=c("Stasis", "URW", "GRW", "OU"), model2=c("S
     #defines which data point in the time series that belong to each of the two sets
     gg <- shift2gg(GG[, i], ns)
 
-  ## Her må a1 være en liste med lengde ns, slik at alle resultatene kan lagres for alle i (switch points)
+  ## Her må a1 være en liste med lengde ns, slik at alle resultatene kan lagres for alle i (shift points)
     a1[[i]]  <- opt.joint.Stasis.Stasis(y, gg, pool = pool, hess = hess, meth = "L-BFGS-B") #Done
     a2[[i]]  <- opt.joint.Stasis.URW(y, gg, pool = pool, hess = hess, meth = "L-BFGS-B") #Done
     a3[[i]]  <- opt.joint.Stasis.GRW(y, gg, pool = pool, hess = hess, meth = "L-BFGS-B") #Done
@@ -150,7 +150,7 @@ invisible(mc)
         cat("Total # hypotheses: ", nc, "\n")
       #Create empty list
       wl <- list()
-      #create array with length = to switch points and where every entry ) -Inf
+      #create array with length = to shift points and where every entry ) -Inf
       logl <- array(-Inf, dim = nc)
 
       for (i in 1:nc) {

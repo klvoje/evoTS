@@ -4,7 +4,16 @@
 \alias{opt.multi.R}
 \title{Fit separate multivariate Unbiased Random Walk models to two different segments of a multivariate evolutionary sequence (time-series).}
 \usage{
-opt.multi.R(yy, gg, method, hess = FALSE, trace, iterations, iter.sd)
+opt.multi.R(
+  yy,
+  gg,
+  method,
+  hess = FALSE,
+  pool = TRUE,
+  trace,
+  iterations,
+  iter.sd
+)
 }
 \arguments{
 \item{yy}{a multivariate evoTS object.}
@@ -14,6 +23,8 @@ opt.multi.R(yy, gg, method, hess = FALSE, trace, iterations, iter.sd)
 \item{method}{optimization method, passed to function optim. Default is "L-BFGS-B".}
 
 \item{hess}{logical, indicating whether to calculate standard errors from the Hessian matrix.}
+
+\item{pool}{indicating whether to pool variances across samples}
 
 \item{trace}{logical, indicating whether information on the progress of the optimization is printed.}
 

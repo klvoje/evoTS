@@ -10,9 +10,17 @@ fit.multivariate.OU.user.defined(
   R.user = NULL,
   method = "Nelder-Mead",
   hess = FALSE,
+  pool = TRUE,
   trace = FALSE,
   iterations = NULL,
-  iter.sd = NULL
+  iter.sd = NULL,
+  user.init.diag.A = NULL,
+  user.init.upper.diag.A = NULL,
+  user.init.lower.diag.A = NULL,
+  user.init.diag.R = NULL,
+  user.init.off.diag.R = NULL,
+  user.init.theta = NULL,
+  user.init.anc = NULL
 )
 }
 \arguments{
@@ -26,11 +34,27 @@ fit.multivariate.OU.user.defined(
 
 \item{hess}{logical, indicating whether to calculate standard errors from the Hessian matrix.}
 
+\item{pool}{indicating whether to pool variances across samples}
+
 \item{trace}{logical, indicating whether information on the progress of the optimization is printed.}
 
 \item{iterations}{the number of times the optimization method is run from different starting points. Default is NULL, meaning the optimization is run once.}
 
 \item{iter.sd}{defines the standard deviation of the Gaussian distribution from which starting values for the optimization routine is run. Default is 1.}
+
+\item{user.init.diag.A}{starting values for the optimization routine of the diagonal elements of the A matrix. Default is NULL.}
+
+\item{user.init.upper.diag.A}{starting values for the optimization routine of the upper diagonal elements of the A matrix. Default is NULL.}
+
+\item{user.init.lower.diag.A}{starting values for the optimization routine of the lower diagonal elements of the A matrix. Default is NULL.}
+
+\item{user.init.diag.R}{starting values for the optimization routine of the diagonal elements of the R matrix. Default is NULL.}
+
+\item{user.init.off.diag.R}{starting values for the optimization routine of the off-diagonal elements of the R matrix. Default is NULL.}
+
+\item{user.init.theta}{starting values for the optimization routine of the optima. Default is NULL.}
+
+\item{user.init.anc}{starting values for the optimization routine of the ancestral values. Default is NULL.}
 }
 \value{
 First part of the output reports the log-likelihood of the model and its AICc score. The second part of the output is the maximum log-likelihood model parameters (ancestral.values, optima, A, and R). The half-life is also provided, which is the  The last part of the output gives information about the number of parameters in the model (K), number of samples in the data (n) and number of times the optimization routine was run (iter).
@@ -46,6 +70,8 @@ The function searches - using an optimization routine - for the maximum-likeliho
 Initial estimates to start the optimization come from maximum-likelihood estimates of the univariate Ornstein-Uhlenbeck model (from the paleoTS package) fitted to each time-series separately.
 
 It is good practice to repeat any numerical optimization procedure from different starting points. This is especially important for complex models as the log-likelihood surface might contain more than one peak. The number of iterations is controlled by the argument 'iterations'. The function will report the model parameters from the iteration with the highest log-likelihood.
+
+There is no guarantee that the likelihood can be computed with the initial parameters provided by the function. The starting values for fitting the multivariate OU model are based on maximum likelihood parameter estimates for the univariate OU model fitted to each trait separately, which seems to provide sensible (and working) initial parameter estimates for almost all tested data sets. However, the provided initial parameters may fail depending on the nature of the data. If an error message is returned saying "function cannot be evaluated at initial parameters", the user can try to start the optimization procedure from other initial parameter values using "user.init.diag.A", "user.init.upper.diag.A", "user.init.lower.diag.A", "user.init.diag.R", "user.init.off.diag.R", "user.init.theta", and "user.init.anc." It is usually the initial guess of the off-diagonal elements of the A and R matrices that prevents the optimization routine to work. It is therefore recommended to only try to change these initial values before experimenting with different starting values for the diagonal of the A and R matrices.
 }
 \note{
 The models have been implemented to be compatible with the joint parameterization routine in the package paleoTS. The optimization is therefore fit using the actual sample values, with the autocorrelation among samples accounted for in the log-likelihood function. The joint distribution of sample means is multivariate normal, with means and variance-covariances determined by evolutionary parameters and sampling errors.

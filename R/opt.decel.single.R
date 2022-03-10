@@ -4,11 +4,11 @@
 #'
 #' @param yy a multivariate evoTS object.
 #'
-#' @param pool logical indicating whether to pool variances across samples
-#'
 #' @param method optimization method, passed to function optim. Default is "L-BFGS-B".
 #'
 #' @param hess logical, indicating whether to calculate standard errors from the Hessian matrix.
+#' 
+#' @param pool indicating whether to pool variances across samples
 #'
 #' @param trace logical, indicating whether information on the progress of the optimization is printed.
 #'
@@ -42,12 +42,21 @@
 #'opt.accel.single.R(indata)
 #'
 
-opt.decel.single.R<-function (yy, pool = TRUE, method="L-BFGS-B", hess = FALSE, trace=FALSE, iterations=NULL, iter.sd=NULL)
+opt.decel.single.R<-function (yy, method="L-BFGS-B", hess = FALSE, pool = TRUE, trace=FALSE, iterations=NULL, iter.sd=NULL)
 {
 
   n <- nrow(yy$xx) #number of samples/populations
   m <- ncol(yy$xx) # number of traits
 
+  if (pool==TRUE) { 
+    for (i in 1:m){
+      
+      tmp<-paleoTS::as.paleoTS(yy$xx[,i], yy$vv[,i], yy$nn[,i], yy$tt[,i])
+      tmp<- paleoTS::pool.var(tmp, ret.paleoTS = TRUE)
+      yy$vv[,i]<-tmp$vv
+    }
+  }
+  
   X <- yy$xx # Character matrix with dimensions n * m
   y <- as.matrix(as.vector(X)) # Vectorized version of X
 

@@ -7,6 +7,8 @@
 #' @param minb the minimum number of samples within a segment to consider.
 #'
 #' @param hess logical, indicating whether to calculate standard errors from the Hessian matrix.
+#' 
+#' @param pool indicating whether to pool variances across samples
 #'
 #' @param shift.point the sample in the time series that represents the first sample in the second segment.
 #'
@@ -43,30 +45,40 @@
 #'## Fit two multivariate Unbiased Random Walk models to separate parts of the time-series.
 #'fit.multivariate.URW.shift(x, shift.point = 31)
 
-fit.multivariate.URW.shift<-function (yy, minb = 10, hess = FALSE, shift.point = NULL, method = "L-BFGS-B", trace=FALSE, iterations=NULL, iter.sd=NULL)
+fit.multivariate.URW.shift<-function (yy, minb = 10, hess = FALSE, pool = TRUE, shift.point = NULL, method = "L-BFGS-B", trace=FALSE, iterations=NULL, iter.sd=NULL)
 {
 
   ng<-2 # The program is currently constrained to fitting two R matrices.
   ns <- nrow(yy$xx)
+  m <- ncol(yy$xx) # number of traits
+  
+  if (pool==TRUE) { 
+    for (i in 1:m){
+      
+      tmp<-paleoTS::as.paleoTS(yy$xx[,i], yy$vv[,i], yy$nn[,i], yy$tt[,i])
+      tmp<- paleoTS::pool.var(tmp, ret.paleoTS = TRUE)
+      yy$vv[,i]<-tmp$vv
+    }
+  }
 
   if(is.numeric(shift.point) == TRUE) GG <-shift.point else GG <- shifts(ns, ng, minb = minb)
   GG<-as.matrix(GG)
-  if (ncol(GG) == 1) print("Fitting the model for a user-defined switchpoint") else print("Searching for all possible switchpoints in timeseries")
+  if (ncol(GG) == 1) print("Fitting the model for a user-defined shift point") else print("Searching for all possible shift points in timeseries")
 
   #Define number of shift points:
   nc <- ncol(GG)
     cat("Total # hypotheses: ", nc, "\n")
   #Create empty list
   wl <- list()
-  #create array with length = to switch points and where every entry = -Inf
+  #create array with length = to shift points and where every entry = -Inf
   logl <- array(-Inf, dim = nc)
 
-  #start loop for estimating maximum likelihood parameters for each data set defined by the switch points
+  #start loop for estimating maximum likelihood parameters for each data set defined by the shift points
   for (i in 1:nc) {
       cat(i, " ")
     #defines which data point in the time series that belong to each of the two sets
     gg <- shift2gg(GG[, i], ns)
-        w <- opt.multi.R(yy, gg, hess = hess, method = method, trace = trace, iterations=iterations, iter.sd=iter.sd)
+        w <- opt.multi.R(yy, gg, hess = hess, pool = pool, method = method, trace = trace, iterations=iterations, iter.sd=iter.sd)
     logl[i] <- w$logL
     wl[[i]] <- w
   }

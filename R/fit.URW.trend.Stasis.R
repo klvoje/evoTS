@@ -12,7 +12,7 @@
 #'
 #' @param hess logical, indicating whether to calculate standard errors from the Hessian matrix.
 #'
-#' @param shift.point The samples that split the time-series into three segments. The samples are passed to the argument as a vector. Default is NULL, which means all possible switch points will be assessed constrained by how minb is defined.
+#' @param shift.point The samples that split the time-series into three segments. The samples are passed to the argument as a vector. Default is NULL, which means all possible shift points will be assessed constrained by how minb is defined.
 #'#'
 #'@return
 #'\item{logL}{the log-likelihood of the optimal solution}
@@ -48,7 +48,7 @@ fit.URW.trend.Stasis<-function (y, minb = 7, pool = TRUE, silent = FALSE, hess =
 
   if(is.numeric(shift.point) == TRUE) GG <-shift.point else GG <- shifts(ns, ng, minb = minb)
   GG<-as.matrix(GG)
-  if (ncol(GG) == 1) print("Fitting the model for a user-defined switchpoint") else print("Searching for all possible switchpoints in timeseries")
+  if (ncol(GG) == 1) print("Fitting the model for a user-defined shift point") else print("Searching for all possible shift points in timeseries")
 
   #Define number of shift points:
   nc <- ncol(GG)
@@ -56,10 +56,10 @@ fit.URW.trend.Stasis<-function (y, minb = 7, pool = TRUE, silent = FALSE, hess =
     cat("Total # hypotheses: ", nc, "\n")
   #Create empty list
   wl <- list()
-  #create array with length = to switch points and where every entry ) -Inf
+  #create array with length = to shift points and where every entry ) -Inf
   logl <- array(-Inf, dim = nc)
 
-  #start loop for estimating maximum likelihood parameters for each data set defined by the switch points
+  #start loop for estimating maximum likelihood parameters for each data set defined by the shift points
   for (i in 1:nc) {
     if (!silent)
       cat(i, " ")

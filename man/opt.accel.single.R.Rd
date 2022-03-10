@@ -8,6 +8,7 @@ opt.accel.single.R(
   yy,
   method = "L-BFGS-B",
   hess = FALSE,
+  pool = TRUE,
   trace = FALSE,
   iterations = NULL,
   iter.sd = NULL
@@ -19,6 +20,8 @@ opt.accel.single.R(
 \item{method}{optimization method, passed to function optim. Default is "L-BFGS-B".}
 
 \item{hess}{logical, indicating whether to calculate standard errors from the Hessian matrix.}
+
+\item{pool}{indicating whether to pool variances across samples}
 
 \item{trace}{logical, indicating whether information on the progress of the optimization is printed.}
 

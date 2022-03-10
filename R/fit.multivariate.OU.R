@@ -11,12 +11,26 @@
 #' @param method optimization method, passed to function optim. Default is "Nelder-Mead".
 #'
 #' @param hess logical, indicating whether to calculate standard errors from the Hessian matrix.
+#' 
+#' @param pool indicating whether to pool variances across samples
 #'
 #' @param trace logical, indicating whether information on the progress of the optimization is printed.
 #'
 #' @param iterations the number of times the optimization method is run from different starting points. Default is NULL, meaning the optimization is run once.
 #'
 #' @param iter.sd defines the standard deviation of the Gaussian distribution from which starting values for the optimization routine is run. Default is 1.
+#' 
+#' @param user.init.diag.A starting values for the optimization routine of the diagonal elements of the A matrix. Default is NULL. 
+#' 
+#' @param user.init.diag.R starting values for the optimization routine of the diagonal elements of the R matrix. Default is NULL.
+#' 
+#' @param user.init.off.diag.A starting values for the optimization routine of the off-diagonal elements of the A matrix. Default is NULL.
+#' 
+#' @param user.init.off.diag.R starting values for the optimization routine of the off-diagonal elements of the R matrix. Default is NULL.
+#' 
+#' @param user.init.theta starting values for the optimization routine of the optima. Default is NULL.
+#' 
+#' @param user.init.anc starting values for the optimization routine of the ancestral values. Default is NULL.
 #'
 #' @details A detailed explanation of the predefined models that can be fitted using the function is given in the vignette, but a short summary is provided here. Note that this function provides the user with fixed options for how to parameterize the A and R matrices. For full flexibility, the user is allowed to customize the parameterization of the A and R matrix in the 'fit.multivariate.OU.user.defined' function.
 #' The type of trait dynamics is defined based on how the pull matrix (A) and drift matrix (R) are defined. The function allows testing four broad categories of models: 1 Independent evolution (A.matrix ="diag", R.matrix = "diag"); 2 Independent adaptation (A.matrix ="diag", R.matrix = "symmetric"); 3 Non-independent adaptation (A.matrix = "upper.tri"/"lower.tri"/full", R.matrix = "diagonal"); 4 Non-independent evolution (A.matrix = "upper.tri"/"lower.tri"/"full", R.matrix = "symmetric").
@@ -29,6 +43,8 @@
 #' Initial estimates to start the optimization come from maximum-likelihood estimates of the univariate Ornstein-Uhlenbeck model (from the paleoTS package) fitted to each time-series separately.
 #'
 #' It is good practice to repeat any numerical optimization procedure from different starting points. This is especially important for complex models as the log-likelihood surface might contain more than one peak. The number of iterations is controlled by the argument 'iterations'. The function will report the model parameters from the iteration with the highest log-likelihood.
+#' 
+#' There is no guarantee that the likelihood can be computed with the initial parameters provided by the function. The starting values for fitting the multivariate OU model are based on maximum likelihood parameter estimates for the univariate OU model fitted to each trait separately, which seems to provide sensible (and working) initial parameter estimates for almost all tested data sets. However, the provided initial parameters may fail depending on the nature of the data. If an error message is returned saying "function cannot be evaluated at initial parameters", the user can try to start the optimization procedure from other initial parameter values using "user.init.diag.A", "user.init.diag.R", "user.init.off.diag.A", "user.init.off.diag.R", "user.init.theta", and "user.init.anc." It is usually the initial guess of the off-diagonal elements of the A and R matrices that prevents the optimization routine to work. It is therefore recommended to only try to change these initial values before experimenting with different starting values for the diagonal of the A and R matrices.  
 #'
 #'@return First part of the output reports the log-likelihood of the model and its AICc score. The second part of the output is the maximum log-likelihood model parameters (ancestral.values, optima, A, and R). The half-life is also provided, which is the  The last part of the output gives information about the number of parameters in the model (K), number of samples in the data (n) and number of times the optimization routine was run (iter).
 #'
@@ -43,20 +59,32 @@
 #'@export
 #'
 #'@examples
-#'## Generate a evoTS objects by simulating a multivariate dataset
+#'## Generate a evoTS objects by simulating a multivariate data set
 #'x <- sim.multi.OU(15)
 #'
 #'## Fit a multivariate Ornstein-Uhlenbeck model to the data.
 #'##fit.multivariate.OU(x, A.matrix="diag", R.matrix="symmetric")
 #'
-fit.multivariate.OU<-function (yy, A.matrix="diag", R.matrix="symmetric", method="Nelder-Mead", hess = FALSE, trace=FALSE, iterations=NULL, iter.sd=NULL)
+
+fit.multivariate.OU<-function (yy, A.matrix="diag", R.matrix="symmetric", method="Nelder-Mead", hess = FALSE, pool = TRUE, trace=FALSE, iterations=NULL, iter.sd=NULL, user.init.diag.A = NULL, user.init.diag.R = NULL, user.init.off.diag.A = NULL, user.init.off.diag.R = NULL, user.init.theta = NULL, user.init.anc = NULL)
 {
 
   y <- n <- anc.values <- NULL
   m <-ncol(yy$xx) # number of traits
 
+  if (pool==TRUE) { 
+    for (i in 1:m){
+      
+      tmp<-paleoTS::as.paleoTS(yy$xx[,i], yy$vv[,i], yy$nn[,i], yy$tt[,i])
+      tmp<- paleoTS::pool.var(tmp, ret.paleoTS = TRUE)
+      yy$vv[,i]<-tmp$vv
+    }
+    }
+    
+  
   ### Start iterations from different starting values
   if (is.numeric(iterations)) {
+    tryCatch({
     if(is.numeric(iter.sd) == FALSE) iter.sd <-1
     log.lik.tmp<-rep(NA, iterations)
     www<-list()
@@ -100,7 +128,15 @@ fit.multivariate.OU<-function (yy, A.matrix="diag", R.matrix="symmetric", method
 
       init.theta<-yy$xx[length(yy$xx[,1]),]
       if (A.matrix=="OUBM"){init.theta[m]<-init.anc[m]}
-
+      
+      #Check for user defined starting values
+      if (is.null(user.init.diag.A) == FALSE) init.diag.A<-user.init.diag.A
+      if (is.null(user.init.diag.R) == FALSE) init.diag.R<-user.init.diag.R
+      if (is.null(user.init.off.diag.A) == FALSE) init.off.diag.A<-user.init.off.diag.A
+      if (is.null(user.init.off.diag.R) == FALSE) init.off.diag.R<-user.init.off.diag.R
+      if (is.null(user.init.theta) == FALSE) init.theta<-user.init.theta
+      if (is.null(user.init.anc) == FALSE) init.anc<-user.init.anc
+      
     if(A.matrix=="diag" & R.matrix=="diag")
     {
       init.par_temp<-c(init.diag.A, init.diag.R, init.theta, init.anc)
@@ -178,7 +214,7 @@ fit.multivariate.OU<-function (yy, A.matrix="diag", R.matrix="symmetric", method
     for (j in 1:iterations){
       if(max(na.exclude(log.lik.tmp)) == www[[j]]$value) best.run<-www[[j]]
     }
-
+    }, error=function(e){cat("ERROR :",conditionMessage(e), "\n")})
   }
 
   ##### End of iteration routine #####
@@ -224,6 +260,14 @@ fit.multivariate.OU<-function (yy, A.matrix="diag", R.matrix="symmetric", method
 
       init.theta<-yy$xx[length(yy$xx[,1]),]
       if (A.matrix=="OUBM"){init.theta[m]<-init.anc[m]}
+      
+      #Check for user defined starting values
+      if (is.null(user.init.diag.A) == FALSE) init.diag.A<-user.init.diag.A
+      if (is.null(user.init.diag.R) == FALSE) init.diag.R<-user.init.diag.R
+      if (is.null(user.init.off.diag.A) == FALSE) init.off.diag.A<-user.init.off.diag.A
+      if (is.null(user.init.off.diag.R) == FALSE) init.off.diag.R<-user.init.off.diag.R
+      if (is.null(user.init.theta) == FALSE) init.theta<-user.init.theta
+      if (is.null(user.init.anc) == FALSE) init.anc<-user.init.anc
 
 
       if(A.matrix=="diag" & R.matrix=="diag")
@@ -467,6 +511,7 @@ fit.multivariate.OU<-function (yy, A.matrix="diag", R.matrix="symmetric", method
     optima[length(optima)]<-NA
 
     ancestral.values<-c(w$par[(m+m+m+l.upp.tri.A):(m+m+m+m+l.upp.tri.A-1)])
+    K <- length(init.par)-1
       }
 
   half.life<-log(2)/diag(A)

@@ -11,6 +11,8 @@
 #' @param method optimization method, passed to function optim. Default is "L-BFGS-B".
 #'
 #' @param hess logical, indicating whether to calculate standard errors from the Hessian matrix.
+#' 
+#' @param pool indicating whether to pool variances across samples
 #'
 #' @param trace logical, indicating whether information on the progress of the optimization is printed.
 #'
@@ -47,21 +49,21 @@
 #'fit.multivariate.URW(x, R = "symmetric", r = "fixed")
 #'
 
-fit.multivariate.URW<-function(yy, R = "symmetric", r = "fixed", method="L-BFGS-B", hess = FALSE, trace=FALSE, iterations=NULL, iter.sd=NULL){
+fit.multivariate.URW<-function(yy, R = "symmetric", r = "fixed", method="L-BFGS-B", hess = FALSE, pool = TRUE, trace=FALSE, iterations=NULL, iter.sd=NULL){
 
   m <- ncol(yy$xx) # number of traits
 
-  if (R == "symmetric" && r == "fixed") w<-opt.single.R(yy, method = method, hess = hess, trace = trace, iterations = iterations, iter.sd = iter.sd)
+  if (R == "symmetric" && r == "fixed") w<-opt.single.R(yy, method = method, hess = hess, pool = pool, trace = trace, iterations = iterations, iter.sd = iter.sd)
 
-  if (R == "diag" && r == "fixed") w<-opt.single.R.zero.corr(yy, method = method, hess = hess, trace = trace, iterations = iterations, iter.sd = iter.sd)
+  if (R == "diag" && r == "fixed") w<-opt.single.R.zero.corr(yy, method = method, hess = hess, pool = pool, trace = trace, iterations = iterations, iter.sd = iter.sd)
 
-  if (R == "symmetric" && r == "accel") w<-opt.accel.single.R(yy, method = method, hess = hess, trace = trace,  iterations = iterations, iter.sd = iter.sd)
+  if (R == "symmetric" && r == "accel") w<-opt.accel.single.R(yy, method = method, hess = hess, pool = pool, trace = trace,  iterations = iterations, iter.sd = iter.sd)
 
-  if (R == "symmetric" && r == "decel") w<-opt.decel.single.R(yy, method = method, hess = hess, trace = trace, iterations = iterations, iter.sd = iter.sd)
+  if (R == "symmetric" && r == "decel") w<-opt.decel.single.R(yy, method = method, hess = hess, pool = pool, trace = trace, iterations = iterations, iter.sd = iter.sd)
 
-  if (R == "diag" && r == "accel") w<-opt.accel.single.R.zero.corr(yy, method = method, hess = hess, trace = trace, iterations = iterations, iter.sd = iter.sd)
+  if (R == "diag" && r == "accel") w<-opt.accel.single.R.zero.corr(yy, method = method, hess = hess, pool = pool, trace = trace, iterations = iterations, iter.sd = iter.sd)
 
-  if (R == "diag" && r == "decel") w<-opt.decel.single.R.zero.corr(yy, method = method, hess = hess, trace = trace, iterations = iterations, iter.sd = iter.sd)
+  if (R == "diag" && r == "decel") w<-opt.decel.single.R.zero.corr(yy, method = method, hess = hess, pool = pool, trace = trace, iterations = iterations, iter.sd = iter.sd)
 
   return(w)
 }

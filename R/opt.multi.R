@@ -9,6 +9,8 @@
 #' @param method optimization method, passed to function optim. Default is "L-BFGS-B".
 #'
 #' @param hess logical, indicating whether to calculate standard errors from the Hessian matrix.
+#' 
+#' @param pool indicating whether to pool variances across samples
 #'
 #' @param trace logical, indicating whether information on the progress of the optimization is printed.
 #'
@@ -36,7 +38,7 @@
 #'
 #'@export
 
-opt.multi.R<-function (yy, gg, method, hess = FALSE, trace, iterations, iter.sd)
+opt.multi.R<-function (yy, gg, method, hess = FALSE, pool = TRUE, trace, iterations, iter.sd)
 {
 
   n <- nrow(yy$xx) # number of samples/populations
@@ -135,7 +137,7 @@ opt.multi.R<-function (yy, gg, method, hess = FALSE, trace, iterations, iter.sd)
   if (w$convergence == 0) print("Model converged successfully.")
   }
     # number of parameters
-    K <- length(init.par) + (states-1) #parameters in the R matrices + ancestral values for each trait + number of switch points
+    K <- length(init.par) + (states-1) #parameters in the R matrices + ancestral values for each trait + number of shift points
 
 
   if (is.numeric(iterations) ==TRUE) {

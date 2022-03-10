@@ -27,7 +27,7 @@ fit.mode.shift(
 
 \item{minb}{the minimum number of samples within a segment to consider}
 
-\item{shift.point}{The sample that split the time-series into two segments. The samples are passed to the argument as a vector. Default is NULL, which means all possible switch points will be assessed constrained by how minb is defined.}
+\item{shift.point}{The sample that split the time-series into two segments. The samples are passed to the argument as a vector. Default is NULL, which means all possible shift points will be assessed constrained by how minb is defined.}
 
 \item{pool}{logical indicating whether to pool variances across samples}
 
