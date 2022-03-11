@@ -126,8 +126,8 @@ fit.multivariate.OU.user.defined<-function (yy, A.user=NULL, R.user=NULL, method
     init.diag.R[i]<-paleoTS::opt.joint.URW(paleoTS::as.paleoTS(mm=trait_array[,1,i], vv=trait_array[,2,i], nn=trait_array[,3,i], tt=trait_array[,4,i]))$parameter[2]
   }
 
-  init.upper.diag.A<-rep(-0.5, nr.upper.tri.A)
-  init.lower.diag.A<-rep(0.5, nr.lower.tri.A)
+  init.upper.diag.A<-rep(0, nr.upper.tri.A)
+  init.lower.diag.A<-rep(0, nr.lower.tri.A)
   init.off.diag.R<-rep(0.5,nr.upper.tri.R)
 
   init.anc<-yy$xx[1,]
@@ -139,7 +139,8 @@ fit.multivariate.OU.user.defined<-function (yy, A.user=NULL, R.user=NULL, method
     {
     if (tmp_diag_A.user[i]==1) {init.theta[i]<-yy$xx[length(yy$xx[,1]),i]}
   }
-  
+
+
   #Check for user defined starting values
   if (is.null(user.init.diag.A) == FALSE) init.diag.A<-user.init.diag.A
   if (is.null(user.init.upper.diag.A) == FALSE) init.upper.diag.A<-user.init.upper.diag.A
@@ -155,13 +156,12 @@ fit.multivariate.OU.user.defined<-function (yy, A.user=NULL, R.user=NULL, method
   ##### Start of iteration routine #####
 
   if (is.numeric(iterations)) {
-    tryCatch({
     if(is.numeric(iter.sd) == FALSE) iter.sd <-1
-    log.lik.tmp<-rep(NA, iterations)
+    log.lik.tmp<-rep(NA, 1000000)
     www<-list()
 
-    for (k in 1:iterations){
-
+    for (k in 1:1000000){
+      tryCatch({
       #init.par<-rnorm(length(init.par_temp), init.par_temp, iter.sd)
 
   init.par_temp<-c(init.diag.A, init.upper.diag.A, init.lower.diag.A, init.diag.R, init.off.diag.R, init.theta, init.anc)
@@ -173,23 +173,30 @@ fit.multivariate.OU.user.defined<-function (yy, A.user=NULL, R.user=NULL, method
       www[[k]]<-optim(init.par, fn = logL.joint.multi.OUOU.user, yy = yy, A.user = A.user, R.user = R.user,
                       locations.A = locations.A, location.diag.A = location.diag.A, location.upper.tri.A = location.upper.tri.A, location.lower.tri.A = location.lower.tri.A,
                       locations.R = locations.R, location.diag.R = location.diag.R, location.upper.tri.R = location.upper.tri.R,
-                       control = list(fnscale = -1, maxit=10000, trace = trace), method = "Nelder-Mead", hessian = hess)
-     }
+                       control = list(fnscale = -1, maxit=1000000, trace = trace), method = "Nelder-Mead", hessian = hess)
+      }
 
   if (method == "L-BFGS-B")  {
     www[[k]]<-optim(init.par, fn = logL.joint.multi.OUOU.user, yy = yy, A.user = A.user, R.user = R.user,
                     locations.A = locations.A, location.diag.A = location.diag.A, location.upper.tri.A = location.upper.tri.A, location.lower.tri.A = location.lower.tri.A,
                     locations.R = locations.R, location.diag.R = location.diag.R, location.upper.tri.R = location.upper.tri.R,
-                    control = list(fnscale = -1, maxit=10000, trace = trace), method = "Nelder-Mead", hessian = hess, lower = lower.limit)
+                    control = list(fnscale = -1, maxit=1000000, trace = trace), method = "Nelder-Mead", hessian = hess, lower = lower.limit)
   }
-
+    
     log.lik.tmp[k]<-www[[k]]$value
 
+    }, error=function(e){cat("ERROR :",conditionMessage(e), "\n")})
+
+        if (length(na.exclude(log.lik.tmp)) == iterations){
+        break
+      }
     }
+    
+    www<-www[!sapply(www,is.null)]
     for (j in 1:iterations){
       if(max(na.exclude(log.lik.tmp)) == www[[j]]$value) best.run<-www[[j]]
     }
-    }, error=function(e){cat("ERROR :",conditionMessage(e), "\n")})
+    
     }
 
   ##### End of iteration routine #####
@@ -202,18 +209,18 @@ fit.multivariate.OU.user.defined<-function (yy, A.user=NULL, R.user=NULL, method
       w<-optim(init.par, fn = logL.joint.multi.OUOU.user, yy = yy, A.user = A.user, R.user = R.user,
                locations.A = locations.A, location.diag.A = location.diag.A, location.upper.tri.A = location.upper.tri.A, location.lower.tri.A = location.lower.tri.A,
                locations.R = locations.R, location.diag.R = location.diag.R, location.upper.tri.R = location.upper.tri.R,
-               control = list(fnscale = -1, maxit=10000, trace = trace), method = "Nelder-Mead", hessian = hess)
+               control = list(fnscale = -1, maxit=1000000, trace = trace), method = "Nelder-Mead", hessian = hess)
     }
     if (method == "L-BFGS-B")  {
       w<-optim(init.par, fn = logL.joint.multi.OUOU.user, yy = yy, A.user = A.user, R.user = R.user,
                 locations.A = locations.A, location.diag.A = location.diag.A, location.upper.tri.A = location.upper.tri.A, location.lower.tri.A = location.lower.tri.A,
                 locations.R = locations.R, location.diag.R = location.diag.R, location.upper.tri.R = location.upper.tri.R,
-                control = list(fnscale = -1, maxit=10000, trace = trace), method = "Nelder-Mead", hessian = hess, lower = lower.limit)
+                control = list(fnscale = -1, maxit=1000000, trace = trace), method = "Nelder-Mead", hessian = hess, lower = lower.limit)
     }
 
   }
 
-  # number of parameters
+    # number of parameters
   K <- nr.init.diag.A+nr.upper.tri.A+nr.lower.tri.A+nr.init.diag.R+nr.upper.tri.R+m+nr.init.diag.A
 
   if (is.numeric(iterations) == FALSE){
@@ -227,41 +234,53 @@ fit.multivariate.OU.user.defined<-function (yy, A.user=NULL, R.user=NULL, method
   if (hess) best.run$se <- sqrt(diag(-1 * solve(w$hessian))) else w$se <- NULL
   }
 
-
+  #A<-diag(rep(0,nr.init.diag.A))
   A<-diag(rep(0,m))
-  A[locations.A[location.diag.A],locations.A[location.diag.A]]<- diag(c(w$par[1:length(location.diag.A)]))
+  #A[locations.A[location.diag.A],locations.A[location.diag.A]]<- diag(c(w$par[1:length(location.diag.A)]))
+  #A[locations.A[location.diag.A],locations.A[location.diag.A]]<- diag(c(w$par[1:nr.init.diag.A]))
+  for (i in 1:length(location.diag.A)){
+    A[locations.A[location.diag.A][i],locations.A[location.diag.A][i]]<- w$par[i]
+  }
 
   if (pracma::isempty(location.upper.tri.A)==FALSE)
   {
-    A[locations.A[,1][location.upper.tri.A],locations.A[,2][location.upper.tri.A]]<-w$par[(length(location.diag.A)+1):(length(location.diag.A)+length(location.upper.tri.A))]
+    
+    for (i in 1:length(location.upper.tri.A)){
+      A[locations.A[,1][location.upper.tri.A][i],locations.A[,2][location.upper.tri.A][i]]<- w$par[(length(location.diag.A)+i)]
+    }
   } else location.upper.tri.A<-NULL
+  
 
   if (pracma::isempty(location.lower.tri.A)==FALSE)
   {
-    A[locations.A[,1][location.lower.tri.A],locations.A[,2][location.lower.tri.A]]<-w$par[(length(location.diag.A)+length(location.upper.tri.A)+1):(length(location.diag.A)+length(location.upper.tri.A)+length(location.lower.tri.A))]
-  } else location.lower.tri.A<-NULL
+    for (i in 1:length(location.lower.tri.A)){
+      A[locations.A[,1][location.lower.tri.A][i],locations.A[,2][location.lower.tri.A][i]]<-w$par[(length(location.diag.A)+length(location.upper.tri.A)+i)]
+    } 
+  }else location.lower.tri.A<-NULL
 
 
   Chol<-diag(rep(0,m))
-  Chol[locations.R[location.diag.R],locations.R[location.diag.R]]<- diag(c(w$par[(length(location.diag.A)+length(location.upper.tri.A)+length(location.lower.tri.A)+1):(length(location.diag.A)+length(location.upper.tri.A)+length(location.lower.tri.A)+length(location.diag.R))]))
-
+  for (i in 1:length(location.diag.R)){
+    Chol[locations.R[location.diag.R][i],locations.R[location.diag.R][i]]<- init.par[(length(location.diag.A)+length(location.upper.tri.A)+length(location.lower.tri.A)+i)]
+  }
+  
   if (pracma::isempty(location.upper.tri.R)==FALSE)
   {
-    Chol[locations.R[,1][location.upper.tri.R],locations.R[,2][location.upper.tri.R]]<-w$par[(length(location.diag.A)+length(location.upper.tri.A)+length(location.lower.tri.A)+length(location.diag.R)+1):(length(location.diag.A)+length(location.upper.tri.A)+length(location.lower.tri.A)+length(location.diag.R)+length(location.upper.tri.R))]
+    for (i in 1:length(location.upper.tri.R)){
+      Chol[locations.R[,1][location.upper.tri.R][i],locations.R[,2][location.upper.tri.R][i]]<-init.par[(length(location.diag.A)+length(location.upper.tri.A)+length(location.lower.tri.A)+length(location.diag.R)+i)]
+    }
   } else location.upper.tri.R<-NULL
+  
   R<-Chol %*% t(Chol)
 
-  ### Theta (optimal trait values) ###
+   ### Theta (optimal trait values) ###
   optima<-c(w$par[(length(location.diag.A)+length(location.upper.tri.A)+length(location.lower.tri.A)+length(location.diag.R)+length(location.upper.tri.R)+1):(length(location.diag.A)+length(location.upper.tri.A)+length(location.lower.tri.A)+length(location.diag.R)+length(location.upper.tri.R)+m)])
-#  if (nr.init.diag.A != 0) {
-#    tmp_NA<-rep(NA, (m-nr.init.diag.A))
-#    optima[(m-length(tmp_NA)+1):m]<-tmp_NA
-#  }
 
-  if (nr.init.diag.A < length(diag(A.user))) {
-       tmp_NA<-rep(NA, (m-nr.init.diag.A))
-      optima[(m-length(tmp_NA)+1):m]<-tmp_NA
-      }
+  for (i in 1:m)
+  {
+    if (init.theta[i]==init.anc[i]) optima[i]<-NA 
+  }
+
 
   ### The ancestral trait values ###
   ancestral.values<-c(w$par[(length(location.diag.A)+length(location.upper.tri.A)+length(location.lower.tri.A)+length(location.diag.R)+length(location.upper.tri.R)+m+1):(length(location.diag.A)+length(location.upper.tri.A)+length(location.lower.tri.A)+length(location.diag.R)+length(location.upper.tri.R)+m+m)])

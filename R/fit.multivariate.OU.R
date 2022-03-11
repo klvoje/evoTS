@@ -84,13 +84,12 @@ fit.multivariate.OU<-function (yy, A.matrix="diag", R.matrix="symmetric", method
   
   ### Start iterations from different starting values
   if (is.numeric(iterations)) {
-    tryCatch({
     if(is.numeric(iter.sd) == FALSE) iter.sd <-1
-    log.lik.tmp<-rep(NA, iterations)
+    log.lik.tmp<-rep(NA, 1000000)
     www<-list()
 
-    for (k in 1:iterations){
-
+    for (k in 1:1000000){
+      tryCatch({
       trait_array<-array(data=NA, dim=(c(length(yy$xx[,1]), 4, m)))
 
       for (i in 1:m){
@@ -116,12 +115,12 @@ fit.multivariate.OU<-function (yy, A.matrix="diag", R.matrix="symmetric", method
       }
 
 
-      init.off.diag.A<-rep(-0.5, sum(upper.tri(diag(init.diag.A)), na.rm = TRUE))
+      init.off.diag.A<-rep(0, sum(upper.tri(diag(init.diag.A)), na.rm = TRUE))
       if (A.matrix=="OUBM"){
-        if (length(init.diag.A) == 1) init.off.diag.A<--0.5
-        if (length(init.diag.A) != 1) init.off.diag.A<-rep(-0.5, sum(upper.tri(diag(init.diag.A)), na.rm = TRUE))
+        if (length(init.diag.A) == 1) init.off.diag.A<-0
+        if (length(init.diag.A) != 1) init.off.diag.A<-rep(0, sum(upper.tri(diag(init.diag.A)), na.rm = TRUE))
         }
-      if (A.matrix=="full"){init.off.diag.A<-rep(-0.5, (sum(upper.tri(diag(init.diag.A)), na.rm = TRUE))*2)}
+      if (A.matrix=="full"){init.off.diag.A<-rep(0, (sum(upper.tri(diag(init.diag.A)), na.rm = TRUE))*2)}
       init.off.diag.R<-rep(0, sum(upper.tri(diag(init.diag.R)), na.rm = TRUE))
 
       init.anc<-yy$xx[1,]
@@ -203,18 +202,28 @@ fit.multivariate.OU<-function (yy, A.matrix="diag", R.matrix="symmetric", method
 
      if (method == "Nelder-Mead")  {
       www[[k]]<-optim(init.par, fn = logL.joint.multi.OUOU, yy = yy, A.matrix = A.matrix, R.matrix = R.matrix,
-                       control = list(fnscale = -1, maxit=10000, trace = trace), method = "Nelder-Mead", hessian = hess)
+                       control = list(fnscale = -1, maxit=1000000, trace = trace), method = "Nelder-Mead", hessian = hess)
     }
     if (method == "L-BFGS-B")  {
       www[[k]]<-optim(init.par, fn = logL.joint.multi.OUOU, yy = yy, A.matrix = A.matrix, R.matrix = R.matrix,
-                 control = list(fnscale = -1, maxit=10000, trace = trace), method = "L-BFGS-B" , hessian = hess, lower = lower.limit)
+                 control = list(fnscale = -1, maxit=1000000, trace = trace), method = "L-BFGS-B" , hessian = hess, lower = lower.limit)
     }
     log.lik.tmp[k]<-www[[k]]$value
-}
+      
+    }, error=function(e){cat("ERROR :",conditionMessage(e), "\n")})
+    
+      if (length(na.exclude(log.lik.tmp)) == iterations){
+        break
+      }
+      
+    }
+    
+    www<-www[!sapply(www,is.null)]
+    
     for (j in 1:iterations){
       if(max(na.exclude(log.lik.tmp)) == www[[j]]$value) best.run<-www[[j]]
     }
-    }, error=function(e){cat("ERROR :",conditionMessage(e), "\n")})
+
   }
 
   ##### End of iteration routine #####
@@ -328,13 +337,13 @@ fit.multivariate.OU<-function (yy, A.matrix="diag", R.matrix="symmetric", method
     if (method == "L-BFGS-B")
     {
       w<-optim(init.par, fn = logL.joint.multi.OUOU, yy = yy, A.matrix = A.matrix, R.matrix = R.matrix,
-               control = list(fnscale = -1, maxit=10000, trace = trace), method = "L-BFGS-B", hessian = hess, lower = lower.limit)
+               control = list(fnscale = -1, maxit=1000000, trace = trace), method = "L-BFGS-B", hessian = hess, lower = lower.limit)
     }
 
     if (method == "Nelder-Mead")
     {
       w<-optim(init.par, fn = logL.joint.multi.OUOU, yy = yy, A.matrix = A.matrix, R.matrix = R.matrix,
-               control = list(fnscale = -1, maxit=10000, trace = trace), method = "Nelder-Mead", hessian = hess)
+               control = list(fnscale = -1, maxit=1000000, trace = trace), method = "Nelder-Mead", hessian = hess)
     }
 
   }
@@ -352,8 +361,8 @@ fit.multivariate.OU<-function (yy, A.matrix="diag", R.matrix="symmetric", method
 
   if (is.numeric(iterations) == TRUE){
   iter<-iterations
-  if (hess) best.run$se <- sqrt(diag(-1 * solve(w$hessian))) else w$se <- NULL
   w<-best.run
+  if (hess) best.run$se <- sqrt(diag(-1 * solve(w$hessian))) else w$se <- NULL
   }
 
   if(A.matrix=="diag" & R.matrix=="diag") {

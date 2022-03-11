@@ -72,11 +72,11 @@ opt.decel.single.R.zero.corr<-function (yy, method="L-BFGS-B", hess = FALSE, poo
   if (is.numeric(iterations)) {
     if(is.numeric(iter.sd) == FALSE) iter.sd <-1
     #if(is.numeric(max.attemps) == FALSE) max.attemps <-100000
-    log.lik.tmp<-rep(NA, iterations)
+    log.lik.tmp<-rep(NA, 1000000)
     www<-list()
 
-    for (k in 1:iterations){
-
+    for (k in 1:1000000){
+      tryCatch({
       init.par_temp<-init.par
       init.par<-rnorm(length(init.par_temp), init.par_temp, iter.sd)
       init.par[c((length(init.trait.var)+1):length(init.par_temp))]<-abs(init.par[c((length(init.trait.var)+1):length(init.par_temp))])
@@ -96,8 +96,13 @@ opt.decel.single.R.zero.corr<-function (yy, method="L-BFGS-B", hess = FALSE, poo
                    control = list(fnscale = -1, maxit=10000, trace = trace), method = "SANN" , hessian = hess, lower = lower.limit)
       }
       log.lik.tmp[k]<-www[[k]]$value
+    }, error=function(e){cat("ERROR :",conditionMessage(e), "\n")})
 
-    }
+if (length(na.exclude(log.lik.tmp)) == iterations){
+  break
+}
+  }
+  www<-www[!sapply(www,is.null)]
     for (j in 1:iterations){
       if(max(na.exclude(log.lik.tmp)) == www[[j]]$value) best.run<-www[[j]]
     }

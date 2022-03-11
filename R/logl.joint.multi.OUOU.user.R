@@ -39,28 +39,43 @@ logL.joint.multi.OUOU.user<-function (init.par, yy, A.user, R.user, locations.A,
   y <- as.matrix(as.vector(X)) # Vectorized version of X
 
   A<-diag(rep(0.00000000001,m))
-  A[locations.A[location.diag.A],locations.A[location.diag.A]]<- diag(c(init.par[1:length(location.diag.A)]))
-
+  #A[locations.A[location.diag.A],locations.A[location.diag.A]]<- diag(c(init.par[1:length(location.diag.A)]))
+  for (i in 1:length(location.diag.A)){
+  A[locations.A[location.diag.A][i],locations.A[location.diag.A][i]]<- init.par[i]
+  }
+  
   if (pracma::isempty(location.upper.tri.A)==FALSE)
     {
-  A[locations.A[,1][location.upper.tri.A],locations.A[,2][location.upper.tri.A]]<-init.par[(length(location.diag.A)+1):(length(location.diag.A)+length(location.upper.tri.A))]
-    } else location.upper.tri.A<-NULL
+    
+    for (i in 1:length(location.upper.tri.A)){
+      A[locations.A[,1][location.upper.tri.A][i],locations.A[,2][location.upper.tri.A][i]]<- init.par[(length(location.diag.A)+i)]
+    }
+  } else location.upper.tri.A<-NULL
+  
+  #  A[locations.A[,1][location.upper.tri.A],locations.A[,2][location.upper.tri.A]]<-init.par[(length(location.diag.A)+1):(length(location.diag.A)+length(location.upper.tri.A))]
+   # } else location.upper.tri.A<-NULL
 
   if (pracma::isempty(location.lower.tri.A)==FALSE)
     {
-  A[locations.A[,1][location.lower.tri.A],locations.A[,2][location.lower.tri.A]]<-init.par[(length(location.diag.A)+length(location.upper.tri.A)+1):(length(location.diag.A)+length(location.upper.tri.A)+length(location.lower.tri.A))]
-  } else location.lower.tri.A<-NULL
+    for (i in 1:length(location.lower.tri.A)){
+  A[locations.A[,1][location.lower.tri.A][i],locations.A[,2][location.lower.tri.A][i]]<-init.par[(length(location.diag.A)+length(location.upper.tri.A)+i)]
+  } 
+    }else location.lower.tri.A<-NULL
 
   P<-eigen(A)$vectors
   D<-diag(eigen(A)$values)
 
 
   Chol<-diag(rep(0,m))
-  Chol[locations.R[location.diag.R],locations.R[location.diag.R]]<- diag(c(init.par[(length(location.diag.A)+length(location.upper.tri.A)+length(location.lower.tri.A)+1):(length(location.diag.A)+length(location.upper.tri.A)+length(location.lower.tri.A)+length(location.diag.R))]))
-
+  for (i in 1:length(location.diag.R)){
+  Chol[locations.R[location.diag.R][i],locations.R[location.diag.R][i]]<- init.par[(length(location.diag.A)+length(location.upper.tri.A)+length(location.lower.tri.A)+i)]
+  }
+  
   if (pracma::isempty(location.upper.tri.R)==FALSE)
   {
-  Chol[locations.R[,1][location.upper.tri.R],locations.R[,2][location.upper.tri.R]]<-init.par[(length(location.diag.A)+length(location.upper.tri.A)+length(location.lower.tri.A)+length(location.diag.R)+1):(length(location.diag.A)+length(location.upper.tri.A)+length(location.lower.tri.A)+length(location.diag.R)+length(location.upper.tri.R))]
+    for (i in 1:length(location.upper.tri.R)){
+  Chol[locations.R[,1][location.upper.tri.R][i],locations.R[,2][location.upper.tri.R][i]]<-init.par[(length(location.diag.A)+length(location.upper.tri.A)+length(location.lower.tri.A)+length(location.diag.R)+i)]
+    }
   } else location.upper.tri.R<-NULL
 
   ### Theta (optimal trait values) ###
