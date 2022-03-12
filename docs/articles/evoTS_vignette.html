@@ -92,7 +92,7 @@
                         <h4 data-toc-skip class="author">Kjetil L.
 Voje</h4>
             
-            <h4 data-toc-skip class="date">2022-03-10</h4>
+            <h4 data-toc-skip class="date">2022-03-12</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/klvoje/evoTS/blob/HEAD/vignettes/evoTS_vignette.Rmd" class="external-link"><code>vignettes/evoTS_vignette.Rmd</code></a></small>
       <div class="d-none name"><code>evoTS_vignette.Rmd</code></div>
@@ -1427,11 +1427,11 @@ often called the drift matrix), and <span class="math inline">\(W\)</span> is th
 assumption that the we only have one selective regime (optimum) per
 trait, the expected trait mean of the Ornstein-Uhlenbeck process is the
 weighted sum of the optimum and the root value (Hansen 1997): <br><br><span class="math display">\[E\left[Z_{i}\right]=
-e^{(-At_{i})}z_{0} + (1-e^{(-At_{i})}\theta)\]</span> <br> where <span class="math inline">\(Z_{i}\)</span> is the expected trait value for
-sample <em>i</em>, <span class="math inline">\(z_{0}\)</span> is the
-ancestral trait mean, <em>Θ</em> is the optimum, <strong>A</strong> is
-the pull matrix measuring the rate of adaptation to the optimum, and
-<span class="math inline">\(t_{i}\)</span> is the time interval from the
+e^{(-At_{i})}z_{0} + (1-e^{(-At_{i})}\theta)\]</span> <br> where <span class="math inline">\(Z_{i}\)</span> is a vector containing the expected
+trait values for sample <em>i</em>, <span class="math inline">\(z_{0}\)</span> is a vector containing the
+ancestral trait means, <span class="math inline">\(\theta\)</span> is a
+vector containing the optima, <strong>A</strong> is the pull matrix
+measuring the rate of adaptation to the optimum, and <span class="math inline">\(t_{i}\)</span> is the time interval from the
 ancestral population mean (the start of the time-series, which has a
 time of 0) to the <em>i</em>th population mean.</p>
 <p>The variance and covariance of sample/population means are given by
@@ -1530,14 +1530,17 @@ parameterize these matrices. The <code>A.matrix</code> can either be
 defined as “diag” (panel a above), “upper.tri” (panel b above),
 “lower.tri” (panel c above), and “full” (panel d above). Default is
 “diag”. The <code>R.matrix</code> can be defined as “diag” or
-“symmetric”.</p>
-<p>The function <code>fit.multivariate.OU.user.defined</code> lets the
-user define which elements in the <strong>A</strong> and
-<strong>R</strong> matrices that will be parameterized. This function
-allows full flexibility for the type of hypotheses that are being tested
-as the parameterization is not constrained to follow the pre-defined
-options for the <strong>A</strong> matrix available in the function
-<code>fit.multivariate.OU</code>.</p>
+“symmetric”. The function <code>fit.multivariate.OU</code> allows the
+user to test all (sensible) hypotheses for multivariate data that
+consists of two traits.</p>
+<p>If the data consists of more than two traits, it is recommended to
+use the function <code>fit.multivariate.OU.user.defined</code>. This
+function lets the user define which elements in the <strong>A</strong>
+and <strong>R</strong> matrices that will be parameterized. This
+function therefore allows full flexibility for the type of hypotheses
+that are being tested as the parameterization is not constrained to
+follow the pre-defined options for the <strong>A</strong> matrix
+available in the function <code>fit.multivariate.OU</code>.</p>
 <p>We will investigate whether the two traits from the <em>S.
 yellowstonensis</em> lineage show evidence of independent evolution
 (only diagonal elements in the <strong>A</strong> and <strong>R</strong>
@@ -1643,46 +1646,89 @@ normal distribution with a standard deviation of one. The user can
 define a larger or smaller standard deviation using the argument
 <code>iter.sd</code>. <code>trace = TRUE</code> allows the user to keep
 an eye on how the optimization proceeds.</p>
-<p>To illustrate how the user can define which elements in the
-<strong>A</strong> and <strong>R</strong> matrices that should be
-parameterized using the function
-<code>fit.multivariate.OU.user.defined</code>, we can fit a lower
-triangle <strong>A</strong> matrix and a symmetric <strong>R</strong>
-matrix. A lower triangle <strong>A</strong> matrix means the diameter is
-affecting the optimum of the number of ribs. Which elements in
-<strong>A</strong> and <strong>R</strong> that should be parameterized
-or set to zero are given by 1 and 0 respectively. <br></p>
+<p>All models than can be investigated using the
+<code>fit.multivariate.OU</code> function can also be investigated using
+the <code>fit.multivariate.OU.user.defined</code> function as this
+function lets the user define which elements in the <strong>A</strong>
+and <strong>R</strong> matrices that should be parameterized. Which
+elements in <strong>A</strong> and <strong>R</strong> that should be
+parameterized or set to zero are given by 1 and 0 respectively. We can
+for example fit a model with a lower triangle <strong>A</strong> matrix
+and a symmetric <strong>R</strong> matrix. A lower triangle
+<strong>A</strong> matrix means the diameter is affecting the optimum of
+the number of ribs. <br></p>
 <div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> A <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">1</span>), <span class="at">nrow=</span><span class="dv">2</span>, <span class="at">byrow=</span><span class="cn">TRUE</span>)</span>
 <span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> R <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>), <span class="at">nrow=</span><span class="dv">2</span>, <span class="at">byrow=</span><span class="cn">TRUE</span>)</span>
 <span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> OUOU.model6<span class="ot">&lt;-</span><span class="fu">fit.multivariate.OU.user.defined</span>(diam.ln_ribs.ln, <span class="at">A.user=</span>A, <span class="at">R.user=</span>R)</span>
 <span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> OUOU.model6<span class="sc">$</span>AICc</span>
-<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="sc">-</span><span class="fl">349.5056</span></span></code></pre></div>
-<p><br> All the model fitting procedures to find maximum likelihood
-solutions for model parameters need initial starting values for all
-parameters. Most of the starting values for fitting the multivariate OU
-models are based on maximum likelihood parameter estimates when fitting
-the univariate versions of the OU model to each trait separately. The
-starting values for the off-diagonal elements in the <strong>A</strong>
-and <strong>R</strong> matrices are set to -0.5 and 0.5, respectively.
-This way to set the initial parameter values seems to work fine for most
-data sets, but there is no guarantee that the provided initial
-parameters will always work as this depends on the nature of the data to
-be analyzed. If an error message is returned saying “function cannot be
-evaluated at initial parameters” when trying to fit an multivariate OU
-model, the user can try to start the optimization procedure from other
-initial parameter values. These values can be provided by setting the
-<code>user.init...</code> (e.g., <code>user.init.off.diag.R = 1</code>)
-to something else than NULL (which is the default setting). Note that
-the length of the vector of user-specified initial values need to match
-the number of parameters to be estimated (e.g.,
-<code>user.init.off.diag.R = 1</code> for a multivariate data set
-consisting of two traits, <code>user.init.off.diag.R = c(1,1,1)</code>
-if the data set contains three traits, etc.). It is usually the initial
-guess of the off-diagonal elements of the A and R matrices that prevents
-the optimization routine to work. It is therefore recommended to try to
-change these initial values before experimenting with different starting
-values for the diagonal elements in the <strong>A</strong> and
-<strong>R</strong> matrices.</p>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="sc">-</span><span class="fl">350.146</span></span></code></pre></div>
+<p><br></p>
+<p>The <code>fit.multivariate.OU.user.defined</code> function is
+especially handy if we have a data set consisting of more than two
+traits. Let’s for example assume that we have a multivariate data set
+consisting of two phenotypic traits and a climatic variable, which we
+refer to as variables M, N and O, respectively. Let’s assume we have an
+hypothesis that the climatic variable (O) is changing as a random walk
+and is affecting the optimum of trait N. We also hypothesize that trait
+N affects the optimum of trait M, but that trait M is not affecting the
+optimum of trait N. We assume the stochastic changes in traits M, N are
+correlated while changes in O are uncorrelated with M and N. This
+hypothesis is parameterized by defining the <strong>A</strong> and
+<strong>R</strong> matrices the following way. <br></p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> A <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>), <span class="at">nrow=</span><span class="dv">3</span>, <span class="at">byrow=</span><span class="cn">TRUE</span>)</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> A</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>     [,<span class="dv">1</span>] [,<span class="dv">2</span>] [,<span class="dv">3</span>]</span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>,]    <span class="dv">1</span>    <span class="dv">1</span>    <span class="dv">0</span></span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>[<span class="dv">2</span>,]    <span class="dv">0</span>    <span class="dv">1</span>    <span class="dv">1</span></span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>[<span class="dv">3</span>,]    <span class="dv">0</span>    <span class="dv">0</span>    <span class="dv">0</span></span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> R <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>), <span class="at">nrow=</span><span class="dv">3</span>, <span class="at">byrow=</span><span class="cn">TRUE</span>)</span>
+<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> R</span>
+<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a>     [,<span class="dv">1</span>] [,<span class="dv">2</span>] [,<span class="dv">3</span>]</span>
+<span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>,]    <span class="dv">1</span>    <span class="dv">1</span>    <span class="dv">0</span></span>
+<span id="cb33-11"><a href="#cb33-11" aria-hidden="true" tabindex="-1"></a>[<span class="dv">2</span>,]    <span class="dv">1</span>    <span class="dv">1</span>    <span class="dv">0</span></span>
+<span id="cb33-12"><a href="#cb33-12" aria-hidden="true" tabindex="-1"></a>[<span class="dv">3</span>,]    <span class="dv">0</span>    <span class="dv">0</span>    <span class="dv">1</span></span></code></pre></div>
+<p><br></p>
+<p>Note that it is possible to define nonsensical biological hypotheses
+given the full flexibility on how to parameterize <strong>A</strong> and
+<strong>R</strong> using the
+<code>fit.multivariate.OU.user.defined</code> function. For example, an
+<strong>A</strong> matrix with only zeros on the diagonal and non-zero
+off-diagonal elements would parameterize a model where the variables
+changes according to a random walk (since the diagonal elements are
+zero), but where all variables are assumed to affect the optima for all
+variables in the data set (all off-diagonal elements are non-zero). This
+is a non-sense model as a variable changing according to a random walk
+has no tendency (or ability) to evolve towards an optimum.<br><br> ### 5.2.1 Initial parameter values All the model fitting
+procedures to find maximum likelihood solutions need initial starting
+values for the model parameters. Most of the starting values when
+fitting multivariate OU models are based on maximum likelihood parameter
+estimates of the univariate versions of the OU model fitted to each
+trait separately. The starting values for the off-diagonal elements in
+the <strong>A</strong> and <strong>R</strong> matrices are set to 0 and
+0.5, respectively. This way to set the initial parameter values seems to
+work fine for most data sets, but there is no guarantee that the
+provided initial parameters will always work as this depends on the
+nature of the data to be analyzed. If an error message is returned
+saying “function cannot be evaluated at initial parameters”, it is
+recommended that the user sets the iteration option to 1
+(<code>iteration = 1</code>). The model fitting algorithm will then
+produce a set of (random) initial starting values and try to start the
+optimization procedure until it succeeds.</p>
+<p>Another option is to define which initial parameter values the
+optimization procedure should start from. These values can be provided
+by setting the <code>user.init...</code> (e.g.,
+<code>user.init.off.diag.R = 1</code>) to something else than NULL
+(which is the default setting). Note that the length of the vector of
+user-specified initial values need to match the number of parameters to
+be estimated (e.g., <code>user.init.off.diag.R = 1</code> for a
+multivariate data set consisting of two traits,
+<code>user.init.off.diag.R = c(1,1,1)</code> if the data set contains
+three traits, etc.). It is usually the initial guess of the off-diagonal
+elements of the A and R matrices that prevents the optimization routine
+to work. It is therefore recommended to try to change these initial
+values before experimenting with different starting values for the
+diagonal elements in the <strong>A</strong> and <strong>R</strong>
+matrices.</p>
 <p><br><br></p>
 </div>
 </div>
@@ -1752,8 +1798,8 @@ speciation: an integrated palaeontological and phylogenetic analysis.
 models of trait evolution and stasis as a response to environmental
 change. <em>PNAS</em> 112:4885–4890.</p>
 <p>Ingram, T. 2011. Speciation along a depth gradient in a marine
-adaptive radiation. Proceedings og the Royal Society B Biological
-Sciences 278:613–618.</p>
+adaptive radiation. <em>Proceedings og the Royal Society B Biological
+Sciences</em> 278:613–618.</p>
 <p>Lande, R. 1979. Quantitative genetic analysis of multivariate
 evolution, applied to brain: body size allometry. <em>Evolution</em>
 33:402-416.</p>
