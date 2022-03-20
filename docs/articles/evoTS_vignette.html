@@ -92,7 +92,7 @@
                         <h4 data-toc-skip class="author">Kjetil L.
 Voje</h4>
             
-            <h4 data-toc-skip class="date">2022-03-12</h4>
+            <h4 data-toc-skip class="date">2022-03-20</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/klvoje/evoTS/blob/HEAD/vignettes/evoTS_vignette.Rmd" class="external-link"><code>vignettes/evoTS_vignette.Rmd</code></a></small>
       <div class="d-none name"><code>evoTS_vignette.Rmd</code></div>
@@ -1698,19 +1698,22 @@ changes according to a random walk (since the diagonal elements are
 zero), but where all variables are assumed to affect the optima for all
 variables in the data set (all off-diagonal elements are non-zero). This
 is a non-sense model as a variable changing according to a random walk
-has no tendency (or ability) to evolve towards an optimum.<br><br> ### 5.2.1 Initial parameter values All the model fitting
-procedures to find maximum likelihood solutions need initial starting
-values for the model parameters. Most of the starting values when
-fitting multivariate OU models are based on maximum likelihood parameter
-estimates of the univariate versions of the OU model fitted to each
-trait separately. The starting values for the off-diagonal elements in
-the <strong>A</strong> and <strong>R</strong> matrices are set to 0 and
-0.5, respectively. This way to set the initial parameter values seems to
-work fine for most data sets, but there is no guarantee that the
-provided initial parameters will always work as this depends on the
-nature of the data to be analyzed. If an error message is returned
-saying “function cannot be evaluated at initial parameters”, it is
-recommended that the user sets the iteration option to 1
+has no tendency (or ability) to evolve towards an optimum.<br><br></p>
+<div class="section level4">
+<h4 id="initial-parameter-values">5.2.1 Initial parameter values<a class="anchor" aria-label="anchor" href="#initial-parameter-values"></a>
+</h4>
+<p>All the model fitting procedures to find maximum likelihood solutions
+need initial starting values for the model parameters. Most of the
+starting values when fitting multivariate OU models are based on maximum
+likelihood parameter estimates of the univariate versions of the OU
+model fitted to each trait separately. The starting values for the
+off-diagonal elements in the <strong>A</strong> and <strong>R</strong>
+matrices are set to 0 and 0.5, respectively. This way to set the initial
+parameter values seems to work fine for most data sets, but there is no
+guarantee that the provided initial parameters will always work as this
+depends on the nature of the data to be analyzed. If an error message is
+returned saying “function cannot be evaluated at initial parameters”, it
+is recommended that the user sets the iteration option to 1
 (<code>iteration = 1</code>). The model fitting algorithm will then
 produce a set of (random) initial starting values and try to start the
 optimization procedure until it succeeds.</p>
@@ -1730,6 +1733,7 @@ values before experimenting with different starting values for the
 diagonal elements in the <strong>A</strong> and <strong>R</strong>
 matrices.</p>
 <p><br><br></p>
+</div>
 </div>
 </div>
 <div class="section level2">
