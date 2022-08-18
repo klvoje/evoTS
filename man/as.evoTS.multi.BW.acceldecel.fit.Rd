@@ -8,6 +8,7 @@ as.evoTS.multi.BW.acceldecel.fit(
   modelName,
   logL,
   ancestral.values,
+  SE.anc,
   r,
   SE.r,
   R,
@@ -25,13 +26,15 @@ as.evoTS.multi.BW.acceldecel.fit(
 
 \item{ancestral.values}{maximum-likelihood estimates of the ancestral trait values}
 
+\item{SE.anc}{standard errors of the estimated ancestral states}
+
 \item{r}{maximum-likelihood estimates of the r parameter}
 
-\item{SE.r}{standard error of the r parameter from the hessian (optional)}
+\item{SE.r}{standard error of the r parameter}
 
 \item{R}{maximum-likelihood estimates of the parameters in the R matrix}
 
-\item{SE.R}{standard errors of the parameters in the R matrix from the hessian (optional)}
+\item{SE.R}{standard errors of the parameters in the R matrix}
 
 \item{method}{the parameterization used: Joint}
 

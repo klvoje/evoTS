@@ -145,9 +145,11 @@ opt.single.R.zero.corr<-function (yy, method = "L-BFGS-B", hess = FALSE, pool = 
     SE_R<-matrix(0, nrow=m, ncol=m)
     diag(SE_R)<-w$se[1:m]
     SE.R<-SE_R
-  }
+    SE.anc<-tail(w$se,m)
+    }
   if (hess == FALSE) {
     SE.R<-NA
+    SE.anc<-NA
   }
 
   R<-matrix(0, nrow=m, ncol=m)
@@ -161,7 +163,7 @@ opt.single.R.zero.corr<-function (yy, method = "L-BFGS-B", hess = FALSE, pool = 
   ancestral.values<-w$par[(length(init.trait.var)+1) : length(init.par)]
 
 
-  wc<-as.evoTS.multi.BW.fit(modelName = "Multivariate Random walk (R matrix with zero off-diagonal elements)", logL = w$value, ancestral.values = ancestral.values, R = R, SE.R = SE.R,
+  wc<-as.evoTS.multi.BW.fit(modelName = "Multivariate Random walk (R matrix with zero off-diagonal elements)", logL = w$value, ancestral.values = ancestral.values, SE.anc = SE.anc, R = R, SE.R = SE.R,
                               method = "Joint", K = K, n = length(yy$xx[,1]), iter=iter)
   return(wc)
 }

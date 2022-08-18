@@ -362,7 +362,7 @@ fit.multivariate.OU<-function (yy, A.matrix="diag", R.matrix="symmetric", method
   if (is.numeric(iterations) == TRUE){
   iter<-iterations
   w<-best.run
-  if (hess) best.run$se <- sqrt(diag(-1 * solve(w$hessian))) else w$se <- NULL
+  if (hess) w$se <- sqrt(diag(-1 * solve(w$hessian))) else w$se <- NULL
   }
 
   if(A.matrix=="diag" & R.matrix=="diag") {
@@ -374,6 +374,18 @@ fit.multivariate.OU<-function (yy, A.matrix="diag", R.matrix="symmetric", method
     optima<-c(w$par[((m*2)+1):(m*3)])
 
     ancestral.values<-c(w$par[((m*3)+1):(m*4)])
+    
+    # SE parameters
+    if (hess){
+    SE.A<-diag(c(w$se[1:m]))
+    
+    SE.Chol<-diag(c(w$se[(m+1):(m*2)]))
+    SE.R<-t(SE.Chol)%*%SE.Chol
+    
+    SE.optima<-c(w$se[((m*2)+1):(m*3)])
+   
+    SE.anc<-c(w$se[((m*3)+1):(m*4)])
+    }
   }
 
   if(A.matrix=="diag" & R.matrix=="symmetric") {
@@ -389,6 +401,20 @@ fit.multivariate.OU<-function (yy, A.matrix="diag", R.matrix="symmetric", method
 
     ancestral.values<-c(w$par[((length(diag(A))*2)+l.upp.tri+1+m):((length(diag(A))*2)+l.upp.tri+m+m)])
 
+    # SE parameters
+    if (hess){
+    SE.A<-diag(c(w$se[1:m]))
+    SE.Chol<-diag(w$se[(m+1):(m*2)])
+    nr.off.diag<-upper.tri(SE.Chol)
+    l.upp.tri<-length(nr.off.diag[nr.off.diag==TRUE])
+    
+    SE.Chol[upper.tri(SE.Chol)] <- w$se[((length(diag(SE.A))*2)+1):((length(diag(SE.A))*2)+l.upp.tri)]
+    SE.R<-t(SE.Chol)%*%SE.Chol
+    
+    SE.optima<-c(w$se[((length(diag(SE.A))*2)+l.upp.tri+1):((length(diag(SE.A))*2)+l.upp.tri+m)])
+    
+    SE.anc<-c(w$se[((length(diag(SE.A))*2)+l.upp.tri+1+m):((length(diag(SE.A))*2)+l.upp.tri+m+m)])
+    }
   }
 
   if(A.matrix=="full" & R.matrix=="diag"){
@@ -411,6 +437,25 @@ fit.multivariate.OU<-function (yy, A.matrix="diag", R.matrix="symmetric", method
     ### The ancestral trait values ###
     ancestral.values<-c(w$par[(length(diag(A))+l.upp.tri+l.upp.tri+(length(diag(A)))+length(diag(A))+1):(length(diag(A))+l.upp.tri+l.upp.tri+(length(diag(A)))+length(diag(A))++length(diag(A)))])
 
+    if (hess){
+    # SE parameters
+    SE.A<-diag(c(w$se[1:m]))
+    nr.off.diag<-upper.tri(SE.A)
+    l.upp.tri<-length(nr.off.diag[nr.off.diag==TRUE])
+    SE.A[upper.tri(SE.A)] <- w$se[(length(diag(SE.A))+1):(length(diag(SE.A))+l.upp.tri)]
+    SE.A[lower.tri(SE.A)] <- w$se[(length(diag(SE.A))+l.upp.tri+1):(length(diag(SE.A))+l.upp.tri+l.upp.tri)]
+    
+    
+    ### The R (drift) matrix ###
+    SE.Chol<-diag(w$se[(length(diag(SE.A))+l.upp.tri+l.upp.tri+1):(length(diag(SE.A))+l.upp.tri+l.upp.tri+(length(diag(SE.A))))])
+    SE.R<-t(SE.Chol)%*%SE.Chol
+    
+    ### Theta (optimal trait values) ###
+    SE.optima<-c(w$se[(length(diag(SE.A))+l.upp.tri+l.upp.tri+(length(diag(SE.A)))+1):(length(diag(SE.A))+l.upp.tri+l.upp.tri+(length(diag(SE.A)))+length(diag(SE.A)))])
+    
+    ### The ancestral trait values ###
+    SE.anc<-c(w$se[(length(diag(SE.A))+l.upp.tri+l.upp.tri+(length(diag(SE.A)))+length(diag(SE.A))+1):(length(diag(SE.A))+l.upp.tri+l.upp.tri+(length(diag(SE.A)))+length(diag(SE.A))++length(diag(SE.A)))])
+    }  
   }
 
   if(A.matrix=="full" & R.matrix=="symmetric"){
@@ -435,6 +480,27 @@ fit.multivariate.OU<-function (yy, A.matrix="diag", R.matrix="symmetric", method
     ### The ancestral trait values ###
     ancestral.values<-c(w$par[(length(diag(A))+l.upp.tri+l.upp.tri+length(diag(A))+l.upp.tri.R+length(diag(A))+1):(length(diag(A))+l.upp.tri+l.upp.tri+length(diag(A))+l.upp.tri.R+length(diag(A))+length(diag(A)))])
 
+    if (hess){
+    # SE parameters
+    SE.A<-diag(c(w$se[1:m]))
+    nr.off.diag<-upper.tri(SE.A)
+    l.upp.tri<-length(nr.off.diag[nr.off.diag==TRUE])
+    SE.A[upper.tri(SE.A)] <- w$se[(length(diag(SE.A))+1):(length(diag(SE.A))+l.upp.tri)]
+    SE.A[lower.tri(SE.A)] <- w$se[(length(diag(SE.A))+l.upp.tri+1):(length(diag(SE.A))+l.upp.tri+l.upp.tri)]
+    
+    ### The R (drift) matrix ###
+    SE.Chol<-diag(w$se[(length(diag(SE.A))+l.upp.tri+l.upp.tri+1):(length(diag(SE.A))+l.upp.tri+l.upp.tri+length(diag(SE.A)))])
+    nr.off.diag.R<-upper.tri(SE.Chol)
+    l.upp.tri.R<-length(nr.off.diag.R[nr.off.diag.R==TRUE])
+    SE.Chol[upper.tri(SE.Chol)] <- w$se[(length(diag(SE.A))+l.upp.tri+l.upp.tri+length(diag(SE.A))+1):(length(diag(SE.A))+l.upp.tri+l.upp.tri+length(diag(SE.A))+l.upp.tri.R)]
+    SE.R<-t(SE.Chol)%*%SE.Chol
+    
+    ### Theta (optimal trait values) ###
+    SE.optima<-c(w$se[(length(diag(SE.A))+l.upp.tri+l.upp.tri+length(diag(SE.A))+l.upp.tri.R+1):(length(diag(SE.A))+l.upp.tri+l.upp.tri+length(diag(SE.A))+l.upp.tri.R+length(diag(SE.A)))])
+    
+    ### The ancestral trait values ###
+    SE.anc<-c(w$se[(length(diag(SE.A))+l.upp.tri+l.upp.tri+length(diag(SE.A))+l.upp.tri.R+length(diag(SE.A))+1):(length(diag(SE.A))+l.upp.tri+l.upp.tri+length(diag(SE.A))+l.upp.tri.R+length(diag(SE.A))+length(diag(SE.A)))])
+    }  
   }
 
 
@@ -452,6 +518,20 @@ fit.multivariate.OU<-function (yy, A.matrix="diag", R.matrix="symmetric", method
 
     ancestral.values<-c(w$par[(length(diag(A))+l.upp.tri+m+m+1):(length(diag(A))+l.upp.tri+m+m+m)])
 
+    if (hess){
+    # SE parameters
+    SE.A<-diag(c(w$se[1:m]))
+    nr.off.diag<-upper.tri(SE.A)
+    l.upp.tri<-length(nr.off.diag[nr.off.diag==TRUE])
+    SE.A[upper.tri(SE.A)] <- w$se[(length(diag(SE.A))+1):(length(diag(SE.A))+l.upp.tri)]
+    
+    SE.Chol<-diag(w$se[(length(diag(SE.A))+l.upp.tri+1):((length(diag(SE.A))+l.upp.tri+m))])
+    SE.R<-t(SE.Chol)%*%SE.Chol
+    
+    SE.optima<-c(w$se[(length(diag(SE.A))+l.upp.tri+m+1):((length(diag(SE.A))+l.upp.tri+m+m))])
+    
+    SE.anc<-c(w$se[(length(diag(SE.A))+l.upp.tri+m+m+1):(length(diag(SE.A))+l.upp.tri+m+m+m)])
+    }
       }
 
   if(A.matrix=="upper.tri" & R.matrix=="symmetric"){
@@ -470,6 +550,24 @@ fit.multivariate.OU<-function (yy, A.matrix="diag", R.matrix="symmetric", method
     optima<-c(w$par[(length(diag(A))+l.upp.tri.A+m+l.upp.tri.R+1):(length(diag(A))+l.upp.tri.A+m+l.upp.tri.R+m)])
 
     ancestral.values<-c(w$par[(length(diag(A))+l.upp.tri.A+m+l.upp.tri.R+m+1):(length(diag(A))+l.upp.tri.A+m+l.upp.tri.R+m+m)])
+    
+    if (hess){
+    # SE parameters
+    SE.A<-diag(c(w$se[1:m]))
+    nr.off.diag.A<-upper.tri(SE.A)
+    l.upp.tri.A<-length(nr.off.diag.A[nr.off.diag.A==TRUE])
+    SE.A[upper.tri(SE.A)] <- w$se[(length(diag(SE.A))+1):(length(diag(SE.A))+l.upp.tri.A)]
+    
+    SE.Chol<-diag(w$se[(length(diag(SE.A))+l.upp.tri.A+1):(length(diag(SE.A))+l.upp.tri.A+m)])
+    nr.off.diag.R<-upper.tri(SE.Chol)
+    l.upp.tri.R<-length(nr.off.diag.R[nr.off.diag.R==TRUE])
+    SE.Chol[upper.tri(SE.Chol)] <- w$se[(length(diag(SE.A))+l.upp.tri.A+m+1):(length(diag(SE.A))+l.upp.tri.A+m+l.upp.tri.R)]
+    SE.R<-t(SE.Chol)%*%SE.Chol
+    
+    SE.optima<-c(w$se[(length(diag(SE.A))+l.upp.tri.A+m+l.upp.tri.R+1):(length(diag(SE.A))+l.upp.tri.A+m+l.upp.tri.R+m)])
+    
+    SE.anc<-c(w$se[(length(diag(SE.A))+l.upp.tri.A+m+l.upp.tri.R+m+1):(length(diag(SE.A))+l.upp.tri.A+m+l.upp.tri.R+m+m)])
+    }  
   }
 
   if(A.matrix=="lower.tri" & R.matrix=="diag"){
@@ -486,8 +584,22 @@ fit.multivariate.OU<-function (yy, A.matrix="diag", R.matrix="symmetric", method
 
     ancestral.values<-c(w$par[(length(diag(A))+l.low.tri+m+m+1):(length(diag(A))+l.low.tri+m+m+m)])
 
+    if (hess){
+    # SE parameters
+    SE.A<-diag(c(w$se[1:m]))
+    nr.off.diag<-lower.tri(SE.A)
+    l.low.tri<-length(nr.off.diag[nr.off.diag==TRUE])
+    SE.A[lower.tri(SE.A)] <- w$se[(length(diag(SE.A))+1):(length(diag(SE.A))+l.low.tri)]
+    
+    SE.Chol<-diag(w$se[(length(diag(SE.A))+l.low.tri+1):((length(diag(SE.A))+l.low.tri+m))])
+    SE.R<-t(SE.Chol)%*%SE.Chol
+    
+    SE.optima<-c(w$se[(length(diag(SE.A))+l.low.tri+m+1):((length(diag(SE.A))+l.low.tri+m+m))])
+    
+    SE.anc<-c(w$se[(length(diag(SE.A))+l.low.tri+m+m+1):(length(diag(SE.A))+l.low.tri+m+m+m)])
   }
-
+  }
+  
   if(A.matrix=="lower.tri" & R.matrix=="symmetric"){
 
     A<-diag(c(w$par[1:m]))
@@ -504,7 +616,25 @@ fit.multivariate.OU<-function (yy, A.matrix="diag", R.matrix="symmetric", method
     optima<-c(w$par[(length(diag(A))+l.low.tri.A+m+l.upp.tri.R+1):(length(diag(A))+l.low.tri.A+m+l.upp.tri.R+m)])
 
     ancestral.values<-c(w$par[(length(diag(A))+l.low.tri.A+m+l.upp.tri.R+m+1):(length(diag(A))+l.low.tri.A+m+l.upp.tri.R+m+m)])
-  }
+ 
+    if (hess){
+    # SE parameters
+    SE.A<-diag(c(w$se[1:m]))
+    nr.off.diag.A<-lower.tri(SE.A)
+    l.low.tri.A<-length(nr.off.diag.A[nr.off.diag.A==TRUE])
+    SE.A[lower.tri(SE.A)] <- w$se[(length(diag(SE.A))+1):(length(diag(SE.A))+l.low.tri.A)]
+    
+    SE.Chol<-diag(w$se[(length(diag(SE.A))+l.low.tri.A+1):(length(diag(SE.A))+l.low.tri.A+m)])
+    nr.off.diag.R<-upper.tri(SE.Chol)
+    l.upp.tri.R<-length(nr.off.diag.R[nr.off.diag.R==TRUE])
+    SE.Chol[upper.tri(SE.Chol)] <- w$se[(length(diag(SE.A))+l.low.tri.A+m+1):(length(diag(SE.A))+l.low.tri.A+m+l.upp.tri.R)]
+    SE.R<-t(SE.Chol)%*%SE.Chol
+    
+    SE.optima<-c(w$se[(length(diag(SE.A))+l.low.tri.A+m+l.upp.tri.R+1):(length(diag(SE.A))+l.low.tri.A+m+l.upp.tri.R+m)])
+    
+    SE.anc<-c(w$se[(length(diag(SE.A))+l.low.tri.A+m+l.upp.tri.R+m+1):(length(diag(SE.A))+l.low.tri.A+m+l.upp.tri.R+m+m)])
+    }
+     }
 
   if(A.matrix=="OUBM"){
 
@@ -521,13 +651,39 @@ fit.multivariate.OU<-function (yy, A.matrix="diag", R.matrix="symmetric", method
 
     ancestral.values<-c(w$par[(m+m+m+l.upp.tri.A):(m+m+m+m+l.upp.tri.A-1)])
     K <- length(init.par)-1
+    
+    if (hess){
+    # SE parameters
+    SE.A<-diag(c(w$se[1:(m-1)],0))
+    nr.off.diag.A<-upper.tri(SE.A)
+    l.upp.tri.A<-length(nr.off.diag.A[nr.off.diag.A==TRUE])
+    SE.A[upper.tri(SE.A)] <- w$se[(m):(m-1+l.upp.tri.A)]
+    
+    SE.Chol<-diag(w$se[(m+l.upp.tri.A):(m+m+l.upp.tri.A-1)])
+    SE.R<-t(SE.Chol)%*%SE.Chol
+    
+    SE.optima<-c(w$se[(m+m+l.upp.tri.A):(m+m+m+l.upp.tri.A-1)])
+    SE.optima[length(SE.optima)]<-NA
+    
+    SE.anc<-c(w$se[(m+m+m+l.upp.tri.A):(m+m+m+m+l.upp.tri.A-1)])
+    }
       }
 
   half.life<-log(2)/diag(A)
 
-    wc<-as.evoTS.multi.OU.fit(logL = w$value, ancestral.values = ancestral.values, optima = optima, A = A, half.life = half.life, R = R,
+  if (hess){
+    wc<-as.evoTS.multi.OU.fit(logL = w$value, ancestral.values = ancestral.values, SE.anc = SE.anc, optima = optima, SE.optima = SE.optima, A = A, SE.A = SE.A, half.life = half.life, R = R, SE.R = SE.R,
                                                        method = "Joint", K = K, n = length(yy$xx[,1]), iter=iter)
-
+  }
+  
+  if (hess == FALSE){
+    SE.anc <- NA
+    SE.optima <- NA
+    SE.A <- NA 
+    SE.R <- NA 
+    wc<-as.evoTS.multi.OU.fit(logL = w$value, ancestral.values = ancestral.values, SE.anc = SE.anc, optima = optima, SE.optima = SE.optima, A = A, SE.A = SE.A, half.life = half.life, R = R, SE.R = SE.R,
+                                 method = "Joint", K = K, n = length(yy$xx[,1]), iter=iter)
+  }
   return(wc)
 
  }

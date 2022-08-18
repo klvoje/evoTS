@@ -63,7 +63,7 @@ fit.multivariate.URW.shift<-function (yy, minb = 10, hess = FALSE, pool = TRUE, 
 
   if(is.numeric(shift.point) == TRUE) GG <-shift.point else GG <- shifts(ns, ng, minb = minb)
   GG<-as.matrix(GG)
-  if (ncol(GG) == 1) print("Fitting the model for a user-defined shift point") else print("Searching for all possible shift points in timeseries")
+  if (ncol(GG) == 1) print("Fitting the modexl for a user-defined shift point") else print("Searching for all possible shift points in timeseries")
 
   #Define number of shift points:
   nc <- ncol(GG)

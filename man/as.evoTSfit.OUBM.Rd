@@ -4,7 +4,7 @@
 \alias{as.evoTSfit.OUBM}
 \title{Class for fit to evolutionary sequence (time-series) models}
 \usage{
-as.evoTSfit.OUBM(logL, parameters, modelName, method, K, n, iter)
+as.evoTSfit.OUBM(logL, parameters, modelName, method, K, n, iter, se)
 }
 \arguments{
 \item{logL}{log-likelihood of model}
@@ -20,6 +20,8 @@ as.evoTSfit.OUBM(logL, parameters, modelName, method, K, n, iter)
 \item{n}{sample size}
 
 \item{iter}{the number of times the optimization method is run from different starting points. Default is NULL, meaning the optimization is run once.}
+
+\item{se}{standard errors of parameter estimates}
 }
 \description{
 A function that combines useful information summarizing model fit.

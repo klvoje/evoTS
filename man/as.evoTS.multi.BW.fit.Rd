@@ -8,6 +8,7 @@ as.evoTS.multi.BW.fit(
   modelName,
   logL,
   ancestral.values,
+  SE.anc,
   R,
   SE.R,
   method,
@@ -23,9 +24,11 @@ as.evoTS.multi.BW.fit(
 
 \item{ancestral.values}{maximum-likelihood estimates of the ancestral trait values}
 
+\item{SE.anc}{standard errors of the estimated ancestral states}
+
 \item{R}{maximum-likelihood estimates of the parameters in the R matrix}
 
-\item{SE.R}{standard errors of the parameters in the R matrix from the hessian (optional)}
+\item{SE.R}{standard errors of the parameters in the R matrix}
 
 \item{method}{the parameterization used: Joint}
 

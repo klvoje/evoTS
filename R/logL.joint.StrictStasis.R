@@ -1,3 +1,5 @@
+# Function from paleoTS (License:	GPL-3)
+
 logL.joint.StrictStasis<- function (p, y)
 {
   theta<- p[1]

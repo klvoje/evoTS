@@ -1,4 +1,4 @@
-# Function from paleoTS
+# Function from paleoTS (License:	GPL-3)
 modelCurves <-
 function(x, w, np=500)
 # returns list of model means, upper and lower 95% probability envelopes

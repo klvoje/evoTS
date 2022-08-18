@@ -140,12 +140,14 @@ if (length(na.exclude(log.lik.tmp)) == iterations){
     SE.R1<-matrix(0, nrow=m, ncol=m)
     diag(SE.R1)<-w$se[1:m]
 
-    SE.R.1<-t(SE.R1)%*%SE.R1
+    SE.R<-t(SE.R1)%*%SE.R1
+    SE.anc<-w$se[(length(init.trait.var) + 1) : (length(init.par)-1)]
     SE.r<-tail(w$se,1)
   }
 
   if (hess == FALSE) {
     SE.R<-NA
+    SE.anc<-NA
     SE.r<-NA
   }
 
@@ -164,7 +166,7 @@ if (length(na.exclude(log.lik.tmp)) == iterations){
 
   K<-length(w$par)
 
-  wc<-as.evoTS.multi.BW.acceldecel.fit(modelName = "Multivariate Random walk with accelerating rate of evoluton (diagonal R matrix: no trait correlations)", logL = w$value, ancestral.values = ancestral.values, r = r, SE.r = SE.r, R = R, SE.R = SE.R,
+  wc<-as.evoTS.multi.BW.acceldecel.fit(modelName = "Multivariate Random walk with accelerating rate of evoluton (diagonal R matrix: no trait correlations)", logL = w$value, ancestral.values = ancestral.values, SE.anc = SE.anc, r = r, SE.r = SE.r, R = R, SE.R = SE.R,
                                          method = "Joint", K = K, n = length(yy$xx[,1]), iter=iter)
   return(wc)
 }

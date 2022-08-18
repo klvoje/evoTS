@@ -7,10 +7,14 @@
 as.evoTS.multi.OU.fit(
   logL,
   ancestral.values,
+  SE.anc,
   optima,
+  SE.optima,
   A,
+  SE.A,
   half.life,
   R,
+  SE.R,
   method,
   K,
   n,
@@ -22,13 +26,21 @@ as.evoTS.multi.OU.fit(
 
 \item{ancestral.values}{maximum-likelihood estimates of the ancestral trait values}
 
+\item{SE.anc}{standard errors of the estimated ancestral states}
+
 \item{optima}{maximum-likelihood estimates of the optima}
 
+\item{SE.optima}{standard errors of the estimated optimal trait values}
+
 \item{A}{maximum-likelihood estimates of the parameters in the A matrix}
+
+\item{SE.A}{standard errors of the estimated A matrix}
 
 \item{half.life}{the calculated half-life of the evolutionary process}
 
 \item{R}{maximum-likelihood estimates of the parameters in the R matrix}
+
+\item{SE.R}{standard errors of the parameters in the R matrix}
 
 \item{method}{the parameterization used: Joint}
 

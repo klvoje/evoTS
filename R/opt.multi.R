@@ -165,9 +165,11 @@ opt.multi.R<-function (yy, gg, method, hess = FALSE, pool = TRUE, trace, iterati
     SE.R.1<-t(SE.R1)%*%SE.R1
     SE.R.2<-t(SE.R2)%*%SE.R2
     SE.R <- list(SE.R.1 = SE.R.1,  SE.R.2 = SE.R.2)
+    SE.anc <- w$se[((length(init.trait.var)*2 + length(init.cov.traits)*2)+1) : length(init.par)]
   }
   if (hess == FALSE) {
     SE.R<-NA
+    SE.anc <-NA
   }
 
   chole.1<-matrix(0, nrow=m, ncol=m)
@@ -197,7 +199,7 @@ opt.multi.R<-function (yy, gg, method, hess = FALSE, pool = TRUE, trace, iterati
 
   ancestral.values<-w$par[((length(init.trait.var)*2 + length(init.cov.traits)*2)+1) : length(init.par)]
 
-  wc<-as.evoTS.multi.BW.fit(modelName = "Multivariate Random walk with two R matrices (with non-zero off-diagonal elements)", logL = w$value, ancestral.values = ancestral.values, R = R, SE.R = SE.R,
+  wc<-as.evoTS.multi.BW.fit(modelName = "Multivariate Random walk with two R matrices (with non-zero off-diagonal elements)", logL = w$value, ancestral.values = ancestral.values, SE.anc = SE.anc, R = R, SE.R = SE.R,
                               method = "Joint", K = K, n = length(yy$xx[,1]), iter=iter)
   return(wc)
 }

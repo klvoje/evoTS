@@ -111,8 +111,6 @@ The following univariate models have been implemented in the `evoTS` package:
 
 1.	A accelerated-evolution model (an unbiased random walk with an exponential increase in the rate of change over time)
 
-1.	The Bokma model (a punctuated equilibrium model where two (or three) unbiased random walks are separated by one (or two) jump(s)/punctuation(s) in morphospace)
-
 1.	Ornstein-Uhlenbeck processes where the optimum changes according to an unbiased random walk. 
 
 ## 4.1 Decelerated-evolution model
@@ -244,86 +242,6 @@ knitr::include_graphics("accel_logl_surface.png")
 <br /> 
 The 3D plot can be rotated vertically and horizontally to get a better overview of the likelihood surface, which is why the observation angle is different for this 3D plot compared to the 3D plot for the decelerated model. 
 
-## 4.3 The Bokma model
-The `paleoTS` package contains models that portray a punctuated mode of evolution as a white noise process (stasis) punctuated by jumps in phenotype space (the function `opt.joint.punc`). Bokma (2002) proposed a different model as a punctuated mode of evolution along branches on a phylogeny (see also Ingram 2011 and Hunt 2013). According to Bokma’s (2002) model, a trait is evolving as a unbiased random walk in between punctuation. This model is implemented in the `evoTS` package and can be ran using the function `fit.Bokma`. The function investigates and compares all possible locations for the punctuation and returns the shift point and the maximum likelihood parameter values for the two unbiased random walks. The minimum length of the time-series (i.e., the number of samples/populations) used to parameterize each unbiased random walk is defined by the argument `minb`. The size defined by `minb` affects the number of shift points that the model is investigating, e.g., `minb = 10` means that all possible shift points in between the first and last ten samples in a time series are investigated. The user can also define which sample/population in the time series that represents the punctuation event using the argument `shift.point` (e.g., `shift.point = 20`). Fitting Bokma's model with two punctuations and three unbiased random walks can be done using the function `fit.2.Bokma`.
-<br /> 
-```{r eval = FALSE}
-> Bokma.PE<-fit.Bokma(ln.diameter, minb=10)
-> Bokma.PE
-
-[1] "Searching for all possible shift points in time series"
-Total # hypotheses:  44 
-1  2  3  4  5  6  7  8  9  10  11  12  13  14  15  16  17  18  19  20  21  22  23  24  25  26  27  28  29  30  31  32  33  34  35  36  37  38  39  40  41  42  43  44  
-$logL
-[1] 83.38311
-
-$AICc
-[1] -155.7136
-
-$parameters
-       anc    vstep_1    new.opt    vstep_2     shift1 
- 3.7157502  0.3419322  4.1349082  0.1668632 18.0000000 
-
-$modelName
-[1] "PE.Bokma"
-
-$method
-[1] "Joint"
-
-$K
-[1] 5
-
-$n
-[1] 63
-
-$all.logl
- [1] 80.31088 79.51765 80.01722 79.66074 80.48083 79.89100 79.42840 83.38311 80.77101 80.77826 79.85728 79.68613 79.59643
-[14] 79.44200 82.63356 81.44387 81.21899 81.02157 82.02478 80.99060 80.56377 81.29680 80.52947 80.10540 80.41855 80.58089
-[27] 80.27750 80.49915 79.77512 79.54571 79.07448 79.59706 79.30831 79.04140 79.46599 79.23228 78.96974 78.89496 78.87805
-[40] 79.21300 79.62620 79.49839 79.30760 79.69878
-
-$GG
-     [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9] [,10] [,11] [,12] [,13] [,14] [,15] [,16] [,17] [,18] [,19] [,20]
-[1,]   11   12   13   14   15   16   17   18   19    20    21    22    23    24    25    26    27    28    29    30
-     [,21] [,22] [,23] [,24] [,25] [,26] [,27] [,28] [,29] [,30] [,31] [,32] [,33] [,34] [,35] [,36] [,37] [,38] [,39]
-[1,]    31    32    33    34    35    36    37    38    39    40    41    42    43    44    45    46    47    48    49
-     [,40] [,41] [,42] [,43] [,44]
-[1,]    50    51    52    53    54
-
-attr(,"class")
-[1] "paleoTSfit"
-```
-<br /> 
-The model with the highest likelihood has a punctuation event at sample (population) 18 (*shift1*). The rate of evolution (i.e., the step variance) before the punctuation (*v_step.1*) is about twice the magnitude of the rate of evolution after the punctuation (*v_step.2*). 
-
-Note: `all.logl` lists the log-likelihoods for all investigated shift points. All investigated shift points are given by `GG`. 
-
-The log-likelihood surface can be investigated using the `confidence.PE.Bokma` function. Notice that we need to condition the estimated log-likelihoods for the pairwise parameter combinations of *vstep_1* and *vstep_2* on the most likely parameter estimates of the punctuation (*shift1*), ancestral trait value (*anc*) and the new optimum after the punctuation (*new.opt*). 
-<br /> 
-```{r eval = FALSE}
-> loglik.surface.Bokma (ln.diameter, vstep_1.vec=seq(0,1,0.01), vstep_2.vec=seq(0,0.4, 0.01),shift=18, anc=3.7157502  , new.opt=4.1349082)
-
-        lower upper
-vstep_1  0.14  0.91
-vstep_2  0.10  0.30
-```
-<br /> 
-```{r  out.width = "60%", echo = FALSE, fig.align="center"}
-knitr::include_graphics("boka_logl_surface.png") 
-```
-<br /> 
-We can compare the fit of the Bokma model to the alternative interpretation of a punctuated mode of evolution where the trait evolves according to a model of stasis in between the punctuation events. This model is implemented in the `paleoTS` package and can be fitted using the `fitGpunc` function:
-<br /> 
-```{r eval = FALSE}
-> Stasis.PE<-paleoTS::fitGpunc(ln.diameter, minb = 10, silent = TRUE, oshare = FALSE)
-
-> Bokma.PE$AICc;Stasis.PE$AICc
-[1] -155.7136
-[1] -114.9293
-```
-<br /> 
-The model where the trait evolves as a unbiased random walk in between the punctuation event (i.e., the Bokma model) has the best relative fit in this case. 
-<br /> 
 
 ## 4.4 Ornstein-Uhlenbeck model with moving optimum.
 An Ornstein-Uhlebeck model describe the evolution of a trait towards an optimum. The `paleoTS` package includes an Ornstein-Uhlenbeck (OU) model of evolution with a single, fixed optimum (Hunt *et al.* 2008), i.e., it portrays evolutionary adaptation of a trait towards a fixed peak on the adaptive landscape. However, peaks in the adaptive landscape might not be fixed and the `evoTS` package contains functions to fit OU models where the optimum (peak) is constantly changing according to an unbiased random walk. Such a model was proposed by Hansen *et al.* (2008) for analyses of phylogenetic comparative data. Adjusted to describe evolution of a single lineage, the expected trait mean and its variance and covariance are given by the following expressions:
@@ -520,48 +438,10 @@ OU model with moving optimum (ancestral state at optimum)   78.56670 4 -148.4437
 OU model with moving optimum                                80.71298 5 -150.37333    2.362978     0.150
 ```
 <br /> 
-The Bokma model outcompetes the OU model according to AICc. 
 
-The `paleoTS` package has a model where stasis is interrupted by a punctuation event. This is a different way to model a punctuated mode of evolution compared to the Bokma model. We can compare these two versions of a punctuated mode of evolution using the `fit.PE.models` function. 
-
-```{r eval = FALSE}
-> fit.PE.models(ln.diameter, minb = 10)
-## Omitting some of the output to save length.
-
-Comparing 2 models [n = 63, method = Joint]
-
-                logL K      AICc    dAICc Akaike.wt
-Punc-1      62.99097 5 -114.9293 40.78429         0
-Bokma model 83.38311 5 -155.7136  0.00000         1
-```
-
-The Bokma model has a much better fit relative to the model where stasis in interrupted by a punctuation event. Where the jump happens can be investigated by plotting the data and putting a line at the estimated shift point, i.e., the first sample/population after the punctuation event.
-
-```{r eval = FALSE}
-> plotpaleoTS(ln.diameter)
-> abline(v=ln.diameter$tt[18], col="red", lty=2, lwd=2)
-```
-<br /> 
-<br /> 
-```{r  out.width = "100%", echo = FALSE, fig.align="center"}
-knitr::include_graphics("diameter_jump.png") 
-```
-<br /> 
-<br /> 
-The shift point is estimated to happen where there is jump in the evolution of the trait along the y axis, but the jump in trait space (along the y axis) does not look larger than changes between some of the other samples in the time series. The reason why the Bokma model fits better than the other candidate models we have investigated might therefore be unrelated to the jump itself and may instead be due to the fact that the rate of evolution is allowed to be different before and after the punctuation. The rate parameter of the unbiased random walk before the punctuation (*vstep_1*) in the Bokma model is indeed about twice as large as the rate parameter in the unbiased random walk after the punctuation (*vstep_2*). 
-<br /> 
-```{r eval = FALSE}
-> Bokma.PE$parameters
-       anc    vstep_1    new.opt    vstep_2     shift1 
- 3.7157496  0.3419321  4.1349097  0.1668655 18.0000000  
-```
-<br /> 
-A model that fits two separate unbiased random walks to two non-overlapping segments of the time-series, but where the mode shift does not involve a jump in phenotype space, might therefore outcompete the Bokma model. 
 
 ## 4.6	 Fitting combinations of univariate models to a time series (mode shift)
-There is no a priori reason why a lineage should follow only one mode of evolution. In addition to the Bokma model where a mode shift is associated with a jump in phenotype space (punctuation), the `evoTS` package allows for investigating all pairwise model combinations of the models stasis, unbiased random walk (URW), trend (GRW) and Ornstein-Uhlenbeck (OU) process with a fixed optimum using the function `fit.mode.shift`.
-
-We are interested in investigating whether a model consisting of two different unbiased random walks fits the data better compared to a punctuated evolution model (The Bokma model). We can constrain the function to only investigate the same shift point as the one found to be the best for the Bokma model using the argument `shift.point`. However, we are interested in investigating all possible shift points.
+There is no a priori reason why a lineage should follow only one mode of evolution. The `evoTS` package allows for investigating all pairwise model combinations of the models stasis, unbiased random walk (URW), trend (GRW) and Ornstein-Uhlenbeck (OU) process with a fixed optimum using the function `fit.mode.shift`. It is possible to either investigate specific shift points using the argument `shift.point` or investigate all possible shift points, like below.
 <br /> 
 ```{r eval = FALSE}
 > fit.mode.shift(ln.diameter, model1 = "URW", model2 = "URW", minb = 10)
@@ -607,7 +487,6 @@ attr(,"class")
 [1] "paleoTSfit"
 ```
 <br /> 
-The fit of this model is similar (but worse) according to AICc compared to the Bokma model. 
 
 It is also possible to use the function `fit.mode.shift` to fit all pairwise combinations of the four models by setting the `fit.all` argument as `TRUE.` If a shift point is not defined (using the `shift.point` argument), all possible shift points are investigated for all models. 
 <br /> 
@@ -668,13 +547,10 @@ attr(,"class")
 [1] "paleoTSfit"
 ```
 <br /> 
-The function returns a list of the highest log-likelihood found for each investigated model. A detailed output from the model with the lowest AICc value among the 16 candidate models is also given. An OU-Stasis model with a shift point at sample (population) 38 has the best relative fit according to AICc. Note, however, that the model-combination Trend-OU (GRW-OU) has an almost equal AICc score relative to the best model. Also the combination of OU models (each with their own fixed optimum) shows a good relative fit to the data. All these three models have a better AICc score compared to the Bokma model. 
-
-## 4.7 Models with two mode shifts
-`evoTS` contains functions to fit some models with two mode shifts. The `fit.2.Bokma` function fits three unbiased random walks separated by two punctuation events. Other functions for fitting two mode shifts focus on data sets where a "punctuation event" (i.e., trend) is sampled and flanked by samples that may follow different modes of evolution. These functions are `opt.joint.Stasis.trend.Stasis`, `opt.joint.Stasis.trend.URW`, `opt.joint.URW.trend.Stasis`, `opt.joint.URW.trend.URW`, and `opt.joint.URW.URW.URW`. 
+The function returns a list of the highest log-likelihood found for each investigated model. A detailed output from the model with the lowest AICc value among the 16 candidate models is also given. An OU-Stasis model with a shift point at sample (population) 38 has the best relative fit according to AICc. Note, however, that the model-combination Trend-OU (GRW-OU) has an almost equal AICc score relative to the best model. Also the combination of OU models (each with their own fixed optimum) shows a good relative fit to the data. 
 
 ## 4.8 Simulating data
-It is possible to simulate data for all implemented models in `evoTS`. Standard R-package documentation can be seen by entering `?sim.Bokma`, `?sim.OUBM` and `?sim.accel.decel`
+It is possible to simulate data for all implemented models in `evoTS`. Standard R-package documentation can be seen by entering `?sim.OUBM` and `?sim.accel.decel`
 <br /> 
 <br /> 
 <br />
@@ -936,7 +812,7 @@ attr(,"class")
 [1] "paleoTSfit"
 ````
 <br /> 
-Two **R** matrices are returned (*R.1* and *R.2*), along with their standard errors (since we used `hess = TRUE`). The estimated shift point is 18 (*shift1*), which is the same shift point we detected when fitting the Bokma model to the diameter time series. The rate of evolution is much larger in the second trait compared to the first trait (the diagonal elements in *R.1*) while the difference in rate of evolution is much smaller after the shift point (the diagonal elements in *R.2*). The evolutionary correlation is 0.98 and 0.99 before and after the shift point. The number of parameters (*K*) for this model is 9 compared to 5 for the model where we estimated a single **R** matrix for the multivariate data set. The model with two **R** matrices has a lower (better) AICc score compared to the model with a single **R** matrix. This difference in AICc scores is likely to be a result of the differences in rates of evolution in *R.1* and *R.2* since the evolutionary correlation is estimated to be very similar in both *R.1* and *R.2*. 
+Two **R** matrices are returned (*R.1* and *R.2*), along with their standard errors (since we used `hess = TRUE`). The estimated shift point is 18 (*shift1*). The rate of evolution is much larger in the second trait compared to the first trait (the diagonal elements in *R.1*) while the difference in rate of evolution is much smaller after the shift point (the diagonal elements in *R.2*). The evolutionary correlation is 0.98 and 0.99 before and after the shift point. The number of parameters (*K*) for this model is 9 compared to 5 for the model where we estimated a single **R** matrix for the multivariate data set. The model with two **R** matrices has a lower (better) AICc score compared to the model with a single **R** matrix. This difference in AICc scores is likely to be a result of the differences in rates of evolution in *R.1* and *R.2* since the evolutionary correlation is estimated to be very similar in both *R.1* and *R.2*. 
 
 We  now check if the multivariate accelerated and decelerated models have a better fit than the multivariate random walk models.
 <br /> 
@@ -961,7 +837,7 @@ $$dY = A(\theta(t)-Y(t))dt + RdW(t)$$
 where **A** is square matrix with dimensions equal to the number of investigated traits that describes the rate of evolution toward the optimal trait values (**A** is often called the pull matrix), $\theta$ is a vector containing the optimum for each trait, **R** is a square matrix with dimensions equal to the number of investigated traits describing the stochastic changes in the traits (**R** is often called the drift matrix), and $W$ is the diffusion parameter. Under the assumption that the we only have one selective regime (optimum) per trait, the expected trait mean of the Ornstein-Uhlenbeck process is the weighted sum of the optimum and the root value (Hansen 1997):
 <br /> 
 <br /> 
-$$E\left[Z_{i}\right]= e^{(-At_{i})}z_{0} + (1-e^{(-At_{i})}\theta)$$
+$$E\left[Z_{i}\right]= e^{(-At_{i})}z_{0} + (1-e^{(-At_{i})})\theta$$
 <br /> 
 where $Z_{i}$ is a vector containing the expected trait values for sample *i*, $z_{0}$ is a vector containing the ancestral trait means, $\theta$ is a vector containing the optima, **A** is the pull matrix measuring the rate of adaptation to the optimum, and $t_{i}$ is the time interval from the ancestral population mean (the start of the time-series, which has a time of 0) to the *i*th population mean. 
 
@@ -1116,8 +992,6 @@ Another option is to define which initial parameter values the optimization proc
 Akaike. H. 1974. A new look at the statistical model identification. *IEEE Transactions on Automatic Control* 19:716 - 723
 
 Bartoszek, K., J. Pienaar, P. Mostad, S. Andersson, and T. F. Hansen. 2012 A phylogenetic comparative method for studying multivariate adaptation. *Journal of Theoretical Biology* 314:204–215.
-
-Bokma, F. 2002. Detection of punctuated equilibrium from molecular phylogenies. *Journal of Evolutionary Biology* 15:1048–1056.
 
 Burnham, K. P. and D. R. Anderson. 2002. Model Selection and multimodel inference: a practical information-theoretic approach (2nd ed.)- Springer-Verlag.
 

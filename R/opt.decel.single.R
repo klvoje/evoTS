@@ -155,11 +155,13 @@ opt.decel.single.R<-function (yy, method="L-BFGS-B", hess = FALSE, pool = TRUE, 
       SE.R1[locations.SE.R1[,1][location.upper.tri.R[i]],locations.SE.R1[,2][location.upper.tri.R[i]]]<-upper.first[i]
     }
 
-    SE.R.1<-t(SE.R1)%*%SE.R1
+    SE.R<-t(SE.R1)%*%SE.R1
+    SE.anc<-w$se[(length(init.trait.var) + length(init.cov.traits) +1) : (length(init.par)-1)]
     SE.r<-tail(w$se,1)
   }
   if (hess == FALSE) {
     SE.R<-NA
+    SE.anc<-NA
     SE.r<-NA
   }
 
@@ -187,7 +189,7 @@ opt.decel.single.R<-function (yy, method="L-BFGS-B", hess = FALSE, pool = TRUE, 
 
   K<-length(w$par)
 
-  wc<-as.evoTS.multi.BW.acceldecel.fit(modelName = "Multivariate Random walk with decelerating rate of evoluton (R matrix with off-diagonal elements)", logL = w$value, ancestral.values = ancestral.values, r = r, SE.r = SE.r, R = R, SE.R = SE.R,
+  wc<-as.evoTS.multi.BW.acceldecel.fit(modelName = "Multivariate Random walk with decelerating rate of evoluton (R matrix with off-diagonal elements)", logL = w$value, ancestral.values = ancestral.values, SE.anc = SE.anc, r = r, SE.r = SE.r, R = R, SE.R = SE.R,
                                          method = "Joint", K = K, n = length(yy$xx[,1]), iter=iter)
   return(wc)
 }

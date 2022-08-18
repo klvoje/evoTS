@@ -1,3 +1,5 @@
+# Function from paleoTS (License:	GPL-3)
+
 shifts<-function (ns, ng, minb = 5) 
 {
   aa <- combn(ns, ng - 1)

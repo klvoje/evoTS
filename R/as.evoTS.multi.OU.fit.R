@@ -6,13 +6,21 @@
 #'
 #'@param ancestral.values maximum-likelihood estimates of the ancestral trait values
 #'
+#'@param SE.anc standard errors of the estimated ancestral states
+#'
 #'@param optima maximum-likelihood estimates of the optima
 #'
+#'@param SE.optima standard errors of the estimated optimal trait values
+#'
 #'@param A maximum-likelihood estimates of the parameters in the A matrix
+#'
+#'@param SE.A standard errors of the estimated A matrix
 #'
 #'@param half.life the calculated half-life of the evolutionary process
 #'
 #'@param R maximum-likelihood estimates of the parameters in the R matrix
+#'
+#'@param SE.R standard errors of the parameters in the R matrix
 #'
 #'@param method the parameterization used: Joint
 #'
@@ -30,10 +38,10 @@
 #'
 
 
-as.evoTS.multi.OU.fit<-function (logL, ancestral.values, optima, A, half.life, R, method, K, n, iter)
+as.evoTS.multi.OU.fit<-function (logL, ancestral.values, SE.anc, optima, SE.optima, A, SE.A, half.life, R, SE.R, method, K, n, iter)
 {
   ic <- paleoTS::IC(logL = logL, K = K, n = n, method = "AICc")
-  y <- list(logL = logL, AICc = ic, ancestral.values = ancestral.values, optima = optima, A = A, half.life = half.life, R = R,
+  y <- list(logL = logL, AICc = ic, ancestral.values = ancestral.values, SE.anc = SE.anc, optima = optima, SE.optima = SE.optima, A = A, SE.A = SE.A, half.life = half.life, R = R, SE.R = SE.R,
             method = method, K = K, n = n, iter = iter)
   class(y) <- "paleoTSfit"
   return(y)

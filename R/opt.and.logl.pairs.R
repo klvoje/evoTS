@@ -54,14 +54,14 @@ opt.joint.URW.Stasis<-function (y, gg, cl = list(fnscale = -1), pool = TRUE, met
   w <- try(optim(p0, fn = logL.joint.URW.Stasis, gg = gg,
                  method = meth, lower = ll, control = cl, hessian = hess,
                  y = y), silent = TRUE)
-  if (class(w) == "try-error") {
+  if (inherits (w, "try-error")) {
     cl <- list(fnscale = -1, parscale = c(1, 10, 100))
     w <- try(optim(p0, fn = logL.joint.URW.Stasis, gg = gg,
                    method = meth, lower = ll, control = cl, hessian = hess,
                    y = y), silent = TRUE)
   }
 
-  if (class(w) == "try-error") {
+  if (inherits (w, "try-error")) {
     wc <- paleoTS::as.paleoTSfit(logL = NA, parameters = NA, modelName = paste("URW",
                                                                       "Stasis", sep = "-"), method = "Joint", K = K, n = length(y$mm),
                         se = NULL)
@@ -145,14 +145,14 @@ opt.joint.GRW.Stasis<-function (y, gg, cl = list(fnscale = -1), pool = TRUE, met
   w <- try(optim(p0, fn = logL.joint.GRW.Stasis, gg = gg,
                  method = meth, lower = ll, control = cl, hessian = hess,
                  y = y), silent = TRUE)
-  if (class(w) == "try-error") {
+  if (inherits (w, "try-error")) {
     cl <- list(fnscale = -1, parscale = c(1, 10, 100))
     w <- try(optim(p0, fn = logL.joint.GRW.Stasis, gg = gg,
                    method = meth, lower = ll, control = cl, hessian = hess,
                    y = y), silent = TRUE)
   }
 
-  if (class(w) == "try-error") {
+  if (inherits (w, "try-error")) {
     wc <- paleoTS::as.paleoTSfit(logL = NA, parameters = NA, modelName = paste("GRW",
                                                                       "Stasis", sep = "-"), method = "Joint", K = K, n = length(y$mm),
                         se = NULL)
@@ -248,14 +248,14 @@ opt.joint.GRW.URW<-function (y, gg, cl = list(fnscale = -1), pool = TRUE, meth =
   w <- try(optim(p0, fn = logL.joint.GRW.URW, gg = gg,
                  method = meth, lower = ll, control = cl, hessian = hess,
                  y = y), silent = TRUE)
-  if (class(w) == "try-error") {
+  if (inherits (w, "try-error")) {
     cl <- list(fnscale = -1, parscale = c(1, 10, 100))
     w <- try(optim(p0, fn = logL.joint.GRW.URW, gg = gg,
                    method = meth, lower = ll, control = cl, hessian = hess,
                    y = y), silent = TRUE)
   }
 
-  if (class(w) == "try-error") {
+  if (inherits (w, "try-error")) {
     wc <- paleoTS::as.paleoTSfit(logL = NA, parameters = NA, modelName = paste("GRW",
                                                                       "URW", sep = "-"), method = "Joint", K = K, n = length(y$mm),
                         se = NULL)
@@ -355,14 +355,14 @@ opt.joint.OU.Stasis<-function (y, gg, cl = list(fnscale = -1), pool = TRUE, meth
   w <- try(optim(p0, fn = logL.joint.OU.Stasis, gg = gg,
                  method = meth, lower = ll, control = cl, hessian = hess,
                  y = y), silent = TRUE)
-  if (class(w) == "try-error") {
+  if (inherits (w, "try-error")) {
     cl <- list(fnscale = -1, parscale = c(1, 10, 100))
     w <- try(optim(p0, fn = logL.joint.OU.Stasis, gg = gg,
                    method = meth, lower = ll, control = cl, hessian = hess,
                    y = y), silent = TRUE)
   }
 
-  if (class(w) == "try-error") {
+  if (inherits (w, "try-error")) {
     wc <- paleoTS::as.paleoTSfit(logL = NA, parameters = NA, modelName = paste("OU",
                                                                       "Stasis", sep = "-"), method = "Joint", K = K, n = length(y$mm),
                         se = NULL)
@@ -463,14 +463,14 @@ opt.joint.OU.URW<-function (y, gg, cl = list(fnscale = -1), pool = TRUE, meth = 
   w <- try(optim(p0, fn = logL.joint.OU.URW, gg = gg,
                  method = meth, lower = ll, control = cl, hessian = hess,
                  y = y), silent = TRUE)
-  if (class(w) == "try-error") {
+  if (inherits (w, "try-error")) {
     cl <- list(fnscale = -1, parscale = c(1, 10, 100))
     w <- try(optim(p0, fn = logL.joint.OU.URW, gg = gg,
                    method = meth, lower = ll, control = cl, hessian = hess,
                    y = y), silent = TRUE)
   }
 
-  if (class(w) == "try-error") {
+  if (inherits (w, "try-error")) {
     wc <- paleoTS::as.paleoTSfit(logL = NA, parameters = NA, modelName = paste("OU",
                                                                       "URW", sep = "-"), method = "Joint", K = K, n = length(y$mm),
                         se = NULL)
@@ -571,14 +571,14 @@ opt.joint.OU.GRW<-function (y, gg, cl = list(fnscale = -1), pool = TRUE, meth = 
   w <- try(optim(p0, fn = logL.joint.OU.GRW, gg = gg,
                  method = meth, lower = ll, control = cl, hessian = hess,
                  y = y), silent = TRUE)
-  if (class(w) == "try-error") {
+  if (inherits (w, "try-error")) {
     cl <- list(fnscale = -1, parscale = c(1, 10, 100))
     w <- try(optim(p0, fn = logL.joint.OU.GRW, gg = gg,
                    method = meth, lower = ll, control = cl, hessian = hess,
                    y = y), silent = TRUE)
   }
 
-  if (class(w) == "try-error") {
+  if (inherits (w, "try-error")) {
     wc <- paleoTS::as.paleoTSfit(logL = NA, parameters = NA, modelName = paste("OU",
                                                                       "GRW", sep = "-"), method = "Joint", K = K, n = length(y$mm),
                         se = NULL)
@@ -683,14 +683,14 @@ opt.joint.OU.OU<-function (y, gg, cl = list(fnscale = -1), pool = TRUE, meth = "
   w <- try(optim(p0, fn = logL.joint.OU.OU, gg = gg,
                  method = meth, lower = ll, control = cl, hessian = hess,
                  y = y), silent = TRUE)
-  if (class(w) == "try-error") {
+  if (inherits (w, "try-error")) {
     cl <- list(fnscale = -1, parscale = c(1, 10, 100))
     w <- try(optim(p0, fn = logL.joint.OU.OU, gg = gg,
                    method = meth, lower = ll, control = cl, hessian = hess,
                    y = y), silent = TRUE)
   }
 
-  if (class(w) == "try-error") {
+  if (inherits (w, "try-error")) {
     wc <- paleoTS::as.paleoTSfit(logL = NA, parameters = NA, modelName = paste("OU",
                                                                       "OU", sep = "-"), method = "Joint", K = K, n = length(y$mm),
                         se = NULL)
@@ -797,14 +797,14 @@ opt.joint.GRW.OU<-function (y, gg, cl = list(fnscale = -1), pool = TRUE, meth = 
   w <- try(optim(p0, fn = logL.joint.GRW.OU, gg = gg,
                  method = meth, lower = ll, control = cl, hessian = hess,
                  y = y), silent = TRUE)
-  if (class(w) == "try-error") {
+  if (inherits (w, "try-error")) {
     cl <- list(fnscale = -1, parscale = c(1, 10, 100))
     w <- try(optim(p0, fn = logL.joint.GRW.OU, gg = gg,
                    method = meth, lower = ll, control = cl, hessian = hess,
                    y = y), silent = TRUE)
   }
 
-  if (class(w) == "try-error") {
+  if (inherits (w, "try-error")) {
     wc <- paleoTS::as.paleoTSfit(logL = NA, parameters = NA, modelName = paste("GRW",
                                                                       "OU", sep = "-"), method = "Joint", K = K, n = length(y$mm),
                         se = NULL)
@@ -908,14 +908,14 @@ opt.joint.GRW.GRW<-function (y, gg, cl = list(fnscale = -1), pool = TRUE, meth =
   w <- try(optim(p0, fn = logL.joint.GRW.GRW, gg = gg,
                  method = meth, lower = ll, control = cl, hessian = hess,
                  y = y), silent = TRUE)
-  if (class(w) == "try-error") {
+  if (inherits (w, "try-error")) {
     cl <- list(fnscale = -1, parscale = c(1, 10, 100))
     w <- try(optim(p0, fn = logL.joint.GRW.GRW, gg = gg,
                    method = meth, lower = ll, control = cl, hessian = hess,
                    y = y), silent = TRUE)
   }
 
-  if (class(w) == "try-error") {
+  if (inherits (w, "try-error")) {
     wc <- paleoTS::as.paleoTSfit(logL = NA, parameters = NA, modelName = paste("GRW",
                                                                       "GRW", sep = "-"), method = "Joint", K = K, n = length(y$mm),
                         se = NULL)
@@ -1010,14 +1010,14 @@ opt.joint.URW.OU<-function (y, gg, cl = list(fnscale = -1), pool = TRUE, meth = 
   w <- try(optim(p0, fn = logL.joint.URW.OU, gg = gg,
                  method = meth, lower = ll, control = cl, hessian = hess,
                  y = y), silent = TRUE)
-  if (class(w) == "try-error") {
+  if (inherits (w, "try-error")) {
     cl <- list(fnscale = -1, parscale = c(1, 10, 100))
     w <- try(optim(p0, fn = logL.joint.URW.OU, gg = gg,
                    method = meth, lower = ll, control = cl, hessian = hess,
                    y = y), silent = TRUE)
   }
 
-  if (class(w) == "try-error") {
+  if (inherits (w, "try-error")) {
     wc <- paleoTS::as.paleoTSfit(logL = NA, parameters = NA, modelName = paste("URW",
                                                                       "OU", sep = "-"), method = "Joint", K = K, n = length(y$mm),
                         se = NULL)
@@ -1119,14 +1119,14 @@ opt.joint.URW.GRW<-function (y, gg, cl = list(fnscale = -1), pool = TRUE, meth =
   w <- try(optim(p0, fn = logL.joint.URW.GRW, gg = gg,
                  method = meth, lower = ll, control = cl, hessian = hess,
                  y = y), silent = TRUE)
-  if (class(w) == "try-error") {
+  if (inherits (w, "try-error")) {
     cl <- list(fnscale = -1, parscale = c(1, 10, 100))
     w <- try(optim(p0, fn = logL.joint.URW.GRW, gg = gg,
                    method = meth, lower = ll, control = cl, hessian = hess,
                    y = y), silent = TRUE)
   }
 
-  if (class(w) == "try-error") {
+  if (inherits (w, "try-error")) {
     wc <- paleoTS::as.paleoTSfit(logL = NA, parameters = NA, modelName = paste("URW",
                                                                       "GRW", sep = "-"), method = "Joint", K = K, n = length(y$mm),
                         se = NULL)
@@ -1207,7 +1207,7 @@ opt.joint.Stasis.GRW<-function (y, gg, cl = list(fnscale = -1), pool = TRUE, met
   # three parameters in the unbiased ramdom walk and 4 parameters for the biased random walk
   ll<- c(NA, small, NA, small)
 
-  # If user wants to use a differen method than L-BFGS-B, then the lower boun is defined as -Inf
+  # If user wants to use a differen method than L-BFGS-B, then the lower bound is defined as -Inf
   if (meth != "L-BFGS-B")
     ll <- -Inf
 
@@ -1215,14 +1215,14 @@ opt.joint.Stasis.GRW<-function (y, gg, cl = list(fnscale = -1), pool = TRUE, met
   w <- try(optim(p0, fn = logL.joint.Stasis.GRW, gg = gg,
                  method = meth, lower = ll, control = cl, hessian = hess,
                  y = y), silent = TRUE)
-  if (class(w) == "try-error") {
+  if (inherits (w, "try-error")) {
     cl <- list(fnscale = -1, parscale = c(1, 10, 100))
     w <- try(optim(p0, fn = logL.joint.Stasis.GRW, gg = gg,
                    method = meth, lower = ll, control = cl, hessian = hess,
                    y = y), silent = TRUE)
   }
 
-  if (class(w) == "try-error") {
+  if (inherits (w, "try-error")) {
     wc <- paleoTS::as.paleoTSfit(logL = NA, parameters = NA, modelName = paste("Stasis",
                                                                       "GRW", sep = "-"), method = "Joint", K = K, n = length(y$mm),
                         se = NULL)
@@ -1312,14 +1312,14 @@ opt.joint.Stasis.URW<-function (y, gg, cl = list(fnscale = -1), pool = TRUE, met
   w <- try(optim(p0, fn = logL.joint.Stasis.URW, gg = gg,
                  method = meth, lower = ll, control = cl, hessian = hess,
                  y = y), silent = TRUE)
-  if (class(w) == "try-error") {
+  if (inherits (w, "try-error")) {
     cl <- list(fnscale = -1, parscale = c(1, 10, 100))
     w <- try(optim(p0, fn = logL.joint.Stasis.URW, gg = gg,
                    method = meth, lower = ll, control = cl, hessian = hess,
                    y = y), silent = TRUE)
   }
 
-  if (class(w) == "try-error") {
+  if (inherits (w, "try-error")) {
     wc <- paleoTS::as.paleoTSfit(logL = NA, parameters = NA, modelName = paste("Stasis",
                                                                       "URW", sep = "-"), method = "Joint", K = K, n = length(y$mm),
                         se = NULL)
@@ -1402,14 +1402,14 @@ opt.joint.Stasis.Stasis<-function (y, gg, cl = list(fnscale = -1), pool = TRUE, 
   w <- try(optim(p0, fn = logL.joint.Stasis.Stasis, gg = gg,
                  method = meth, lower = ll, control = cl, hessian = hess,
                  y = y), silent = TRUE)
-  if (class(w) == "try-error") {
+  if (inherits (w, "try-error")) {
     cl <- list(fnscale = -1, parscale = c(1, 10, 100))
     w <- try(optim(p0, fn = logL.joint.Stasis.Stasis, gg = gg,
                    method = meth, lower = ll, control = cl, hessian = hess,
                    y = y), silent = TRUE)
   }
 
-  if (class(w) == "try-error") {
+  if (inherits (w, "try-error")) {
     wc <- paleoTS::as.paleoTSfit(logL = NA, parameters = NA, modelName = paste("Stasis",
                                                                       "Stasis", sep = "-"), method = "Joint", K = K, n = length(y$mm),
                         se = NULL)
@@ -1497,14 +1497,14 @@ opt.joint.URW.URW<-function (y, gg, cl = list(fnscale = -1), pool = TRUE, meth =
   w <- try(optim(p0, fn = logL.joint.URW.URW, gg = gg,
                  method = meth, lower = ll, control = cl, hessian = hess,
                  y = y), silent = TRUE)
-  if (class(w) == "try-error") {
+  if (inherits (w, "try-error")) {
     cl <- list(fnscale = -1, parscale = c(1, 10, 100))
     w <- try(optim(p0, fn = logL.joint.URW.URW, gg = gg,
                    method = meth, lower = ll, control = cl, hessian = hess,
                    y = y), silent = TRUE)
   }
 
-  if (class(w) == "try-error") {
+  if (inherits (w, "try-error")) {
     wc <- paleoTS::as.paleoTSfit(logL = NA, parameters = NA, modelName = paste("URW",
                                                                       "URW", sep = "-"), method = "Joint", K = K, n = length(y$mm),
                         se = NULL)
@@ -1558,14 +1558,14 @@ opt.joint.Stasis.OU<-function (y, gg, cl = list(fnscale = -1), pool = TRUE, meth
   w <- try(optim(p0, fn = logL.joint.Stasis.OU, gg = gg,
                  method = meth, lower = ll, control = cl, hessian = hess,
                  y = y), silent = TRUE)
-  if (class(w) == "try-error") {
+  if (inherits (w, "try-error")) {
     cl <- list(fnscale = -1, parscale = c(1, 10, 100))
     w <- try(optim(p0, fn = logL.joint.Stasis.OU, gg = gg,
                    method = meth, lower = ll, control = cl, hessian = hess,
                    y = y), silent = TRUE)
   }
 
-  if (class(w) == "try-error") {
+  if (inherits (w, "try-error")) {
     wc <- paleoTS::as.paleoTSfit(logL = NA, parameters = NA, modelName = paste("Stasis",
                                                                       "OU", sep = "-"), method = "Joint", K = K, n = length(y$mm),
                         se = NULL)

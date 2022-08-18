@@ -157,11 +157,13 @@ opt.single.R<-function (yy, method="L-BFGS-B", hess = FALSE, pool = TRUE, trace=
       SE.R1[locations.SE.R1[,1][location.upper.tri.R[i]],locations.SE.R1[,2][location.upper.tri.R[i]]]<-upper.first[i]
     }
 
-    SE.R.1<-t(SE.R1)%*%SE.R1
+    SE.R<-t(SE.R1)%*%SE.R1
+    SE.anc<-tail(w$se,m)
   }
 
   if (hess == FALSE) {
     SE.R<-NA
+    SE.anc<-NA
   }
 
   chole.1<-matrix(0, nrow=m, ncol=m)
@@ -184,7 +186,7 @@ opt.single.R<-function (yy, method="L-BFGS-B", hess = FALSE, pool = TRUE, trace=
 
   ancestral.values<-w$par[(length(init.trait.var) + length(init.cov.traits) +1) : length(init.par)]
 
-  wc<-as.evoTS.multi.BW.fit(modelName = "Multivariate Random walk (R matrix with non-zero off-diagonal elements)", logL = w$value, ancestral.values = ancestral.values, R = R, SE.R = SE.R,
+  wc<-as.evoTS.multi.BW.fit(modelName = "Multivariate Random walk (R matrix with non-zero off-diagonal elements)", logL = w$value, ancestral.values = ancestral.values, SE.anc = SE.anc, R = R, SE.R = SE.R,
                                                           method = "Joint", K = K, n = length(yy$xx[,1]), iter=iter)
 
   return(wc)

@@ -1,3 +1,5 @@
+# Function from paleoTS (License:	GPL-3)
+
 opt.joint.StrictStasis<- function (y, pool = TRUE, hess = FALSE)
 {
   if (pool)

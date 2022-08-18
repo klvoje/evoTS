@@ -231,13 +231,11 @@ fit.multivariate.OU.user.defined<-function (yy, A.user=NULL, R.user=NULL, method
   if (is.numeric(iterations) == TRUE){
   iter<-iterations
   w<-best.run
-  if (hess) best.run$se <- sqrt(diag(-1 * solve(w$hessian))) else w$se <- NULL
+  if (hess) w$se <- sqrt(diag(-1 * solve(w$hessian))) else w$se <- NULL
   }
 
-  #A<-diag(rep(0,nr.init.diag.A))
   A<-diag(rep(0,m))
-  #A[locations.A[location.diag.A],locations.A[location.diag.A]]<- diag(c(w$par[1:length(location.diag.A)]))
-  #A[locations.A[location.diag.A],locations.A[location.diag.A]]<- diag(c(w$par[1:nr.init.diag.A]))
+
   for (i in 1:length(location.diag.A)){
     A[locations.A[location.diag.A][i],locations.A[location.diag.A][i]]<- w$par[i]
   }
@@ -261,13 +259,13 @@ fit.multivariate.OU.user.defined<-function (yy, A.user=NULL, R.user=NULL, method
 
   Chol<-diag(rep(0,m))
   for (i in 1:length(location.diag.R)){
-    Chol[locations.R[location.diag.R][i],locations.R[location.diag.R][i]]<- init.par[(length(location.diag.A)+length(location.upper.tri.A)+length(location.lower.tri.A)+i)]
+    Chol[locations.R[location.diag.R][i],locations.R[location.diag.R][i]]<- w$par[(length(location.diag.A)+length(location.upper.tri.A)+length(location.lower.tri.A)+i)]
   }
   
   if (pracma::isempty(location.upper.tri.R)==FALSE)
   {
     for (i in 1:length(location.upper.tri.R)){
-      Chol[locations.R[,1][location.upper.tri.R][i],locations.R[,2][location.upper.tri.R][i]]<-init.par[(length(location.diag.A)+length(location.upper.tri.A)+length(location.lower.tri.A)+length(location.diag.R)+i)]
+      Chol[locations.R[,1][location.upper.tri.R][i],locations.R[,2][location.upper.tri.R][i]]<-w$par[(length(location.diag.A)+length(location.upper.tri.A)+length(location.lower.tri.A)+length(location.diag.R)+i)]
     }
   } else location.upper.tri.R<-NULL
   
@@ -285,13 +283,75 @@ fit.multivariate.OU.user.defined<-function (yy, A.user=NULL, R.user=NULL, method
   ### The ancestral trait values ###
   ancestral.values<-c(w$par[(length(location.diag.A)+length(location.upper.tri.A)+length(location.lower.tri.A)+length(location.diag.R)+length(location.upper.tri.R)+m+1):(length(location.diag.A)+length(location.upper.tri.A)+length(location.lower.tri.A)+length(location.diag.R)+length(location.upper.tri.R)+m+m)])
 
-
+  if (hess == TRUE){
+  # SE parameters
+  
+  SE.A<-diag(rep(0,m))
+  
+  for (i in 1:length(location.diag.A)){
+    SE.A[locations.A[location.diag.A][i],locations.A[location.diag.A][i]]<- w$se[i]
+  }
+  
+  if (pracma::isempty(location.upper.tri.A)==FALSE)
+  {
+    
+    for (i in 1:length(location.upper.tri.A)){
+      SE.A[locations.A[,1][location.upper.tri.A][i],locations.A[,2][location.upper.tri.A][i]]<- w$se[(length(location.diag.A)+i)]
+    }
+  } else location.upper.tri.A<-NULL
+  
+  
+  if (pracma::isempty(location.lower.tri.A)==FALSE)
+  {
+    for (i in 1:length(location.lower.tri.A)){
+      SE.A[locations.A[,1][location.lower.tri.A][i],locations.A[,2][location.lower.tri.A][i]]<-w$se[(length(location.diag.A)+length(location.upper.tri.A)+i)]
+    } 
+  }else location.lower.tri.A<-NULL
+  
+  
+  SE.Chol<-diag(rep(0,m))
+  for (i in 1:length(location.diag.R)){
+    SE.Chol[locations.R[location.diag.R][i],locations.R[location.diag.R][i]]<- w$se[(length(location.diag.A)+length(location.upper.tri.A)+length(location.lower.tri.A)+i)]
+  }
+  
+  if (pracma::isempty(location.upper.tri.R)==FALSE)
+  {
+    for (i in 1:length(location.upper.tri.R)){
+      SE.Chol[locations.R[,1][location.upper.tri.R][i],locations.R[,2][location.upper.tri.R][i]]<-w$se[(length(location.diag.A)+length(location.upper.tri.A)+length(location.lower.tri.A)+length(location.diag.R)+i)]
+    }
+  } else location.upper.tri.R<-NULL
+  
+  SE.R<-SE.Chol %*% t(SE.Chol)
+  
+  ### Theta (optimal trait values) ###
+  SE.optima<-c(w$se[(length(location.diag.A)+length(location.upper.tri.A)+length(location.lower.tri.A)+length(location.diag.R)+length(location.upper.tri.R)+1):(length(location.diag.A)+length(location.upper.tri.A)+length(location.lower.tri.A)+length(location.diag.R)+length(location.upper.tri.R)+m)])
+  
+  for (i in 1:m)
+  {
+    if (init.theta[i]==init.anc[i]) SE.optima[i]<-NA 
+  }
+  
+  ### The ancestral trait values ###
+  SE.anc<-c(w$se[(length(location.diag.A)+length(location.upper.tri.A)+length(location.lower.tri.A)+length(location.diag.R)+length(location.upper.tri.R)+m+1):(length(location.diag.A)+length(location.upper.tri.A)+length(location.lower.tri.A)+length(location.diag.R)+length(location.upper.tri.R)+m+m)])
+  }
+  
   half.life<-log(2)/diag(A)
 
-
-    wc<-as.evoTS.multi.OU.fit(logL = w$value, ancestral.values = ancestral.values, optima = optima, A = A, half.life = half.life, R = R,
+  if (hess == TRUE){
+    
+    wc<-as.evoTS.multi.OU.fit(logL = w$value, ancestral.values = ancestral.values, SE.anc = SE.anc, optima = optima,  SE.optima = SE.optima, A = A, SE.A = SE.A, half.life = half.life, R = R, SE.R = SE.R,
+                              method = "Joint", K = K, n = length(yy$xx[,1]), iter=iter)
+  } 
+  
+  if (hess == FALSE){
+    SE.anc <- NA
+    SE.optima <- NA
+    SE.A <- NA 
+    SE.R <- NA 
+    wc<-as.evoTS.multi.OU.fit(logL = w$value, ancestral.values = ancestral.values, SE.anc = SE.anc, optima = optima,  SE.optima = SE.optima, A = A, SE.A = SE.A, half.life = half.life, R = R, SE.R = SE.R,
                                                        method = "Joint", K = K, n = length(yy$xx[,1]), iter=iter)
-
+  }
+  
   return(wc)
 
  }
