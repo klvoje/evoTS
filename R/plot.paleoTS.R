@@ -27,7 +27,7 @@
 #'@export
 #
 plotpaleoTS <-function (x, nse = 1, pool = FALSE, add = FALSE, modelFit = NULL, 
-                        pch = 19, lwd = 1.5, ylim=NULL, ...) 
+                        pch = 19, lwd = 1.5, ylim=NULL, xlab=NULL, ylab=NULL, ...) 
 {
   if (pool) 
     x <- paleoTS::pool.var(x, ret.paleoTS = TRUE)
@@ -40,7 +40,13 @@ plotpaleoTS <-function (x, nse = 1, pool = FALSE, add = FALSE, modelFit = NULL,
     if(x$timeDir=="decreasing" & max(x$tt)!=1) { x$tt <- x$start.age - x$tt; xl <- rev(range(x$tt))}
     if(x$timeDir=="increasing")	{x$tt<- x$tt + x$start.age; xl<- range(x$tt)}
   }
+  
   else xl <- range(x$tt)
+  
+  if(is.null(xlab)) xlab<- "Time"
+  if(is.null(ylab)) ylab<- "Trait Mean"
+  
+  
   if (!is.null(modelFit)) {
     mlab <- paste(modelFit$modelName, "expectation [95% prob. interval]")
     mc <- modelCurves(xx, w = modelFit)
@@ -53,7 +59,7 @@ plotpaleoTS <-function (x, nse = 1, pool = FALSE, add = FALSE, modelFit = NULL,
   if(is.null(ylim)) ylim<- range(yl)
   if (!add) 
     plot(range(x$tt), ylim=ylim, typ = "n", pch = 19, 
-         xlab = "Time", ylab = "Trait Mean", xlim = xl, ...)
+         xlab = xlab, ylab = ylab, xlim = xl, ...)
   if (!is.null(modelFit)) {
     if (!is.null(x$start.age)) 
       mc$tt <- x$start.age - mc$tt
