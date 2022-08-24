@@ -92,7 +92,7 @@
                         <h4 data-toc-skip class="author">Kjetil L.
 Voje</h4>
             
-            <h4 data-toc-skip class="date">2022-08-18</h4>
+            <h4 data-toc-skip class="date">2022-08-24</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/klvoje/evoTS/blob/HEAD/vignettes/evoTS_vignette.Rmd" class="external-link"><code>vignettes/evoTS_vignette.Rmd</code></a></small>
       <div class="d-none name"><code>evoTS_vignette.Rmd</code></div>
@@ -104,19 +104,15 @@ Voje</h4>
 <h2 id="about-evots">1.0 About <code>evoTS</code><a class="anchor" aria-label="anchor" href="#about-evots"></a>
 </h2>
 <p>The <code>evoTS</code> package facilitates univariate and
-multivariate analysis of evolutionary sequences of phenotypic change.
-The goal of the <code>evoTS</code> package is to offer a large range of
-evolutionary models to enable detailed studies of evolutionary change
-within lineages, in both the fossil record and in modern lineages.</p>
+multivariate analysis of evolutionary sequences of phenotypic change
+within lineages.</p>
 <p>The <code>evoTS</code> package extends the univariate modeling
 framework implemented in the
 <a href="https://cran.r-project.org/web/packages/paleoTS/index.html" class="external-link"><code>paleoTS</code>
 package</a> (Hunt 2006; 2008a; 2008b; Hunt <em>et al.</em> 2008; 2010;
-2015) by containing functions to fit a large range of univariate
-evolutionary models not implemented in <code>paleoTS</code>.
-<code>evoTS</code> has been developed to mirror the user experience from
+2015) and has been developed to mirror the user experience from
 <code>paleoTS</code> as much as possible. For example, all univariate
-models implemented in <code>evoTS</code> can be fitted to a
+models implemented in <code>evoTS</code> are fitted to a
 <code>paleoTS</code> object, i.e., the data format used in
 <code>paleoTS</code>. The fit of all univariate models available in
 <code>paleoTS</code> and <code>evoTS</code> are directly comparable.</p>
@@ -131,35 +127,34 @@ etc.</p>
 <p><code>evoTS</code> also contains functions for calculating the
 topology of the likelihood surfaces of fitted models, a useful feature
 to investigate the range of parameter values with approximately equal
-likelihood as the best parameter estimates. <br><br></p>
+likelihood as the best parameter estimates.</p>
+<p><br><br></p>
 <div class="section level3">
 <h3 id="compatibility-with-paleots-technical-info">1.1 Compatibility with <code>paleoTS</code> <strong>(technical
 info)</strong><a class="anchor" aria-label="anchor" href="#compatibility-with-paleots-technical-info"></a>
 </h3>
-<p>As in the <code>paleoTS</code> package, all models implemented in
-<code>evoTS</code> assume that the population (sample) means in the
-sequence of ancestor-descendants have a joint distribution that is
-multivariate normal with an expected mean vector and covariance matrix
-that are functions of the parameters of each model, the time intervals
-separating the populations (samples) in the sequence, and the sampling
-variances of the trait means calculated for each population (sample).
-Given the assumption of multivariate normality, the expected
-distribution of sample means is given by their first, second, and mixed
-moments (covariance). As in the <code>paleoTS</code> package,
+<p>The models implemented in <code>evoTS</code> build on the same
+assumptions as the models available in the <code>paleoTS</code> package:
+all models assume the population (sample) means in the sequence of
+ancestor-descendants have a joint distribution that is multivariate
+normal with an expected mean vector and covariance matrix that are
+functions of the parameters of each model, the time intervals separating
+the populations (samples) in the sequence, and the sampling variances of
+the trait means. Given the assumption of multivariate normality, the
+expected distribution of sample means is given by their first, second,
+and mixed moments (covariance). As in the <code>paleoTS</code> package,
 <code>evoTS</code> use the built-in optimization routines in R for
 estimating maximum likelihood parameter estimates. The default
-hill-climbing optimization technique used in all univariate models in
-<code>evoTS</code> (L-BFGS-B) is a quasi-Newton method that constrains
-the optimization of certain parameters (e.g., so that variance
-parameters cannot be smaller than 0). All multivariate models use the
-Nelder-Mead hill climbing search algorithm as default.</p>
+hill-climbing optimization technique used in all univariate models
+(L-BFGS-B) is a quasi-Newton method that constrains the optimization of
+certain parameters (e.g., so that variance parameters cannot be smaller
+than 0). All multivariate models use the Nelder-Mead hill climbing
+search algorithm as default.</p>
 <p>All models in <code>evoTS</code> have been implemented using the
 joint parameterization routine from the <code>paleoTS</code> package.
 The optimization is therefore fit using the actual sample values, with
 the autocorrelation among samples accounted for in the log-likelihood
-function. The joint distribution of sample means is multivariate normal,
-with means and variance-covariances determined by evolutionary
-parameters and sampling errors.</p>
+function.</p>
 <p>In <code>evoTS</code>, as in the <code>paleoTS</code> package, the
 default setting when fitting models is that the sample variance is
 pooled across all samples/populations. Pooling sample variance makes
@@ -174,9 +169,9 @@ tested demands individually estimatd sample variances). Whether sample
 variances are pooled or not is controlled by setting
 <code>pool = TRUE</code> or <code>FALSE</code> when fittin models in
 <code>evoTS.</code></p>
-<p>As in the <code>paleoTS</code> package, relative model fit in
-<code>evoTS</code> are evaluated based on the small sample-corrected
-version of the AICc (Akaike 1974; Burnham and Anderson 2002).</p>
+<p>Relative model fit in <code>evoTS</code> is evaluated based on the
+small sample-corrected version of the AICc (Akaike 1974; Burnham and
+Anderson 2002).</p>
 <p><br><br></p>
 </div>
 </div>
@@ -256,7 +251,8 @@ changes. <br></p>
 <h2 id="univariate-models-in-evots">4.0 Univariate models in <code>evoTS</code><a class="anchor" aria-label="anchor" href="#univariate-models-in-evots"></a>
 </h2>
 <p>The <code>evoTS</code> package contains a range of univariate models
-that supplement the models available in <code>paleoTS.</code></p>
+that expand and supplement the models available in
+<code>paleoTS.</code></p>
 <p>The <code>paleoTS</code> package contains functions to fit biased
 (GRW) and unbiased random walks (URW), stasis (modeled as a white noise
 process, i.e., uncorrelated variation around a constant mean), strict
@@ -265,16 +261,10 @@ processes assuming a fixed optimum (see Hunt 2006 and Hunt <em>et
 al.</em> 2008 for info on these models). The <code>paleoTS</code>
 package also contains models of a punctuated mode of evolution where
 punctuations (jumps in phenotype space) separate different
-parameterizations of the stasis model (Hunt 2008). The
-<code>paleoTS</code> package also contains a few other mode shift
-models, i.e., where the model of evolution shifts at some point during
-the evolutionary sequence (Hunt 2008; Hunt <em>et al.</em> 2015).</p>
-<p>Several new univariate models have been implemented in the
-<code>evoTS</code> package. Functions are also available to fit mode
-shifts between all univariate models available in <code>evoTS</code> and
-<code>paleoTS</code> combined. There are also functions available in
-<code>evoTS</code> that allow for more than one mode shift during the
-analyzed evolutionary sequence.</p>
+parameterizations of the stasis model (Hunt 2008). A few other mode
+shift models (where the model of evolution shifts at some point during
+the evolutionary sequence) has also been implemented in
+<code>paleoTS</code> (Hunt 2008; Hunt <em>et al.</em> 2015).</p>
 <p>The following univariate models have been implemented in the
 <code>evoTS</code> package:</p>
 <ol style="list-style-type: decimal">
@@ -291,17 +281,18 @@ to an unbiased random walk.</p></li>
 <p>The unbiased random walk model in the <code>paleoTS</code> package
 model evolutionary changes as random draws from a normal distribution
 with a mean of zero (Hunt 2006). Each draw from the normal distribution
-represent a discrete evolutionary “step” and the variance of the normal
+represents a discrete evolutionary “step” and the variance of the normal
 distribution is called the step variance. The decelerated model of
 phyletic evolution is an unbiased random walk where the step variance is
 reduced exponentially through time (Voje 2020). This model is closely
 related to the early burst model developed for phylogenetic comparative
-data (e.g., Harmon <em>et al.</em> 2010, Cooper and Purvis 2010), and
-describes a lineage that shows a reduced rate of evolution with time. As
-for the random walk model (Hunt 2006), the expected evolutionary
-divergence between ancestor and descendant populations is always zero in
-the model of decelerated evolution. The expected trait mean and its
-variance and covariance are given by the following expressions: <br><br></p>
+data (e.g., Harmon <em>et al.</em> 2010, Cooper and Purvis 2010), but
+describes a reduced rate of evolution with timw within a lineage and not
+within a clade. As for the random walk model (Hunt 2006), the expected
+evolutionary divergence between ancestor and descendant populations is
+always zero in the model of decelerated evolution. The expected trait
+mean and its variance and covariance are given by the following
+expressions: <br><br></p>
 <p><span class="math display">\[ E[z_{i}] = z_{0} \]</span> <br></p>
 <p><span class="math display">\[ Var[z_{i}] = \sigma ^{2}
 _{step.0}e^{rt_i} + \epsilon _{i} \]</span> <br></p>
@@ -315,8 +306,8 @@ constrained to be 0 or smaller, <span class="math inline">\(t_{i}\)</span> is th
 ancestral population mean (the start of the fossil sequence, which has a
 time of 0) to the <em>i</em>th population, and <span class="math inline">\(t_{min}\)</span> is the time interval from the
 ancestral population to the oldest of the two populations <span class="math inline">\(z_{i}\)</span> and <span class="math inline">\(z_{j}\)</span>.</p>
-<p>The decerelated model of evolution can be fitted to data using the
-<code>opt.joint.decel</code> function. <br></p>
+<p>The decerelated model of evolution can be fitted to a time series
+using the <code>opt.joint.decel</code> function. <br></p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">opt.joint.decel</span>(ln.diameter)</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>logL</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="fl">76.77642</span></span>
@@ -345,11 +336,11 @@ ancestral population to the oldest of the two populations <span class="math inli
 <span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a><span class="fu">attr</span>(,<span class="st">"class"</span>)</span>
 <span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">"paleoTSfit"</span></span></code></pre></div>
-<p><br> The output returns the log-likelihood of the model parameter
+<p><br> The output returns the log-likelihood of the model parameters
 (<em>logl</em>), the AICc score (<em>AICc</em>), the number (<em>K</em>)
 of estimated parameters (<em>parameters</em>), the length of the
 analysed time-series (<em>n</em>), the model name (<em>modelName</em>)
-and the method used to parameterize the model (<em>method</em>). All
+and the method used to parameterize the model (<em>method</em>).
 <em>anc</em> is the estimated ancestral trait value, <em>vstep</em> is
 the initial value for the step distribution, and <em>r</em> describes
 the exponential decay in the <em>vstep</em> parameter through time.</p>
@@ -361,15 +352,14 @@ estimated half-life represent the percent of the total length of the
 time-series it takes for the rate of evolution to half. The half-life is
 (-ln(2)/-1.8076302 =) 0.38 in this example. The total length of the
 analyzed time-series is 13,728 years, which means it takes (13,728*0.38
-=) 5,217 years for the rate of evolution to be halved.</p>
+=) 5,217 years for the rate of evolution to be reduced by 50%.</p>
 <p>What are the uncertainty of the estimated parameters in this model?
 Standard errors of the parameters are returned by setting
 <code>hess = TRUE</code> when fitting a model. The standard errors are
 calculated based on the Hessian matrix, which is a square matrix of
 partial second order derivatives.</p>
 <p>Another way to assess the uncertainty of the estimated parameters is
-to explore the likelihood-surface of the fitted model, which is a
-possibility in <code>evoTS</code>.</p>
+to explore the likelihood-surface of the fitted model.</p>
 <p>Investigating the likelihood surface can be helpful for several
 reasons.</p>
 <ol style="list-style-type: decimal">
@@ -378,20 +368,20 @@ parameter combinations that have an almost identical likelihood compared
 to the maximum likelihood values. Investigating the log-likelihood
 surface is also an approach to assess uncertainty in the estimated
 parameters. A large range of parameter values that have almost the same
-log-likelihood is an indication that we should be careful when
-interpreting the maximum-likelihood (best) estimates of the parameters.
-The functions in <code>evoTS</code> calculating log-likelihood surfaces
-report the upper and lower parameter estimates that are within two
-support units of the best estimate as a way to assess uncertainty in
-parameters (Edwards 1992). While standard errors computed from the
-Hessian matrix are always symmetric around the point estimate, the
-log-likelihood surface might not be (multivariate) normal. The reported
-upper and lower parameter estimates are therefore often not symmetrical
-around the maximum likelihood parameter estimates.</p></li>
+log-likelihood is an indication that we should be careful putting too
+much emphasis on only the maximum-likelihood (best) estimates of the
+parameters. The functions in <code>evoTS</code> calculating
+log-likelihood surfaces report the upper and lower parameter estimates
+that are within two support units of the best estimate as a way to
+assess uncertainty in parameters (Edwards 1992). While standard errors
+computed from the Hessian matrix are always symmetric around the point
+estimate, the log-likelihood surface might not be (multivariate) normal.
+The reported upper and lower parameter estimates are therefore often not
+symmetrical around the maximum likelihood parameter estimates.</p></li>
 <li><p>Estimating parameters in a model using maximum likelihood always
 run the risk of returning parameters from a local and not a global
-optimum. Investigating the support surface for combinations of
-parameters is one way to explore the topology of the
+optimum in the likelihood landscape. Investigating the support surface
+for combinations of parameters is one way to explore the topology of the
 likelihood-surface.</p></li>
 <li><p>Ridges in the log-likelihood surface can make it challenging to
 identify maximum likelihood estimates of the model parameters in certain
@@ -406,21 +396,22 @@ surfaces for univariate models in <code>evoTS</code> and
 <code>loglik.surface.URW</code>, <code>loglik.surface.GRW</code>,
 <code>loglik.surface.OU</code>). These functions need a
 <code>paleoTS</code> object and vectors containing candidate values for
-the parameters to be evaluated. Which candidate values to investigate to
-get an overview of the likelihood surface is trial-and-error, but the
-maximum likelihood estimate of the parameter should always be in the
-interval. The vectors given to the arguments <code>vstep.vec</code> and
-<code>r.vec</code> defines the pairwise combinations of parameters for
-which the function will estimate the log-likelihood. The resolution of
-the input vectors therefore determines how accurate the visual
-representation of the support surface is, including the returned upper
-and lower estimates printed in the console. A higher resolution gives
-better precision, but demands more computation time. Note that the
-computed support surface is conditional on the best estimates of the
-other model parameters that are not part of the support surface (e.g.,
-the estimated ancestral trait value is assumed to be 3.8868739 in the
-example below). One way to define the candidate values is to use the
-<code>seq</code> function. <br></p>
+the parameters to be evaluated. Which candidate values to investigate is
+trial-and-error, but the maximum likelihood estimate of the parameter
+should always be in the interval.</p>
+<p>For the decelerated model of evolution, the vectors given to the
+arguments <code>vstep.vec</code> and <code>r.vec</code> define the
+pairwise combinations of parameters for which the function will estimate
+the log-likelihood. The resolution of the input vectors therefore
+determines how accurate the visual representation of the support surface
+is, including the returned upper and lower estimates printed in the
+console. A higher resolution gives better precision, but demands more
+computation time. Note that the computed support surface is conditional
+on the best estimates of the other model parameters that are not part of
+the support surface (e.g., the estimated ancestral trait value is
+assumed to be 3.8868739 in the example below).</p>
+<p>One way to define the candidate values is to use the <code>seq</code>
+function. <br></p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">loglik.surface.decel</span>(ln.diameter, <span class="at">vstep.vec =</span> <span class="fu">seq</span>(<span class="dv">0</span>,<span class="fl">1.2</span>,<span class="fl">0.01</span>), <span class="at">r.vec =</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">5</span>,<span class="dv">0</span>,<span class="fl">0.01</span>))</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>      lower upper</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>vstep  <span class="fl">0.17</span>  <span class="fl">1.00</span></span>
@@ -428,9 +419,10 @@ example below). One way to define the candidate values is to use the
 <p><br><img src="decel_logl_surface.png" width="80%" style="display: block; margin: auto;"><br> From the likelihood surface and from the printed confidence
 intervals, we see that <em>r</em> values between -3.70 and -0.28 are
 within 2 log-likelihood units from the best estimate for this parameter.
-This suggests it is hard to exclude the possibility that the half-life
-of the decay in the rate of evolution is as much as 248% (34,045 years)
-or as low as 19% (2,608 years) of the time-interval investigated.</p>
+This suggests we should be careful to exclude the possibility that the
+half-life of the decay in the rate of evolution is as much as 248%
+(34,045 years) or as low as 19% (2,608 years) of the investigated
+time-interval.</p>
 </div>
 <div class="section level3">
 <h3 id="accelerated-evolution-model">4.2 Accelerated-evolution model<a class="anchor" aria-label="anchor" href="#accelerated-evolution-model"></a>
@@ -486,18 +478,18 @@ decelerated model.</p>
 <div class="section level3">
 <h3 id="ornstein-uhlenbeck-model-with-moving-optimum-">4.4 Ornstein-Uhlenbeck model with moving optimum.<a class="anchor" aria-label="anchor" href="#ornstein-uhlenbeck-model-with-moving-optimum-"></a>
 </h3>
-<p>An Ornstein-Uhlebeck model describe the evolution of a trait towards
+<p>An Ornstein-Uhlebeck model describes the evolution of a trait towards
 an optimum. The <code>paleoTS</code> package includes an
 Ornstein-Uhlenbeck (OU) model of evolution with a single, fixed optimum
-(Hunt <em>et al.</em> 2008), i.e., it portrays evolutionary adaptation
-of a trait towards a fixed peak on the adaptive landscape. However,
-peaks in the adaptive landscape might not be fixed and the
-<code>evoTS</code> package contains functions to fit OU models where the
-optimum (peak) is constantly changing according to an unbiased random
-walk. Such a model was proposed by Hansen <em>et al.</em> (2008) for
-analyses of phylogenetic comparative data. Adjusted to describe
-evolution of a single lineage, the expected trait mean and its variance
-and covariance are given by the following expressions: <br><br><span class="math display">\[E[z_{i}] = e^{(-\alpha t_{i})}z_{0} +
+(Hunt <em>et al.</em> 2008), portraying evolutionary adaptation of a
+trait towards a fixed peak on the adaptive landscape. However, peaks in
+the adaptive landscape might not be fixed and the <code>evoTS</code>
+package contains functions to fit OU models where the optimum (peak) is
+constantly changing position according to an unbiased random walk. Such
+a model was proposed by Hansen <em>et al.</em> (2008) for analyses of
+phylogenetic comparative data. Adjusted to describe phenotypic evolution
+within a single lineage, the expected trait mean and its variance and
+covariance are given by the following expressions: <br><br><span class="math display">\[E[z_{i}] = e^{(-\alpha t_{i})}z_{0} +
 (1-e^{-\alpha t_{i}})\theta\]</span> <br><span class="math display">\[Var[z_{i}] =\left[ \frac{
 \sigma^{2}_{step}+\sigma^{2}_{\theta}}{2\alpha} \right] \left(
 1-e^{(-2\alpha t_{i})}\right) + \sigma^{2}_{\theta}t_{i}
@@ -665,8 +657,8 @@ for the <em>vstep</em> and <em>alpha</em> parameters are constrained to
 be equal or larger than 0.</p>
 <p>Here, we run the <code>opt.joint.OUBM</code> function (assuming the
 trait value is perfectly adapted at the start of the sequence) from 100
-different starting points (i.e., different initial parameter values):
-<br></p>
+different starting points (i.e., 100 different initial parameter
+values): <br></p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">opt.joint.OUBM</span>(ln.diameter, <span class="at">opt.anc =</span> <span class="cn">TRUE</span>, <span class="at">iterations =</span> <span class="dv">100</span>)</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>logL</span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="fl">78.5667</span></span>
@@ -703,10 +695,7 @@ model among the 100 model runs is identical to the score when we ran the
 model without any iterations. However, the maximum likelihood parameter
 estimates are slightly different (e.g., a difference in the sixth
 decimal for the <em>vstep</em> parameter), but not to an extent that
-changes our interpretation of the trait dynamics. This suggests that the
-detected peak in the log-likelihood landscape is not completely smooth,
-and that there exists minuscule spikes very close to each other at the
-peak.</p>
+changes our interpretation of the trait dynamics.</p>
 <p>The <code>evoTS</code> package contains functions to estimate
 likelihood surfaces for the different versions of the OU models
 (<code>loglik.surface.OU</code> and <code>loglik.surface.OUBM</code>).
@@ -727,16 +716,11 @@ parameters from the model output.</p>
 according to AICc among the three versions of the OU model we
 investigated. The maximum likelihood estimate of the half-life from this
 OU model is <span class="math inline">\(log(2)/11.8941\)</span> =
-0.0583. Since we scaled the time-interval of the time-series to unit
-length (i.e., the time from the start to the end of the time-series is
-1), this means it takes about 6% of the length of our data to get
-half-way to the optimal value. The total length of our time-series in
-years is 13,728, which means it takes (13728 * 0.0583 =) 800 years to
-get half-way to the optimum. The maximum likelihood estimate of the
-stationary variance is <span class="math inline">\(0.2730/(2*11.8941)\)</span> = 0.0115. But these
-are only point-estimates. We can explore the support interval around
-these point estimates of the half-life and the stationary variance using
-the <code>loglik.surface.OU</code> function. <br></p>
+0.0583. The maximum likelihood estimate of the stationary variance is
+<span class="math inline">\(0.2730/(2*11.8941)\)</span> = 0.0115. But
+these are only point-estimates. We can explore the support interval
+around these point estimates of the half-life and the stationary
+variance using the <code>loglik.surface.OU</code> function. <br></p>
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">loglik.surface.OU</span>(ln.diameter, <span class="at">stat.var.vec=</span><span class="fu">seq</span>(<span class="dv">0</span>,<span class="fl">0.1</span>,<span class="fl">0.001</span>), <span class="at">h.vec=</span><span class="fu">seq</span>(<span class="dv">0</span>,<span class="fl">0.4</span>,<span class="fl">0.001</span>))</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>      lower upper</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>stationary variance <span class="fl">0.007</span> <span class="fl">0.053</span></span>
@@ -744,8 +728,8 @@ the <code>loglik.surface.OU</code> function. <br></p>
 <p><br><img src="OU_logl_surface.png" width="80%" style="display: block; margin: auto;"><br></p>
 <p>Half-life values up to 30% of the total length of the time-series are
 within two log-likelihood units from the best estimate. This indicates
-that substantially slower evolution than the point estimate of 6% cannot
-be ruled out as a possibility.</p>
+that substantially slower evolution than the point estimate of a 6%
+half-life cannot be ruled out as a possibility.</p>
 </div>
 <div class="section level3">
 <h3 id="fitting-all-univariate-models-in-evots-and-paleots">4.5 Fitting all univariate models in <code>evoTS</code> and
@@ -779,9 +763,9 @@ shift)<a class="anchor" aria-label="anchor" href="#fitting-combinations-of-univa
 <p>There is no a priori reason why a lineage should follow only one mode
 of evolution. The <code>evoTS</code> package allows for investigating
 all pairwise model combinations of the models stasis, unbiased random
-walk (URW), trend (GRW) and Ornstein-Uhlenbeck (OU) process with a fixed
-optimum using the function <code>fit.mode.shift</code>. It is possible
-to either investigate specific shift points using the argument
+walk (URW), trend (GRW) and an Ornstein-Uhlenbeck (OU) process with a
+fixed optimum using the function <code>fit.mode.shift</code>. It is
+possible to either investigate specific shift points using the argument
 <code>shift.point</code> or investigate all possible shift points, like
 below. <br></p>
 <div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">fit.mode.shift</span>(ln.diameter, <span class="at">model1 =</span> <span class="st">"URW"</span>, <span class="at">model2 =</span> <span class="st">"URW"</span>, <span class="at">minb =</span> <span class="dv">10</span>)</span>
@@ -825,8 +809,8 @@ below. <br></p>
 <span id="cb14-39"><a href="#cb14-39" aria-hidden="true" tabindex="-1"></a><span class="fu">attr</span>(,<span class="st">"class"</span>)</span>
 <span id="cb14-40"><a href="#cb14-40" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">"paleoTSfit"</span></span></code></pre></div>
 <p><br></p>
-<p>It is also possible to use the function <code>fit.mode.shift</code>
-to fit all pairwise combinations of the four models by setting the
+<p>The function <code>fit.mode.shift</code> can also be used to fit all
+pairwise combinations of the four models by setting the
 <code>fit.all</code> argument as <code>TRUE.</code> If a shift point is
 not defined (using the <code>shift.point</code> argument), all possible
 shift points are investigated for all models. <br></p>
@@ -890,8 +874,8 @@ the lowest AICc value among the 16 candidate models is also given. An
 OU-Stasis model with a shift point at sample (population) 38 has the
 best relative fit according to AICc. Note, however, that the
 model-combination Trend-OU (GRW-OU) has an almost equal AICc score
-relative to the best model. Also the combination of OU models (each with
-their own fixed optimum) shows a good relative fit to the data.</p>
+relative to the best model. Also the combination of two OU models (each
+with their own fixed optimum) shows a good relative fit to the data.</p>
 </div>
 <div class="section level3">
 <h3 id="simulating-data">4.8 Simulating data<a class="anchor" aria-label="anchor" href="#simulating-data"></a>
@@ -940,24 +924,23 @@ are described by <span class="math inline">\(R_{m}\)</span> matrices,
 <br> The current implementation of the multivariate unbiased random
 walk model allows testing six variants of the model. All variants of the
 model can be fitted using different specifications of <code>R</code> and
-<code>r</code> in the <code>fit.multivariate.URW</code> function.</p>
-<p>The <code>R</code> option defines which elements in the
-<strong>R</strong> matrix that will be estimated. There are two options
-for the structure of the <strong>R</strong> matrix. Setting
-<code>R = "diagonal"</code> means only the diagonal elements of the
-<strong>R</strong> matrix will be estimated while off-diagonal elements
-are set to 0 (see panel a below). This parameterization of the
-<strong>R</strong> matrix means the changes in the traits are assumed to
-be uncorrelated. Setting <code>R = "symmetric"</code> means all (both
-diagonal and off-diagonal) elements in the <strong>R</strong> matrix are
-estimated (panel b below). This parameterization means the changes in
-the traits are assumed to be correlated, i.e., that evolutionary changes
-are non-independent. <br><br><img src="R_matrices.png" width="60%" style="display: block; margin: auto;"><br><br> The argument <code>r</code> in the
+<code>r</code> arguments in the <code>fit.multivariate.URW</code>
+function.</p>
+<p>There are two options for the structure of the <strong>R</strong>
+matrix. Setting <code>R = "diagonal"</code> means only the diagonal
+elements of the <strong>R</strong> matrix will be estimated while
+off-diagonal elements are set to 0 (see panel a below). This
+parameterization of the <strong>R</strong> matrix means the changes in
+the traits are assumed to be uncorrelated. Setting
+<code>R = "symmetric"</code> means all (both diagonal and off-diagonal)
+elements in the <strong>R</strong> matrix are estimated (panel b below).
+This parameterization estimates how changes in the traits are
+correlated. <br><br><img src="R_matrices.png" width="60%" style="display: block; margin: auto;"><br><br> The argument <code>r</code> in the
 <code>fit.multivariate.URW</code> function defines whether the rate of
 change is assumed constant (“fixed”), asymptotically decreasing
 (“decel”), or asymptotically increasing (“accel”) with time. Defining
 <code>r</code> as “fixed” means a regular multivariate unbiased random
-walk will be fitted to the data. The “decel” and “accel” options fit
+walk is fitted to the data. The “decel” and “accel” options fit
 multivariate versions of the decelerated and accelerated versions of the
 unbiased random walk, respectively. These latter two models deviate from
 the multivariate unbiased random walk in that the distance matrix
@@ -966,7 +949,7 @@ acceleration parameter, <em>r</em>, that is jointly estimated during the
 maximum likelihood search for the <strong>R</strong> matrix. A common
 <em>r</em> parameter is assumed for all the traits.</p>
 <p>To use the multivariate models, we first need multivariate data
-(e.g., at least two traits or variables).</p>
+(i.e., at least two traits or variables).</p>
 <p>The data set on phenotypic evolution in <em>Stephanodiscus
 yellowstonensis</em> (Theriot et al. 2006) contains data on the number
 of ribs in addition to the size of the diameter we have analyzed so far.
@@ -978,10 +961,10 @@ convert the time vector to unit length. <br></p>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="do">## Convert the time vector to unit length</span></span>
 <span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> ln.ribs<span class="sc">$</span>tt<span class="ot">&lt;-</span>ln.ribs<span class="sc">$</span>tt<span class="sc">/</span>(<span class="fu">max</span>(ln.ribs<span class="sc">$</span>tt))</span></code></pre></div>
-<p><br> To make a multivariate data set ready to be analyzed in
-<code>evoTS</code>, we combine the two <code>paleoTS</code> objects into
-a multivariate <code>evoTS</code> object using the
-<code>make.multivar.evoTS</code> function. <br></p>
+<p><br> We combine the two <code>paleoTS</code> objects into a
+multivariate <code>evoTS</code> object using the
+<code>make.multivar.evoTS</code> function to make a multivariate data
+set ready to be analyzed in <code>evoTS</code>. <br></p>
 <div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> diam.ln_ribs.ln<span class="ot">&lt;-</span><span class="fu">make.multivar.evoTS</span>(ln.diameter, ln.ribs)</span></code></pre></div>
 <p><br> We can use the <code>plotevoTS.multivariate</code> function to
 have a look at the combined data set. <br></p>
@@ -990,7 +973,7 @@ have a look at the combined data set. <br></p>
 change in a coordinated fashion.</p>
 <p>We first fit a multivariate unbiased random walk model where the
 off-diagonal elements in the <strong>R</strong> matrix are zero, and the
-rate of evolution is assumes constant. This is equivalent as fitting to
+rate of evolution is assumes constant. This is equivalent as fitting two
 separate univariate unbiased random walks models to each of the two
 time-series. <br></p>
 <div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">fit.multivariate.URW</span>(diam.ln_ribs.ln, <span class="at">R =</span> <span class="st">"diag"</span>, <span class="at">r =</span> <span class="st">"fixed"</span>)</span>
@@ -1082,15 +1065,16 @@ fixed through time. <br></p>
 <span id="cb20-37"><a href="#cb20-37" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb20-38"><a href="#cb20-38" aria-hidden="true" tabindex="-1"></a><span class="fu">attr</span>(,<span class="st">"class"</span>)</span>
 <span id="cb20-39"><a href="#cb20-39" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">"paleoTSfit"</span></span></code></pre></div>
-<p><br> A multivariate random walk has a much better fit compared to
-treating the traits univariately according to AICc. This indicates that
-the traits are not evolving independently of each other. The estimated
-<strong>R</strong> matrix indicates that the first trait has about half
-the rate of evolution as the second trait and that there is substantial
-covariance in the evolutionary changes of the two traits. The
-evolutionary correlation can be computed by standardizing the covariance
-with the product of the standard deviations on the diagonal (This can
-also be done using the function <code>cov2cor</code> in the
+<p><br> A multivariate random walk with correlated changes has a much
+better fit compared to the model assuming uncorrelated changes in the
+traits according to AICc. This indicates that the traits are not
+evolving independently of each other. The estimated <strong>R</strong>
+matrix indicates that the first trait has about half the rate of
+evolution as the second trait and that there is substantial covariance
+in the evolutionary changes of the two traits. How the two traits
+correlate in their changes can be computed by standardizing the
+covariance with the product of the standard deviations on the diagonal
+(This can also be done using the function <code>cov2cor</code> in the
 <code>stats</code> package). <br></p>
 <div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fl">0.3780642</span><span class="sc">/</span>(<span class="fu">sqrt</span>(<span class="fl">0.2680092</span>)<span class="sc">*</span><span class="fu">sqrt</span>(<span class="fl">0.5524616</span>))</span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="fl">0.9825161</span></span>
@@ -1104,7 +1088,7 @@ also be done using the function <code>cov2cor</code> in the
 <span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>[<span class="dv">2</span>,] <span class="fl">0.982516</span> <span class="fl">1.000000</span></span></code></pre></div>
 <p><br> A correlation of 0.98 basically means the two traits evolve as
 a single trait, since at least part of the deviation from a correlation
-of unity is due to measurement error.</p>
+of 1 is due to measurement error.</p>
 <p>Note that the <strong>R</strong> matrix is not describing the
 underlying genetic or phenotypic (co)variances of the traits. The
 <strong>R</strong> matrix is therefore not the same as a
@@ -1117,7 +1101,7 @@ Felsenstein 1988). Estimating <strong>R</strong> can therefore aid in
 evolutionary interpretations of the fossil record anchored in
 evolutionary quantitative genetics.</p>
 <p>Standard errors of the elements in the R matrix can be approximated
-by the square roots of the diagonal elements of the inverse of the
+by the square root of the diagonal elements of the inverse of the
 negative of the Hessian matrix. These standard errors are automatically
 estimated and reported if the argument <code>hess=TRUE</code> in
 defined.</p>
@@ -1253,8 +1237,7 @@ have a better fit than the multivariate random walk models. <br></p>
 <p><br> The multivariate decelerated evolution model has a similar
 (but worse) fit to the data compared to the multivariate unbiased random
 walk model with a single <strong>R</strong> matrix, but is outcompeted
-by the model with a mode shift estimating two <strong>R</strong>
-matrices.</p>
+by the model estimating two <strong>R</strong> matrices.</p>
 </div>
 <div class="section level3">
 <h3 id="multivariate-ornstein-uhlenbeck-models">5.2 Multivariate Ornstein-Uhlenbeck models<a class="anchor" aria-label="anchor" href="#multivariate-ornstein-uhlenbeck-models"></a>
@@ -1265,22 +1248,21 @@ Adapted to describe evolution of traits within the same lineage, the
 multivariate Ornstein-Uhlenbeck process is described by the following
 differential equation (Bartoszek <em>et al.</em> 2012; Reitan <em>et
 al.</em> 2012; Clavel <em>et al.</em> 2015): <br><br><span class="math display">\[dY = A(\theta(t)-Y(t))dt + RdW(t)\]</span> <br>
-where <strong>A</strong> is square matrix with dimensions equal to the
-number of investigated traits that describes the rate of evolution
-toward the optimal trait values (<strong>A</strong> is often called the
-pull matrix), <span class="math inline">\(\theta\)</span> is a vector
-containing the optimum for each trait, <strong>R</strong> is a square
-matrix with dimensions equal to the number of investigated traits
-describing the stochastic changes in the traits (<strong>R</strong> is
-often called the drift matrix), and <span class="math inline">\(W\)</span> is the diffusion parameter. Under the
+where <strong>A</strong> is a square matrix that describes the rate of
+evolution toward the optimal trait values and with dimensions equal to
+the number of investigated traits (<strong>A</strong> is often called
+the pull matrix), <span class="math inline">\(\theta\)</span> is a
+vector containing the optimum for each trait, <strong>R</strong> is a
+square matrix describing the stochastic changes in the traits and with
+dimensions equal to the number of investigated traits
+(<strong>R</strong> is often called the drift matrix), and <span class="math inline">\(W\)</span> is the diffusion parameter. Under the
 assumption that the we only have one selective regime (optimum) per
 trait, the expected trait mean of the Ornstein-Uhlenbeck process is the
 weighted sum of the optimum and the root value (Hansen 1997): <br><br><span class="math display">\[E\left[Z_{i}\right]=
 e^{(-At_{i})}z_{0} + (1-e^{(-At_{i})})\theta\]</span> <br> where <span class="math inline">\(Z_{i}\)</span> is a vector containing the expected
 trait values for sample <em>i</em>, <span class="math inline">\(z_{0}\)</span> is a vector containing the
 ancestral trait means, <span class="math inline">\(\theta\)</span> is a
-vector containing the optima, <strong>A</strong> is the pull matrix
-measuring the rate of adaptation to the optimum, and <span class="math inline">\(t_{i}\)</span> is the time interval from the
+vector containing the optima, and <span class="math inline">\(t_{i}\)</span> is the time interval from the
 ancestral population mean (the start of the time-series, which has a
 time of 0) to the <em>i</em>th population mean.</p>
 <p>The variance and covariance of sample/population means are given by
@@ -1308,7 +1290,7 @@ being tested using the multivariate OU into four different types:
 <ul>
 <li><p>Independent evolution (only diagonal elements in both the
 <strong>A</strong> and the <strong>R</strong> matrix, i.e., equivalent
-as fitting univariate models to each trait separately.)</p></li>
+to fitting univariate models to each trait separately.)</p></li>
 <li><p>Independent adaptation (only diagonal elements in the
 <strong>A</strong> matrix while the <strong>R</strong> matrix is
 completely parameterized. In such a model, the traits are adapting
@@ -1330,6 +1312,16 @@ are parameterized in the <strong>A</strong> matrix. The stochastic
 changes in the trait can be either correlated or non-correlated.
 <br></p></li>
 </ul>
+<p>For a data set consisting of two traits, there are four possible
+parameterizations of the <strong>A</strong> matrix (see panels below).
+Independent adaptation of both traits (panel a), trait Y affecting the
+optimum of trait X (panel b), trait X affecting the optimum of trait Y,
+and the traits X and Y affecting each others optima (panel d). Each of
+these four ways of parameterizing the <strong>A</strong> matrix can be
+combined with an <strong>R</strong> matrix with elements only on the
+diagonal (the stochastic changes in the traits are uncorrelated) or a
+completely parameterized <strong>R</strong> matrix (the stochastic
+changes in the traits are correlated).<br><br><img src="A_matrices.png" width="60%" style="display: block; margin: auto;"><br></p>
 <p>An <strong>A</strong> matrix with off-diagonal elements investigates
 <a href="https://en.wikipedia.org/wiki/Granger_causality" class="external-link">(Granger)</a>
 causality between the two traits/variables (Granger 1969; Schweder
@@ -1346,31 +1338,21 @@ causality. And while a correlation is symmetric (the correlation between
 X and Y is the same as the correlation between Y and X), this is not
 necessarily the case for Granger causality. X can (Granger) cause Y,
 without Y Granger-causing X.</p>
-<p>For a data set consisting of two traits, there are four possible
-parameterizations of the <strong>A</strong> matrix (see panels below).
-Independent adaptation of both traits (panel a), trait Y affecting the
-optimum of trait X (panel b), trait X affecting the optimum of trait Y,
-and the traits X and Y affecting each others optima (panel d). Each of
-these four ways of parameterizing the <strong>A</strong> matrix can be
-combined with an <strong>R</strong> matrix with elements only on the
-diagonal (the stochastic changes in the traits are uncorrelated) or a
-completely parameterized <strong>R</strong> matrix (the stochastic
-changes in the traits are correlated).<br><br><img src="A_matrices.png" width="60%" style="display: block; margin: auto;"><br> It is also possible to implement a model where the last trait in
-the data set evolves as an unbiased random walk which affects the optima
-for all other traits in the data set. This model can be fitted by
-defining <code>A.matrix ="OUBM"</code>, which sets the last diagonal
-element in the <strong>A</strong> matrix to zero. A zero diagonal
-element in the <strong>A</strong> matrix means there is no tendency for
-this trait to evolve towards an optimal value (which is the case for an
-unbiased random walk). Setting <code>A.matrix ="OUBM"</code> will
-automatically define the <strong>R</strong> matrix to only have diagonal
-elements (i.e., this option for the <strong>A</strong> matrix will
-override how the <strong>R</strong> matrix is defined by the user). The
-reason for this is that the stochastic changes in the variable evolving
-as an unbiased random walk will affect the optimum of the other traits,
-which means the stochastic trait dynamics of the traits evolving
-according to an OU model should be independent of the changes in the
-optimum.</p>
+<p>It is also possible to implement a model where the last trait in the
+data set evolves as an unbiased random walk which affects the optima for
+all other traits in the data set. This model can be fitted by defining
+<code>A.matrix ="OUBM"</code>, which sets the last diagonal element in
+the <strong>A</strong> matrix to zero. A zero diagonal element in the
+<strong>A</strong> matrix means there is no tendency for this trait to
+evolve towards an optimal value (which is the case for an unbiased
+random walk). Setting <code>A.matrix ="OUBM"</code> will automatically
+define the <strong>R</strong> matrix to only have diagonal elements
+(i.e., this option for the <strong>A</strong> matrix will override how
+the <strong>R</strong> matrix is defined by the user). The reason for
+this is that the stochastic changes in the variable evolving as an
+unbiased random walk will affect the optimum of the other traits, which
+means the stochastic trait dynamics of the traits evolving according to
+an OU model should be independent of the changes in the optimum.</p>
 <p>Multivariate Ornstein-Uhlenbeck models can be fitted using two
 different functions in <code>evoTS</code>. The function
 <code>fit.multivariate.OU</code> allows the user to use pre-defined
@@ -1397,16 +1379,15 @@ matrices) or whether only the adaptation part of the trait dynamics is
 independent in the two traits (diagonal <strong>A</strong> matrix and
 symmetric <strong>R</strong> matrix). We will test these hypotheses
 using the <code>fit.multivariate.OU</code> function.</p>
-<p>Note that complex multivariate models (like the multivariate OU
-model) demand much more computational time compared to univariate models
-and rather simple multivariate models (like the multivariate unbiased
-random walk). The computational time grows exponentially with the
-dimension of the variance–covariance matrix (e.g., Felsenstein 1973;
-Hadﬁeld and Nakagawa 2010; Freckleton 2012). The time it takes to fit
-the multivariate OU models therefore both depends on the number of
-traits and the length of the time series. Setting
-<code>trace = TRUE</code> allows the user to keep an eye on how the
-optimization proceeds. <br></p>
+<p>Note that the multivariate OU model demands much more computational
+time compared to univariate models and simple multivariate models (like
+the multivariate unbiased random walk). The computational time grows
+exponentially with the dimension of the variance–covariance matrix
+(e.g., Felsenstein 1973; Hadﬁeld and Nakagawa 2010; Freckleton 2012).
+The time it takes to fit the multivariate OU models therefore both
+depends on the number of traits and the length of the time series.
+Setting <code>trace = TRUE</code> allows the user to keep an eye on how
+the optimization proceeds. <br></p>
 <div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> OUOU.model1<span class="ot">&lt;-</span><span class="fu">fit.multivariate.OU</span>(diam.ln_ribs.ln, <span class="at">A.matrix=</span><span class="st">"diag"</span>, <span class="at">R.matrix=</span><span class="st">"diag"</span>)</span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> OUOU.model2<span class="ot">&lt;-</span><span class="fu">fit.multivariate.OU</span>(diam.ln_ribs.ln, <span class="at">A.matrix=</span><span class="st">"diag"</span>, <span class="at">R.matrix=</span><span class="st">"symmetric"</span>)</span>
 <span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> OUOU.model1<span class="sc">$</span>AICc;OUOU.model2<span class="sc">$</span>AICc</span>
@@ -1478,7 +1459,7 @@ correlation of the stochastic changes is substantial, but much reduced
 compared to the estimate of the correlation from the multivariate
 unbiased random walk. This is because a substantial part of the trait
 dynamics in a multivariate OU model is due to the deterministic approach
-of the traits towards the optima. The model has an almost identical
+of the traits toward the optima. The model has an almost identical
 relative fit compared to the multivariate unbiased random walk according
 to AICc, but is outcompeted by the unbiased random walk with a mode
 shift.</p>
@@ -1499,20 +1480,19 @@ The best model we have investigated remains the multivariate unbiased
 random walk with a mode shift, allowing two different unbiased random
 walks to explain the trait dynamics.</p>
 <p>However, before we trust this result, we should make sure to run the
-multivariate models from different initial starting values, this to
-increase our chances of finding a potentially higher peak on the
-log-likelihood surface. The number of iterations can be defined by the
+multivariate models from different initial starting values to increase
+our chances of finding a potentially higher peak on the log-likelihood
+surface. The number of iterations can be defined by the
 <code>iterations</code> argument. The starting values are drawn from a
 normal distribution with a standard deviation of one. The user can
 define a larger or smaller standard deviation using the argument
-<code>iter.sd</code>. <code>trace = TRUE</code> allows the user to keep
-an eye on how the optimization proceeds.</p>
+<code>iter.sd</code>.</p>
 <p>All models than can be investigated using the
 <code>fit.multivariate.OU</code> function can also be investigated using
 the <code>fit.multivariate.OU.user.defined</code> function as this
 function lets the user define which elements in the <strong>A</strong>
-and <strong>R</strong> matrices that should be parameterized. Which
-elements in <strong>A</strong> and <strong>R</strong> that should be
+and <strong>R</strong> matrices that are parameterized. Which elements
+in <strong>A</strong> and <strong>R</strong> that should be
 parameterized or set to zero are given by 1 and 0 respectively. We can
 for example fit a model with a lower triangle <strong>A</strong> matrix
 and a symmetric <strong>R</strong> matrix. A lower triangle
@@ -1563,7 +1543,7 @@ has no tendency (or ability) to evolve towards an optimum.<br><br></p>
 <div class="section level4">
 <h4 id="initial-parameter-values">5.2.1 Initial parameter values<a class="anchor" aria-label="anchor" href="#initial-parameter-values"></a>
 </h4>
-<p>All the model fitting procedures to find maximum likelihood solutions
+<p>All model fitting procedures to find maximum likelihood solutions
 need initial starting values for the model parameters. Most of the
 starting values when fitting multivariate OU models are based on maximum
 likelihood parameter estimates of the univariate versions of the OU
@@ -1577,7 +1557,7 @@ returned saying “function cannot be evaluated at initial parameters”, it
 is recommended that the user sets the iteration option to 1
 (<code>iteration = 1</code>). The model fitting algorithm will then
 produce a set of (random) initial starting values and try to start the
-optimization procedure until it succeeds.</p>
+optimization procedure 100,000 times or until it succeeds.</p>
 <p>Another option is to define which initial parameter values the
 optimization procedure should start from. These values can be provided
 by setting the <code>user.init...</code> (e.g.,
@@ -1587,12 +1567,7 @@ user-specified initial values need to match the number of parameters to
 be estimated (e.g., <code>user.init.off.diag.R = 1</code> for a
 multivariate data set consisting of two traits,
 <code>user.init.off.diag.R = c(1,1,1)</code> if the data set contains
-three traits, etc.). It is usually the initial guess of the off-diagonal
-elements of the A and R matrices that prevents the optimization routine
-to work. It is therefore recommended to try to change these initial
-values before experimenting with different starting values for the
-diagonal elements in the <strong>A</strong> and <strong>R</strong>
-matrices.</p>
+three traits, etc.).</p>
 <p><br><br></p>
 </div>
 </div>
