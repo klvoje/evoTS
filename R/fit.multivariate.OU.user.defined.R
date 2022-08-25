@@ -170,17 +170,19 @@ fit.multivariate.OU.user.defined<-function (yy, A.user=NULL, R.user=NULL, method
 
 
      if (method == "Nelder-Mead")  {
-      www[[k]]<-optim(init.par, fn = logL.joint.multi.OUOU.user, yy = yy, A.user = A.user, R.user = R.user,
+      www[[k]]<-try(optim(init.par, fn = logL.joint.multi.OUOU.user, yy = yy, A.user = A.user, R.user = R.user,
                       locations.A = locations.A, location.diag.A = location.diag.A, location.upper.tri.A = location.upper.tri.A, location.lower.tri.A = location.lower.tri.A,
                       locations.R = locations.R, location.diag.R = location.diag.R, location.upper.tri.R = location.upper.tri.R,
-                       control = list(fnscale = -1, maxit=1000000, trace = trace), method = "Nelder-Mead", hessian = hess)
+                       control = list(fnscale = -1, maxit=1000000, trace = trace), method = "Nelder-Mead", hessian = hess), silent = TRUE)
+      if(inherits(www[[k]], "try-error") && grepl("function cannot be evaluated at initial parameters", attr(www[[k]], "condition")$message))
+           stop("The initial parameters did not work. Trying a new set of candidate starting values.")
       }
 
   if (method == "L-BFGS-B")  {
     www[[k]]<-optim(init.par, fn = logL.joint.multi.OUOU.user, yy = yy, A.user = A.user, R.user = R.user,
                     locations.A = locations.A, location.diag.A = location.diag.A, location.upper.tri.A = location.upper.tri.A, location.lower.tri.A = location.lower.tri.A,
                     locations.R = locations.R, location.diag.R = location.diag.R, location.upper.tri.R = location.upper.tri.R,
-                    control = list(fnscale = -1, maxit=1000000, trace = trace), method = "Nelder-Mead", hessian = hess, lower = lower.limit)
+                    control = list(fnscale = -1, maxit=1000000, trace = trace), method = "L-BFGS-B", hessian = hess, lower = lower.limit)
   }
     
     log.lik.tmp[k]<-www[[k]]$value

@@ -201,8 +201,11 @@ fit.multivariate.OU<-function (yy, A.matrix="diag", R.matrix="symmetric", method
 
 
      if (method == "Nelder-Mead")  {
-      www[[k]]<-optim(init.par, fn = logL.joint.multi.OUOU, yy = yy, A.matrix = A.matrix, R.matrix = R.matrix,
-                       control = list(fnscale = -1, maxit=1000000, trace = trace), method = "Nelder-Mead", hessian = hess)
+      www[[k]]<-try(optim(init.par, fn = logL.joint.multi.OUOU, yy = yy, A.matrix = A.matrix, R.matrix = R.matrix,
+                       control = list(fnscale = -1, maxit=1000000, trace = trace), method = "Nelder-Mead", hessian = hess), silent = TRUE)
+      if(inherits(www[[k]], "try-error") && grepl("function cannot be evaluated at initial parameters", attr(www[[k]], "condition")$message))
+        stop("The initial parameters did not work. Trying a new set of candidate starting values.")
+      
     }
     if (method == "L-BFGS-B")  {
       www[[k]]<-optim(init.par, fn = logL.joint.multi.OUOU, yy = yy, A.matrix = A.matrix, R.matrix = R.matrix,
