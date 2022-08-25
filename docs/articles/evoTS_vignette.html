@@ -92,7 +92,7 @@
                         <h4 data-toc-skip class="author">Kjetil L.
 Voje</h4>
             
-            <h4 data-toc-skip class="date">2022-08-24</h4>
+            <h4 data-toc-skip class="date">2022-08-25</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/klvoje/evoTS/blob/HEAD/vignettes/evoTS_vignette.Rmd" class="external-link"><code>vignettes/evoTS_vignette.Rmd</code></a></small>
       <div class="d-none name"><code>evoTS_vignette.Rmd</code></div>
@@ -1556,8 +1556,8 @@ depends on the nature of the data to be analyzed. If an error message is
 returned saying “function cannot be evaluated at initial parameters”, it
 is recommended that the user sets the iteration option to 1
 (<code>iteration = 1</code>). The model fitting algorithm will then
-produce a set of (random) initial starting values and try to start the
-optimization procedure 100,000 times or until it succeeds.</p>
+produce a set of (random) initial starting values and retry to start the
+optimization procedure 100,000 times.</p>
 <p>Another option is to define which initial parameter values the
 optimization procedure should start from. These values can be provided
 by setting the <code>user.init...</code> (e.g.,
