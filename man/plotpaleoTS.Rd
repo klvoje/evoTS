@@ -13,6 +13,8 @@ plotpaleoTS(
   pch = 19,
   lwd = 1.5,
   ylim = NULL,
+  xlab = NULL,
+  ylab = NULL,
   ...
 )
 }
@@ -32,6 +34,10 @@ plotpaleoTS(
 \item{lwd}{line width, defaults to 1.5}
 
 \item{ylim}{optional, y-limits of the plot}
+
+\item{xlab}{a title for the x axis}
+
+\item{ylab}{a title for the y axis}
 
 \item{...}{other arguments passed to plotting functions}
 }

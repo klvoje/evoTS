@@ -17,6 +17,10 @@
 #' @param lwd line width, defaults to 1.5
 #'
 #' @param ylim optional, y-limits of the plot
+#' 
+#' @param xlab a title for the x axis
+#' 
+#' @param ylab a title for the y axis
 #'
 #' @param ... other arguments passed to plotting functions
 #'
