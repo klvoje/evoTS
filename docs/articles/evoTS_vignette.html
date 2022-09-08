@@ -92,7 +92,7 @@
                         <h4 data-toc-skip class="author">Kjetil L.
 Voje</h4>
             
-            <h4 data-toc-skip class="date">2022-08-25</h4>
+            <h4 data-toc-skip class="date">2022-09-08</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/klvoje/evoTS/blob/HEAD/vignettes/evoTS_vignette.Rmd" class="external-link"><code>vignettes/evoTS_vignette.Rmd</code></a></small>
       <div class="d-none name"><code>evoTS_vignette.Rmd</code></div>
@@ -165,9 +165,9 @@ samples/populations in stead of relying on each separate estimate of a
 sample/population variance. There may be circumstances when estimating a
 pooled sample/population variance is not necessary (e.g., if sample size
 is high for all samples/populations) or beneficial (the hypothesis being
-tested demands individually estimatd sample variances). Whether sample
+tested demands individually estimated sample variances). Whether sample
 variances are pooled or not is controlled by setting
-<code>pool = TRUE</code> or <code>FALSE</code> when fittin models in
+<code>pool = TRUE</code> or <code>FALSE</code> when fitting models in
 <code>evoTS.</code></p>
 <p>Relative model fit in <code>evoTS</code> is evaluated based on the
 small sample-corrected version of the AICc (Akaike 1974; Burnham and
@@ -287,7 +287,7 @@ phyletic evolution is an unbiased random walk where the step variance is
 reduced exponentially through time (Voje 2020). This model is closely
 related to the early burst model developed for phylogenetic comparative
 data (e.g., Harmon <em>et al.</em> 2010, Cooper and Purvis 2010), but
-describes a reduced rate of evolution with timw within a lineage and not
+describes a reduced rate of evolution with time within a lineage and not
 within a clade. As for the random walk model (Hunt 2006), the expected
 evolutionary divergence between ancestor and descendant populations is
 always zero in the model of decelerated evolution. The expected trait
@@ -478,8 +478,8 @@ decelerated model.</p>
 <div class="section level3">
 <h3 id="ornstein-uhlenbeck-model-with-moving-optimum-">4.4 Ornstein-Uhlenbeck model with moving optimum.<a class="anchor" aria-label="anchor" href="#ornstein-uhlenbeck-model-with-moving-optimum-"></a>
 </h3>
-<p>An Ornstein-Uhlebeck model describes the evolution of a trait towards
-an optimum. The <code>paleoTS</code> package includes an
+<p>An Ornstein-Uhlenbeck model describes the evolution of a trait
+towards an optimum. The <code>paleoTS</code> package includes an
 Ornstein-Uhlenbeck (OU) model of evolution with a single, fixed optimum
 (Hunt <em>et al.</em> 2008), portraying evolutionary adaptation of a
 trait towards a fixed peak on the adaptive landscape. However, peaks in
@@ -1074,7 +1074,7 @@ evolution as the second trait and that there is substantial covariance
 in the evolutionary changes of the two traits. How the two traits
 correlate in their changes can be computed by standardizing the
 covariance with the product of the standard deviations on the diagonal
-(This can also be done using the function <code>cov2cor</code> in the
+(this can also be done using the function <code>cov2cor</code> in the
 <code>stats</code> package). <br></p>
 <div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fl">0.3780642</span><span class="sc">/</span>(<span class="fu">sqrt</span>(<span class="fl">0.2680092</span>)<span class="sc">*</span><span class="fu">sqrt</span>(<span class="fl">0.5524616</span>))</span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="fl">0.9825161</span></span>
@@ -1105,7 +1105,7 @@ by the square root of the diagonal elements of the inverse of the
 negative of the Hessian matrix. These standard errors are automatically
 estimated and reported if the argument <code>hess=TRUE</code> in
 defined.</p>
-<p>Parameterizing multivariate models is demanding in relation to
+<p>Parameterizing multivariate models is demanding in terms of
 computational time (Felsenstein 1973; Hadfield and Nakagawa 2010;
 Freckleton 2012). Be aware that fitting the multivariate models to
 several traits with many samples (populations) will take much longer
@@ -1236,7 +1236,7 @@ have a better fit than the multivariate random walk models. <br></p>
 <span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="sc">-</span><span class="fl">350.7423</span></span></code></pre></div>
 <p><br> The multivariate decelerated evolution model has a similar
 (but worse) fit to the data compared to the multivariate unbiased random
-walk model with a single <strong>R</strong> matrix, but is outcompeted
+walk model with a single <strong>R</strong> matrix, but is out-competed
 by the model estimating two <strong>R</strong> matrices.</p>
 </div>
 <div class="section level3">
@@ -1461,7 +1461,7 @@ unbiased random walk. This is because a substantial part of the trait
 dynamics in a multivariate OU model is due to the deterministic approach
 of the traits toward the optima. The model has an almost identical
 relative fit compared to the multivariate unbiased random walk according
-to AICc, but is outcompeted by the unbiased random walk with a mode
+to AICc, but is out-competed by the unbiased random walk with a mode
 shift.</p>
 <p>We now test if a more complex parameterization of the
 <strong>A</strong> matrix gives us a better relative model fit according
@@ -1487,17 +1487,17 @@ surface. The number of iterations can be defined by the
 normal distribution with a standard deviation of one. The user can
 define a larger or smaller standard deviation using the argument
 <code>iter.sd</code>.</p>
-<p>All models than can be investigated using the
+<p>All models possible to investigate using the
 <code>fit.multivariate.OU</code> function can also be investigated using
-the <code>fit.multivariate.OU.user.defined</code> function as this
-function lets the user define which elements in the <strong>A</strong>
-and <strong>R</strong> matrices that are parameterized. Which elements
-in <strong>A</strong> and <strong>R</strong> that should be
-parameterized or set to zero are given by 1 and 0 respectively. We can
-for example fit a model with a lower triangle <strong>A</strong> matrix
-and a symmetric <strong>R</strong> matrix. A lower triangle
-<strong>A</strong> matrix means the diameter is affecting the optimum of
-the number of ribs. <br></p>
+the <code>fit.multivariate.OU.user.defined</code> function as the latter
+lets the user define which elements in the <strong>A</strong> and
+<strong>R</strong> matrices that are parameterized. Which elements in
+<strong>A</strong> and <strong>R</strong> that should be parameterized
+or set to zero are given by 1 and 0 respectively. We can for example fit
+a model with a lower triangle <strong>A</strong> matrix and a symmetric
+<strong>R</strong> matrix. A lower triangle <strong>A</strong> matrix
+means the diameter is affecting the optimum of the number of ribs.
+<br></p>
 <div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> A <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">1</span>), <span class="at">nrow=</span><span class="dv">2</span>, <span class="at">byrow=</span><span class="cn">TRUE</span>)</span>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> R <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>), <span class="at">nrow=</span><span class="dv">2</span>, <span class="at">byrow=</span><span class="cn">TRUE</span>)</span>
 <span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> OUOU.model6<span class="ot">&lt;-</span><span class="fu">fit.multivariate.OU.user.defined</span>(diam.ln_ribs.ln, <span class="at">A.user=</span>A, <span class="at">R.user=</span>R)</span>

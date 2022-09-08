@@ -33,7 +33,7 @@ The models implemented in `evoTS` build on the same assumptions as the models av
 
 All models in `evoTS` have been implemented using the joint parameterization routine from the `paleoTS` package. The optimization is therefore fit using the actual sample values, with the autocorrelation among samples accounted for in the log-likelihood function. 
 
-In `evoTS`, as in the `paleoTS` package, the default setting when fitting models is that the sample variance is pooled across all samples/populations. Pooling sample variance makes sense when the sample size is low for some or many of the samples/populations in a time series. Pooling sample variance allows for estimating a more precise sample/population variance common for all samples/populations in stead of relying on each separate estimate of a sample/population variance. There may be circumstances when estimating a pooled sample/population variance is not necessary (e.g., if sample size is high for all samples/populations) or beneficial (the hypothesis being tested demands individually estimatd sample variances). Whether sample variances are pooled or not is controlled by setting `pool = TRUE` or `FALSE` when fittin models in `evoTS.`
+In `evoTS`, as in the `paleoTS` package, the default setting when fitting models is that the sample variance is pooled across all samples/populations. Pooling sample variance makes sense when the sample size is low for some or many of the samples/populations in a time series. Pooling sample variance allows for estimating a more precise sample/population variance common for all samples/populations in stead of relying on each separate estimate of a sample/population variance. There may be circumstances when estimating a pooled sample/population variance is not necessary (e.g., if sample size is high for all samples/populations) or beneficial (the hypothesis being tested demands individually estimated sample variances). Whether sample variances are pooled or not is controlled by setting `pool = TRUE` or `FALSE` when fitting models in `evoTS.`
 
 Relative model fit in `evoTS` is evaluated based on the small sample-corrected version of the AICc (Akaike 1974; Burnham and Anderson 2002). 
 
@@ -113,7 +113,7 @@ The following univariate models have been implemented in the `evoTS` package:
 1.	Ornstein-Uhlenbeck processes where the optimum changes according to an unbiased random walk. 
 
 ## 4.1 Decelerated-evolution model
-The unbiased random walk model in the `paleoTS` package model evolutionary changes as random draws from a normal distribution with a mean of zero (Hunt 2006). Each draw from the normal distribution represents a discrete evolutionary "step" and the variance of the normal distribution is called the step variance. The decelerated model of phyletic evolution is an unbiased random walk where the step variance is reduced exponentially through time (Voje 2020). This model is closely related to the early burst model developed for phylogenetic comparative data (e.g., Harmon *et al.* 2010, Cooper and Purvis 2010), but describes a reduced rate of evolution with timw within a lineage and not within a clade. As for the random walk model (Hunt 2006), the expected evolutionary divergence between ancestor and descendant populations is always zero in the model of decelerated evolution. The expected trait mean and its variance and covariance are given by the following expressions:
+The unbiased random walk model in the `paleoTS` package model evolutionary changes as random draws from a normal distribution with a mean of zero (Hunt 2006). Each draw from the normal distribution represents a discrete evolutionary "step" and the variance of the normal distribution is called the step variance. The decelerated model of phyletic evolution is an unbiased random walk where the step variance is reduced exponentially through time (Voje 2020). This model is closely related to the early burst model developed for phylogenetic comparative data (e.g., Harmon *et al.* 2010, Cooper and Purvis 2010), but describes a reduced rate of evolution with time within a lineage and not within a clade. As for the random walk model (Hunt 2006), the expected evolutionary divergence between ancestor and descendant populations is always zero in the model of decelerated evolution. The expected trait mean and its variance and covariance are given by the following expressions:
 <br />
 <br />
 
@@ -252,7 +252,7 @@ The 3D plot can be rotated vertically and horizontally to get a better overview 
 
 
 ## 4.4 Ornstein-Uhlenbeck model with moving optimum.
-An Ornstein-Uhlebeck model describes the evolution of a trait towards an optimum. The `paleoTS` package includes an Ornstein-Uhlenbeck (OU) model of evolution with a single, fixed optimum (Hunt *et al.* 2008), portraying evolutionary adaptation of a trait towards a fixed peak on the adaptive landscape. However, peaks in the adaptive landscape might not be fixed and the `evoTS` package contains functions to fit OU models where the optimum (peak) is constantly changing position according to an unbiased random walk. Such a model was proposed by Hansen *et al.* (2008) for analyses of phylogenetic comparative data. Adjusted to describe phenotypic evolution within a single lineage, the expected trait mean and its variance and covariance are given by the following expressions:
+An Ornstein-Uhlenbeck model describes the evolution of a trait towards an optimum. The `paleoTS` package includes an Ornstein-Uhlenbeck (OU) model of evolution with a single, fixed optimum (Hunt *et al.* 2008), portraying evolutionary adaptation of a trait towards a fixed peak on the adaptive landscape. However, peaks in the adaptive landscape might not be fixed and the `evoTS` package contains functions to fit OU models where the optimum (peak) is constantly changing position according to an unbiased random walk. Such a model was proposed by Hansen *et al.* (2008) for analyses of phylogenetic comparative data. Adjusted to describe phenotypic evolution within a single lineage, the expected trait mean and its variance and covariance are given by the following expressions:
 <br /> 
 <br /> 
 $$E[z_{i}] = e^{(-\alpha t_{i})}z_{0} + (1-e^{-\alpha t_{i}})\theta$$
@@ -728,7 +728,7 @@ attr(,"class")
 [1] "paleoTSfit"
 ````
 <br /> 
-A multivariate random walk with correlated changes has a much better fit compared to the model assuming uncorrelated changes in the traits according to AICc. This indicates that the traits are not evolving independently of each other. The estimated **R** matrix indicates that the first trait has about half the rate of evolution as the second trait and that there is substantial covariance in the evolutionary changes of the two traits. How the two traits correlate in their changes can be computed by standardizing the covariance with the product of the standard deviations on the diagonal (This can also be done using the function `cov2cor` in the `stats` package).
+A multivariate random walk with correlated changes has a much better fit compared to the model assuming uncorrelated changes in the traits according to AICc. This indicates that the traits are not evolving independently of each other. The estimated **R** matrix indicates that the first trait has about half the rate of evolution as the second trait and that there is substantial covariance in the evolutionary changes of the two traits. How the two traits correlate in their changes can be computed by standardizing the covariance with the product of the standard deviations on the diagonal (this can also be done using the function `cov2cor` in the `stats` package).
 <br /> 
 ```{r eval = FALSE}
 > 0.3780642/(sqrt(0.2680092)*sqrt(0.5524616))
@@ -749,7 +749,7 @@ Note that the **R** matrix is not describing the underlying genetic or phenotypi
 
 Standard errors of the elements in the R matrix can be approximated by the square root of the diagonal elements of the inverse of the negative of the Hessian matrix. These standard errors are automatically estimated and reported if the argument `hess=TRUE` in defined. 
 
-Parameterizing multivariate models is demanding in relation to computational time (Felsenstein 1973; Hadfield and Nakagawa 2010; Freckleton 2012). Be aware that fitting the multivariate models to several traits with many samples (populations) will take much longer time than fitting univariate models to each trait separately. One way to somewhat follow the progress of the model fit is to set `trace = TRUE`. This allows the user to follow the progress of the optimization routine to minimize the likelihood function. 
+Parameterizing multivariate models is demanding in terms of computational time (Felsenstein 1973; Hadfield and Nakagawa 2010; Freckleton 2012). Be aware that fitting the multivariate models to several traits with many samples (populations) will take much longer time than fitting univariate models to each trait separately. One way to somewhat follow the progress of the model fit is to set `trace = TRUE`. This allows the user to follow the progress of the optimization routine to minimize the likelihood function. 
 
 The likelihood surface of multivariate models can contain several local peaks. It is therefore recommended to rerun the model from different starting points (i.e., different initial parameter values). The number of iterations can be defined by the iterations argument (e.g., `iterations = 10`). Initial values for the search algorithm are drawn from a normal distribution with a default standard deviation of 1. The user can set this standard deviation by the `iter.sd` argument. (e.g., `iter.sd = 0.5`).
 
@@ -848,7 +848,7 @@ We now check if the multivariate accelerated and decelerated models have a bette
 [1] -350.7423
 ````
 <br /> 
-The multivariate decelerated evolution model has a similar (but worse) fit to the data compared to the multivariate unbiased random walk model with a single **R** matrix, but is outcompeted by the model estimating two **R** matrices. 
+The multivariate decelerated evolution model has a similar (but worse) fit to the data compared to the multivariate unbiased random walk model with a single **R** matrix, but is out-competed by the model estimating two **R** matrices. 
 
 ## 5.2 Multivariate Ornstein-Uhlenbeck models
 Multivariate Ornstein-Uhlenbeck models allow for testing a range of different adaptive hypotheses of trait evolution, as detailed below. Adapted to describe evolution of traits within the same lineage, the multivariate Ornstein-Uhlenbeck process is described by the following differential equation (Bartoszek *et al.* 2012; Reitan *et al.* 2012; Clavel *et al.* 2015):
@@ -966,7 +966,7 @@ attr(,"class")
 [2,] 0.5576264 1.0000000
 ````
 <br /> 
-The model with independent adaptation and correlated stochastic changes is much better than the independent evolution model. The half-life for the log diameter and log number of ribs are 6.1% and 4.9% of the length of the time-series, which translates into (13728 * 0.061 =) 837 and (13728 * 0.049 =) 673 years respectively. The correlation of the stochastic changes is substantial, but much reduced compared to the estimate of the correlation from the multivariate unbiased random walk. This is because a substantial part of the trait dynamics in a multivariate OU model is due to the deterministic approach of the traits toward the optima. The model has an almost identical relative fit compared to the multivariate unbiased random walk according to AICc, but is outcompeted by the unbiased random walk with a mode shift. 
+The model with independent adaptation and correlated stochastic changes is much better than the independent evolution model. The half-life for the log diameter and log number of ribs are 6.1% and 4.9% of the length of the time-series, which translates into (13728 * 0.061 =) 837 and (13728 * 0.049 =) 673 years respectively. The correlation of the stochastic changes is substantial, but much reduced compared to the estimate of the correlation from the multivariate unbiased random walk. This is because a substantial part of the trait dynamics in a multivariate OU model is due to the deterministic approach of the traits toward the optima. The model has an almost identical relative fit compared to the multivariate unbiased random walk according to AICc, but is out-competed by the unbiased random walk with a mode shift. 
 
 We now test if a more complex parameterization of the **A** matrix gives us a better relative model fit according to AICc.
 <br /> 
@@ -984,7 +984,7 @@ None of the models with off-diagonal elements in the **A** matrix show a better 
 
 However, before we trust this result, we should make sure to run the multivariate models from different initial starting values to increase our chances of finding a potentially higher peak on the log-likelihood surface. The number of iterations can be defined by the `iterations` argument. The starting values are drawn from a normal distribution with a standard deviation of one. The user can define a larger or smaller standard deviation using the argument `iter.sd`.
 
-All models than can be investigated using the `fit.multivariate.OU` function can also be investigated using the `fit.multivariate.OU.user.defined` function as this function lets the user define which elements in the **A** and **R** matrices that are parameterized. Which elements in **A** and **R** that should be parameterized or set to zero are given by 1 and 0 respectively. We can for example fit a model with a lower triangle **A** matrix and a symmetric **R** matrix. A lower triangle **A** matrix means the diameter is affecting the optimum of the number of ribs. 
+All models possible to investigate using the `fit.multivariate.OU` function can also be investigated using the `fit.multivariate.OU.user.defined` function as the latter lets the user define which elements in the **A** and **R** matrices that are parameterized. Which elements in **A** and **R** that should be parameterized or set to zero are given by 1 and 0 respectively. We can for example fit a model with a lower triangle **A** matrix and a symmetric **R** matrix. A lower triangle **A** matrix means the diameter is affecting the optimum of the number of ribs. 
 <br /> 
 ```{r eval = FALSE}
 > A <- matrix(c(1,0,1,1), nrow=2, byrow=TRUE)
