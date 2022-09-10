@@ -30,7 +30,7 @@
 #'
 #'@export
 #
-plotpaleoTS <-function (x, nse = 1, pool = FALSE, add = FALSE, modelFit = NULL, 
+plotevoTS <-function (x, nse = 1, pool = FALSE, add = FALSE, modelFit = NULL, 
                         pch = 19, lwd = 1.5, ylim=NULL, xlab=NULL, ylab=NULL, ...) 
 {
   if (pool) 

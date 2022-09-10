@@ -6,7 +6,7 @@ Ubuntu Linux 20.04.1 LTS, R-release, GCC
 WinBuilder R-devel (unstable) (2022-02-23 r81801 ucrt)
 
 ## R CMD check results
-0 errors ✓ | 0 warnings ✓ | 0 notes ✓
+0 errors v | 0 warnings v | 0 notes v
 
 This is a new submission
 

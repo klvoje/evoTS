@@ -91,7 +91,7 @@ We first investigate phenotypic change in the diameter of *S. yellowstonensis*. 
 > ln.diameter$tt<-ln.diameter$tt/(max(ln.diameter$tt))
 
 ## Plotting the data
-> plotpaleoTS(ln.diameter)
+> plotevoTS(ln.diameter)
 ````
 <br /> 
 ```{r  out.width = "100%", echo = FALSE, fig.align="center"}
