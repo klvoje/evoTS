@@ -1,13 +1,13 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# evoTS - analysis of evolutionary sequences of phenotypic change
+# evoTS - Analyses of evolutionary time-series
 
 <!-- badges: start -->
 <!-- badges: end -->
 
-The `evoTS` package facilitates univariate and multivariate analysis of
-evolutionary sequences of phenotypic change.
+The `evoTS` package facilitates univariate and multivariate analyses of
+phenotypic change within lineages.
 
 The `evoTS` package extends the modeling framework available in the
 <a href="https://CRAN.R-project.org/package=paleoTS"> `paleoTS`

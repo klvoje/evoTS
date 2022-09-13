@@ -1,5 +1,5 @@
 ---
-title: "evoTS: analysis of evolutionary sequences of phenotypic change"
+title: "evoTS: Analyses of evolutionary time-series"
 author: "Kjetil L. Voje"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
@@ -17,7 +17,7 @@ knitr::opts_chunk$set(
 ```
 
 # 1.0 About `evoTS`
-The `evoTS` package facilitates univariate and multivariate analysis of phenotypic change within lineages.
+The `evoTS` package facilitates univariate and multivariate analyses of phenotypic change within lineages.
 
 The `evoTS` package extends the univariate modeling framework implemented in the <a href="https://cran.r-project.org/web/packages/paleoTS/index.html">`paleoTS` package</a> (Hunt 2006; 2008a; 2008b; Hunt *et al.* 2008; 2010; 2015) and has been developed to mirror the user experience from `paleoTS` as much as possible. For example, all univariate models implemented in `evoTS` are fitted to a `paleoTS` object, i.e., the data format used in `paleoTS`. The fit of all univariate models available in `paleoTS` and `evoTS` are directly comparable. 
 

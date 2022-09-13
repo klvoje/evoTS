@@ -136,12 +136,12 @@
 <span class="r-in"><span><span class="co">##calculate half-life from model output</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span><span class="op">/</span><span class="va">x1</span><span class="op">$</span><span class="va">parameters</span><span class="op">[</span><span class="fl">4</span><span class="op">]</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    alpha </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2.681679 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2.646191 </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">##calculate stationary variance from model output</span></span></span>
 <span class="r-in"><span><span class="va">x1</span><span class="op">$</span><span class="va">parameters</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span><span class="op">/</span><span class="op">(</span><span class="fl">2</span><span class="op">*</span><span class="va">x1</span><span class="op">$</span><span class="va">parameters</span><span class="op">[</span><span class="fl">4</span><span class="op">]</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     vstep </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 0.1277386 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  vstep </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 0.1776 </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## Create log-likelihood surface (the example may take &gt; 5 seconds to run)</span></span></span>
 <span class="r-in"><span><span class="co">## loglik.surface.OU(x, stat.var.vec=seq(0.001,0.5,0.01), h.vec=seq(0.01,10, 0.1))</span></span></span>
