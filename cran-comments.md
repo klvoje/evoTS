@@ -1,9 +1,9 @@
 ## Test environments
-Local MacOS Big Sur version 11.6, R 4.1.2
 Windows Server 2022, R-devel, 64 bit
 Fedora Linux, R-devel, clang, gfortran
 Ubuntu Linux 20.04.1 LTS, R-release, GCC
-WinBuilder R-devel (unstable) (2022-02-23 r81801 ucrt)
+Development version of R
+Release version of R
 
 ## R CMD check results
 0 errors v | 0 warnings v | 0 notes v
