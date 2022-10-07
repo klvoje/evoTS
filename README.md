@@ -11,12 +11,12 @@ phenotypic change within lineages.
 
 The `evoTS` package extends the modeling framework available in the
 <a href="https://CRAN.R-project.org/package=paleoTS"> `paleoTS`
-package</a>. All model-fitting procedures devtools::build_readme()in
-`evoTS` have been implemented to mirror the user experience from
-`paleoTS`. For example, all univariate models implemented in `evoTS` can
-be fitted to a `paleoTS` object, i.e. the data format used in `paleoTS`.
-The fit of all univariate models available in `paleoTS` and `evoTS` are
-directly comparable using the reported AICc.
+package</a>. All model-fitting procedures in `evoTS` have been
+implemented to mirror the user experience from `paleoTS`. For example,
+all univariate models implemented in `evoTS` can be fitted to a
+`paleoTS` object, i.e. the data format used in `paleoTS`. The fit of all
+univariate models available in `paleoTS` and `evoTS` are directly
+comparable using the reported AICc.
 
 `evoTS` contains functions that allow for fitting different models to
 separate parts of an evolutionary sequence (mode-shift models).
