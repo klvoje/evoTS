@@ -60,8 +60,8 @@ plotevoTS.multivariate<-function(yy, nse = 1, col = NULL, lty = NULL, lwd = NULL
   if (is.null(pch)) pch=1
   if (is.null(x.label)) x.label="Time"
   if (is.null(y.label)) y.label="Trait mean"
-  if (is.null(y_min))   y_min<-min(yy$xx[,1])
-  if (is.null(y_max))   y_max<-max(yy$xx[,1])
+  if (is.null(y_min))   y_min<-min(yy$xx[,])
+  if (is.null(y_max))   y_max<-max(yy$xx[,])
   if (is.null(cex.axis))   cex.axis<-1
   if (is.null(cex.lab))   cex.lab<-1
   if (is.null(cex.main))   cex.main<-1

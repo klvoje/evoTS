@@ -29,10 +29,9 @@
 #'
 
 sim.multi.URW<-function(ns = 30, anc = c(0,0), R = matrix(c(0.5,0,0,0.5), nrow=2, byrow = TRUE),
-                       vp = NULL, nn = rep(30, ns), tt = 0:(ns - 1)){
+                       vp = 0.1, nn = rep(30, ns), tt = 0:(ns - 1)){
   m<-ncol(R)
 
-  if (is.null(vp)) vp = 0.000000001
 
   MM <- matrix(nrow = ncol(R), ncol = ns)
   mm <- matrix(nrow = ncol(R), ncol = ns)
@@ -50,7 +49,9 @@ sim.multi.URW<-function(ns = 30, anc = c(0,0), R = matrix(c(0.5,0,0,0.5), nrow=2
     vv[i,c(1:ns)]<-rep(vp,(ns))
   }
 
-
+  MM<-MM+anc
+  mm<-mm+anc
+  
   List<-list()
   for (i in 1:m){
     List[[i]]<-paleoTS::as.paleoTS(mm = mm[i,], vv = vv[i,], nn = nn, tt = time, MM = MM[i,], label = "Created by sim.multi.BM", reset.time = FALSE)
