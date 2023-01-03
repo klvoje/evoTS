@@ -8,7 +8,7 @@ sim.multi.URW(
   ns = 30,
   anc = c(0, 0),
   R = matrix(c(0.5, 0, 0, 0.5), nrow = 2, byrow = TRUE),
-  vp = NULL,
+  vp = 0.1,
   nn = rep(30, ns),
   tt = 0:(ns - 1)
 )
