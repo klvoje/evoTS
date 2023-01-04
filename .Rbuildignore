@@ -5,6 +5,5 @@
 ^docs$
 ^Meta$
 ^_pkgdown\.yaml$
-vignettes/
 ^README\.Rmd$
 cran-comments.md
