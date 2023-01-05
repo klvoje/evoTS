@@ -24,4 +24,4 @@ evoTS contains functions that allow for fitting different models to separate par
 
 Multivariate models implemented in evoTS include different versions of multivariate unbiased random walks and Ornstein-Uhlenbeck processes. These multivariate models allow the user to test a variety of hypotheses of adaptation and evolution using phenotypic time-series.
 
-# **Please visit https://klvoje.github.io/evoTS/index.html for detailed walkthroughs on how to use the various features of the package.** 
+**Please visit <https://klvoje.github.io/evoTS/index.html> for detailed walkthroughs on how to use the various features of the package.**
