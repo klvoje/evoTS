@@ -6,7 +6,7 @@ Authors@R:
            family = "Voje",
            role = c("aut", "cre"),
            email = "k.l.voje@nhm.uio.no")
-Description: The evoTS package facilitates univariate and multivariate analysis of evolutionary sequences of phenotypic change. The goal of the evoTS package is to offer a large range of evolutionary models to enable more detailed studies of evolutionary changes within lineages.
+Description: The evoTS package facilitates univariate and multivariate analysis of evolutionary sequences of phenotypic change. The evoTS package extends the modeling framework available in the paleoTS package.
 License: GPL (>= 2)
 Encoding: UTF-8
 Imports:
