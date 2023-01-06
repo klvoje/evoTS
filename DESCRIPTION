@@ -6,7 +6,7 @@ Authors@R:
            family = "Voje",
            role = c("aut", "cre"),
            email = "k.l.voje@nhm.uio.no")
-Description: Facilitates univariate and multivariate analysis of evolutionary sequences of phenotypic change. The evoTS package extends the modeling framework available in the 'paleoTS' package.
+Description: Facilitates univariate and multivariate analysis of evolutionary sequences of phenotypic change. The package extends the modeling framework available in the 'paleoTS' package.
 License: GPL (>= 2)
 Encoding: UTF-8
 Imports:
