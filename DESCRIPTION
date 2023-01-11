@@ -19,7 +19,6 @@ Imports:
 	utils
 Maintainer: Kjetil Lysne Voje <k.l.voje@nhm.uio.no>
 LazyData: true
-VignetteBuilder: knitr
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.1
 Suggests: 
