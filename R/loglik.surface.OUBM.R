@@ -27,6 +27,7 @@
 #'@export
 #'
 #'@examples
+#'\dontrun{
 #'## Generate a paleoTS objects
 #'x <- sim.OUBM(40)
 #'
@@ -40,7 +41,8 @@
 #'x1$parameters[2]/(2*x1$parameters[3])
 #'
 #'## Create log-likelihood surface (the example may take > 5 seconds to run)
-#'## loglik.surface.OUBM(x, stat.var.vec=seq(0,4,0.01), h.vec=seq(0.0,5, 0.1))
+#'loglik.surface.OUBM(x, stat.var.vec=seq(0,4,0.01), h.vec=seq(0.0,5, 0.1))
+#'}
 
 
 loglik.surface.OUBM<-function(y, stat.var.vec, h.vec, anc = NULL, theta.0 = NULL, vo=NULL, opt.anc=TRUE, pool = TRUE){

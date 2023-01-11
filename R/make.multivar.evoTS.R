@@ -31,7 +31,6 @@
 
 make.multivar.evoTS<-function (evoTS.1=NULL, evoTS.2=NULL, evoTS.3=NULL, evoTS.4=NULL, evoTS.5=NULL, evoTS.6=NULL, evoTS.7=NULL, evoTS.8=NULL, evoTS.9=NULL, evoTS.10=NULL){
 
-  options(warn=-1)
   if (is.numeric(evoTS.3$mm[1]) == TRUE) all.data<-list(evoTS.1, evoTS.2, evoTS.3) else all.data<-list(evoTS.1, evoTS.2)
   if (is.numeric(evoTS.4$mm[1]) == TRUE) all.data<-list(evoTS.1, evoTS.2, evoTS.3, evoTS.4) else all.data<-list(evoTS.1, evoTS.2, evoTS.3)
   if (is.numeric(evoTS.5$mm[1]) == TRUE) all.data<-list(evoTS.1, evoTS.2, evoTS.3, evoTS.4, evoTS.5) else all.data<-list(evoTS.1, evoTS.2, evoTS.3, evoTS.4)

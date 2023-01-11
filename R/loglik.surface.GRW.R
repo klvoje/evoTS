@@ -24,6 +24,7 @@
 #' @importFrom plotly layout
 #'
 #'@examples
+#'\dontrun{
 #'## Generate a paleoTS objects
 #'x <- paleoTS::sim.GRW(30)
 #'
@@ -31,7 +32,8 @@
 #'x1<-paleoTS::opt.joint.GRW(x)
 #'
 #'## Create log-likelihood surface (the example may take > 5 seconds to run)
-#'## loglik.surface.GRW(x, mstep.vec= seq(0,0.3,0.01), vstep.vec = seq(0,0.3,0.01))
+#'loglik.surface.GRW(x, mstep.vec= seq(0,0.3,0.01), vstep.vec = seq(0,0.3,0.01))
+#'}
 
 loglik.surface.GRW<-function(y, mstep.vec, vstep.vec, pool = TRUE){
 

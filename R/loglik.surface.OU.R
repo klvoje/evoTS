@@ -23,6 +23,7 @@
 #'@export
 #'
 #'@examples
+#'\dontrun{
 #'## Generate a paleoTS objects
 #'x <- paleoTS::sim.OU(40)
 #'
@@ -36,7 +37,8 @@
 #'x1$parameters[2]/(2*x1$parameters[4])
 #'
 #'## Create log-likelihood surface (the example may take > 5 seconds to run)
-#'## loglik.surface.OU(x, stat.var.vec=seq(0.001,0.5,0.01), h.vec=seq(0.01,10, 0.1))
+#'loglik.surface.OU(x, stat.var.vec=seq(0.001,0.5,0.01), h.vec=seq(0.01,10, 0.1))
+#'}
 
 
 loglik.surface.OU<-function(y, stat.var.vec, h.vec, anc = NULL, theta = NULL, pool = TRUE){

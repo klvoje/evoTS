@@ -57,6 +57,7 @@
 #'@export
 #'
 #'@examples
+#'\dontrun{
 #'## Generate a evoTS objects by simulating a multivariate dataset
 #'x <- sim.multi.OU(15)
 #'
@@ -66,9 +67,9 @@
 #'## Define a diagonal R matrix.
 #'R <- matrix(c(1,0,0,1), nrow=2, byrow=TRUE)
 #'
-#'## Fit the multivariate Ornstein-Uhlenbeck model to the data.
-#'##fit.multivariate.OU.user.defined(x, A.user=A, R.user=R, trace=TRUE)
-#'
+#'## Fit the multivariate Ornstein-Uhlenbeck model to the data. This example will run for a long time.
+#'fit.multivariate.OU.user.defined(x, A.user=A, R.user=R, trace=TRUE)
+#'}
 
 fit.multivariate.OU.user.defined<-function (yy, A.user=NULL, R.user=NULL, method="Nelder-Mead", hess = FALSE, pool = TRUE, trace=FALSE, iterations=NULL, iter.sd=NULL, user.init.diag.A = NULL, user.init.upper.diag.A = NULL, user.init.lower.diag.A = NULL, user.init.diag.R = NULL, user.init.off.diag.R = NULL, user.init.theta = NULL, user.init.anc = NULL)
   {
@@ -176,6 +177,8 @@ fit.multivariate.OU.user.defined<-function (yy, A.user=NULL, R.user=NULL, method
                        control = list(fnscale = -1, maxit=1000000, trace = trace), method = "Nelder-Mead", hessian = hess), silent = TRUE)
       if(inherits(www[[k]], "try-error") && grepl("function cannot be evaluated at initial parameters", attr(www[[k]], "condition")$message))
            stop("The initial parameters did not work. Trying a new set of candidate starting values.")
+      # The provided initial starting values for the parameters may not work (depends on the data). If this happens when running iterations, the user is informed by a message saying: "The initial parameters did not work. Trying a new set of candidate starting values." 
+      
       }
 
   if (method == "L-BFGS-B")  {
@@ -236,6 +239,9 @@ fit.multivariate.OU.user.defined<-function (yy, A.user=NULL, R.user=NULL, method
   if (hess) w$se <- sqrt(diag(-1 * solve(w$hessian))) else w$se <- NULL
   }
 
+  if (w$convergence == 1) converge<-"Model did not converge"
+  if (w$convergence == 0) converge<-"Model converged successfully"
+  
   A<-diag(rep(0,m))
 
   for (i in 1:length(location.diag.A)){
@@ -341,7 +347,7 @@ fit.multivariate.OU.user.defined<-function (yy, A.user=NULL, R.user=NULL, method
 
   if (hess == TRUE){
     
-    wc<-as.evoTS.multi.OU.fit(logL = w$value, ancestral.values = ancestral.values, SE.anc = SE.anc, optima = optima,  SE.optima = SE.optima, A = A, SE.A = SE.A, half.life = half.life, R = R, SE.R = SE.R,
+    wc<-as.evoTS.multi.OU.fit(converge, logL = w$value, ancestral.values = ancestral.values, SE.anc = SE.anc, optima = optima,  SE.optima = SE.optima, A = A, SE.A = SE.A, half.life = half.life, R = R, SE.R = SE.R,
                               method = "Joint", K = K, n = length(yy$xx[,1]), iter=iter)
   } 
   
@@ -350,7 +356,7 @@ fit.multivariate.OU.user.defined<-function (yy, A.user=NULL, R.user=NULL, method
     SE.optima <- NA
     SE.A <- NA 
     SE.R <- NA 
-    wc<-as.evoTS.multi.OU.fit(logL = w$value, ancestral.values = ancestral.values, SE.anc = SE.anc, optima = optima,  SE.optima = SE.optima, A = A, SE.A = SE.A, half.life = half.life, R = R, SE.R = SE.R,
+    wc<-as.evoTS.multi.OU.fit(converge, logL = w$value, ancestral.values = ancestral.values, SE.anc = SE.anc, optima = optima,  SE.optima = SE.optima, A = A, SE.A = SE.A, half.life = half.life, R = R, SE.R = SE.R,
                                                        method = "Joint", K = K, n = length(yy$xx[,1]), iter=iter)
   }
   

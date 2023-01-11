@@ -19,6 +19,7 @@
 #'@export
 #'
 #'@examples
+#'\dontrun{
 #'## Generate a paleoTS objects
 #'x <- sim.accel.decel(30, r=-0.5)
 #'
@@ -26,7 +27,8 @@
 #'x1<-opt.joint.decel(x)
 #'
 #'## Create log-likelihood surface (the example may take > 5 seconds to run)
-#'## loglik.surface.decel(x, vstep.vec = seq(0, 5, 0.1), r.vec = seq(-1, 0, 0.01))
+#'loglik.surface.decel(x, vstep.vec = seq(0, 5, 0.1), r.vec = seq(-1, 0, 0.01))
+#'}
 
 loglik.surface.decel<-function(y, vstep.vec, r.vec, pool = TRUE){
 

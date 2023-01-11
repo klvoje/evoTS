@@ -17,14 +17,16 @@
 #'@export
 #'
 #'@examples
+#'\dontrun{
 #'## Generate a paleoTS objects
 #'x <- paleoTS::sim.GRW(30)
 #'
 #'## Fit a the model to the data by defining shift points.
 #'x1<-paleoTS::opt.joint.URW(x)
 #'
-#'
+#'## Create log-likelihood surface (the example may take > 5 seconds to run)
 #'loglik.surface.URW(x, vstep.vec = seq(0,0.5,0.001))
+#'}
 
 loglik.surface.URW<-function(y, vstep.vec, pool = TRUE){
 
@@ -58,7 +60,6 @@ loglik.surface.URW<-function(y, vstep.vec, pool = TRUE){
   colnames(out)<-c("lower", "upper")
   rownames(out)<-"vstep"
   print(out)
-  par(mar = c(5, 4, 4, 2) + 0.1)
   plot(loglik~vstep.vec, type="l", col="black", lwd=3, xlab="vstep", ylab="log-likelihood", cex.lab=1.2)
 
 }

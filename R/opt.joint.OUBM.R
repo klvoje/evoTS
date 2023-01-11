@@ -81,7 +81,6 @@ opt.joint.OUBM<-function (y, pool = TRUE, meth = "L-BFGS-B", hess = FALSE, itera
     iter<-length(which(!is.na(ww)))
   }
 
-  if (is.numeric(iterations) != TRUE) print("Running no iterations.")
   if (is.numeric(iterations)) p0<-init.par else p0<-p0
   if (opt.anc == TRUE) names(p0) <- c("anc/theta.0", "vstep.trait", "alpha", "vstep.opt") else names(p0) <- c("anc", "vstep.trait", "theta.0", "alpha", "vstep.opt")
 

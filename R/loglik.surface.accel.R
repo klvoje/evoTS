@@ -23,6 +23,7 @@
 #' @importFrom plotly  %>%
 #'
 #'@examples
+#'\dontrun{
 #'## Generate a paleoTS objects
 #'x <- sim.accel.decel(50)
 #'
@@ -30,7 +31,8 @@
 #'x1<-opt.joint.accel(x)
 #'
 #'## Create log-likelihood surface (the example may take > 5 seconds to run)
-#'##loglik.surface.accel(x, vstep.vec = seq(0,4,0.005), r.vec = seq(0.15,0.25,0.005))
+#'loglik.surface.accel(x, vstep.vec = seq(0,4,0.005), r.vec = seq(0.15,0.25,0.005))
+#'}
 
 loglik.surface.accel<-function(y, vstep.vec, r.vec, pool = TRUE){
 
