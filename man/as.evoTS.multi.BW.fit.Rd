@@ -5,6 +5,7 @@
 \title{Class for fit to evolutionary sequence (time-series) models}
 \usage{
 as.evoTS.multi.BW.fit(
+  converge,
   modelName,
   logL,
   ancestral.values,

@@ -5,6 +5,7 @@
 \title{Class for fit to evolutionary sequence (time-series) models}
 \usage{
 as.evoTS.multi.BW.acceldecel.fit(
+  converge,
   modelName,
   logL,
   ancestral.values,

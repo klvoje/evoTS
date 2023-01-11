@@ -25,6 +25,7 @@ Function to calculate the log-likelihood surface for a part of parameter space f
 How fine-scaled the estimated log-likelihood surface is depends on the step size between the values in the input-vectors. The step-size therefore determines how accurate the representation of the support surface is, including the returned upper and lower estimates printed in the console. The range of the input vectors needs to be increased if the confidence interval includes the boundary of the input vector. Note also that it might be wise to include the maximum likelihood estimates as part of the input vectors. The computed support surface is conditional on the best estimates of the other model parameters that are not part of the support surface (e.g. the estimated ancestral trait value).
 }
 \examples{
+\dontrun{
 ## Generate a paleoTS objects
 x <- sim.accel.decel(30, r=-0.5)
 
@@ -32,7 +33,8 @@ x <- sim.accel.decel(30, r=-0.5)
 x1<-opt.joint.decel(x)
 
 ## Create log-likelihood surface (the example may take > 5 seconds to run)
-## loglik.surface.decel(x, vstep.vec = seq(0, 5, 0.1), r.vec = seq(-1, 0, 0.01))
+loglik.surface.decel(x, vstep.vec = seq(0, 5, 0.1), r.vec = seq(-1, 0, 0.01))
+}
 }
 \author{
 Kjetil Lysne Voje

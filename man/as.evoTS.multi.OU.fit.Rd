@@ -5,6 +5,7 @@
 \title{Class for fit to evolutionary sequence (time-series) models}
 \usage{
 as.evoTS.multi.OU.fit(
+  converge,
   logL,
   ancestral.values,
   SE.anc,
