@@ -132,9 +132,9 @@ opt.multi.R<-function (yy, gg, method, hess = FALSE, pool = TRUE, trace, iterati
              control = list(fnscale = -1, maxit=10000, trace = trace), method = "SANN" , hessian = hess, lower = lower.limit)
   }
 
-
-  if (w$convergence == 1) print("Model did not converge.")
-  if (w$convergence == 0) print("Model converged successfully.")
+    if (w$convergence == 1) converge<-"Model did not converge"
+    if (w$convergence == 0) converge<-"Model converged successfully"
+    
   }
     # number of parameters
     K <- length(init.par) + (states-1) #parameters in the R matrices + ancestral values for each trait + number of shift points
@@ -199,7 +199,7 @@ opt.multi.R<-function (yy, gg, method, hess = FALSE, pool = TRUE, trace, iterati
 
   ancestral.values<-w$par[((length(init.trait.var)*2 + length(init.cov.traits)*2)+1) : length(init.par)]
 
-  wc<-as.evoTS.multi.BW.fit(modelName = "Multivariate Random walk with two R matrices (with non-zero off-diagonal elements)", logL = w$value, ancestral.values = ancestral.values, SE.anc = SE.anc, R = R, SE.R = SE.R,
+  wc<-as.evoTS.multi.BW.fit(converge, modelName = "Multivariate Random walk with two R matrices (with non-zero off-diagonal elements)", logL = w$value, ancestral.values = ancestral.values, SE.anc = SE.anc, R = R, SE.R = SE.R,
                               method = "Joint", K = K, n = length(yy$xx[,1]), iter=iter)
   return(wc)
 }
