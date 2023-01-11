@@ -267,7 +267,6 @@ The model can be fitted using the `opt.joint.OUBM` function.
 <br /> 
 ```{r eval = FALSE}
 > opt.joint.OUBM(ln.diameter)
-[1] "Running no iterations."
 $logL
 [1] 78.5667
 
@@ -306,7 +305,6 @@ Note that the name of the first reported parameter is *anc*/*theta.0*. This para
 <br /> 
 ```{r eval = FALSE}
 > opt.joint.OUBM(ln.diameter, opt.anc  = FALSE)
-[1] "Running no iterations."
 $logL
 [1] 80.71298
 
@@ -439,7 +437,6 @@ A quick way to evaluate the relative fit of all univariate models in the `evoTS`
 <br /> 
 ```{r eval = FALSE}
 > fit.all.univariate(ln.diameter, pool = TRUE)
-## Omitting some of the output to save length. 
 
 Comparing 9 models [n = 63, method = Joint]
 
@@ -643,6 +640,7 @@ We first fit a multivariate unbiased random walk model where the off-diagonal el
 ```{r eval = FALSE}
 > fit.multivariate.URW(diam.ln_ribs.ln, R = "diag", r = "fixed")
 [1] "Model converged successfully."
+
 $modelName
 [1] "Multivariate Random walk (R matrix with zero off-diagonal elements)"
 
@@ -688,7 +686,9 @@ Next, we fit a model that allows the off-diagonal elements in the R matrix to be
 <br /> 
 ```{r eval = FALSE}
 > fit.multivariate.URW(diam.ln_ribs.ln, R = "symmetric", r = "fixed")
-[1] "Model converged successfully."
+$converge
+[1] "Model converged successfully"
+
 $modelName
 [1] "Multivariate Random walk (R matrix with non-zero off-diagonal elements)"
 
@@ -757,12 +757,10 @@ We can check if we find evidence for a change in the **R** matrix along the time
 <br /> 
 ```{r eval = FALSE}
 > fit.multivariate.URW.shift(diam.ln_ribs.ln, hess = TRUE)
-[1] "Searching for all possible shift points in time series"
 Total # hypotheses:  44 
-1  [1] "Model converged successfully."
-2  [1] "Model converged successfully."
-# Omitted some of the printed output 
-44  [1] "Model converged successfully."
+1  2  3  4  5  6  7  8  9  10  11  12  13  14  15  16  17  18  19  20  21  22  23  24  25  26  27  28  29  30  31  32  33  34  35  36  37  38  39  40  41  42  43  44  
+$converge
+[1] "Model converged successfully"
 
 $modelName
 [1] "Multivariate Random walk with two R matrices (with non-zero off-diagonal elements)"
@@ -840,9 +838,7 @@ We now check if the multivariate accelerated and decelerated models have a bette
 <br /> 
 ```{r eval = FALSE}
 > multi.accel<-fit.multivariate.URW(diam.ln_ribs.ln, R = "symmetric", r = "accel")
-[1] "Model converged successfully."
 > multi.decel<-fit.multivariate.URW(diam.ln_ribs.ln, R = "symmetric", r = "decel")
-[1] "Model converged successfully."
 > multi.accel$AICc;multi.decel$AICc
 [1] -337.8639
 [1] -350.7423
@@ -908,6 +904,9 @@ Note that the multivariate OU model demands much more computational time compare
 [1] -267.6676
 [1] -352.9131
 > OUOU.model2
+$converge
+[1] "Model converged successfully"
+
 $logL
 [1] 187.1547
 
