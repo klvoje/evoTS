@@ -35,7 +35,7 @@
 #'@export
 #'
 #'@examples
-#'## Generate an evoTS objects by simulating a multivariate dataset
+#'## Generate an evoTS object by simulating a multivariate dataset
 #'x <- sim.multi.URW(30)
 #'
 #'## Fit a multivariate Unbiased Random Walk model with uncorrelated trait changes.

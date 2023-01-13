@@ -37,7 +37,7 @@ Function to simulate an evolutionary sequence data set according to an Unbiased 
 x<-sim.accel.decel(40, r=-0.5)
 
 ## Plot the data
-plot(x)
+plotevoTS(x)
 }
 \author{
 Kjetil Lysne Voje

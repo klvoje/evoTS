@@ -24,13 +24,14 @@
 #' @importFrom plotly layout
 #'
 #'@examples
-#'\dontrun{
+#'
 #'## Generate a paleoTS objects
 #'x <- paleoTS::sim.GRW(30)
 #'
-#'## Fit a the model to the data by defining shift points.
+#'## Fit the the model to the data.
 #'x1<-paleoTS::opt.joint.GRW(x)
 #'
+#'\donttest{
 #'## Create log-likelihood surface (the example may take > 5 seconds to run)
 #'loglik.surface.GRW(x, mstep.vec= seq(0,0.3,0.01), vstep.vec = seq(0,0.3,0.01))
 #'}

@@ -58,13 +58,12 @@ Wrapper function to find maximum likelihood solutions to two models to an evolut
 The models have been implemented to be compatible with the joint parameterization routine in the package paleoTS. The optimization is therefore fit using the actual sample values, with the autocorrelation among samples accounted for in the log-likelihood function. The joint distribution of sample means is multivariate normal, with means and variance-covariances determined by evolutionary parameters and sampling errors.
 }
 \examples{
-\dontrun{
-##Generate a evoTS objects by simulating a multivariate dataset
+
+##Generate a paleoTS object.
 x <- paleoTS::sim.GRW(30)
 
-## Fit a the model to the data by defining shift points (the example may take > 5 seconds to run)
+## Fit a mode-shift model without defining a shift point (the example may take > 5 seconds to run)
 fit.mode.shift(x, model1="URW", model2="Stasis")
-}
 }
 \references{
 Hunt, G. 2006. Fitting and comparing models of phyletic evolution: random walks and beyond. \emph{Paleobiology} 32:578–601

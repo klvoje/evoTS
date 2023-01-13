@@ -28,7 +28,7 @@
 #'@export
 #'
 #'@examples
-#'## Generate an evoTS objects by simulating a univariate evolutionary sequence
+#'## Generate a paleoTS object by simulating a univariate evolutionary sequence
 #'x <- paleoTS::sim.GRW(30)
 #'
 #'## Fit the model

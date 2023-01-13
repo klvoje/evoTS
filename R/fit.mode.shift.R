@@ -44,13 +44,13 @@
 #'@export
 #'
 #'@examples
-#'\dontrun{
-#'##Generate a evoTS objects by simulating a multivariate dataset
+#'
+#'##Generate a paleoTS object.
 #'x <- paleoTS::sim.GRW(30)
 #'
-#'## Fit a the model to the data by defining shift points (the example may take > 5 seconds to run)
+#'## Fit a mode-shift model without defining a shift point (the example may take > 5 seconds to run)
 #'fit.mode.shift(x, model1="URW", model2="Stasis")
-#'}
+
 
 fit.mode.shift<-function (y, model1=c("Stasis", "URW", "GRW", "OU"), model2=c("Stasis", "URW", "GRW", "OU"), fit.all=FALSE, minb = 7, shift.point = NULL, pool = TRUE, silent = FALSE, hess = FALSE)
 {

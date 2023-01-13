@@ -35,7 +35,7 @@
 #'@export
 #'
 #'@examples
-#'## Generate an evoTS objects by simulating a multivariate dataset
+#'## Generate an evoTS object by simulating a multivariate dataset
 #'indata <- sim.multi.URW(30)
 #'
 #'## Fit a multivariate Unbiased Random Walk model with a decreasing rate of change through time.

@@ -42,7 +42,7 @@ An evolutionary sequence (time-series) data set (a paleoTS object)
 Function to simulate an Ornstein-Uhlenbeck evolutionary sequence data set with an optimum moving according to an unbiased random walk.
 }
 \examples{
-##Simulate data
+##Create data
 x<-sim.OUBM(50, theta.0 = 5, alpha = 0.6, vstep.opt = 0.5)
 
 ## plot the data

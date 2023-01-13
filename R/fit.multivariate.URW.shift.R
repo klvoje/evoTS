@@ -39,7 +39,7 @@
 #'@export
 #'
 #'@examples
-#'## Generate an evoTS objects by simulating a multivariate dataset
+#'## Generate an evoTS object by simulating a multivariate dataset
 #'x <- sim.multi.URW(60)
 #'
 #'## Fit two multivariate Unbiased Random Walk models to separate parts of the time-series.

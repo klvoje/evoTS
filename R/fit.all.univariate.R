@@ -16,10 +16,10 @@
 #'@export
 #'
 #'@examples
-#'## Generate an univariate evolutionary sequence data set
+#'## ##Generate a paleoTS object.
 #'x <- paleoTS::sim.GRW(30)
 #'
-#'## Fit a the model to the data by defining shift points.
+#'## Fit univariate models to the data.
 #'fit.all.univariate(x, pool = TRUE)
 #'
 

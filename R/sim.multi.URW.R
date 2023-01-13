@@ -21,7 +21,7 @@
 #'@export
 #'
 #'@examples
-#'## Simulating a multivariate dataset
+#'## Create a multivariate dataset
 #'data_set<-sim.multi.URW(40, R = matrix(c(0.2,0.1,0.1,0.3), nrow=2, byrow = TRUE))
 #'
 #'## plot the data

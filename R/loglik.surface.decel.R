@@ -19,13 +19,14 @@
 #'@export
 #'
 #'@examples
-#'\dontrun{
+#'
 #'## Generate a paleoTS objects
 #'x <- sim.accel.decel(30, r=-0.5)
 #'
-#'## Fit a the model to the data by defining shift points.
+#'## Fit the model to the data.
 #'x1<-opt.joint.decel(x)
 #'
+#'\donttest{
 #'## Create log-likelihood surface (the example may take > 5 seconds to run)
 #'loglik.surface.decel(x, vstep.vec = seq(0, 5, 0.1), r.vec = seq(-1, 0, 0.01))
 #'}

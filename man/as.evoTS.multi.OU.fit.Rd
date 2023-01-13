@@ -23,6 +23,8 @@ as.evoTS.multi.OU.fit(
 )
 }
 \arguments{
+\item{converge}{info on model convergence}
+
 \item{logL}{log-likelihood of model}
 
 \item{ancestral.values}{maximum-likelihood estimates of the ancestral trait values}

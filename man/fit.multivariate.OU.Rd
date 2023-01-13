@@ -60,7 +60,7 @@ First part of the output reports the log-likelihood of the model and its AICc sc
 Function to find maximum likelihood solutions to a large suite of predefined multivariate Ornstein-Uhlenbeck model fitted to multivariate evolutionary sequence (time-series) data.
 }
 \details{
-A detailed explanation of the predefined models that can be fitted using the function is given in the vignette, but a short summary is provided here. Note that this function provides the user with fixed options for how to parameterize the A and R matrices. For full flexibility, the user is allowed to customize the parameterization of the A and R matrix in the 'fit.multivariate.OU.user.defined' function.
+A detailed explanation of the predefined models that can be fitted using the function is given in the online vignette (https://klvoje.github.io/evoTS/index.html), but a short summary is provided here. Note that this function provides the user with fixed options for how to parameterize the A and R matrices. For full flexibility, the user is allowed to customize the parameterization of the A and R matrix in the 'fit.multivariate.OU.user.defined' function.
 The type of trait dynamics is defined based on how the pull matrix (A) and drift matrix (R) are defined. The function allows testing four broad categories of models: 1 Independent evolution (A.matrix ="diag", R.matrix = "diag"); 2 Independent adaptation (A.matrix ="diag", R.matrix = "symmetric"); 3 Non-independent adaptation (A.matrix = "upper.tri"/"lower.tri"/full", R.matrix = "diagonal"); 4 Non-independent evolution (A.matrix = "upper.tri"/"lower.tri"/"full", R.matrix = "symmetric").
 Setting the A.matrix to "diagonal" means the traits do not affect each others optimum (A matrix). A "diagonal" R matrix means the stochastic changes in the traits are assumed to be uncorrelated. A "symmetric" R matrix means the stochastic changes in the traits are assumed to be correlated, i.e. that they are non-independent. A "full" parameterization of A estimates the effect of each trait on the optima on the other traits.
 The "upper.tri" option parameterize the model in such a way that the first layer (first trait in the data set) adapts non-independently because its optimum is affected by all other traits included in the data set, while the bottom layer (the last trait in the data set) adapts independently (as an Ornstein Uhlenbeck process). Layers in between the upper- and lower layer (not the first or last trait in the data set (if there are more than two traits in the data set)) evolve non-independently as their optimum is affected by all layers/traits below themselves. The option "lower.tri" defines the causality the opposite way compared to "upper.tri".
@@ -78,10 +78,11 @@ There is no guarantee that the likelihood can be computed with the initial param
 The models have been implemented to be compatible with the joint parameterization routine in the package paleoTS. The optimization is therefore fit using the actual sample values, with the autocorrelation among samples accounted for in the log-likelihood function. The joint distribution of sample means is multivariate normal, with means and variance-covariances determined by evolutionary parameters and sampling errors.
 }
 \examples{
-\dontrun{
-## Generate a evoTS objects by simulating a multivariate data set
+
+## Generate a evoTS object by simulating a multivariate dataset
 x <- sim.multi.OU(15)
 
+\donttest{
 ##Fit a multivariate Ornstein-Uhlenbeck model to the data. This example will run for a long time.
 fit.multivariate.OU(x, A.matrix="diag", R.matrix="symmetric")
 }

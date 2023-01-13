@@ -57,8 +57,8 @@
 #'@export
 #'
 #'@examples
-#'\dontrun{
-#'## Generate a evoTS objects by simulating a multivariate dataset
+#'
+#'## Generate a evoTS object by simulating a multivariate dataset
 #'x <- sim.multi.OU(15)
 #'
 #'## Define an A matrix that is lower diagonal.
@@ -67,6 +67,7 @@
 #'## Define a diagonal R matrix.
 #'R <- matrix(c(1,0,0,1), nrow=2, byrow=TRUE)
 #'
+#'\donttest{
 #'## Fit the multivariate Ornstein-Uhlenbeck model to the data. This example will run for a long time.
 #'fit.multivariate.OU.user.defined(x, A.user=A, R.user=R, trace=TRUE)
 #'}

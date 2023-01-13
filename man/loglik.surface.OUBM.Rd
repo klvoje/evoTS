@@ -42,11 +42,11 @@ Function to calculate the log-likelihood surface for a part of parameter space f
 How fine-scaled the estimated log-likelihood surface is depends on the step size between the values in the input-vectors. The step-size therefore determines how accurate the representation of the support surface is, including the returned upper and lower estimates printed in the console. The range of the input vectors needs to be increased if the confidence interval includes the boundary of the input vector. Note also that it might be wise to include the maximum likelihood estimates as part of the input vectors. The computed support surface is conditional on the best estimates of the other model parameters that are not part of the support surface (e.g. the estimated ancestral trait value).
 }
 \examples{
-\dontrun{
+
 ## Generate a paleoTS objects
 x <- sim.OUBM(40)
 
-## Fit a the model
+## Fit the model.
 x1<-opt.joint.OUBM(x)
 
 ##calculate half-life from model output
@@ -55,6 +55,7 @@ log(2)/x1$parameters[3]
 ##calculate stationary variance from model output
 x1$parameters[2]/(2*x1$parameters[3])
 
+\donttest{
 ## Create log-likelihood surface (the example may take > 5 seconds to run)
 loglik.surface.OUBM(x, stat.var.vec=seq(0,4,0.01), h.vec=seq(0.0,5, 0.1))
 }

@@ -21,6 +21,8 @@ as.evoTS.multi.BW.acceldecel.fit(
 )
 }
 \arguments{
+\item{converge}{info on model convergence}
+
 \item{modelName}{description of the model.}
 
 \item{logL}{log-likelihood of model}

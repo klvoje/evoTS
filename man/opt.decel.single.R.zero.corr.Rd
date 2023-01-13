@@ -48,7 +48,7 @@ It is good practice to repeat any numerical optimization procedure from differen
 The models have been implemented to be compatible with the joint parameterization routine in the package paleoTS. The optimization is therefore fit using the actual sample values, with the autocorrelation among samples accounted for in the log-likelihood function. The joint distribution of sample means is multivariate normal, with means and variance-covariances determined by evolutionary parameters and sampling errors.
 }
 \examples{
-## Generate an evoTS objects by simulating a multivariate dataset
+## Generate an evoTS object by simulating a multivariate dataset.
 indata <- sim.multi.URW(30)
 
 ## Fit a multivariate Unbiased Random Walk model with a decreasing rate of change through time.

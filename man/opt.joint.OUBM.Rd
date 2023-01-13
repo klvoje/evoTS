@@ -45,7 +45,7 @@ Function to find maximum likelihood solutions to an Ornstein-Uhlenbeck model wit
 The models have been implemented to be compatible with the joint parameterization routine in the package paleoTS. The optimization is therefore fit using the actual sample values, with the autocorrelation among samples accounted for in the log-likelihood function. The joint distribution of sample means is multivariate normal, with means and variance-covariances determined by evolutionary parameters and sampling errors.
 }
 \examples{
-## Generate an evoTS objects by simulating a univariate evolutionary sequence
+## Generate a paleoTS object by simulating a univariate evolutionary sequence
 x <- paleoTS::sim.GRW(60)
 
 ## Fit the model

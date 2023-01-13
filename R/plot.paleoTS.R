@@ -1,6 +1,6 @@
 #'@title Plot a paleoTS object 
 #'
-#'@description Plot a paleoTS object (slighty modified version of the same function in paleoTS)
+#'@description Plot a paleoTS object (slightly modified version of the same function in paleoTS)
 #'
 #' @param x a paleoTS object
 #'

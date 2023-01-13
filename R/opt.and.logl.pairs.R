@@ -1,6 +1,6 @@
 #' @title Optimization and log-likelihoods for pairs of models.
 #'
-#' @description A collections of functions that serves the function fit.mode.shift See fit.mode.shift for info.
+#' @description A collections of functions that serves the function fit.mode.shift. See fit.mode.shift for info.
 #'
 #' @param y a paleoTS object.
 #'
@@ -16,9 +16,10 @@
 #'
 #' @details In general, users will not be access these functions directly, but instead use the wrapper function, which use these functions to find the best-supported parameter values.
 #'
-#'@author Kjetil Lysne Voje
+#' @note This function is not likely to be called directly by the user.
 #'
-#'@export
+#' @author Kjetil Lysne Voje
+#'
 
 opt.joint.URW.Stasis<-function (y, gg, cl = list(fnscale = -1), pool = TRUE, meth = "L-BFGS-B", hess = FALSE)
 {

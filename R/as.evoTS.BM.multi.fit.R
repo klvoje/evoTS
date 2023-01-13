@@ -2,7 +2,9 @@
 #'
 #'@description A function that combines useful information summarizing model fit.
 #'
-#'@param modelName description of the model.
+#'@param converge info on model convergence 
+#'
+#'@param modelName description of the model
 #'
 #'@param logL log-likelihood of model
 #'

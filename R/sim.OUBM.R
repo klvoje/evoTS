@@ -27,7 +27,7 @@
 #'@export
 #'
 #'@examples
-#'##Simulate data
+#'##Create data
 #'x<-sim.OUBM(50, theta.0 = 5, alpha = 0.6, vstep.opt = 0.5)
 #'
 #'## plot the data

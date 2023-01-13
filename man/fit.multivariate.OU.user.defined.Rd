@@ -77,8 +77,8 @@ There is no guarantee that the likelihood can be computed with the initial param
 The models have been implemented to be compatible with the joint parameterization routine in the package paleoTS. The optimization is therefore fit using the actual sample values, with the autocorrelation among samples accounted for in the log-likelihood function. The joint distribution of sample means is multivariate normal, with means and variance-covariances determined by evolutionary parameters and sampling errors.
 }
 \examples{
-\dontrun{
-## Generate a evoTS objects by simulating a multivariate dataset
+
+## Generate a evoTS object by simulating a multivariate dataset
 x <- sim.multi.OU(15)
 
 ## Define an A matrix that is lower diagonal.
@@ -87,6 +87,7 @@ A <- matrix(c(1,0,1,1), nrow=2, byrow=TRUE)
 ## Define a diagonal R matrix.
 R <- matrix(c(1,0,0,1), nrow=2, byrow=TRUE)
 
+\donttest{
 ## Fit the multivariate Ornstein-Uhlenbeck model to the data. This example will run for a long time.
 fit.multivariate.OU.user.defined(x, A.user=A, R.user=R, trace=TRUE)
 }

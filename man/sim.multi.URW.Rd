@@ -33,7 +33,7 @@ A multivariate evolutionary sequence (time-series) data set.
 Function to simulate multivariate evolutionary sequence data that evolve according to an Unbiased Random Walk
 }
 \examples{
-## Simulating a multivariate dataset
+## Create a multivariate dataset
 data_set<-sim.multi.URW(40, R = matrix(c(0.2,0.1,0.1,0.3), nrow=2, byrow = TRUE))
 
 ## plot the data

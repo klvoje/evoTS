@@ -19,7 +19,9 @@ as.evoTS.multi.BW.fit(
 )
 }
 \arguments{
-\item{modelName}{description of the model.}
+\item{converge}{info on model convergence}
+
+\item{modelName}{description of the model}
 
 \item{logL}{log-likelihood of model}
 

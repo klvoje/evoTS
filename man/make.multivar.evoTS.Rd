@@ -48,7 +48,7 @@ Function to make a multivariate data set consisting of two or more evolutionary 
 See the function as.paleoTS for details. See also read.paleoTS, which is often a more convenient way for getting the relevant data from text files.
 }
 \examples{
-## Generate two evolutionary sequences (time-sries)
+## Generate two evolutionary sequences (time-series)
 x1 <- paleoTS::sim.GRW(60)
 x2 <- paleoTS::sim.GRW(60)
 

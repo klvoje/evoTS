@@ -37,7 +37,7 @@
 #'@export
 #
 #'@examples
-#'## Generate two evolutionary sequences (time-sries)
+#'## Generate two evolutionary sequences (time-series)
 #'x1 <- paleoTS::sim.Stasis(60, vp=1)
 #'x2 <- paleoTS::sim.Stasis(60, vp=1)
 #'

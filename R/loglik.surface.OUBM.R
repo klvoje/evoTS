@@ -27,11 +27,11 @@
 #'@export
 #'
 #'@examples
-#'\dontrun{
+#'
 #'## Generate a paleoTS objects
 #'x <- sim.OUBM(40)
 #'
-#'## Fit a the model
+#'## Fit the model.
 #'x1<-opt.joint.OUBM(x)
 #'
 #'##calculate half-life from model output
@@ -40,6 +40,7 @@
 #'##calculate stationary variance from model output
 #'x1$parameters[2]/(2*x1$parameters[3])
 #'
+#'\donttest{
 #'## Create log-likelihood surface (the example may take > 5 seconds to run)
 #'loglik.surface.OUBM(x, stat.var.vec=seq(0,4,0.01), h.vec=seq(0.0,5, 0.1))
 #'}

@@ -2,6 +2,8 @@
 #'
 #'@description A function that combines useful information summarizing model fit.
 #'
+#'@param converge info on model convergence 
+#'
 #'@param logL log-likelihood of model
 #'
 #'@param ancestral.values maximum-likelihood estimates of the ancestral trait values

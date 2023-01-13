@@ -32,10 +32,10 @@
 #'A_matrix<-matrix(c(4,-2,0,3), nrow=2, byrow = TRUE)
 #'R_matrix<-matrix(c(4,0.2,0.2,4), nrow=2, byrow = TRUE)
 #'
-#'## Generate a evoTS objects by simulating a multivariate dataset
+#'## Generate an evoTS object by simulating a multivariate dataset
 #'data_set<-sim.multi.OU(40, optima = c(1.5,2),A=A_matrix , R = R_matrix)
 #'
-#'#'## plot the data
+#'## plot the data
 #'plotevoTS.multivariate(data_set)
 #'
 sim.multi.OU<-function(ns = 30, anc = c(0,0), optima = c(3, 2),

@@ -20,7 +20,7 @@
 #'@export
 #
 #'@examples
-#'## Generate two evolutionary sequences (time-sries)
+#'## Generate two evolutionary sequences (time-series)
 #'x1 <- paleoTS::sim.GRW(60)
 #'x2 <- paleoTS::sim.GRW(60)
 #'

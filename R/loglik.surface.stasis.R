@@ -19,13 +19,14 @@
 #'@export
 #'
 #'@examples
-#'\dontrun{
+#'
 #'## Generate a paleoTS objects
 #'x <- paleoTS::sim.Stasis(30)
 #'
-#'## Fit a the model to the data by defining shift points.
+#'## Fit the the model to the data.
 #'x1<-paleoTS::opt.joint.Stasis(x)
 #'
+#'\donttest{
 #'## Create log-likelihood surface (the example may take > 5 seconds to run)
 #'loglik.surface.stasis(x, theta.vec= seq(-0.15,0.1,0.001), omega.vec = seq(0,0.1,0.001))
 #'}

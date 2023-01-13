@@ -18,10 +18,10 @@ The function returns a list of all investigated models and their highest log-lik
 Wrapper function to find maximum likelihood solutions for all univariate models (excluding models with mode shifts) to an evolutionary sequence (time-series).
 }
 \examples{
-## Generate an univariate evolutionary sequence data set
+## ##Generate a paleoTS object.
 x <- paleoTS::sim.GRW(30)
 
-## Fit a the model to the data by defining shift points.
+## Fit univariate models to the data.
 fit.all.univariate(x, pool = TRUE)
 
 }

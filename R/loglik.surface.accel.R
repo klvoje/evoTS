@@ -23,13 +23,13 @@
 #' @importFrom plotly  %>%
 #'
 #'@examples
-#'\dontrun{
 #'## Generate a paleoTS objects
 #'x <- sim.accel.decel(50)
 #'
-#'## Fit a the model to the data by defining shift points.
+#'## Fit the model to the data.
 #'x1<-opt.joint.accel(x)
 #'
+#'\donttest{
 #'## Create log-likelihood surface (the example may take > 5 seconds to run)
 #'loglik.surface.accel(x, vstep.vec = seq(0,4,0.005), r.vec = seq(0.15,0.25,0.005))
 #'}

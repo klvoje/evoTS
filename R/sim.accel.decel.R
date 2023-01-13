@@ -25,7 +25,7 @@
 #'x<-sim.accel.decel(40, r=-0.5)
 #'
 #'## Plot the data
-#'plot(x)
+#'plotevoTS(x)
 
 sim.accel.decel<-function (ns = 20, vs = 0.5, r = 0.2, vp = 0.2, nn = rep(20, ns),
           tt = 0:(ns - 1))
