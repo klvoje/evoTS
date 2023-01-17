@@ -17,7 +17,7 @@
 #'@export
 #'
 #'@examples
-#'\dontrun{
+#'
 #'## Generate a paleoTS objects
 #'x <- paleoTS::sim.GRW(30)
 #'
@@ -26,7 +26,7 @@
 #'
 #'## Create log-likelihood surface (the example may take > 5 seconds to run)
 #'loglik.surface.URW(x, vstep.vec = seq(0,0.5,0.001))
-#'}
+#'
 
 loglik.surface.URW<-function(y, vstep.vec, pool = TRUE){
 
