@@ -130,20 +130,20 @@
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co">## Generate an evoTS objects by simulating a univariate evolutionary sequence</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co">## Generate a paleoTS object by simulating a univariate evolutionary sequence</span></span></span>
 <span class="r-in"><span><span class="va">y</span> <span class="op">&lt;-</span> <span class="fu">paleoTS</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/paleoTS/man/sim.GRW.html" class="external-link">sim.GRW</a></span><span class="op">(</span><span class="fl">30</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## Fit the model</span></span></span>
 <span class="r-in"><span><span class="fu">opt.joint.accel</span><span class="op">(</span><span class="va">y</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $logL</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] -21.10261</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] -15.28347</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $AICc</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 49.1283</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 37.49002</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $parameters</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>         anc       vstep           r </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> -0.19622393  0.91912686  0.05377265 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        anc      vstep          r </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 0.08590421 0.00000000 1.00000000 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $modelName</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Accel"</span>

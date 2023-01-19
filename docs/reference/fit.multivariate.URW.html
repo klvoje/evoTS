@@ -155,7 +155,7 @@
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co">## Generate an evoTS objects by simulating a multivariate dataset</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co">## Generate an evoTS object by simulating a multivariate dataset</span></span></span>
 <span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="sim.multi.URW.html">sim.multi.URW</a></span><span class="op">(</span><span class="fl">30</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## Fit a multivariate Unbiased Random Walk model to the data, allowing for correlated changes.</span></span></span>
@@ -167,21 +167,21 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Multivariate Random walk (R matrix with non-zero off-diagonal elements)"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $logL</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 33.11106</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 23.33116</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $AICc</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] -53.72213</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] -34.16233</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $ancestral.values</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] -0.10765627  0.02046609</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1]  0.27749903 -0.03870903</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $SE.anc</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] NA</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $R</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>            [,1]       [,2]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]  0.5006617 -0.1807739</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] -0.1807739  0.3319603</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>           [,1]      [,2]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.9473214 0.2214605</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.2214605 0.5440968</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $SE.R</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] NA</span>

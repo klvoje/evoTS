@@ -154,20 +154,20 @@
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co">## Generate an evoTS objects by simulating a univariate evolutionary sequence</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co">## Generate a paleoTS object by simulating a univariate evolutionary sequence</span></span></span>
 <span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu">paleoTS</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/paleoTS/man/sim.GRW.html" class="external-link">sim.GRW</a></span><span class="op">(</span><span class="fl">60</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## Fit the model</span></span></span>
 <span class="r-in"><span><span class="fu">opt.joint.OUBM</span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $logL</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] -36.24706</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] -25.05308</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $AICc</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 81.2214</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 58.83343</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $parameters</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> anc/theta.0 vstep.trait       alpha   vstep.opt </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  0.24796135  0.09836279  0.02439441  0.82850381 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> -0.19555309  0.00000001  3.71238520  0.07975549 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $modelName</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "OU model with moving optimum (ancestral state at optimum)"</span>

@@ -30,12 +30,20 @@ of adaptation and evolution using phenotypic time-series.
 
 ## Installation
 
-The evoTS package is available on GitHub and can be installed using
-devtools:
+``` r
+## Installing from CRAN
+> install.packages("evoTS")
+
+> library(evoTS)
+```
 
 ``` r
-install.packages("devtools")
-devtools::install_github("klvoje/evoTS")
+## Installing from GitHub
+> install.packages("devtools")
+
+> devtools::install_github("klvoje/evoTS")
+
+> library(evoTS)
 ```
 
 ## Documentation

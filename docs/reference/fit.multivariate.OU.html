@@ -163,7 +163,7 @@
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>A detailed explanation of the predefined models that can be fitted using the function is given in the vignette, but a short summary is provided here. Note that this function provides the user with fixed options for how to parameterize the A and R matrices. For full flexibility, the user is allowed to customize the parameterization of the A and R matrix in the 'fit.multivariate.OU.user.defined' function.
+    <p>A detailed explanation of the predefined models that can be fitted using the function is given in the online vignette (https://klvoje.github.io/evoTS/index.html), but a short summary is provided here. Note that this function provides the user with fixed options for how to parameterize the A and R matrices. For full flexibility, the user is allowed to customize the parameterization of the A and R matrix in the 'fit.multivariate.OU.user.defined' function.
 The type of trait dynamics is defined based on how the pull matrix (A) and drift matrix (R) are defined. The function allows testing four broad categories of models: 1 Independent evolution (A.matrix ="diag", R.matrix = "diag"); 2 Independent adaptation (A.matrix ="diag", R.matrix = "symmetric"); 3 Non-independent adaptation (A.matrix = "upper.tri"/"lower.tri"/full", R.matrix = "diagonal"); 4 Non-independent evolution (A.matrix = "upper.tri"/"lower.tri"/"full", R.matrix = "symmetric").
 Setting the A.matrix to "diagonal" means the traits do not affect each others optimum (A matrix). A "diagonal" R matrix means the stochastic changes in the traits are assumed to be uncorrelated. A "symmetric" R matrix means the stochastic changes in the traits are assumed to be correlated, i.e. that they are non-independent. A "full" parameterization of A estimates the effect of each trait on the optima on the other traits.
 The "upper.tri" option parameterize the model in such a way that the first layer (first trait in the data set) adapts non-independently because its optimum is affected by all other traits included in the data set, while the bottom layer (the last trait in the data set) adapts independently (as an Ornstein Uhlenbeck process). Layers in between the upper- and lower layer (not the first or last trait in the data set (if there are more than two traits in the data set)) evolve non-independently as their optimum is affected by all layers/traits below themselves. The option "lower.tri" defines the causality the opposite way compared to "upper.tri".
@@ -190,13 +190,68 @@ It is also possible to implement a model where the bottom layer (last trait in t
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
-<span class="r-in"><span><span class="co">## Generate a evoTS objects by simulating a multivariate data set</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">## Generate a evoTS object by simulating a multivariate dataset</span></span></span>
 <span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="sim.multi.OU.html">sim.multi.OU</a></span><span class="op">(</span><span class="fl">15</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># \donttest{</span></span></span>
 <span class="r-in"><span><span class="co">##Fit a multivariate Ornstein-Uhlenbeck model to the data. This example will run for a long time.</span></span></span>
 <span class="r-in"><span><span class="fu">fit.multivariate.OU</span><span class="op">(</span><span class="va">x</span>, A.matrix<span class="op">=</span><span class="st">"diag"</span>, R.matrix<span class="op">=</span><span class="st">"symmetric"</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $converge</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Model converged successfully"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $logL</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 16.03467</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $AICc</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 21.93066</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ancestral.values</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] -0.02362147  0.05855338</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $SE.anc</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $optima</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 2.873443 1.759765</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $SE.optima</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $A</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>          [,1]    [,2]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 8.020771 0.00000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.000000 6.75301</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $SE.A</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $half.life</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.08641902 0.10264271</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $R</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>            [,1]       [,2]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.03127368 0.07006537</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.07006537 0.75031117</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $SE.R</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $method</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Joint"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $K</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 9</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $n</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 15</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $iter</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"class")</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "paleoTSfit"</span>
+<span class="r-in"><span><span class="co"># }</span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
