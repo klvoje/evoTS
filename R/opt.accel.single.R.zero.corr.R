@@ -125,15 +125,16 @@ if (length(na.exclude(log.lik.tmp)) == iterations){
                control = list(fnscale = -1, maxit=10000, trace = trace), method = "SANN" , hessian = hess, lower = lower.limit)
     }
 
-    if (w$convergence == 1) converge<-"Model did not converge"
-    if (w$convergence == 0) converge<-"Model converged successfully"
   }
 
   if (is.numeric(iterations) ==TRUE) {
   w<-best.run
   iter<-iterations
   }
-
+  
+  if (w$convergence == 1) converge<-"Model did not converge"
+  if (w$convergence == 0) converge<-"Model converged successfully"
+  
   if (hess) {
     w$se <- sqrt(diag(-1 * solve(w$hessian)))
     SE.R1<-matrix(0, nrow=m, ncol=m)

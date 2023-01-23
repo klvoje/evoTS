@@ -129,19 +129,18 @@ opt.single.R<-function (yy, method="L-BFGS-B", hess = FALSE, pool = TRUE, trace=
       w<-optim(init.par, fn = logL.joint.single.R, C = C, y = y, m = m, n = n, anc.values = anc.values, yy = yy,
                control = list(fnscale = -1, maxit=10000, trace = trace), method = "SANN" , hessian = hess, lower = lower.limit)
     }
-
-    if (w$convergence == 1) converge<-"Model did not converge"
-    if (w$convergence == 0) converge<-"Model converged successfully"
     
   }
   # number of parameters
   K <- length(init.par) #parameters in the R matrices + ancestral values for each trait
 
-
   if (is.numeric(iterations) ==TRUE) {
     iter<-iterations
     w<-best.run
   }
+  
+  if (w$convergence == 1) converge<-"Model did not converge"
+  if (w$convergence == 0) converge<-"Model converged successfully"
 
   if (hess) {
     w$se <- sqrt(diag(-1 * solve(w$hessian)))

@@ -127,19 +127,19 @@ opt.single.R.zero.corr<-function (yy, method = "L-BFGS-B", hess = FALSE, pool = 
                control = list(fnscale = -1, maxit=10000, trace = trace), method = "SANN" , hessian = hess, lower = lower.limit)
     }
     
-    if (w$convergence == 1) converge<-"Model did not converge"
-    if (w$convergence == 0) converge<-"Model converged successfully"
-    
   }
   # number of parameters
   K <- length(init.par) #parameters in the R matrices + ancestral values for each trait
 
 
   if (is.numeric(iterations) ==TRUE) {
-     iter<-NA
+     iter<-iterations
     w<-best.run
   }
-
+  
+  if (w$convergence == 1) converge<-"Model did not converge"
+  if (w$convergence == 0) converge<-"Model converged successfully"
+  
   if (hess) {
     w$se <- sqrt(diag(-1 * solve(w$hessian)))
     SE_R<-matrix(0, nrow=m, ncol=m)

@@ -133,9 +133,6 @@ opt.accel.single.R<-function (yy, method="L-BFGS-B", hess = FALSE, pool = TRUE, 
       w<-optim(init.par, fn = logL.joint.accel.decel.single.R, y = y, m = m, n = n, anc.values = anc.values, yy = yy,
                control = list(fnscale = -1, maxit=10000, trace = trace), method = "SANN" , hessian = hess, lower = lower.limit)
     }
-
-    if (w$convergence == 1) converge<-"Model did not converge"
-    if (w$convergence == 0) converge<-"Model converged successfully"
     
   }
 
@@ -143,6 +140,9 @@ opt.accel.single.R<-function (yy, method="L-BFGS-B", hess = FALSE, pool = TRUE, 
     w<-best.run
     iter<-iterations
   }
+  
+  if (w$convergence == 1) converge<-"Model did not converge"
+  if (w$convergence == 0) converge<-"Model converged successfully"
 
   if (hess) {
     w$se <- sqrt(diag(-1 * solve(w$hessian)))

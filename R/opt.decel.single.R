@@ -131,15 +131,15 @@ opt.decel.single.R<-function (yy, method="L-BFGS-B", hess = FALSE, pool = TRUE, 
                control = list(fnscale = -1, maxit=10000, trace = trace), method = "SANN" , hessian = hess, lower = lower.limit)
     }
     
-    if (w$convergence == 1) converge<-"Model did not converge"
-    if (w$convergence == 0) converge<-"Model converged successfully"
-    
   }
 
   if (is.numeric(iterations) ==TRUE) {
     w<-best.run
     iter<-iterations
   }
+  
+  if (w$convergence == 1) converge<-"Model did not converge"
+  if (w$convergence == 0) converge<-"Model converged successfully"
 
   if (hess) {
     w$se <- sqrt(diag(-1 * solve(w$hessian)))
