@@ -139,8 +139,9 @@ opt.single.R<-function (yy, method="L-BFGS-B", hess = FALSE, pool = TRUE, trace=
     w<-best.run
   }
   
-  if (w$convergence == 1) converge<-"Model did not converge"
+  if (w$convergence == 10) converge<-"The search algorithm stoped as it did not make progress towards the optimal solution"
   if (w$convergence == 0) converge<-"Model converged successfully"
+  if (w$convergence == 1) converge<-"The maximum number of iterations was reached and the search algorithm exited"
 
   if (hess) {
     w$se <- sqrt(diag(-1 * solve(w$hessian)))
