@@ -180,8 +180,8 @@ fit.multivariate.OU.user.defined<-function (yy, A.user=NULL, R.user=NULL, method
            stop("The initial parameters did not work. Trying a new set of candidate starting values.")
       # The provided initial starting values for the parameters may not work (depends on the data). If this happens when running iterations, the user is informed by a message saying: "The initial parameters did not work. Trying a new set of candidate starting values." 
       
-      }
-
+     }
+    
   if (method == "L-BFGS-B")  {
     www[[k]]<-optim(init.par, fn = logL.joint.multi.OUOU.user, yy = yy, A.user = A.user, R.user = R.user,
                     locations.A = locations.A, location.diag.A = location.diag.A, location.upper.tri.A = location.upper.tri.A, location.lower.tri.A = location.lower.tri.A,
@@ -198,13 +198,22 @@ fit.multivariate.OU.user.defined<-function (yy, A.user=NULL, R.user=NULL, method
       }
     }
     
-    www<-www[!sapply(www,is.null)]
-    for (j in 1:iterations){
-      if(max(na.exclude(log.lik.tmp)) == www[[j]]$value) best.run<-www[[j]]
+    # Need to remove entries in www where the initial parameter estimates did not work.
+    www_tmp<-list()
+    for (i in 1:k){
+      if (is.character(www[[i]][1]) == FALSE) www_tmp[i]<-list(www[[i]])
+    }
+
+    www_reduced<-www_tmp[!sapply(www_tmp,is.null)]
+    
+  
+    for (j in 1:length(www_reduced)){
+      if(max(na.exclude(log.lik.tmp)) == www_reduced[[j]]$value) best.run<-www_reduced[[j]]
     }
     
     }
 
+  
   ##### End of iteration routine #####
 
   ##### Start of non-iteration routine #####
@@ -240,7 +249,7 @@ fit.multivariate.OU.user.defined<-function (yy, A.user=NULL, R.user=NULL, method
   if (hess) w$se <- sqrt(diag(-1 * solve(w$hessian))) else w$se <- NULL
   }
 
-  if (w$convergence == 10) converge<-"The search algorithm stoped as it did not make progress towards the optimal solution"
+  if (w$convergence == 10) converge<-"The search algorithm stopped as it did not make progress towards the optimal solution"
   if (w$convergence == 0) converge<-"Model converged successfully"
   if (w$convergence == 1) converge<-"The maximum number of iterations was reached and the search algorithm exited"
   
