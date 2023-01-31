@@ -16,8 +16,6 @@
 #'
 #'@param SE.R standard errors of the parameters in the R matrix
 #'
-#'@param shift.point the sample in the time series that represents the first sample in the second segment.
-#'
 #'@param method the parameterization used: Joint
 #'
 #'@param K number of parameters in the model
@@ -33,11 +31,11 @@
 #'@author Kjetil Lysne Voje
 
 
-as.evoTS.multi.BW.fit<-function (converge, modelName, logL, ancestral.values, SE.anc, R, SE.R, shift.point, method, K, n, iter)
+as.evoTS.multi.URW.fit<-function (converge, modelName, logL, ancestral.values, SE.anc, R, SE.R, method, K, n, iter)
 {
   ic <- paleoTS::IC(logL = logL, K = K, n = n, method = "AICc")
   y <- list(converge = converge, modelName = modelName, logL = logL, AICc = ic, ancestral.values = ancestral.values, SE.anc = SE.anc, R = R, SE.R = SE.R,
-            shift.point = shift.point, method = method, K = K, n = n, iter = iter)
+             method = method, K = K, n = n, iter = iter)
   class(y) <- "paleoTSfit"
   return(y)
 }
