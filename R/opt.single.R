@@ -104,10 +104,20 @@ opt.single.R<-function (yy, method="L-BFGS-B", hess = FALSE, pool = TRUE, trace=
         break
       }
     }
-    www<-www[!sapply(www,is.null)]
-    for (j in 1:iterations){
-      if(max(na.exclude(log.lik.tmp)) == www[[j]]$value) best.run<-www[[j]]
+    
+    # Need to remove entries in www in case there are iterations where the initial parameter estimates did not work.
+    www_tmp<-list()
+    for (i in 1:k){
+      if (is.character(www[[i]][1]) == FALSE) www_tmp[i]<-list(www[[i]])
     }
+    
+    www_reduced<-www_tmp[!sapply(www_tmp,is.null)]
+    
+    
+    for (j in 1:length(www_reduced)){
+      if(max(na.exclude(log.lik.tmp)) == www_reduced[[j]]$value) best.run<-www_reduced[[j]]
+    }
+    
   }
 
 
@@ -139,7 +149,7 @@ opt.single.R<-function (yy, method="L-BFGS-B", hess = FALSE, pool = TRUE, trace=
     w<-best.run
   }
   
-  if (w$convergence == 10) converge<-"The search algorithm stoped as it did not make progress towards the optimal solution"
+  if (w$convergence == 10) converge<-"The search algorithm stopped as it did not make progress towards the optimal solution"
   if (w$convergence == 0) converge<-"Model converged successfully"
   if (w$convergence == 1) converge<-"The maximum number of iterations was reached and the search algorithm exited"
 
@@ -186,7 +196,7 @@ opt.single.R<-function (yy, method="L-BFGS-B", hess = FALSE, pool = TRUE, trace=
 
   ancestral.values<-w$par[(length(init.trait.var) + length(init.cov.traits) +1) : length(init.par)]
 
-  wc<-as.evoTS.multi.BW.fit(converge, modelName = "Multivariate Random walk (R matrix with non-zero off-diagonal elements)", logL = w$value, ancestral.values = ancestral.values, SE.anc = SE.anc, R = R, SE.R = SE.R,
+  wc<-as.evoTS.multi.URW.fit(converge, modelName = "Multivariate Random walk (R matrix with non-zero off-diagonal elements)", logL = w$value, ancestral.values = ancestral.values, SE.anc = SE.anc, R = R, SE.R = SE.R,
                                                           method = "Joint", K = K, n = length(yy$xx[,1]), iter=iter)
 
   return(wc)
