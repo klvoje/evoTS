@@ -7,8 +7,6 @@
 
 [![](https://www.r-pkg.org/badges/version/evoTS?color=blue)](https://cran.r-project.org/package=evoTS)
 [![](http://cranlogs.r-pkg.org/badges/grand-total/evoTS?color=blue)](https://cran.r-project.org/package=evoTS)
-[![R build
-status](https://github.com/green/workflows/R-CMD-check/badge.svg)](https://github.com/green/actions)
 
 <!-- badges: end -->
 
