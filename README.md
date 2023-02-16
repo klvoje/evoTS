@@ -4,6 +4,11 @@
 # evoTS - Analyses of evolutionary time-series
 
 <!-- badges: start -->
+
+“[![](https://www.r-pkg.org/badges/version/evoTS?color=blue)](https://cran.r-project.org/package=evoTS)”
+“[![](http://cranlogs.r-pkg.org/badges/grand-total/evoTS?color=blue)](https://cran.r-project.org/package=evoTS)”
+“[![CRAN
+checks](https://badges.cranchecks.info/summary/evoTS.svg)](https://cran.r-project.org/web/checks/check_results_evoTS.html)”
 <!-- badges: end -->
 
 <https://cran.r-project.org/package=evoTS>
