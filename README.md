@@ -6,6 +6,8 @@
 <!-- badges: start -->
 <!-- badges: end -->
 
+<https://cran.r-project.org/package=evoTS>
+
 The `evoTS` package facilitates univariate and multivariate analyses of
 phenotypic change within lineages.
 
@@ -28,7 +30,22 @@ multivariate unbiased random walks and Ornstein-Uhlenbeck processes.
 These multivariate models allow the user to test a variety of hypotheses
 of adaptation and evolution using phenotypic time-series.
 
+## The development version
+
+The GitHub repository contains a copy of the current development version
+of the R package evoTS. This version is as recent as or more recent than
+the official release of evoTS on the Comprehensive R Archive Network
+(CRAN), which is available at
+<https://cran.r-project.org/package=evoTS>.
+
+## Where is the official (stable) release?
+
+For the most recent official and stable release of `evoTS`, see
+<https://cran.r-project.org/package=evoTS>
+
 ## Installation
+
+### Installing the official release
 
 ``` r
 ## Installing from CRAN
@@ -36,6 +53,8 @@ of adaptation and evolution using phenotypic time-series.
 
 > library(evoTS)
 ```
+
+### Installing the the development version from GitHub
 
 ``` r
 ## Installing from GitHub
