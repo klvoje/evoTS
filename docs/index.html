@@ -26,7 +26,7 @@
     
     <a class="navbar-brand me-2" href="index.html">evoTS</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.1</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -87,18 +87,44 @@
 <div class="page-header"><h1 id="evots---analyses-of-evolutionary-time-series">evoTS - Analyses of evolutionary time-series<a class="anchor" aria-label="anchor" href="#evots---analyses-of-evolutionary-time-series"></a>
 </h1></div>
 <!-- badges: start -->
+
 <!-- badges: end -->
+<p><a href="https://cran.r-project.org/package=evoTS" class="external-link uri">https://cran.r-project.org/package=evoTS</a></p>
 <p>The <code>evoTS</code> package facilitates univariate and multivariate analyses of phenotypic change within lineages.</p>
 <p>The <code>evoTS</code> package extends the modeling framework available in the <a href="https://CRAN.R-project.org/package=paleoTS" class="external-link"> <code>paleoTS</code> package</a>. All model-fitting procedures in <code>evoTS</code> have been implemented to mirror the user experience from <code>paleoTS</code>. For example, all univariate models implemented in <code>evoTS</code> can be fitted to a <code>paleoTS</code> object, i.e. the data format used in <code>paleoTS</code>. The fit of all univariate models available in <code>paleoTS</code> and <code>evoTS</code> are directly comparable using the reported AICc.</p>
 <p><code>evoTS</code> contains functions that allow for fitting different models to separate parts of an evolutionary sequence (mode-shift models). Functions for investigating likelihood surfaces of fitted models are also included.</p>
 <p>Multivariate models implemented in <code>evoTS</code> include different versions of multivariate unbiased random walks and Ornstein-Uhlenbeck processes. These multivariate models allow the user to test a variety of hypotheses of adaptation and evolution using phenotypic time-series.</p>
 <div class="section level2">
+<h2 id="the-development-version">The development version<a class="anchor" aria-label="anchor" href="#the-development-version"></a>
+</h2>
+<p>The GitHub repository contains a copy of the current development version of the R package evoTS. This version is as recent as or more recent than the official release of evoTS on the Comprehensive R Archive Network (CRAN), which is available at <a href="https://cran.r-project.org/package=evoTS" class="external-link uri">https://cran.r-project.org/package=evoTS</a>.</p>
+</div>
+<div class="section level2">
+<h2 id="where-is-the-official-stable-release">Where is the official (stable) release?<a class="anchor" aria-label="anchor" href="#where-is-the-official-stable-release"></a>
+</h2>
+<p>For the most recent official and stable release of <code>evoTS</code>, see <a href="https://cran.r-project.org/package=evoTS" class="external-link uri">https://cran.r-project.org/package=evoTS</a></p>
+</div>
+<div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
-<p>The evoTS package is available on GitHub and can be installed using devtools:</p>
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span></span>
-<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"klvoje/evoTS"</span><span class="op">)</span></span></code></pre></div>
+<div class="section level3">
+<h3 id="installing-the-official-release">Installing the official release<a class="anchor" aria-label="anchor" href="#installing-the-official-release"></a>
+</h3>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Installing from CRAN</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">install.packages</span>(<span class="st">"evoTS"</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">library</span>(evoTS)</span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="installing-the-the-development-version-from-github">Installing the the development version from GitHub<a class="anchor" aria-label="anchor" href="#installing-the-the-development-version-from-github"></a>
+</h3>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Installing from GitHub</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">install.packages</span>(<span class="st">"devtools"</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> devtools<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">"klvoje/evoTS"</span>)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">library</span>(evoTS)</span></code></pre></div>
+</div>
 </div>
 <div class="section level2">
 <h2 id="documentation">Documentation<a class="anchor" aria-label="anchor" href="#documentation"></a>
@@ -137,7 +163,13 @@
 </ul>
 </div>
 
-
+<div class="dev-status">
+<h2 data-toc-skip>Dev status</h2>
+<ul class="list-unstyled">
+<li><a href="https://cran.r-project.org/package=evoTS" class="external-link"><img src="https://www.r-pkg.org/badges/version/evoTS?color=blue"></a></li>
+<li><a href="https://cran.r-project.org/package=evoTS" class="external-link"><img src="http://cranlogs.r-pkg.org/badges/grand-total/evoTS?color=blue"></a></li>
+</ul>
+</div>
 
   </aside>
 </div>
