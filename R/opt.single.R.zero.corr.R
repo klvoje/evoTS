@@ -140,6 +140,8 @@ opt.single.R.zero.corr<-function (yy, method = "L-BFGS-B", hess = FALSE, pool = 
   if (w$convergence == 10) converge<-"The search algorithm stoped as it did not make progress towards the optimal solution"
   if (w$convergence == 0) converge<-"Model converged successfully"
   if (w$convergence == 1) converge<-"The maximum number of iterations was reached and the search algorithm exited"
+  if (w$convergence == 51) converge<-"The model did not converge due to en error in L-BFGS-B. Reported estimates are not the maximum likelihood"
+  if (w$convergence == 52) converge<-"The model did not converge due to en error in L-BFGS-B. Reported estimates are not the maximum likelihood"
   
   if (hess) {
     w$se <- sqrt(diag(-1 * solve(w$hessian)))

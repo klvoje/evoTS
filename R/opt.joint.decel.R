@@ -55,7 +55,7 @@ opt.joint.decel<-function (y, pool = TRUE, meth = "L-BFGS-B", hess = FALSE)
     w <- optim(p0, fn = logL.joint.accel_decel, control = cl, method = meth,
                lower = c(NA, 0, NA), upper = (c(NA, NA, -1e-08)), hessian = hess, y = y)
   else w <- optim(p0, fn = logL.joint.accel_decel, control = cl, method = meth, lower = c(NA, 0, NA),
-                  upper = (c(NA, NA,0)), hessian = hess, y = y)
+                  upper = (c(NA, NA, -1e-08)), hessian = hess, y = y)
 
   if (hess)
     w$se <- sqrt(diag(-1 * solve(w$hessian)))

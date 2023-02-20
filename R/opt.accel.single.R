@@ -88,7 +88,7 @@ opt.accel.single.R<-function (yy, method="L-BFGS-B", hess = FALSE, pool = TRUE, 
 
       if (method == "L-BFGS-B")  {
         www[[k]]<-optim(init.par, fn = logL.joint.accel.decel.single.R, y = y, m = m, n = n, anc.values = anc.values, yy = yy,
-                        control = list(fnscale = -1, maxit=10000, trace = trace), method = "L-BFGS-B", hessian = hess, lower = lower.limit)
+                        control = list(fnscale = -1, maxit=10000, trace = trace), method = "L-BFGS-B", hessian = hess, lower = lower.limit, upper = upper.limit)
       }
 
       if (method == "Nelder-Mead")  {
@@ -97,7 +97,7 @@ opt.accel.single.R<-function (yy, method="L-BFGS-B", hess = FALSE, pool = TRUE, 
       }
       if (method == "SANN")  {
         www[[k]]<-optim(init.par, fn = logL.joint.accel.decel.single.R, y = y, m = m, n = n, anc.values = anc.values, yy = yy,
-                        control = list(fnscale = -1, maxit=10000, trace = trace), method = "SANN" , hessian = hess, lower = lower.limit)
+                        control = list(fnscale = -1, maxit=10000, trace = trace), method = "SANN" , hessian = hess, lower = lower.limit, upper = upper.limit)
       }
       log.lik.tmp[k]<-www[[k]]$value
       }, error=function(e){cat("ERROR :",conditionMessage(e), "\n")})
@@ -130,7 +130,7 @@ opt.accel.single.R<-function (yy, method="L-BFGS-B", hess = FALSE, pool = TRUE, 
 
     if (method == "L-BFGS-B")  {
       w<-optim(init.par, fn = logL.joint.accel.decel.single.R, y = y, m = m, n = n, anc.values = anc.values, yy = yy,
-               control = list(fnscale = -1, maxit=10000, trace = trace), method = "L-BFGS-B", hessian = hess, lower = lower.limit)
+               control = list(fnscale = -1, maxit=10000, trace = trace), method = "L-BFGS-B", hessian = hess, lower = lower.limit, upper = upper.limit)
     }
 
     if (method == "Nelder-Mead")  {
@@ -139,7 +139,7 @@ opt.accel.single.R<-function (yy, method="L-BFGS-B", hess = FALSE, pool = TRUE, 
     }
     if (method == "SANN")  {
       w<-optim(init.par, fn = logL.joint.accel.decel.single.R, y = y, m = m, n = n, anc.values = anc.values, yy = yy,
-               control = list(fnscale = -1, maxit=10000, trace = trace), method = "SANN" , hessian = hess, lower = lower.limit)
+               control = list(fnscale = -1, maxit=10000, trace = trace), method = "SANN" , hessian = hess, lower = lower.limit, upper = upper.limit)
     }
     
   }
@@ -152,6 +152,9 @@ opt.accel.single.R<-function (yy, method="L-BFGS-B", hess = FALSE, pool = TRUE, 
   if (w$convergence == 10) converge<-"The search algorithm stopped as it did not make progress towards the optimal solution"
   if (w$convergence == 0) converge<-"Model converged successfully"
   if (w$convergence == 1) converge<-"The maximum number of iterations was reached and the search algorithm exited"
+  if (w$convergence == 51) converge<-"The model did not converge due to en error in L-BFGS-B. Reported estimates are not the maximum likelihood"
+  if (w$convergence == 52) converge<-"The model did not converge due to en error in L-BFGS-B. Reported estimates are not the maximum likelihood"
+  
 
   if (hess) {
     w$se <- sqrt(diag(-1 * solve(w$hessian)))
