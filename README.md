@@ -1,13 +1,12 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# evoTS - Analyses of evolutionary time-series
+# evoTS - Analyses of evolutionary time-series <img src="vignettes/evoTS.png" width="120" align="right" />
 
 <!-- badges: start -->
 
 [![](https://www.r-pkg.org/badges/version/evoTS?color=blue)](https://cran.r-project.org/package=evoTS)
 [![](http://cranlogs.r-pkg.org/badges/grand-total/evoTS?color=blue)](https://cran.r-project.org/package=evoTS)
-
 <!-- badges: end -->
 
 <https://cran.r-project.org/package=evoTS>
