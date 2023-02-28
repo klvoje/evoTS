@@ -126,27 +126,26 @@ The unbiased random walk model in the `paleoTS` package model evolutionary chang
 $$ E[z_{i}] = z_{0} $$
 <br />
 
-$$ Var[z_{i}] = \sigma ^{2} _{step.0}e^{rt_i} + \epsilon _{i} $$
+$$ Var[z_{i}] = \sigma ^{2} _{step}\left[ \frac{ e^{rt_i} - 1}r \right] +\epsilon _{i} $$ 
 <br />
 
-$$ Cov[z_{i},z_{j}] = \sigma ^{2} _{step.0}e^{rt_{min}} $$
+$$ Cov[z_{i},z_{j}] = \sigma ^{2} _{step}\left[ \frac{ e^{rt_{min}} - 1}r \right] $$
 <br />
 
-where $z_{i}$ is the expected trait value for population *i* in the time series, $z_{i}$ is the ancestral trait mean, $\sigma ^{2} _{step.0}$ is the initial value for the step distribution, $r$ describes the exponential decay in the $\sigma ^{2}_{step.0}$ through time and is constrained to be 0 or smaller, $t_{i}$ is the time interval from the ancestral population mean (the start of the fossil sequence, which has a time of 0) to the *i*th population, and $t_{min}$ is the time interval from the ancestral population to the oldest of the two populations $z_{i}$ and $z_{j}$.
+where $z_{i}$ is the expected trait value for population *i* in the time series, $z_{i}$ is the ancestral trait mean, $\sigma ^{2} _{step}$ is the step distribution, $r$ describes the exponential decay in the net rate of change through time and is constrained to be 0 or smaller, $t_{i}$ is the time interval from the ancestral population mean (the start of the fossil sequence, which has a time of 0) to the *i*th population, and $t_{min}$ is the time interval from the ancestral population to the oldest of the two populations $z_{i}$ and $z_{j}$.
 
 The decerelated model of evolution can be fitted to a time series using the `opt.joint.decel` function.
 <br /> 
 ```{r eval = FALSE}
-> opt.joint.decel(ln.diameter)
-$logL
-[1] 76.77642
+> $logL
+[1] 78.67217
 
 $AICc
-[1] -147.1461
+[1] -150.9376
 
 $parameters
        anc      vstep          r 
- 3.8868739  0.2892461 -1.8076302 
+ 3.7195253  0.4308633 -1.3114667 
 
 $modelName
 [1] "Decel"
@@ -169,7 +168,7 @@ attr(,"class")
 <br /> 
 The output returns the log-likelihood of the model parameters (*logl*), the AICc score (*AICc*), the number (*K*) of estimated parameters (*parameters*), the length of the analysed time-series (*n*), the model name (*modelName*) and the method used to parameterize the model (*method*). *anc* is the estimated ancestral trait value, *vstep* is the initial value for the step distribution, and *r* describes the exponential decay in the *vstep* parameter through time. 
 
-The time it takes to half the rate of evolution can be calculated based on the value of *r* using $-ln(2)/r$. The half-life parameter is interpreted based on the time-scale used when analyzing the data. Since time from start to end in our data has been scaled to unit length, the estimated half-life represent the percent of the total length of the time-series it takes for the rate of evolution to half. The half-life is (-ln(2)/-1.8076302 =) 0.38 in this example. The total length of the analyzed time-series is 13,728 years, which means it takes (13,728*0.38 =) 5,217 years for the rate of evolution to be reduced by 50%.
+The time it takes to half the net rate of evolution can be calculated based on the value of *r* using $-ln(2)/r$. The half-life parameter is interpreted based on the time-scale used when analyzing the data. Since time from start to end in our data has been scaled to unit length, the estimated half-life represent the percent of the total length of the time-series it takes for the rate of evolution to half. The half-life is (-ln(2)/-1.3114667 =) 0.53 in this example. The total length of the analyzed time-series is 13,728 years, which means it takes (13,728*0.53 =) 7,276 years for the net rate of evolution to be reduced by 50%.
 
 What are the uncertainty of the estimated parameters in this model? Standard errors of the parameters are returned by setting `hess = TRUE` when fitting a model. The standard errors are calculated based on the Hessian matrix, which is a square matrix of partial second order derivatives.
 
@@ -185,22 +184,22 @@ Investigating the likelihood surface can be helpful for several reasons.
 
 The `evoTS` package contain functions to create likelihood surfaces for univariate models in `evoTS` and `paleoTS` (e.g., `loglik.surface.stasis`, `loglik.surface.URW`, `loglik.surface.GRW`, `loglik.surface.OU`). These functions need a `paleoTS` object and vectors containing candidate values for the parameters to be evaluated. Which candidate values to investigate is trial-and-error, but the maximum likelihood estimate of the parameter should always be in the interval. 
 
-For the decelerated model of evolution, the vectors given to the arguments `vstep.vec` and `r.vec` define the pairwise combinations of parameters for which the function will estimate the log-likelihood. The resolution of the input vectors therefore determines how accurate the visual representation of the support surface is, including the returned upper and lower estimates printed in the console. A higher resolution gives better precision, but demands more computation time. Note that the computed support surface is conditional on the best estimates of the other model parameters that are not part of the support surface (e.g., the estimated ancestral trait value is assumed to be 3.8868739 in the example below).
+For the decelerated model of evolution, the vectors given to the arguments `vstep.vec` and `r.vec` define the pairwise combinations of parameters for which the function will estimate the log-likelihood. The resolution of the input vectors therefore determines how accurate the visual representation of the support surface is, including the returned upper and lower estimates printed in the console. A higher resolution gives better precision, but demands more computation time. Note that the computed support surface is conditional on the best estimates of the other model parameters that are not part of the support surface (e.g., the estimated ancestral trait value is assumed to be 3.7195253 in the example below).
 
 One way to define the candidate values is to use the `seq` function.
 <br /> 
 ```{r eval = FALSE}
-> loglik.surface.decel(ln.diameter, vstep.vec = seq(0,1.2,0.01), r.vec = seq(-5,0,0.01))
+> loglik.surface.decel(ln.diameter, vstep.vec = seq(0,1.3,0.01), r.vec = seq(-5,0,0.01))
       lower upper
-vstep  0.17  1.00
-r     -3.70 -0.28
+vstep  0.18  1.26
+r     -3.23 -0.21
 ```
 <br /> 
 ```{r  out.width = "80%", echo = FALSE, fig.align="center"}
 knitr::include_graphics("decel_logl_surface.png") 
 ```
 <br /> 
-From the likelihood surface and from the printed confidence intervals, we see that *r* values between -3.70 and -0.28 are within 2 log-likelihood units from the best estimate for this parameter. This suggests we should be careful to exclude the possibility that the half-life of the decay in the rate of evolution is as much as 248% (34,045 years) or as low as 19% (2,608 years) of the investigated time-interval.
+From the likelihood surface and from the printed confidence intervals, we see that *r* values between -3.23 and -0.21 are within 2 log-likelihood units from the best estimate for this parameter. This suggests we should be careful to exclude the possibility that the half-life of the decay in the rate of evolution is as much as 330% (45,312 years) or as low as 21% (2,946 years) of the investigated time-interval.
 
 ## 4.2 Accelerated-evolution model
 The accelerated evolution model is identical to the decelerated model except that the r parameter is constrained to be 0 or larger, which means the rate of evolution is accelerating with time. 
@@ -209,16 +208,15 @@ The accelerated evolution model can be fitted using the `opt.joint.accel` functi
 <br /> 
 ```{r eval = FALSE}
 > opt.joint.accel(ln.diameter)
-
 $logL
-[1] 73.80287
+[1] 77.57017
 
 $AICc
-[1] -141.199
+[1] -148.7336
 
 $parameters
       anc     vstep         r 
-3.7078973 0.7903365 0.2630122 
+3.7104896 0.2387427 0.0000010 
 
 $modelName
 [1] "Accel"
@@ -846,8 +844,8 @@ We now check if the multivariate accelerated and decelerated models have a bette
 > multi.accel<-fit.multivariate.URW(diam.ln_ribs.ln, R = "symmetric", r = "accel")
 > multi.decel<-fit.multivariate.URW(diam.ln_ribs.ln, R = "symmetric", r = "decel")
 > multi.accel$AICc;multi.decel$AICc
-[1] -337.8639
-[1] -350.7423
+[1] -351.2512
+[1] -356.3287
 ````
 <br /> 
 The multivariate decelerated evolution model has a similar (but worse) fit to the data compared to the multivariate unbiased random walk model with a single **R** matrix, but is out-competed by the model estimating two **R** matrices. 

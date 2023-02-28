@@ -92,7 +92,7 @@
                         <h4 data-toc-skip class="author">Kjetil L.
 Voje</h4>
             
-            <h4 data-toc-skip class="date">2023-02-21</h4>
+            <h4 data-toc-skip class="date">2023-02-28</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/klvoje/evoTS/blob/HEAD/vignettes/evoTS_vignette.Rmd" class="external-link"><code>vignettes/evoTS_vignette.Rmd</code></a></small>
       <div class="d-none name"><code>evoTS_vignette.Rmd</code></div>
@@ -297,48 +297,47 @@ always zero in the model of decelerated evolution. The expected trait
 mean and its variance and covariance are given by the following
 expressions: <br><br></p>
 <p><span class="math display">\[ E[z_{i}] = z_{0} \]</span> <br></p>
-<p><span class="math display">\[ Var[z_{i}] = \sigma ^{2}
-_{step.0}e^{rt_i} + \epsilon _{i} \]</span> <br></p>
+<p><span class="math display">\[ Var[z_{i}] = \sigma ^{2} _{step}\left[
+\frac{ e^{rt_i} - 1}r \right] +\epsilon _{i} \]</span> <br></p>
 <p><span class="math display">\[ Cov[z_{i},z_{j}] = \sigma ^{2}
-_{step.0}e^{rt_{min}} \]</span> <br></p>
+_{step}\left[ \frac{ e^{rt_{min}} - 1}r \right] \]</span> <br></p>
 <p>where <span class="math inline">\(z_{i}\)</span> is the expected
-trait value for population <em>i</em> in the time series, <span class="math inline">\(z_{i}\)</span> is the ancestral trait mean, <span class="math inline">\(\sigma ^{2} _{step.0}\)</span> is the initial
-value for the step distribution, <span class="math inline">\(r\)</span>
-describes the exponential decay in the <span class="math inline">\(\sigma ^{2}_{step.0}\)</span> through time and is
+trait value for population <em>i</em> in the time series, <span class="math inline">\(z_{i}\)</span> is the ancestral trait mean, <span class="math inline">\(\sigma ^{2} _{step}\)</span> is the step
+distribution, <span class="math inline">\(r\)</span> describes the
+exponential decay in the net rate of change through time and is
 constrained to be 0 or smaller, <span class="math inline">\(t_{i}\)</span> is the time interval from the
 ancestral population mean (the start of the fossil sequence, which has a
 time of 0) to the <em>i</em>th population, and <span class="math inline">\(t_{min}\)</span> is the time interval from the
 ancestral population to the oldest of the two populations <span class="math inline">\(z_{i}\)</span> and <span class="math inline">\(z_{j}\)</span>.</p>
 <p>The decerelated model of evolution can be fitted to a time series
 using the <code>opt.joint.decel</code> function. <br></p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">opt.joint.decel</span>(ln.diameter)</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>logL</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="fl">76.77642</span></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>AICc</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="sc">-</span><span class="fl">147.1461</span></span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>parameters</span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>       anc      vstep          r </span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a> <span class="fl">3.8868739</span>  <span class="fl">0.2892461</span> <span class="sc">-</span><span class="fl">1.8076302</span> </span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>modelName</span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">"Decel"</span></span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>method</span>
-<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">"Joint"</span></span>
-<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>se</span>
-<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a><span class="cn">NULL</span></span>
-<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>K</span>
-<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="dv">3</span></span>
-<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>n</span>
-<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="dv">63</span></span>
-<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a><span class="fu">attr</span>(,<span class="st">"class"</span>)</span>
-<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">"paleoTSfit"</span></span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="er">$</span>logL</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="fl">78.67217</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>AICc</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="sc">-</span><span class="fl">150.9376</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>parameters</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>       anc      vstep          r </span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a> <span class="fl">3.7195253</span>  <span class="fl">0.4308633</span> <span class="sc">-</span><span class="fl">1.3114667</span> </span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>modelName</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">"Decel"</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>method</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">"Joint"</span></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>se</span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a><span class="cn">NULL</span></span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>K</span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="dv">3</span></span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>n</span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="dv">63</span></span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a><span class="fu">attr</span>(,<span class="st">"class"</span>)</span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">"paleoTSfit"</span></span></code></pre></div>
 <p><br> The output returns the log-likelihood of the model parameters
 (<em>logl</em>), the AICc score (<em>AICc</em>), the number (<em>K</em>)
 of estimated parameters (<em>parameters</em>), the length of the
@@ -347,15 +346,15 @@ and the method used to parameterize the model (<em>method</em>).
 <em>anc</em> is the estimated ancestral trait value, <em>vstep</em> is
 the initial value for the step distribution, and <em>r</em> describes
 the exponential decay in the <em>vstep</em> parameter through time.</p>
-<p>The time it takes to half the rate of evolution can be calculated
+<p>The time it takes to half the net rate of evolution can be calculated
 based on the value of <em>r</em> using <span class="math inline">\(-ln(2)/r\)</span>. The half-life parameter is
 interpreted based on the time-scale used when analyzing the data. Since
 time from start to end in our data has been scaled to unit length, the
 estimated half-life represent the percent of the total length of the
 time-series it takes for the rate of evolution to half. The half-life is
-(-ln(2)/-1.8076302 =) 0.38 in this example. The total length of the
-analyzed time-series is 13,728 years, which means it takes (13,728*0.38
-=) 5,217 years for the rate of evolution to be reduced by 50%.</p>
+(-ln(2)/-1.3114667 =) 0.53 in this example. The total length of the
+analyzed time-series is 13,728 years, which means it takes (13,728*0.53
+=) 7,276 years for the net rate of evolution to be reduced by 50%.</p>
 <p>What are the uncertainty of the estimated parameters in this model?
 Standard errors of the parameters are returned by setting
 <code>hess = TRUE</code> when fitting a model. The standard errors are
@@ -412,19 +411,19 @@ console. A higher resolution gives better precision, but demands more
 computation time. Note that the computed support surface is conditional
 on the best estimates of the other model parameters that are not part of
 the support surface (e.g., the estimated ancestral trait value is
-assumed to be 3.8868739 in the example below).</p>
+assumed to be 3.7195253 in the example below).</p>
 <p>One way to define the candidate values is to use the <code>seq</code>
 function. <br></p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">loglik.surface.decel</span>(ln.diameter, <span class="at">vstep.vec =</span> <span class="fu">seq</span>(<span class="dv">0</span>,<span class="fl">1.2</span>,<span class="fl">0.01</span>), <span class="at">r.vec =</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">5</span>,<span class="dv">0</span>,<span class="fl">0.01</span>))</span>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">loglik.surface.decel</span>(ln.diameter, <span class="at">vstep.vec =</span> <span class="fu">seq</span>(<span class="dv">0</span>,<span class="fl">1.3</span>,<span class="fl">0.01</span>), <span class="at">r.vec =</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">5</span>,<span class="dv">0</span>,<span class="fl">0.01</span>))</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>      lower upper</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>vstep  <span class="fl">0.17</span>  <span class="fl">1.00</span></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>r     <span class="sc">-</span><span class="fl">3.70</span> <span class="sc">-</span><span class="fl">0.28</span></span></code></pre></div>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>vstep  <span class="fl">0.18</span>  <span class="fl">1.26</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>r     <span class="sc">-</span><span class="fl">3.23</span> <span class="sc">-</span><span class="fl">0.21</span></span></code></pre></div>
 <p><br><img src="decel_logl_surface.png" width="80%" style="display: block; margin: auto;"><br> From the likelihood surface and from the printed confidence
-intervals, we see that <em>r</em> values between -3.70 and -0.28 are
+intervals, we see that <em>r</em> values between -3.23 and -0.21 are
 within 2 log-likelihood units from the best estimate for this parameter.
 This suggests we should be careful to exclude the possibility that the
-half-life of the decay in the rate of evolution is as much as 248%
-(34,045 years) or as low as 19% (2,608 years) of the investigated
+half-life of the decay in the rate of evolution is as much as 330%
+(45,312 years) or as low as 21% (2,946 years) of the investigated
 time-interval.</p>
 </div>
 <div class="section level3">
@@ -436,34 +435,33 @@ means the rate of evolution is accelerating with time.</p>
 <p>The accelerated evolution model can be fitted using the
 <code>opt.joint.accel</code> function. <br></p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">opt.joint.accel</span>(ln.diameter)</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>logL</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="fl">73.80287</span></span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>AICc</span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="sc">-</span><span class="fl">141.199</span></span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>parameters</span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>      anc     vstep         r </span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="fl">3.7078973</span> <span class="fl">0.7903365</span> <span class="fl">0.2630122</span> </span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>modelName</span>
-<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">"Accel"</span></span>
-<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>method</span>
-<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">"Joint"</span></span>
-<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>se</span>
-<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a><span class="cn">NULL</span></span>
-<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>K</span>
-<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="dv">3</span></span>
-<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>n</span>
-<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="dv">63</span></span>
-<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a><span class="fu">attr</span>(,<span class="st">"class"</span>)</span>
-<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">"paleoTSfit"</span></span></code></pre></div>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>logL</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="fl">77.57017</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>AICc</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="sc">-</span><span class="fl">148.7336</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>parameters</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>      anc     vstep         r </span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="fl">3.7104896</span> <span class="fl">0.2387427</span> <span class="fl">0.0000010</span> </span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>modelName</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">"Accel"</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>method</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">"Joint"</span></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>se</span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a><span class="cn">NULL</span></span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>K</span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="dv">3</span></span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>n</span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="dv">63</span></span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a><span class="fu">attr</span>(,<span class="st">"class"</span>)</span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">"paleoTSfit"</span></span></code></pre></div>
 <p><br> The accelerated evolution model has a lower (worse)
 log-likelihood and higher (worse) AICc score compared to the decelerated
 model of evolution.</p>
@@ -1231,8 +1229,8 @@ have a better fit than the multivariate random walk models. <br></p>
 <div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> multi.accel<span class="ot">&lt;-</span><span class="fu">fit.multivariate.URW</span>(diam.ln_ribs.ln, <span class="at">R =</span> <span class="st">"symmetric"</span>, <span class="at">r =</span> <span class="st">"accel"</span>)</span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> multi.decel<span class="ot">&lt;-</span><span class="fu">fit.multivariate.URW</span>(diam.ln_ribs.ln, <span class="at">R =</span> <span class="st">"symmetric"</span>, <span class="at">r =</span> <span class="st">"decel"</span>)</span>
 <span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> multi.accel<span class="sc">$</span>AICc;multi.decel<span class="sc">$</span>AICc</span>
-<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="sc">-</span><span class="fl">337.8639</span></span>
-<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="sc">-</span><span class="fl">350.7423</span></span></code></pre></div>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="sc">-</span><span class="fl">351.2512</span></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="sc">-</span><span class="fl">356.3287</span></span></code></pre></div>
 <p><br> The multivariate decelerated evolution model has a similar
 (but worse) fit to the data compared to the multivariate unbiased random
 walk model with a single <strong>R</strong> matrix, but is out-competed
