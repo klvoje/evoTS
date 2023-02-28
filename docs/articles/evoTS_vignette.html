@@ -297,12 +297,13 @@ always zero in the model of decelerated evolution. The expected trait
 mean and its variance and covariance are given by the following
 expressions: <br><br></p>
 <p><span class="math display">\[ E[z_{i}] = z_{0} \]</span> <br></p>
-<p><span class="math display">\[ Var[z_{i}] = \sigma ^{2} _{step}\left[
-\frac{ e^{rt_i} - 1}r \right] +\epsilon _{i} \]</span> <br></p>
+<p><span class="math display">\[ Var[z_{i}] = \sigma ^{2}
+_{step.0}\left[ \frac{ e^{rt_i} - 1}r \right] +\epsilon _{i} \]</span>
+<br></p>
 <p><span class="math display">\[ Cov[z_{i},z_{j}] = \sigma ^{2}
-_{step}\left[ \frac{ e^{rt_{min}} - 1}r \right] \]</span> <br></p>
+_{step.0}\left[ \frac{ e^{rt_{min}} - 1}r \right] \]</span> <br></p>
 <p>where <span class="math inline">\(z_{i}\)</span> is the expected
-trait value for population <em>i</em> in the time series, <span class="math inline">\(z_{i}\)</span> is the ancestral trait mean, <span class="math inline">\(\sigma ^{2} _{step}\)</span> is the step
+trait value for population <em>i</em> in the time series, <span class="math inline">\(z_{i}\)</span> is the ancestral trait mean, <span class="math inline">\(\sigma ^{2} _{step.0}\)</span> is the step
 distribution, <span class="math inline">\(r\)</span> describes the
 exponential decay in the net rate of change through time and is
 constrained to be 0 or smaller, <span class="math inline">\(t_{i}\)</span> is the time interval from the

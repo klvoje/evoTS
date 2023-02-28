@@ -126,13 +126,13 @@ The unbiased random walk model in the `paleoTS` package model evolutionary chang
 $$ E[z_{i}] = z_{0} $$
 <br />
 
-$$ Var[z_{i}] = \sigma ^{2} _{step}\left[ \frac{ e^{rt_i} - 1}r \right] +\epsilon _{i} $$ 
+$$ Var[z_{i}] = \sigma ^{2} _{step.0}\left[ \frac{ e^{rt_i} - 1}r \right] +\epsilon _{i} $$ 
 <br />
 
-$$ Cov[z_{i},z_{j}] = \sigma ^{2} _{step}\left[ \frac{ e^{rt_{min}} - 1}r \right] $$
+$$ Cov[z_{i},z_{j}] = \sigma ^{2} _{step.0}\left[ \frac{ e^{rt_{min}} - 1}r \right] $$
 <br />
 
-where $z_{i}$ is the expected trait value for population *i* in the time series, $z_{i}$ is the ancestral trait mean, $\sigma ^{2} _{step}$ is the step distribution, $r$ describes the exponential decay in the net rate of change through time and is constrained to be 0 or smaller, $t_{i}$ is the time interval from the ancestral population mean (the start of the fossil sequence, which has a time of 0) to the *i*th population, and $t_{min}$ is the time interval from the ancestral population to the oldest of the two populations $z_{i}$ and $z_{j}$.
+where $z_{i}$ is the expected trait value for population *i* in the time series, $z_{i}$ is the ancestral trait mean, $\sigma ^{2} _{step.0}$ is the step distribution, $r$ describes the exponential decay in the net rate of change through time and is constrained to be 0 or smaller, $t_{i}$ is the time interval from the ancestral population mean (the start of the fossil sequence, which has a time of 0) to the *i*th population, and $t_{min}$ is the time interval from the ancestral population to the oldest of the two populations $z_{i}$ and $z_{j}$.
 
 The decerelated model of evolution can be fitted to a time series using the `opt.joint.decel` function.
 <br /> 
