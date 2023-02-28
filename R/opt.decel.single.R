@@ -68,7 +68,7 @@ opt.decel.single.R<-function (yy, method="L-BFGS-B", hess = FALSE, pool = TRUE, 
 
   init.par<-c(init.trait.var, init.cov.traits, anc.values, -1)
   lower.limit<-c(rep(0, length(init.trait.var)), rep(NA, (length(init.cov.traits) +length(anc.values))+1))
-  upper.limit<-c(rep(NA, (length(init.trait.var) + length(init.cov.traits)+ length(anc.values))), 0)
+  upper.limit<-c(rep(NA, (length(init.trait.var) + length(init.cov.traits)+ length(anc.values))), -1e-13)
 
 
   ### Start iterations from different starting values

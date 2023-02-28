@@ -2,7 +2,9 @@
 
 ## Bug fixes
 
-- Fixed a bug in functions running multivariate models with iterations: The functions are now  providing output from the best model even if the initial parameters failed to work for one or more of the iterations. 
+- Fixed a bug in functions running multivariate models with iterations: The functions are now providing output from the best model even if the initial parameters failed to work for one or more of the iterations. 
+
+- Fixed a bug in how the variance-covariance matrix of the decelerated and accelerated models were defined.    
 
 ## Other changes
 

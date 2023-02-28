@@ -19,7 +19,7 @@ logL.joint.accel_decel<-function (p, y)
   vs <- p[2]
   r <- p[3]
   n <- length(y$mm)
-  VV <- vs * outer(exp(r*y$tt), exp(r*y$tt), FUN = pmin)
+  VV <- vs*(exp(r*outer(y$tt, y$tt, FUN = pmin)) - 1)/r
   diag(VV) <- diag(VV) + y$vv/y$nn
   M <- rep(anc, n)
   S <- mvtnorm::dmvnorm(y$mm, mean = M, sigma = VV, log = TRUE)

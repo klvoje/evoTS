@@ -43,9 +43,12 @@ logL.joint.accel.decel.single.R<-function (init.par, y , m , n, anc.values, yy)
   }
   M<-c(t(M_temp)) # vectorize M
 
-  # Defining the "phylogenetic" covariance matrix (C)
-  C<- outer(exp(init.par[length(init.par)]*yy$tt[,1]), exp(init.par[length(init.par)]*yy$tt[,1]), FUN = pmin)
+  #  VV <- exp(r*outer(y$tt, y$tt, FUN = pmin)) - 1)/r
 
+  # Defining the "phylogenetic" covariance matrix (C)
+  #C<- outer(exp(init.par[length(inixt.par)]*yy$tt[,1]), exp(init.par[length(init.par)]*yy$tt[,1]), FUN = pmin)
+  #C<- outer(yy$tt[,1], yy$tt[,1], FUN = pmin)
+  C<- (exp(init.par[length(init.par)]*outer(yy$tt[,1], yy$tt[,1], FUN = pmin)) - 1)/init.par[length(init.par)]
     V <- matrix(0, nrow=length(M), ncol=length(M)) # making a variance-covariance matrix with dimensionality of n*m * n*m
     VV <- V + kronecker(t(chol) %*% chol, C) # computing V as the kronecker product of the Cholesky decomposed R matrix multiplied with distance matrix C
 

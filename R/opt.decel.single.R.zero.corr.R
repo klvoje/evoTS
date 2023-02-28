@@ -65,7 +65,7 @@ opt.decel.single.R.zero.corr<-function (yy, method="L-BFGS-B", hess = FALSE, poo
 
   init.par<-c(init.trait.var, anc.values, -1)
   lower.limit<-c(rep(0, length(init.trait.var)), rep(NA, (length(anc.values))), NA)
-  upper.limit<-c(rep(NA, (length(init.trait.var) +  length(anc.values))), 0)
+  upper.limit<-c(rep(NA, (length(init.trait.var) +  length(anc.values))), -1e-13)
 
 
   ### Start iterations from different starting values
