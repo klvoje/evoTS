@@ -26,7 +26,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">evoTS</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.2</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -92,7 +92,7 @@
                         <h4 data-toc-skip class="author">Kjetil L.
 Voje</h4>
             
-            <h4 data-toc-skip class="date">2023-02-28</h4>
+            <h4 data-toc-skip class="date">2023-03-06</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/klvoje/evoTS/blob/HEAD/vignettes/evoTS_vignette.Rmd" class="external-link"><code>vignettes/evoTS_vignette.Rmd</code></a></small>
       <div class="d-none name"><code>evoTS_vignette.Rmd</code></div>
@@ -312,33 +312,34 @@ time of 0) to the <em>i</em>th population, and <span class="math inline">\(t_{mi
 ancestral population to the oldest of the two populations <span class="math inline">\(z_{i}\)</span> and <span class="math inline">\(z_{j}\)</span>.</p>
 <p>The decerelated model of evolution can be fitted to a time series
 using the <code>opt.joint.decel</code> function. <br></p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="er">$</span>logL</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="fl">78.67217</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>AICc</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="sc">-</span><span class="fl">150.9376</span></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>parameters</span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>       anc      vstep          r </span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a> <span class="fl">3.7195253</span>  <span class="fl">0.4308633</span> <span class="sc">-</span><span class="fl">1.3114667</span> </span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>modelName</span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">"Decel"</span></span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>method</span>
-<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">"Joint"</span></span>
-<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>se</span>
-<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a><span class="cn">NULL</span></span>
-<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>K</span>
-<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="dv">3</span></span>
-<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>n</span>
-<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="dv">63</span></span>
-<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a><span class="fu">attr</span>(,<span class="st">"class"</span>)</span>
-<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">"paleoTSfit"</span></span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">opt.joint.decel</span>(ln.diameter)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>logL</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="fl">78.67217</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>AICc</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="sc">-</span><span class="fl">150.9376</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>parameters</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>       anc      vstep          r </span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a> <span class="fl">3.7195253</span>  <span class="fl">0.4308633</span> <span class="sc">-</span><span class="fl">1.3114667</span> </span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>modelName</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">"Decel"</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>method</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">"Joint"</span></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>se</span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a><span class="cn">NULL</span></span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>K</span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="dv">3</span></span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>n</span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="dv">63</span></span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a><span class="fu">attr</span>(,<span class="st">"class"</span>)</span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">"paleoTSfit"</span></span></code></pre></div>
 <p><br> The output returns the log-likelihood of the model parameters
 (<em>logl</em>), the AICc score (<em>AICc</em>), the number (<em>K</em>)
 of estimated parameters (<em>parameters</em>), the length of the
@@ -744,15 +745,15 @@ function. <br></p>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>Comparing <span class="dv">9</span> models [n <span class="ot">=</span> <span class="dv">63</span>, method <span class="ot">=</span> Joint]</span>
 <span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>                                                                logL K       AICc       dAICc Akaike.wt</span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>GRW                                                         <span class="fl">77.64073</span> <span class="dv">3</span> <span class="sc">-</span><span class="fl">148.87469</span>    <span class="fl">3.861618</span>     <span class="fl">0.071</span></span>
-<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>URW                                                         <span class="fl">77.57018</span> <span class="dv">2</span> <span class="sc">-</span><span class="fl">150.94035</span>    <span class="fl">1.795953</span>     <span class="fl">0.200</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>GRW                                                         <span class="fl">77.64073</span> <span class="dv">3</span> <span class="sc">-</span><span class="fl">148.87469</span>    <span class="fl">3.861618</span>     <span class="fl">0.058</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>URW                                                         <span class="fl">77.57018</span> <span class="dv">2</span> <span class="sc">-</span><span class="fl">150.94035</span>    <span class="fl">1.795953</span>     <span class="fl">0.162</span></span>
 <span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>Stasis                                                      <span class="fl">39.84019</span> <span class="dv">2</span>  <span class="sc">-</span><span class="fl">75.48039</span>   <span class="fl">77.255917</span>     <span class="fl">0.000</span></span>
 <span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>StrictStasis                                              <span class="sc">-</span><span class="fl">707.46411</span> <span class="dv">1</span> <span class="fl">1416.99379</span> <span class="fl">1569.730094</span>     <span class="fl">0.000</span></span>
-<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>Decel                                                       <span class="fl">76.77642</span> <span class="dv">3</span> <span class="sc">-</span><span class="fl">147.14607</span>    <span class="fl">5.590239</span>     <span class="fl">0.030</span></span>
-<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>Accel                                                       <span class="fl">73.80287</span> <span class="dv">3</span> <span class="sc">-</span><span class="fl">141.19896</span>   <span class="fl">11.537343</span>     <span class="fl">0.002</span></span>
-<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>OU                                                          <span class="fl">80.71298</span> <span class="dv">4</span> <span class="sc">-</span><span class="fl">152.73631</span>    <span class="fl">0.000000</span>     <span class="fl">0.490</span></span>
-<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>OU model with moving <span class="fu">optimum</span> (ancestral state at optimum)   <span class="fl">78.56670</span> <span class="dv">4</span> <span class="sc">-</span><span class="fl">148.44374</span>    <span class="fl">4.292567</span>     <span class="fl">0.057</span></span>
-<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>OU model with moving optimum                                <span class="fl">80.71298</span> <span class="dv">5</span> <span class="sc">-</span><span class="fl">150.37333</span>    <span class="fl">2.362978</span>     <span class="fl">0.150</span></span></code></pre></div>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>Decel                                                       <span class="fl">78.67217</span> <span class="dv">3</span> <span class="sc">-</span><span class="fl">150.93756</span>    <span class="fl">1.798746</span>     <span class="fl">0.162</span></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>Accel                                                       <span class="fl">77.57017</span> <span class="dv">3</span> <span class="sc">-</span><span class="fl">148.73357</span>    <span class="fl">4.002737</span>     <span class="fl">0.054</span></span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>OU                                                          <span class="fl">80.71298</span> <span class="dv">4</span> <span class="sc">-</span><span class="fl">152.73631</span>    <span class="fl">0.000000</span>     <span class="fl">0.397</span></span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>OU model with moving <span class="fu">optimum</span> (ancestral state at optimum)   <span class="fl">78.56670</span> <span class="dv">4</span> <span class="sc">-</span><span class="fl">148.44374</span>    <span class="fl">4.292567</span>     <span class="fl">0.046</span></span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>OU model with moving optimum                                <span class="fl">80.71298</span> <span class="dv">5</span> <span class="sc">-</span><span class="fl">150.37333</span>    <span class="fl">2.362978</span>     <span class="fl">0.122</span></span></code></pre></div>
 <p><br></p>
 </div>
 <div class="section level3">

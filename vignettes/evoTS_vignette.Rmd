@@ -137,7 +137,8 @@ where $z_{i}$ is the expected trait value for population *i* in the time series,
 The decerelated model of evolution can be fitted to a time series using the `opt.joint.decel` function.
 <br /> 
 ```{r eval = FALSE}
-> $logL
+> opt.joint.decel(ln.diameter)
+$logL
 [1] 78.67217
 
 $AICc
@@ -445,15 +446,15 @@ A quick way to evaluate the relative fit of all univariate models in the `evoTS`
 Comparing 9 models [n = 63, method = Joint]
 
                                                                 logL K       AICc       dAICc Akaike.wt
-GRW                                                         77.64073 3 -148.87469    3.861618     0.071
-URW                                                         77.57018 2 -150.94035    1.795953     0.200
+GRW                                                         77.64073 3 -148.87469    3.861618     0.058
+URW                                                         77.57018 2 -150.94035    1.795953     0.162
 Stasis                                                      39.84019 2  -75.48039   77.255917     0.000
 StrictStasis                                              -707.46411 1 1416.99379 1569.730094     0.000
-Decel                                                       76.77642 3 -147.14607    5.590239     0.030
-Accel                                                       73.80287 3 -141.19896   11.537343     0.002
-OU                                                          80.71298 4 -152.73631    0.000000     0.490
-OU model with moving optimum (ancestral state at optimum)   78.56670 4 -148.44374    4.292567     0.057
-OU model with moving optimum                                80.71298 5 -150.37333    2.362978     0.150
+Decel                                                       78.67217 3 -150.93756    1.798746     0.162
+Accel                                                       77.57017 3 -148.73357    4.002737     0.054
+OU                                                          80.71298 4 -152.73631    0.000000     0.397
+OU model with moving optimum (ancestral state at optimum)   78.56670 4 -148.44374    4.292567     0.046
+OU model with moving optimum                                80.71298 5 -150.37333    2.362978     0.122
 ```
 <br /> 
 
