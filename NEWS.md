@@ -9,5 +9,8 @@
 - Implemented a change in the box constraints in the L-BFGS-B method for the multivariate accelerated and decelerated models. 
 - Updated the list of messages to print as part of the output based on how the 'optim' function may fail while searching for the maximum likelihood for multivariate unbiased random walk models. 
 
+## Adjustments currently only implemented the the development version on GitHuB
+
+- Updated the list of messages to print as part of the output based on how the 'optim' function may fail while searching for the maximum likelihood for multivariate unbiased random walk models with a shift.
  
 
