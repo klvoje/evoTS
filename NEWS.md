@@ -12,5 +12,6 @@
 ## Adjustments currently only implemented the the development version on GitHuB
 
 - Updated the list of messages to print as part of the output based on how the 'optim' function may fail while searching for the maximum likelihood for multivariate unbiased random walk models with a shift.
+- Fixed a bug in how the maximum likelihood parameters were reported in the multivariate unbiased random walk model with a shift. The bug only affected the output when a shift point was not defined while iterations was defined. 
  
 

@@ -189,7 +189,7 @@ fit.multivariate.URW.shift<-function (yy, minb = 10, hess = FALSE, pool = TRUE, 
   ##### Start of non-iteration routine #####
 
   
-  if (is.numeric(shift.point) == FALSE) {
+  if (is.numeric(shift.point) == FALSE) { #Slutter ved 330
     {
       if (ns/2 < minb) {stop("Number of samples in time-series is too small compared to the minimum number of samples within each. Try setting minb to a smaller number")}
     }
@@ -203,6 +203,7 @@ fit.multivariate.URW.shift<-function (yy, minb = 10, hess = FALSE, pool = TRUE, 
     cat("Total # hypotheses: ", nc, "\n")
     #Create empty list
     wl <- list()
+   # best.run <- list()
     #create array with length = to shift points and where every entry = -Inf
     logl <- array(-Inf, dim = nc)
     
@@ -300,24 +301,31 @@ fit.multivariate.URW.shift<-function (yy, minb = 10, hess = FALSE, pool = TRUE, 
         
         # Need to remove entries in www in case there are iterations where the initial parameter estimates did not work.
         www_tmp<-list()
-        for (i in 1:k){
-          if (is.character(www[[i]][1]) == FALSE) www_tmp[i]<-list(www[[i]])
+        for (o in 1:k){
+          if (is.character(www[[o]][1]) == FALSE) www_tmp[o]<-list(www[[o]])
         }
         
         www_reduced<-www_tmp[!sapply(www_tmp,is.null)]
         
         
         for (j in 1:length(www_reduced)){
-          if(max(na.exclude(log.lik.tmp)) == www_reduced[[j]]$value) best.run<-www_reduced[[j]]
+          if(max(na.exclude(log.lik.tmp)) == www_reduced[[j]]$value) wl[[i]]<-www_reduced[[j]]
         }
         
-        logl[i] <- best.run$value
-        wl[[i]] <- best.run
-      }
+       logl[i] <- wl[[i]]$value
+        #wl[[i]] <- best.run  
         
+      } #else
+      #logl[i]<-unlist(lapply(best.run, "[[", 2))
       
-    }
-    print(logl)
+    }   #for each switch point 
+    
+  #  for (u in 1:nc){
+  #    if(max(logl) == best.run[[u]]$value) wl<-best.run[[u]]
+  #  }
+    
+    #wl[[i]] <- best.run
+    #print(logl)
     
     winner <- which.max(logl)
     w <- wl[[winner]]
