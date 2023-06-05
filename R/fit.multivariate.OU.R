@@ -123,7 +123,7 @@ fit.multivariate.OU<-function (yy, A.matrix="diag", R.matrix="symmetric", method
         if (length(init.diag.A) != 1) init.off.diag.A<-rep(0, sum(upper.tri(diag(init.diag.A)), na.rm = TRUE))
         }
       if (A.matrix=="full"){init.off.diag.A<-rep(0, (sum(upper.tri(diag(init.diag.A)), na.rm = TRUE))*2)}
-      init.off.diag.R<-rep(0, sum(upper.tri(diag(init.diag.R)), na.rm = TRUE))
+      init.off.diag.R<-rep(0.5, sum(upper.tri(diag(init.diag.R)), na.rm = TRUE))
 
       init.anc<-yy$xx[1,]
 
@@ -271,13 +271,13 @@ fit.multivariate.OU<-function (yy, A.matrix="diag", R.matrix="symmetric", method
         }
 
 
-      init.off.diag.A<-rep(-0.5, sum(upper.tri(diag(init.diag.A)), na.rm = TRUE))
+      init.off.diag.A<-rep(0, sum(upper.tri(diag(init.diag.A)), na.rm = TRUE))
       if (A.matrix=="OUBM"){
-        if (length(init.diag.A) == 1) init.off.diag.A<--0.5
-        if (length(init.diag.A) != 1) init.off.diag.A<-rep(-0.5, sum(upper.tri(diag(init.diag.A)), na.rm = TRUE))
+        if (length(init.diag.A) == 1) init.off.diag.A<-0
+        if (length(init.diag.A) != 1) init.off.diag.A<-rep(0, sum(upper.tri(diag(init.diag.A)), na.rm = TRUE))
       }
-      if (A.matrix=="full"){init.off.diag.A<-rep(-0.5, (sum(upper.tri(diag(init.diag.A)), na.rm = TRUE))*2)}
-      init.off.diag.R<-rep(0, sum(upper.tri(diag(init.diag.R)), na.rm = TRUE))
+      if (A.matrix=="full"){init.off.diag.A<-rep(0, (sum(upper.tri(diag(init.diag.A)), na.rm = TRUE))*2)}
+      init.off.diag.R<-rep(0.5, sum(upper.tri(diag(init.diag.R)), na.rm = TRUE))
 
       init.anc<-yy$xx[1,]
 
