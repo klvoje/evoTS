@@ -907,44 +907,44 @@ Note that the multivariate OU model demands much more computational time compare
 > OUOU.model2<-fit.multivariate.OU(diam.ln_ribs.ln, A.matrix="diag", R.matrix="symmetric")
 > OUOU.model1$AICc;OUOU.model2$AICc
 [1] -267.6676
-[1] -352.9131
+[1] -352.0637
 > OUOU.model2
 $converge
 [1] "Model converged successfully"
 
 $logL
-[1] 187.1547
+[1] 186.7299
 
 $AICc
-[1] -352.9131
+[1] -352.0637
 
 $ancestral.values
-[1] 3.720572 4.013680
+[1] 3.718630 4.006437
 
 $SE.anc
 [1] NA
 
 $optima
-[1] 3.884594 4.290531
+[1] 3.876449 4.282549
 
 $SE.optima
 [1] NA
 
 $A
          [,1]     [,2]
-[1,] 10.57618  0.00000
-[2,]  0.00000 13.71088
+[1,] 12.70187  0.00000
+[2,]  0.00000 14.60702
 
 $SE.A
 [1] NA
 
 $half.life
-[1] 0.06553853 0.05055453
+[1] 0.05457047 0.04745301
 
 $R
            [,1]       [,2]
-[1,] 0.01550268 0.06478393
-[2,] 0.06478393 0.87064469
+[1,] 0.02233866 0.07823089
+[2,] 0.07823089 0.85571347
 
 $SE.R
 [1] NA
@@ -979,12 +979,12 @@ We now test if a more complex parameterization of the **A** matrix gives us a be
 > OUOU.model4<-fit.multivariate.OU(diam.ln_ribs.ln, A.matrix="full", R.matrix="symmetric")
 > OUOU.model5<-fit.multivariate.OU(diam.ln_ribs.ln, A.matrix="OUBM")
 > OUOU.model3$AICc;OUOU.model4$AICc;OUOU.model5$AICc
-[1] -349.9752
-[1] -346.9589
-[1] -264.4733
+[1] -350.0442
+[1] -380.0126
+[1] -305.4217
 ````
 <br /> 
-None of the models with off-diagonal elements in the **A** matrix show a better relative fit than the model with a diagonal **A** and a symmetric **R** matrix. The best model we have investigated remains the multivariate unbiased random walk with a mode shift, allowing two different unbiased random walks to explain the trait dynamics. 
+The best model is a model where each trait affects the optimum of the other trait. 
 
 However, before we trust this result, we should make sure to run the multivariate models from different initial starting values to increase our chances of finding a potentially higher peak on the log-likelihood surface. The number of iterations can be defined by the `iterations` argument. The starting values are drawn from a normal distribution with a standard deviation of one. The user can define a larger or smaller standard deviation using the argument `iter.sd`.
 
