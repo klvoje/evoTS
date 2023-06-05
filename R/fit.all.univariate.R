@@ -26,19 +26,10 @@
 fit.all.univariate<-function (y, pool = TRUE)
 {
   y$start.age<-NULL
-  args <- list()
-  check.var <- TRUE
-  if (length(args) > 0)
-    if (args$pool == FALSE)
-      check.var <- FALSE
-  if (check.var) {
-    tv <- paleoTS::test.var.het(y)
-    pv <- round(tv$p.value, 0)
-    wm <- paste("Sample variances not equal (P = ", pv, "); consider using argument pool=FALSE",
-                collapse = "")
-    if (pv <= 0.05)
-      warning(wm)
-  }
+
+  if (pool) 
+    y <- paleoTS::pool.var(y, ret.paleoTS = TRUE)
+  
     m1 <- paleoTS::opt.joint.GRW(y, pool = pool)
     m2 <- paleoTS::opt.joint.URW(y, pool = pool)
     m3 <- paleoTS::opt.joint.Stasis(y, pool = pool)
