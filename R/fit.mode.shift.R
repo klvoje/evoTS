@@ -220,7 +220,7 @@ invisible(mc)
   names(ss) <- paste("shift", 1:(ng - 1), sep = "")
   ww$parameters <- append(ww$parameters, ss)
   ww$all.logl <- logl
-  ww$GG <- ss
+  ww$GG <- GG
   out<-ww
     }
 
