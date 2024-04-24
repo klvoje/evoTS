@@ -113,6 +113,6 @@ opt.joint.OUBM<-function (y, pool = TRUE, meth = "L-BFGS-B", hess = FALSE, itera
     w$se <- sqrt(diag(-1 * solve(w$hessian)))
   else w$se <- NULL
   wc <- as.evoTSfit.OUBM(logL = w$value, parameters = w$par, modelName = modelname,
-                      method = "Joint", K = K, n = length(y$mm), iter=iter, se = w$se)
+                      method = "Joint", K = K, n = length(y$mm), se = w$se)
   return(wc)
 }
