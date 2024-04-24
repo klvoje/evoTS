@@ -25,11 +25,11 @@
 #'@author Kjetil Lysne Voje
 #'
 
-as.evoTSfit.OUBM<-function (logL, parameters, modelName, method, K, n, iter, se)
+as.evoTSfit.OUBM<-function (logL, parameters, modelName, method, K, n, se)
 {
   ic <- paleoTS::IC(logL = logL, K = K, n = n, method = "AICc")
   y <- list(logL = logL, AICc = ic, parameters = parameters,
-            modelName = modelName, method = method, K = K, n = n, iter = iter, se = se)
+            modelName = modelName, method = method, K = K, n = n, se = se)
   class(y) <- "paleoTSfit"
   return(y)
 }
