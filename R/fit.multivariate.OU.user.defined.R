@@ -355,10 +355,12 @@ fit.multivariate.OU.user.defined<-function (yy, A.user=NULL, R.user=NULL, method
   }
   
   half.life<-log(2)/diag(A)
+  
+  modelName<-"Multivariate model: User-specified OU model"
 
   if (hess == TRUE){
     
-    wc<-as.evoTS.multi.OU.fit(converge, logL = w$value, ancestral.values = ancestral.values, SE.anc = SE.anc, optima = optima,  SE.optima = SE.optima, A = A, SE.A = SE.A, half.life = half.life, R = R, SE.R = SE.R,
+    wc<-as.evoTS.multi.OU.fit(converge, modelName = modelName, logL = w$value, ancestral.values = ancestral.values, SE.anc = SE.anc, optima = optima,  SE.optima = SE.optima, A = A, SE.A = SE.A, half.life = half.life, R = R, SE.R = SE.R,
                               method = "Joint", K = K, n = length(yy$xx[,1]), iter=iter)
   } 
   
@@ -367,7 +369,7 @@ fit.multivariate.OU.user.defined<-function (yy, A.user=NULL, R.user=NULL, method
     SE.optima <- NA
     SE.A <- NA 
     SE.R <- NA 
-    wc<-as.evoTS.multi.OU.fit(converge, logL = w$value, ancestral.values = ancestral.values, SE.anc = SE.anc, optima = optima,  SE.optima = SE.optima, A = A, SE.A = SE.A, half.life = half.life, R = R, SE.R = SE.R,
+    wc<-as.evoTS.multi.OU.fit(converge, modelName = modelName, logL = w$value, ancestral.values = ancestral.values, SE.anc = SE.anc, optima = optima,  SE.optima = SE.optima, A = A, SE.A = SE.A, half.life = half.life, R = R, SE.R = SE.R,
                                                        method = "Joint", K = K, n = length(yy$xx[,1]), iter=iter)
   }
   
