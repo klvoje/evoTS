@@ -114,5 +114,6 @@ opt.joint.OUBM<-function (y, pool = TRUE, meth = "L-BFGS-B", hess = FALSE, itera
   else w$se <- NULL
   wc <- as.evoTSfit.OUBM(logL = w$value, parameters = w$par, modelName = modelname,
                       method = "Joint", K = K, n = length(y$mm), se = w$se)
+  wc<-unclass(wc)
   return(wc)
 }
