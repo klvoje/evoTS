@@ -413,7 +413,7 @@ fit.multivariate.URW.shift<-function (yy, minb = 10, hess = FALSE, pool = TRUE, 
   if(is.null(shift.point) == FALSE) shift.point<-unname(shift.point) 
   
 
-  wc<-as.evoTS.multi.URW.shift.fit(converge, modelName = "Multivariate Random walk with two R matrices (with non-zero off-diagonal elements)", logL = w$value, ancestral.values = ancestral.values, SE.anc = SE.anc, R = R, SE.R = SE.R,
+  wc<-as.evoTS.multi.URW.shift.fit(converge, modelName = "Multivariate model: Random walk with two R matrices (with non-zero off-diagonal elements)", logL = w$value, ancestral.values = ancestral.values, SE.anc = SE.anc, R = R, SE.R = SE.R,
                             shift.point = shift.point, method = "Joint", K = K, n = length(yy$xx[,1]), iter=iter)
   return(wc)
 }
