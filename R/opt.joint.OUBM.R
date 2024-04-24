@@ -48,7 +48,7 @@ opt.joint.OUBM<-function (y, pool = TRUE, meth = "L-BFGS-B", hess = FALSE, itera
   if (y$tt[1] != 0)
     stop("Initial time must be 0.  Use as.paleoTS() or read.paleoTS() to correctly process ages.")
   
-  if (is.numeric(iterations)) cat("Optimization method is run from different starting points. Number of iterations:", iterations)
+  if (is.numeric(iterations)) cat("The optimization method is executed from multiple different starting points. Number of iterations:", iterations)
 
   w0 <- paleoTS::mle.GRW(y)
   bm0<-paleoTS::mle.GRW(y)
