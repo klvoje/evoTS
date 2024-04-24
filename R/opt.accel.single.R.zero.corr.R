@@ -178,7 +178,7 @@ if (length(na.exclude(log.lik.tmp)) == iterations){
 
   K<-length(w$par)
 
-  wc<-as.evoTS.multi.BW.acceldecel.fit(converge, modelName = "Multivariate Random walk with accelerating rate of evoluton (diagonal R matrix: no trait correlations)", logL = w$value, ancestral.values = ancestral.values, SE.anc = SE.anc, r = r, SE.r = SE.r, R = R, SE.R = SE.R,
+  wc<-as.evoTS.multi.BW.acceldecel.fit(converge, modelName = "Multivariate model: Random walk with accelerating rate of evoluton (diagonal R matrix: no trait correlations)", logL = w$value, ancestral.values = ancestral.values, SE.anc = SE.anc, r = r, SE.r = SE.r, R = R, SE.R = SE.R,
                                          method = "Joint", K = K, n = length(yy$xx[,1]), iter=iter)
   return(wc)
 }

@@ -202,7 +202,7 @@ opt.decel.single.R<-function (yy, method="L-BFGS-B", hess = FALSE, pool = TRUE, 
 
   K<-length(w$par)
 
-  wc<-as.evoTS.multi.BW.acceldecel.fit(converge, modelName = "Multivariate Random walk with decelerating rate of evoluton (R matrix with off-diagonal elements)", logL = w$value, ancestral.values = ancestral.values, SE.anc = SE.anc, r = r, SE.r = SE.r, R = R, SE.R = SE.R,
+  wc<-as.evoTS.multi.BW.acceldecel.fit(converge, modelName = "Multivariate model: Random walk with decelerating rate of evoluton (R matrix with off-diagonal elements)", logL = w$value, ancestral.values = ancestral.values, SE.anc = SE.anc, r = r, SE.r = SE.r, R = R, SE.R = SE.R,
                                          method = "Joint", K = K, n = length(yy$xx[,1]), iter=iter)
   return(wc)
 }
