@@ -8,6 +8,7 @@
 # Other changes
 - Implemented a change in the box constraints in the L-BFGS-B method for the multivariate accelerated and decelerated models. 
 - Updated the list of messages to print as part of the output based on how the 'optim' function may fail while searching for the maximum likelihood for multivariate unbiased random walk models. 
+- Output from univariate models in evoTS has been adjusted to be compatible with how the new version (0.6.1) of paleoTS is printing output from univariate models.  
 
 ## Test environments
 Windows Server 2022, R-devel, 64 bit
