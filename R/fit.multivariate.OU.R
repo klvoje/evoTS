@@ -404,6 +404,9 @@ fit.multivariate.OU<-function (yy, A.matrix="diag", R.matrix="symmetric", method
    
     SE.anc<-c(w$se[((m*3)+1):(m*4)])
     }
+    
+    modelName<-"Multivariate model: OU; diagonal A matrix, diagonal R matrix"
+    
   }
 
   if(A.matrix=="diag" & R.matrix=="symmetric") {
@@ -433,6 +436,9 @@ fit.multivariate.OU<-function (yy, A.matrix="diag", R.matrix="symmetric", method
     
     SE.anc<-c(w$se[((length(diag(SE.A))*2)+l.upp.tri+1+m):((length(diag(SE.A))*2)+l.upp.tri+m+m)])
     }
+    
+    modelName<-"Multivariate model: OU; diagonal A matrix, symmetric R matrix"
+    
   }
 
   if(A.matrix=="full" & R.matrix=="diag"){
@@ -474,6 +480,9 @@ fit.multivariate.OU<-function (yy, A.matrix="diag", R.matrix="symmetric", method
     ### The ancestral trait values ###
     SE.anc<-c(w$se[(length(diag(SE.A))+l.upp.tri+l.upp.tri+(length(diag(SE.A)))+length(diag(SE.A))+1):(length(diag(SE.A))+l.upp.tri+l.upp.tri+(length(diag(SE.A)))+length(diag(SE.A))++length(diag(SE.A)))])
     }  
+    
+    modelName<-"Multivariate model: OU; full A matrix, diagonal R matrix"
+    
   }
 
   if(A.matrix=="full" & R.matrix=="symmetric"){
@@ -518,7 +527,10 @@ fit.multivariate.OU<-function (yy, A.matrix="diag", R.matrix="symmetric", method
     
     ### The ancestral trait values ###
     SE.anc<-c(w$se[(length(diag(SE.A))+l.upp.tri+l.upp.tri+length(diag(SE.A))+l.upp.tri.R+length(diag(SE.A))+1):(length(diag(SE.A))+l.upp.tri+l.upp.tri+length(diag(SE.A))+l.upp.tri.R+length(diag(SE.A))+length(diag(SE.A)))])
-    }  
+    }
+    
+    modelName<-"Multivariate model: OU; full A matrix, symmetric R matrix"
+    
   }
 
 
@@ -550,6 +562,9 @@ fit.multivariate.OU<-function (yy, A.matrix="diag", R.matrix="symmetric", method
     
     SE.anc<-c(w$se[(length(diag(SE.A))+l.upp.tri+m+m+1):(length(diag(SE.A))+l.upp.tri+m+m+m)])
     }
+    
+    modelName<-"Multivariate model: OU; upper triangular A matrix, diagonal R matrix "
+    
       }
 
   if(A.matrix=="upper.tri" & R.matrix=="symmetric"){
@@ -586,6 +601,9 @@ fit.multivariate.OU<-function (yy, A.matrix="diag", R.matrix="symmetric", method
     
     SE.anc<-c(w$se[(length(diag(SE.A))+l.upp.tri.A+m+l.upp.tri.R+m+1):(length(diag(SE.A))+l.upp.tri.A+m+l.upp.tri.R+m+m)])
     }  
+    
+    modelName<-"Multivariate model: OU; upper triangular A matrix, symmetric R matrix "
+    
   }
 
   if(A.matrix=="lower.tri" & R.matrix=="diag"){
@@ -616,7 +634,10 @@ fit.multivariate.OU<-function (yy, A.matrix="diag", R.matrix="symmetric", method
     
     SE.anc<-c(w$se[(length(diag(SE.A))+l.low.tri+m+m+1):(length(diag(SE.A))+l.low.tri+m+m+m)])
   }
-  }
+  
+    modelName<-"Multivariate model: OU; lower triangular A matrix, diagonal R matrix "
+    
+    }
   
   if(A.matrix=="lower.tri" & R.matrix=="symmetric"){
 
@@ -652,6 +673,9 @@ fit.multivariate.OU<-function (yy, A.matrix="diag", R.matrix="symmetric", method
     
     SE.anc<-c(w$se[(length(diag(SE.A))+l.low.tri.A+m+l.upp.tri.R+m+1):(length(diag(SE.A))+l.low.tri.A+m+l.upp.tri.R+m+m)])
     }
+    
+    modelName<-"Multivariate model: OU; lower triangular A matrix, symmetric R matrix "
+    
      }
 
   if(A.matrix=="OUBM"){
@@ -685,12 +709,16 @@ fit.multivariate.OU<-function (yy, A.matrix="diag", R.matrix="symmetric", method
     
     SE.anc<-c(w$se[(m+m+m+l.upp.tri.A):(m+m+m+m+l.upp.tri.A-1)])
     }
+    
+    modelName<-"Multivariate model: OUBM"
       }
 
   half.life<-log(2)/diag(A)
+  
+  
 
   if (hess){
-    wc<-as.evoTS.multi.OU.fit(converge, logL = w$value, ancestral.values = ancestral.values, SE.anc = SE.anc, optima = optima, SE.optima = SE.optima, A = A, SE.A = SE.A, half.life = half.life, R = R, SE.R = SE.R,
+    wc<-as.evoTS.multi.OU.fit(converge, modelName = modelName, logL = w$value, ancestral.values = ancestral.values, SE.anc = SE.anc, optima = optima, SE.optima = SE.optima, A = A, SE.A = SE.A, half.life = half.life, R = R, SE.R = SE.R,
                                                        method = "Joint", K = K, n = length(yy$xx[,1]), iter=iter)
   }
   
@@ -699,7 +727,7 @@ fit.multivariate.OU<-function (yy, A.matrix="diag", R.matrix="symmetric", method
     SE.optima <- NA
     SE.A <- NA 
     SE.R <- NA 
-    wc<-as.evoTS.multi.OU.fit(converge, logL = w$value, ancestral.values = ancestral.values, SE.anc = SE.anc, optima = optima, SE.optima = SE.optima, A = A, SE.A = SE.A, half.life = half.life, R = R, SE.R = SE.R,
+    wc<-as.evoTS.multi.OU.fit(converge, modelName = modelName, logL = w$value, ancestral.values = ancestral.values, SE.anc = SE.anc, optima = optima, SE.optima = SE.optima, A = A, SE.A = SE.A, half.life = half.life, R = R, SE.R = SE.R,
                                  method = "Joint", K = K, n = length(yy$xx[,1]), iter=iter)
   }
   return(wc)

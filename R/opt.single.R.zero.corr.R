@@ -166,7 +166,7 @@ opt.single.R.zero.corr<-function (yy, method = "L-BFGS-B", hess = FALSE, pool = 
   ancestral.values<-w$par[(length(init.trait.var)+1) : length(init.par)]
 
 
-  wc<-as.evoTS.multi.URW.fit(converge, modelName = "Multivariate Random walk (R matrix with zero off-diagonal elements)", logL = w$value, ancestral.values = ancestral.values, SE.anc = SE.anc, R = R, SE.R = SE.R,
+  wc<-as.evoTS.multi.URW.fit(converge, modelName = "Multivariate model: Random walk (R matrix with zero off-diagonal elements)", logL = w$value, ancestral.values = ancestral.values, SE.anc = SE.anc, R = R, SE.R = SE.R,
                               method = "Joint", K = K, n = length(yy$xx[,1]), iter=iter)
   return(wc)
 }

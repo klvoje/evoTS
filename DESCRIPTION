@@ -1,6 +1,6 @@
 Package: evoTS
 Title: Analyses of Evolutionary Time-Series
-Version: 1.0.2
+Version: 1.0.3
 Authors@R: 
     person(given = "Kjetil Lysne",
            family = "Voje",
@@ -20,7 +20,7 @@ Imports:
 Maintainer: Kjetil Lysne Voje <k.l.voje@nhm.uio.no>
 LazyData: true
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.2.1
+RoxygenNote: 7.3.1
 Suggests: 
     rmarkdown,
     knitr

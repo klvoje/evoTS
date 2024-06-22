@@ -4,6 +4,8 @@
 #'
 #'@param converge info on model convergence 
 #'
+#'@param modelName description of the model
+#'
 #'@param logL log-likelihood of model
 #'
 #'@param ancestral.values maximum-likelihood estimates of the ancestral trait values
@@ -40,12 +42,12 @@
 #'
 
 
-as.evoTS.multi.OU.fit<-function (converge, logL, ancestral.values, SE.anc, optima, SE.optima, A, SE.A, half.life, R, SE.R, method, K, n, iter)
+as.evoTS.multi.OU.fit<-function (converge, modelName, logL, ancestral.values, SE.anc, optima, SE.optima, A, SE.A, half.life, R, SE.R, method, K, n, iter)
 {
   ic <- paleoTS::IC(logL = logL, K = K, n = n, method = "AICc")
-  y <- list(converge = converge, logL = logL, AICc = ic, ancestral.values = ancestral.values, SE.anc = SE.anc, optima = optima, SE.optima = SE.optima, A = A, SE.A = SE.A, half.life = half.life, R = R, SE.R = SE.R,
+  y <- list(converge = converge, modelName = modelName, logL = logL, AICc = ic, ancestral.values = ancestral.values, SE.anc = SE.anc, optima = optima, SE.optima = SE.optima, A = A, SE.A = SE.A, half.life = half.life, R = R, SE.R = SE.R,
             method = method, K = K, n = n, iter = iter)
-  class(y) <- "paleoTSfit"
+  class(y) <- "evoTSmvFit"
   return(y)
 }
 

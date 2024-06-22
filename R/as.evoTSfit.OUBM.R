@@ -14,8 +14,6 @@
 #'
 #'@param n sample size
 #'
-#'@param iter the number of times the optimization method is run from different starting points. Default is NULL, meaning the optimization is run once.
-#'
 #'@param se standard errors of parameter estimates
 #'
 #'@details This function is used by the model-fitting routines for the univariate Ornstein-Uhlenbeck model where the optimum evolves as an Unbiased Random Walk to create standardized output
@@ -25,11 +23,11 @@
 #'@author Kjetil Lysne Voje
 #'
 
-as.evoTSfit.OUBM<-function (logL, parameters, modelName, method, K, n, iter, se)
+as.evoTSfit.OUBM<-function (logL, parameters, modelName, method, K, n, se)
 {
   ic <- paleoTS::IC(logL = logL, K = K, n = n, method = "AICc")
   y <- list(logL = logL, AICc = ic, parameters = parameters,
-            modelName = modelName, method = method, K = K, n = n, iter = iter, se = se)
+            modelName = modelName, method = method, K = K, n = n, se = se)
   class(y) <- "paleoTSfit"
   return(y)
 }

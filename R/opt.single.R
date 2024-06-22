@@ -199,7 +199,7 @@ opt.single.R<-function (yy, method="L-BFGS-B", hess = FALSE, pool = TRUE, trace=
 
   ancestral.values<-w$par[(length(init.trait.var) + length(init.cov.traits) +1) : length(init.par)]
 
-  wc<-as.evoTS.multi.URW.fit(converge, modelName = "Multivariate Random walk (R matrix with non-zero off-diagonal elements)", logL = w$value, ancestral.values = ancestral.values, SE.anc = SE.anc, R = R, SE.R = SE.R,
+  wc<-as.evoTS.multi.URW.fit(converge, modelName = "Multivariate model: Random walk (R matrix with non-zero off-diagonal elements)", logL = w$value, ancestral.values = ancestral.values, SE.anc = SE.anc, R = R, SE.R = SE.R,
                                                           method = "Joint", K = K, n = length(yy$xx[,1]), iter=iter)
 
   return(wc)

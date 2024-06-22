@@ -36,6 +36,6 @@ as.evoTS.multi.URW.fit<-function (converge, modelName, logL, ancestral.values, S
   ic <- paleoTS::IC(logL = logL, K = K, n = n, method = "AICc")
   y <- list(converge = converge, modelName = modelName, logL = logL, AICc = ic, ancestral.values = ancestral.values, SE.anc = SE.anc, R = R, SE.R = SE.R,
              method = method, K = K, n = n, iter = iter)
-  class(y) <- "paleoTSfit"
+  class(y) <- "evoTSmvFit"
   return(y)
 }
