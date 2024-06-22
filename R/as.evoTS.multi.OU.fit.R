@@ -4,6 +4,8 @@
 #'
 #'@param converge info on model convergence 
 #'
+#'@param modelName description of the model
+#'
 #'@param logL log-likelihood of model
 #'
 #'@param ancestral.values maximum-likelihood estimates of the ancestral trait values

@@ -14,8 +14,6 @@
 #'
 #'@param n sample size
 #'
-#'@param iter the number of times the optimization method is run from different starting points. Default is NULL, meaning the optimization is run once.
-#'
 #'@param se standard errors of parameter estimates
 #'
 #'@details This function is used by the model-fitting routines for the univariate Ornstein-Uhlenbeck model where the optimum evolves as an Unbiased Random Walk to create standardized output
