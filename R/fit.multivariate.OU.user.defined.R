@@ -174,7 +174,7 @@ fit.multivariate.OU.user.defined<-function (yy, A.user=NULL, R.user=NULL, method
     www[[k]]<-try(optim(init.par, fn = logL.joint.multi.OUOU.user, yy = yy, A.user = A.user, R.user = R.user,
                         locations.A = locations.A, location.diag.A = location.diag.A, location.upper.tri.A = location.upper.tri.A, location.lower.tri.A = location.lower.tri.A,
                         locations.R = locations.R, location.diag.R = location.diag.R, location.upper.tri.R = location.upper.tri.R,
-                        control = list(fnscale = -1, maxit=1000000, trace = trace), method = "Nelder-Mead", hessian = hess), silent = TRUE)
+                        control = list(fnscale = -1, parscale = init.par, maxit=1000000, trace = trace), method = "Nelder-Mead", hessian = hess), silent = TRUE)
     if(inherits(www[[k]], "try-error") && grepl("function cannot be evaluated at initial parameters", attr(www[[k]], "condition")$message))
       stop("The initial parameters did not work. Trying a new set of candidate starting values.")
     # The provided initial starting values for the parameters may not work (depends on the data). If this happens when running iterations, the user is informed by a message saying: "The initial parameters did not work. Trying a new set of candidate starting values." 
