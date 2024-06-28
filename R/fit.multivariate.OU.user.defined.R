@@ -185,7 +185,7 @@ fit.multivariate.OU.user.defined<-function (yy, A.user=NULL, R.user=NULL, method
     www[[k]]<-optim(init.par, fn = logL.joint.multi.OUOU.user, yy = yy, A.user = A.user, R.user = R.user,
                     locations.A = locations.A, location.diag.A = location.diag.A, location.upper.tri.A = location.upper.tri.A, location.lower.tri.A = location.lower.tri.A,
                     locations.R = locations.R, location.diag.R = location.diag.R, location.upper.tri.R = location.upper.tri.R,
-                    control = list(fnscale = -1, maxit=1000000, trace = trace, ndeps = 1e-7), method = "L-BFGS-B", hessian = hess, lower = lower.limit)
+                    control = list(fnscale = -1, parscale = init.par, maxit=1000000, trace = trace, ndeps = 1e-7), method = "L-BFGS-B", hessian = hess, lower = lower.limit)
   }
     
     log.lik.tmp[k]<-www[[k]]$value
@@ -223,13 +223,13 @@ fit.multivariate.OU.user.defined<-function (yy, A.user=NULL, R.user=NULL, method
       w<-optim(init.par, fn = logL.joint.multi.OUOU.user, yy = yy, A.user = A.user, R.user = R.user,
                locations.A = locations.A, location.diag.A = location.diag.A, location.upper.tri.A = location.upper.tri.A, location.lower.tri.A = location.lower.tri.A,
                locations.R = locations.R, location.diag.R = location.diag.R, location.upper.tri.R = location.upper.tri.R,
-               control = list(fnscale = -1, maxit=1000000, trace = trace), method = "Nelder-Mead", hessian = hess)
+               control = list(fnscale = -1, parscale = init.par, maxit=1000000, trace = trace), method = "Nelder-Mead", hessian = hess)
     }
     if (method == "L-BFGS-B")  {
       w<-optim(init.par, fn = logL.joint.multi.OUOU.user, yy = yy, A.user = A.user, R.user = R.user,
                 locations.A = locations.A, location.diag.A = location.diag.A, location.upper.tri.A = location.upper.tri.A, location.lower.tri.A = location.lower.tri.A,
                 locations.R = locations.R, location.diag.R = location.diag.R, location.upper.tri.R = location.upper.tri.R,
-                control = list(fnscale = -1, maxit=1000000, trace = trace), method = "Nelder-Mead", hessian = hess, lower = lower.limit)
+                control = list(fnscale = -1, parscale = init.par, maxit=1000000, trace = trace), method = "Nelder-Mead", hessian = hess, lower = lower.limit)
     }
 
   }
