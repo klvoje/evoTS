@@ -170,8 +170,6 @@ fit.multivariate.OU.user.defined<-function (yy, A.user=NULL, R.user=NULL, method
   init.par<-rnorm(length(init.par_temp), init.par_temp, iter.sd)
   lower.limit<-c(rep(NA,length(init.diag.A)), rep(NA,length(init.upper.diag.A)),  rep(NA,length(init.lower.diag.A)), rep(0, length(init.diag.R)), rep(0, length(init.off.diag.R)), rep(NA, length(init.theta)), rep(NA, length(init.anc)))
 
-  prsc<- init.par
-
      if (method == "Nelder-Mead")  {
       www[[k]]<-try(optim(init.par, fn = logL.joint.multi.OUOU.user, yy = yy, A.user = A.user, R.user = R.user,
                       locations.A = locations.A, location.diag.A = location.diag.A, location.upper.tri.A = location.upper.tri.A, location.lower.tri.A = location.lower.tri.A,
