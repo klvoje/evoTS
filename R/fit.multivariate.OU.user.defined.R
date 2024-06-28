@@ -170,12 +170,13 @@ fit.multivariate.OU.user.defined<-function (yy, A.user=NULL, R.user=NULL, method
   init.par<-rnorm(length(init.par_temp), init.par_temp, iter.sd)
   lower.limit<-c(rep(NA,length(init.diag.A)), rep(NA,length(init.upper.diag.A)),  rep(NA,length(init.lower.diag.A)), rep(0, length(init.diag.R)), rep(0, length(init.off.diag.R)), rep(NA, length(init.theta)), rep(NA, length(init.anc)))
 
+  prsc<- init.par
 
      if (method == "Nelder-Mead")  {
       www[[k]]<-try(optim(init.par, fn = logL.joint.multi.OUOU.user, yy = yy, A.user = A.user, R.user = R.user,
                       locations.A = locations.A, location.diag.A = location.diag.A, location.upper.tri.A = location.upper.tri.A, location.lower.tri.A = location.lower.tri.A,
                       locations.R = locations.R, location.diag.R = location.diag.R, location.upper.tri.R = location.upper.tri.R,
-                       control = list(fnscale = -1, maxit=1000000, trace = trace, ndeps = 1e-7), method = "Nelder-Mead", hessian = hess), silent = TRUE)
+                       control = list(fnscale = -1, maxit=1000000, trace = trace, ndeps = 1e-7, parscale = prsc, method = "Nelder-Mead", hessian = hess), silent = TRUE)
       if(inherits(www[[k]], "try-error") && grepl("function cannot be evaluated at initial parameters", attr(www[[k]], "condition")$message))
            stop("The initial parameters did not work. Trying a new set of candidate starting values.")
       # The provided initial starting values for the parameters may not work (depends on the data). If this happens when running iterations, the user is informed by a message saying: "The initial parameters did not work. Trying a new set of candidate starting values." 
