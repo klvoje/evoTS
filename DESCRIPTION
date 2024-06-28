@@ -1,6 +1,6 @@
 Package: evoTS
 Title: Analyses of Evolutionary Time-Series
-Version: 1.0.3
+Version: 1.0.4
 Authors@R: 
     person(given = "Kjetil Lysne",
            family = "Voje",
