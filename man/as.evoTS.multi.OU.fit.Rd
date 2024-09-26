@@ -6,6 +6,7 @@
 \usage{
 as.evoTS.multi.OU.fit(
   converge,
+  modelName,
   logL,
   ancestral.values,
   SE.anc,
@@ -24,6 +25,8 @@ as.evoTS.multi.OU.fit(
 }
 \arguments{
 \item{converge}{info on model convergence}
+
+\item{modelName}{description of the model}
 
 \item{logL}{log-likelihood of model}
 
