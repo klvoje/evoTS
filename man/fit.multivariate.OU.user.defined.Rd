@@ -65,7 +65,9 @@ Function to find maximum likelihood solutions to a multivariate Ornstein-Uhlenbe
 \details{
 This function provides users the flexibility to define their own A and R matrices. The possibility to define any A matrices enable detailed investigation of specific evolutionary hypotheses. The parameters to be estimated in the matrices are indicated by the value 1. All other entries in the matrix must be 0.
 
-The function searches - using an optimization routine - for the maximum-likelihood solution for the chosen multivariate Ornstein-Uhlenbeck model. The argument 'method' is passed to the 'optim' function and is included for the convenience of users to better control the optimization routine. Note that the the default method (Nelder-Mead) seems to work for most evolutionary sequences. The method L-BFGS-B allows box-constraints on some parameters (e.g. non-negative variance parameters) and is faster than Nelder-Mead, but is less stable than the default method (Nelder-Mead).
+The function searches using an optimization routine for the maximum-likelihood solution for the chosen multivariate Ornstein-Uhlenbeck model. The argument 'method' is passed to the 'optim' function and is included for the convenience of users to better control the optimization routine. Note that the the default method (Nelder-Mead) seems to work for most evolutionary sequences. The method L-BFGS-B allows box-constraints on some parameters (e.g. non-negative variance parameters) and is faster than Nelder-Mead, but is less stable than the default method (Nelder-Mead).
+
+The diagonal elements of the A matrix are constrained to be positive (> 0). Note that this does not guarantee positive definiteness of the A matrix for arbitrary user-defined structures.
 
 Initial estimates to start the optimization come from maximum-likelihood estimates of the univariate Ornstein-Uhlenbeck model (from the paleoTS package) fitted to each time-series separately.
 

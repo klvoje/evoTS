@@ -20,7 +20,7 @@
 #'
 #' @param iter.sd defines the standard deviation of the Gaussian distribution from which starting values for the optimization routine is run. Default is 1.
 #'
-#' @details The function searches - using an optimization routine - for the maximum-likelihood solution for a multivariate Unbiased Random Walk model ti two non-overlapping segments in the time series.
+#' @details The function searches - using an optimization routine - for the maximum-likelihood solution for a multivariate Unbiased Random Walk model fitted to two non-overlapping segments in the time series.
 #'
 #' The argument 'method' is passed to the 'optim' function and is included for the convenience of users to better control the optimization routine. The the default method (L-BFGS-B) seems to work for most evolutionary sequences.
 #'
@@ -61,6 +61,14 @@ fit.multivariate.URW.shift<-function (yy, minb = 10, hess = FALSE, pool = TRUE, 
     }
   }
   
+### v.1.4 ###
+# Sampling-error vector and per-trait data SD computed once instead
+# of being rebuilt from yy inside the log-likelihood function on every
+# optimizer call (se_vec) / recomputed at each restart (data.sd, used to
+# scale ancestral-value perturbations below).
+  se_vec <- as.vector(t(yy$vv / yy$nn))  # pre-compute sampling error vector (after pooling)
+  data.sd <- apply(yy$xx, 2, stats::sd)
+
   {
     if (is.null(shift.point) == FALSE & length(shift.point) > 1) {stop("A user-defined shift point can only be a single shift. Make sure to only define a single shift point when using the shift.point argument")}
   }
@@ -104,7 +112,11 @@ fit.multivariate.URW.shift<-function (yy, minb = 10, hess = FALSE, pool = TRUE, 
 
   # Define initial parameter values for the optimization routine
   init.trait.var<-apply(yy$xx,2,var)
-  temp.matrix<-cov(as.matrix(yy$xx))
+### v.1.4 ###
+# v.1.3  used cov(as.matrix(yy$xx)) (covariance of raw trait values)
+# as the initial trait-covariance guess. Now uses the covariance of the
+# differenced series, a more appropriate starting guess for a rate parameter.
+  temp.matrix<-cov(apply(yy$xx, 2, diff))
   init.cov.traits<-unique(temp.matrix[row(temp.matrix)!=col(temp.matrix)])
   anc.values<-yy$xx[1,]
 
@@ -112,21 +124,23 @@ fit.multivariate.URW.shift<-function (yy, minb = 10, hess = FALSE, pool = TRUE, 
   lower.limit<-c(rep(0,length(init.trait.var)), rep(0,length(init.trait.var)),  rep(NA,length(init.cov.traits)), rep(NA, length(init.cov.traits)), rep(NA, length(anc.values)))
 
   if (is.numeric(iterations) == FALSE){
-  
+
+### v.1.4 ###
+# the `lower` bound now replaces NA entries with -Inf before being passed to optim().
    if (method == "L-BFGS-B")  {
-  w<-optim(init.par, fn = logL.joint.multi.R, C = C, y = y, m = m, n = n, anc.values = anc.values,  yy = yy,
-             control = list(fnscale = -1, maxit=10000, trace = trace), method = "L-BFGS-B", hessian = hess, lower = lower.limit)
+  w<-optim(init.par, fn = logL.joint.multi.R, C = C, y = y, m = m, n = n, anc.values = anc.values, se_vec = se_vec,
+             control = list(fnscale = -1, maxit=10000, trace = trace), method = "L-BFGS-B", hessian = hess, lower = replace(lower.limit, is.na(lower.limit), -Inf))
                               }
 
   if (method == "Nelder-Mead")  {
-  w<-optim(init.par, fn = logL.joint.multi.R, C = C, y = y, m = m, n = n, anc.values = anc.values,  yy = yy,
+  w<-optim(init.par, fn = logL.joint.multi.R, C = C, y = y, m = m, n = n, anc.values = anc.values, se_vec = se_vec,
              control = list(fnscale = -1, maxit=10000, trace = trace), method = "Nelder-Mead" , hessian = hess)
   }
   if (method == "SANN")  {
-    w<-optim(init.par, fn = logL.joint.multi.R, C = C, y = y, m = m, n = n, anc.values = anc.values, yy = yy,
-             control = list(fnscale = -1, maxit=10000, trace = trace), method = "SANN" , hessian = hess, lower = lower.limit)
+    w<-optim(init.par, fn = logL.joint.multi.R, C = C, y = y, m = m, n = n, anc.values = anc.values, se_vec = se_vec,
+             control = list(fnscale = -1, maxit=10000, trace = trace), method = "SANN" , hessian = hess, lower = replace(lower.limit, is.na(lower.limit), -Inf))
   }
-    
+
   }
 
   else
@@ -140,50 +154,73 @@ fit.multivariate.URW.shift<-function (yy, minb = 10, hess = FALSE, pool = TRUE, 
       log.lik.tmp<-rep(NA, 1000000)
       www<-list()
       
+### v.1.4 ###
+# Verion 1.3 perturbed the whole parameter vector identically:
+# `init.par_temp<-init.par; init.par<-rnorm(length(init.par_temp), init.par_temp, iter.sd)`.
+# Now separate variance/covariance state is tracked per segment
+# (init.trait.var1/2, init.cov.traits1/2) and each parameter type is perturbed
+# in a scale-appropriate way: multiplicative log-normal jitter for the
+# (positive) trait-variance parameters, small additive jitter for the
+# covariance terms, and data-SD-scaled additive jitter for the ancestral
+# values. Result is also clamped to the lower bound (NA bounds treated as
+# -Inf) so restarts can't violate constraints.
+      init.trait.var1  <- init.trait.var
+      init.trait.var2  <- init.trait.var
+      init.cov.traits1 <- init.cov.traits
+      init.cov.traits2 <- init.cov.traits
+
       for (k in 1:1000000){
         tryCatch({
-          init.par_temp<-init.par
-          init.par<-rnorm(length(init.par_temp), init.par_temp, iter.sd)
-          
-          
+          init.trait.var1  <- init.trait.var1 * exp(rnorm(length(init.trait.var), 0, iter.sd))
+          init.trait.var2  <- init.trait.var2 * exp(rnorm(length(init.trait.var), 0, iter.sd))
+          init.cov.traits1 <- rnorm(length(init.cov.traits), init.cov.traits1, iter.sd * 0.1)
+          init.cov.traits2 <- rnorm(length(init.cov.traits), init.cov.traits2, iter.sd * 0.1)
+          anc.values       <- anc.values + rnorm(length(anc.values), 0, data.sd * iter.sd)
+          init.par         <- c(init.trait.var1, init.trait.var2, init.cov.traits1, init.cov.traits2, anc.values)
+          init.par         <- pmax(replace(lower.limit, is.na(lower.limit), -Inf), init.par)
+
+
+### v.1.4 ###
+# `yy = yy` replaced by `se_vec = se_vec` (see pre-computation above) in all
+# three calls; the `lower` bound now replaces NA entries with -Inf.
           if (method == "L-BFGS-B")  {
-            www[[k]]<-optim(init.par, fn = logL.joint.multi.R, C = C, y = y, m = m, n = n, anc.values = anc.values,  yy = yy,
-                            control = list(fnscale = -1, maxit=10000, trace = trace), method = "L-BFGS-B", hessian = hess, lower = lower.limit)
+            www[[k]]<-optim(init.par, fn = logL.joint.multi.R, C = C, y = y, m = m, n = n, anc.values = anc.values, se_vec = se_vec,
+                            control = list(fnscale = -1, maxit=10000, trace = trace), method = "L-BFGS-B", hessian = hess, lower = replace(lower.limit, is.na(lower.limit), -Inf))
           }
-          
+
           if (method == "Nelder-Mead")  {
-            www[[k]]<-optim(init.par, fn = logL.joint.multi.R, C = C, y = y, m = m, n = n, anc.values = anc.values,  yy = yy,
+            www[[k]]<-optim(init.par, fn = logL.joint.multi.R, C = C, y = y, m = m, n = n, anc.values = anc.values, se_vec = se_vec,
                             control = list(fnscale = -1, maxit=10000, trace = trace), method = "Nelder-Mead" , hessian = hess)
           }
           if (method == "SANN")  {
-            www[[k]]<-optim(init.par, fn = logL.joint.multi.R, C = C, y = y, m = m, n = n, anc.values = anc.values,  yy = yy,
-                            control = list(fnscale = -1, maxit=10000, trace = trace), method = "SANN" , hessian = hess, lower = lower.limit)
+            www[[k]]<-optim(init.par, fn = logL.joint.multi.R, C = C, y = y, m = m, n = n, anc.values = anc.values, se_vec = se_vec,
+                            control = list(fnscale = -1, maxit=10000, trace = trace), method = "SANN" , hessian = hess, lower = replace(lower.limit, is.na(lower.limit), -Inf))
           }
           log.lik.tmp[k]<-www[[k]]$value
         }, error=function(e){cat("ERROR :",conditionMessage(e), "\n")})
-        
+
         if (length(na.exclude(log.lik.tmp)) == iterations){
           break
         }
       }
-      
+
       # Need to remove entries in www in case there are iterations where the initial parameter estimates did not work.
       www_tmp<-list()
       for (i in 1:k){
         if (is.character(www[[i]][1]) == FALSE) www_tmp[i]<-list(www[[i]])
       }
-      
+
       www_reduced<-www_tmp[!sapply(www_tmp,is.null)]
-      
-      
+
+
       for (j in 1:length(www_reduced)){
         if(max(na.exclude(log.lik.tmp)) == www_reduced[[j]]$value) w<-www_reduced[[j]]
       }
   }
-  
+
   }
-  
-  
+
+
   #### If a switch point has NOT been defined and iterations = 0 (NULL)
   
   ##### Start of non-iteration routine #####
@@ -238,29 +275,36 @@ fit.multivariate.URW.shift<-function (yy, minb = 10, hess = FALSE, pool = TRUE, 
       
       # Define initial parameter values for the optimization routine
       init.trait.var<-apply(yy$xx,2,var)
-      temp.matrix<-cov(as.matrix(yy$xx))
+### v.1.4 ###
+# v.1.3  used cov(as.matrix(yy$xx)) (covariance of raw trait values)
+# as the initial trait-covariance guess. Now uses the covariance of the
+# differenced series, a more appropriate starting guess for a rate parameter.
+      temp.matrix<-cov(apply(yy$xx, 2, diff))
       init.cov.traits<-unique(temp.matrix[row(temp.matrix)!=col(temp.matrix)])
       anc.values<-yy$xx[1,]
-      
+
       init.par<-c(init.trait.var, init.trait.var, init.cov.traits, init.cov.traits, anc.values)
       lower.limit<-c(rep(0,length(init.trait.var)), rep(0,length(init.trait.var)),  rep(NA,length(init.cov.traits)), rep(NA, length(init.cov.traits)), rep(NA, length(anc.values)))
-      
-      if(is.numeric(iterations) == FALSE) { 
-      
+
+      if(is.numeric(iterations) == FALSE) {
+
+### v.1.4 ###
+# `yy = yy` replaced by `se_vec = se_vec` (see pre-computation above) in all
+# three calls; the `lower` bound now replaces NA entries with -Inf.
       if (method == "L-BFGS-B")  {
-        w<-optim(init.par, fn = logL.joint.multi.R, C = C, y = y, m = m, n = n, anc.values = anc.values,  yy = yy,
-                 control = list(fnscale = -1, maxit=10000, trace = trace), method = "L-BFGS-B", hessian = hess, lower = lower.limit)
+        w<-optim(init.par, fn = logL.joint.multi.R, C = C, y = y, m = m, n = n, anc.values = anc.values, se_vec = se_vec,
+                 control = list(fnscale = -1, maxit=10000, trace = trace), method = "L-BFGS-B", hessian = hess, lower = replace(lower.limit, is.na(lower.limit), -Inf))
       }
-      
+
       if (method == "Nelder-Mead")  {
-        w<-optim(init.par, fn = logL.joint.multi.R, C = C, y = y, m = m, n = n, anc.values = anc.values,  yy = yy,
+        w<-optim(init.par, fn = logL.joint.multi.R, C = C, y = y, m = m, n = n, anc.values = anc.values, se_vec = se_vec,
                  control = list(fnscale = -1, maxit=10000, trace = trace), method = "Nelder-Mead" , hessian = hess)
       }
       if (method == "SANN")  {
-        w<-optim(init.par, fn = logL.joint.multi.R, C = C, y = y, m = m, n = n, anc.values = anc.values, yy = yy,
-                 control = list(fnscale = -1, maxit=10000, trace = trace), method = "SANN" , hessian = hess, lower = lower.limit)
+        w<-optim(init.par, fn = logL.joint.multi.R, C = C, y = y, m = m, n = n, anc.values = anc.values, se_vec = se_vec,
+                 control = list(fnscale = -1, maxit=10000, trace = trace), method = "SANN" , hessian = hess, lower = replace(lower.limit, is.na(lower.limit), -Inf))
       }
-      
+
       logl[i] <- w$value
       wl[[i]] <- w
       }
@@ -271,25 +315,43 @@ fit.multivariate.URW.shift<-function (yy, minb = 10, hess = FALSE, pool = TRUE, 
         #if(is.numeric(max.attemps) == FALSE) max.attemps <-100000
         log.lik.tmp<-rep(NA, 1000000)
         www<-list()
-        
+
+### v.1.4 ###
+# Same restart-scheme change as above, applied here for the loop-over-all
+# shift-points branch. Verion 1.3 perturbed the whole parameter vector
+# identically. Now separate variance/covariance state per segment is
+# perturbed in a scale-appropriate way.
+        init.trait.var1  <- init.trait.var
+        init.trait.var2  <- init.trait.var
+        init.cov.traits1 <- init.cov.traits
+        init.cov.traits2 <- init.cov.traits
+
         for (k in 1:1000000){
           tryCatch({
-            init.par_temp<-init.par
-            init.par<-rnorm(length(init.par_temp), init.par_temp, iter.sd)
-            
-            
+            init.trait.var1  <- init.trait.var1 * exp(rnorm(length(init.trait.var), 0, iter.sd))
+            init.trait.var2  <- init.trait.var2 * exp(rnorm(length(init.trait.var), 0, iter.sd))
+            init.cov.traits1 <- rnorm(length(init.cov.traits), init.cov.traits1, iter.sd * 0.1)
+            init.cov.traits2 <- rnorm(length(init.cov.traits), init.cov.traits2, iter.sd * 0.1)
+            anc.values       <- anc.values + rnorm(length(anc.values), 0, data.sd * iter.sd)
+            init.par         <- c(init.trait.var1, init.trait.var2, init.cov.traits1, init.cov.traits2, anc.values)
+            init.par         <- pmax(replace(lower.limit, is.na(lower.limit), -Inf), init.par)
+
+
+### v.1.4 ###
+# `yy = yy` replaced by `se_vec = se_vec` (see pre-computation above) in all
+# three calls; the `lower` bound now replaces NA entries with -Inf.
             if (method == "L-BFGS-B")  {
-              www[[k]]<-optim(init.par, fn = logL.joint.multi.R, C = C, y = y, m = m, n = n, anc.values = anc.values,  yy = yy,
-                              control = list(fnscale = -1, maxit=10000, trace = trace), method = "L-BFGS-B", hessian = hess, lower = lower.limit)
+              www[[k]]<-optim(init.par, fn = logL.joint.multi.R, C = C, y = y, m = m, n = n, anc.values = anc.values, se_vec = se_vec,
+                              control = list(fnscale = -1, maxit=10000, trace = trace), method = "L-BFGS-B", hessian = hess, lower = replace(lower.limit, is.na(lower.limit), -Inf))
             }
-            
+
             if (method == "Nelder-Mead")  {
-              www[[k]]<-optim(init.par, fn = logL.joint.multi.R, C = C, y = y, m = m, n = n, anc.values = anc.values,  yy = yy,
+              www[[k]]<-optim(init.par, fn = logL.joint.multi.R, C = C, y = y, m = m, n = n, anc.values = anc.values, se_vec = se_vec,
                               control = list(fnscale = -1, maxit=10000, trace = trace), method = "Nelder-Mead" , hessian = hess)
             }
             if (method == "SANN")  {
-              www[[k]]<-optim(init.par, fn = logL.joint.multi.R, C = C, y = y, m = m, n = n, anc.values = anc.values,  yy = yy,
-                              control = list(fnscale = -1, maxit=10000, trace = trace), method = "SANN" , hessian = hess, lower = lower.limit)
+              www[[k]]<-optim(init.par, fn = logL.joint.multi.R, C = C, y = y, m = m, n = n, anc.values = anc.values, se_vec = se_vec,
+                              control = list(fnscale = -1, maxit=10000, trace = trace), method = "SANN" , hessian = hess, lower = replace(lower.limit, is.na(lower.limit), -Inf))
             }
             log.lik.tmp[k]<-www[[k]]$value
           }, error=function(e){cat("ERROR :",conditionMessage(e), "\n")})

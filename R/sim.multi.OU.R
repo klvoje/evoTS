@@ -43,115 +43,111 @@ sim.multi.OU<-function(ns = 30, anc = c(0,0), optima = c(3, 2),
                        vp = 0.1, nn = rep(30, ns), tt = 0:(ns - 1)){
   m<-ncol(A)
 
-  A.matrix<-A
-  #A.matrix[1,2]<-A[1,2]
-  P<-eigen(A.matrix)$vectors
-  D<-diag(eigen(A.matrix)$values)
-  Chol<-chol(R)
+### v.1.4 ###
+# An almost tottal rewrite of the codebody.
+#
+# 1) Two bugs are fixed:
+#    a) V.1.3's observed-value sampling loop was
+#       `for (i in 2:ns) { x <- MASS::mvrnorm(nn[j], mu = MM[j,i], Sigma = sqrt(vp)); ... }`
+#       (see below) — it started at i = 2, so mm[,1]/vv[,1] were never
+#       assigned and stayed NA for the first time point. It also indexed
+#       sample size as nn[j] (a trait index) instead of nn[i] (a time index).
+#       Both are fixed below (loop now runs 1:ns, uses nn[i], and uses plain
+#       rnorm() instead of the mvrnorm()-for-a-scalar workaround the release
+#       version used).
+#    b) The release version's expected-trajectory calculation
+#       (`traits[,i]<-((P%*%diag(c(exp(-diag(D)[1]*time[1,i]),exp(-diag(D)[2]*time[1,i])))%*%solve(P))%*%anc) + ...`)
+#       was hardcoded for exactly 2 traits. Generalized below to arbitrary m
+#       via exp_At <- P %*% diag(exp(-d * time[i])) %*% P.inv.
+#
+# 2) Performance: P.inv, right.side, and d_sum are now pre-computed once
+#    instead of being recomputed inside the i,j double loop; the inner k,l
+#    loop that built left.side element-by-element is replaced by a single
+#    vectorised matrix expression.
+#
 
-  # Make a time matrix
-  time<-matrix(nrow = ncol(A), ncol = ns)
-  for (i in 1:ncol(A)){
-    time[i,]<-tt/max(tt)
+  A.matrix <- A
+  P        <- eigen(A.matrix)$vectors
+  D        <- diag(eigen(A.matrix)$values)
+  d        <- diag(D)      # eigenvalues as vector
+  P.inv    <- solve(P)     # pre-compute once; used repeatedly inside loops
+  Chol     <- chol(R)
+
+  # Normalised time vector
+  time <- tt / max(tt)
+
+  tij <- outer(time, time, FUN = function(a, b) abs(a - b))
+  ta  <- outer(time, time, FUN = pmin)
+
+  # Pre-compute right side of the VCV integral (constant across all time pairs)
+  right.side <- P.inv %*% (Chol %*% t(Chol)) %*% t(P.inv)
+
+  # Pre-compute eigenvalue sum matrix for vectorised left.side computation
+  d_sum <- outer(d, d, "+")
+
+  # Compute expected trait values at each time point (generalised to any m)
+  traits <- matrix(NA, nrow = m, ncol = ns)
+  for (i in 1:ns) {
+    exp_At     <- P %*% diag(exp(-d * time[i])) %*% P.inv
+    traits[,i] <- exp_At %*% anc + (diag(m) - exp_At) %*% optima
   }
 
-  tmp.VV<-array(data=NA, dim=c(ncol=length(time[1,]), nrow=length(time[1,]), (ncol(A)*ncol(A)))) # Make a list that contains the block matrices in the VCOV.
+  # Build the VCV array: tmp.VV[i,j,] is the vectorised m x m block for time pair (i,j)
+  tmp.VV <- array(data = NA, dim = c(ns, ns, m * m))
 
-  ff <- function(a, b) abs(a - b)
-  tij<-outer(as.vector(time[1,]), as.vector(time[1,]), ff) # tij -> time from species j to the most common ancestor of species i and j.
-  #tij<-tij[1,]
-  ta<-outer(as.vector(time[1,]), as.vector(time[1,]),pmin) #Ta -> time from the first sample to the most recent common ancestor of i and j.
-#  ta<-diag(ta)
-  MM <- matrix(nrow = ncol(A), ncol = ns)
-  mm <- matrix(nrow = ncol(A), ncol = ns)
-  vv <- matrix(nrow = ncol(A), ncol = ns)
-  MM[,1] <- anc
+  for (i in 1:ns) {
+    for (j in 1:ns) {
+      # Vectorised replacement of the inner k,l loops
+      left.side  <- (1 - exp(-d_sum * ta[i,j])) / d_sum
+      left.right <- left.side * right.side
+      integ      <- P %*% left.right %*% t(P)
 
-  for (i in 1:m){
-    x <- rnorm(nn[i], mean = MM[i], sd = sqrt(vp))
-    mm[i] <- mean(x)
-    vv[i] <- var(x)
-  }
-
-  traits<-matrix(NA, ncol = length(time[1,]), nrow= m)
-  for (i in 1:length(time[1,])){
-    traits[,i]<-((P%*%diag(c(exp(-diag(D)[1]*time[1,i]),exp(-diag(D)[2]*time[1,i])))%*%solve(P))%*%anc) + (matrix(c(1,0,0,1), ncol=2, byrow=2)- (P%*%diag(c(exp(-diag(D)[1]*time[1,i]),exp(-diag(D)[2]*time[1,i])))%*%solve(P)))%*%optima
-
-  }
-
-  varcovar<-array(data =NA, dim=c(m,m,ns))
-
-  right.side<-solve(P)%*% (Chol %*% t(Chol)) %*% (t(solve(P))) # the right side of the expression relative to the Hadamard product
-
-  left.side<-matrix(NA, nrow=nrow(A), ncol=ncol(A)) # the left side of the expression relative to the Hadamard product
-  for (i in 1:length(time[1,])){
-    for (j in 1:length(time[1,])){
-      for (k in 1:ncol(A)){
-        for (l in 1:ncol(A)){
-          left.side[k,l]<-(1-exp(-(diag(D)[k]+diag(D)[l])*ta[i,j]))*(1/(diag(D)[k]+diag(D)[l]))
-        }
-      }
-      # print(left.side)
-      left.right<-left.side*right.side # Hadamard product between left and right side
-      integ<-P%*%left.right%*%t(P) # The whole integral (except the matrix exponential)
-
-      exp_eigenvalues_2<-rep(NA,  m)
-      for (m in 1:m){
-        exp_eigenvalues_2[m]<-exp(-diag(D)[m]*tij[i,j])
-      }
-
-      tmp<-integ%*%(t(P%*%(diag(c(exp_eigenvalues_2)))%*%solve(P))) # The whole integral (including the matrix exponential)
-      vector.tmp<-as.vector(tmp) # vectorization of the trait*trait matrix
-      for (k in 1:(ncol(A)*ncol(A))){
-        tmp.VV[i,j,k]<-vector.tmp[k] # place the elements of the integral in each block matrix.
-      }
+      exp_eigenvalues <- exp(-d * tij[i,j])
+      tmp             <- integ %*% t(P %*% diag(exp_eigenvalues) %*% P.inv)
+      tmp.VV[i, j, ]  <- as.vector(tmp)
     }
   }
 
-  VV3<-matrix(0, ncol=(ncol(tmp.VV[,,1])*ncol(A)), nrow=(ncol(tmp.VV[,,1])*ncol(A))) # Make an empty VCOV matrix.
+  # Assemble the full block VCV matrix
+  VV3 <- matrix(0, ncol = ns * m, nrow = ns * m)
+  List <- vector("list", m * m)
+  for (k in 1:(m * m)) List[[k]] <- tmp.VV[,,k]
 
-  List<-list()
-  for(i in 1:length(tmp.VV[1,1,]))
-  {
-    List[[i]] <- tmp.VV[,,i] # Make each block matrix a separate element in the list "List"
+  from.boundary <- seq(1, ns * m, ns)
+  to.boundary   <- from.boundary + ns - 1
+  from          <- seq(1, m * m, m)
+  to            <- from + m - 1
+
+  for (i in 1:m) {
+    VV3[from.boundary[i]:to.boundary[i], ] <- do.call(cbind, List[from[i]:to[i]])
   }
 
-  from.boundary<-seq(1,ncol(VV3), ncol(VV3)/ncol(A)) # create vectors defining the start...
-  to.boundary<-(from.boundary-1)+length(tmp.VV[,1,1]) # and end of where in the VCOV matrix block matrices in List should be placed.
-  from<-seq(1,length(tmp.VV[1,1,]), length(tmp.VV[1,1,])/ncol(A)) # create vectors defining the start and and end of which list in List that should be placed in VCOV.
-  to<-(from-1)+ncol(A)
+  # Draw population means from multivariate normal
+  traits_x <- c(t(traits))
+  MM_vec   <- MASS::mvrnorm(n = 1, mu = traits_x, Sigma = VV3)
+  MM       <- matrix(MM_vec, m, ns, byrow = TRUE)
 
-  for (i in 1:ncol(A)){
-    VV3[(from.boundary[i]:to.boundary[i]),]<-do.call(cbind, List[from[i]: to[i]]) # Make the VCOV matrix by binding together block matrices from List
-  }
+  # Sample observed means and within-sample variances
+  mm <- matrix(nrow = m, ncol = ns)
+  vv <- matrix(nrow = m, ncol = ns)
 
-  traits_x<-c(t(traits))
-
-      MM<-MASS::mvrnorm(n = 1, mu=traits_x, Sigma=VV3)#, tol = 1e-6, empirical = TRUE, EISPACK = FALSE)
-      MM<-matrix(MM, m,ns, byrow=TRUE)
-      for (i in 2:ns) {
-      for (j in 1:m){
-
-         x <- MASS::mvrnorm(nn[j], mu = MM[j,i], Sigma = sqrt(vp)) #NEW. rnorm can't handle irrational numbers.
-         #x <- ?rnorm(nn[j], mean = MM[j,i], sd = sqrt(vp))
-      mm[j,i] <- mean(as.numeric(x)) #as.numeric is needed in case irrational numbers are present in x.
+  for (i in 1:ns) {
+    for (j in 1:m) {
+      x       <- rnorm(nn[i], mean = MM[j,i], sd = sqrt(vp))
+      mm[j,i] <- mean(x)
       vv[j,i] <- var(x)
     }
-
-        
   }
 
-
-  List<-list()
+  List2<-list()
   for (i in 1:m){
-    List[[i]]<-paleoTS::as.paleoTS(mm = mm[i,], vv = vv[i,], nn = nn, tt = time[i,], MM = MM[i,], label = "Created by sim.multi.OU()", reset.time = FALSE)
+    List2[[i]]<-paleoTS::as.paleoTS(mm = mm[i,], vv = vv[i,], nn = nn, tt = time, MM = MM[i,], label = "Created by sim.multi.OU()", reset.time = FALSE)
   }
 
-  if (m==2) yy<-make.multivar.evoTS(List[[1]], List[[2]])
-  if (m==3) yy<-make.multivar.evoTS(List[[1]], List[[2]], List[[3]])
-  if (m==4) yy<-make.multivar.evoTS(List[[1]], List[[2]], List[[3]], List[[4]])
-  if (m==5) yy<-make.multivar.evoTS(List[[1]], List[[2]], List[[3]], List[[4]], List[[5]])
-
+  if (m==2) yy<-make.multivar.evoTS(List2[[1]], List2[[2]])
+  if (m==3) yy<-make.multivar.evoTS(List2[[1]], List2[[2]], List2[[3]])
+  if (m==4) yy<-make.multivar.evoTS(List2[[1]], List2[[2]], List2[[3]], List2[[4]])
+  if (m==5) yy<-make.multivar.evoTS(List2[[1]], List2[[2]], List2[[3]], List2[[4]], List2[[5]])
 
   return(yy)
 }

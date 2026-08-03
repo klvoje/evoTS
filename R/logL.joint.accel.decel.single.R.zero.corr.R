@@ -1,6 +1,7 @@
 #' @title Log-likelihoods for evolutionary models
 #'
-#' @description Returns log-likelihood for a multivariate Unbiased Random Walk model with uncorrelated changes and with accelerating or decelerating rates of evolution through time.
+#' @description Returns log-likelihood for a multivariate Unbiased Random Walk model with
+#'   uncorrelated changes and with accelerating or decelerating rates of evolution through time.
 #'
 #' @param init.par initial (starting) parameters values
 #'
@@ -12,44 +13,47 @@
 #'
 #' @param anc.values initial values for the ancestral trait values
 #'
-#' @param yy a multivariate evoTS object
+#' @param ta matrix of minimum times for each pair of time points
 #'
-#' @details In general, users will not be access these functions directly, but instead use the optimization functions, which use these functions to find the best-supported parameter values.
+#' @param se_vec pre-computed sampling error vector
+#'
+#' @details In general, users will not be access these functions directly, but instead use the
+#'   optimization functions, which use these functions to find the best-supported parameter values.
 #'
 #'@return The log-likelihood of the parameter estimates, given the data.
 #'
 #'@author Kjetil Lysne Voje
 
 
-logL.joint.accel.decel.single.R.zero.corr<-function (init.par, y , m , n, anc.values, yy)
+### v.1.4 ###
+# `yy` is replaced by `se_vec`, a sampling-error vector pre-computed once by the calling opt.* function.
+logL.joint.accel.decel.single.R.zero.corr <- function(init.par, y, m, n, anc.values, ta, se_vec)
 {
+  m <- length(anc.values)
+  chol <- diag(c(rep(0, m)))
+  diag(chol) <- c(init.par[1:m])
 
-  m<-length(anc.values)
-  chol<-diag(c(rep(0,m)))
-  diag(chol)<-c(init.par[1:m])
+  M.init <- init.par[(m+1):(m+m)]
+### v.1.4 ###
+# v.1.3 built M with a per-trait loop into M_temp, then transposed
+# and flattened it. Replaced with a single vectorized call.
+  M <- rep(M.init, each = n)  # vectorized: replaces the M_temp loop
 
-  M.init<-init.par[(m+1):(m+m)]
-  M_temp<-matrix(data=NA, nrow=m, ncol=n)
+### v.1.4 ###
+# v.1.3 recomputed the full pairwise-min time matrix with outer()
+# on every call. Now built from the pre-computed `ta` argument instead.
+  # C computed using pre-computed ta, avoiding recomputation of outer() on every call
+  C <- (exp(init.par[length(init.par)] * ta) - 1) / init.par[length(init.par)]
 
-  for (i in 1:m){
-    M_temp[i,] <- rep(M.init[i], n)
-  }
-  M<-c(t(M_temp)) # vectorize M
+  V  <- matrix(0, nrow = length(M), ncol = length(M))
+  VV <- V + kronecker(t(chol) %*% chol, C)
 
-  # Defining the "phylogenetic" covariance matrix (C)
- # C<- outer(exp(init.par[length(init.par)]*yy$tt[,1]), exp(init.par[length(init.par)]*yy$tt[,1]), FUN = pmin)
-  C<- (exp(init.par[length(init.par)]*outer(yy$tt[,1], yy$tt[,1], FUN = pmin)) - 1)/init.par[length(init.par)]
-  
-  V <- matrix(0, nrow=length(M), ncol=length(M)) # making a variance-covariance matrix with dimensionality of n*m * n*m
-  VV <- V + kronecker(t(chol) %*% chol, C) # computing V as the kronecker product of the Cholesky decomposed R matrix multiplied with distance matrix C
+### v.1.4 ###
+# v.1.3 recomputed sample.var from yy$vv/yy$nn via a per-trait loop
+# every call; now added directly from the pre-computed se_vec (see signature).
+  diag(VV) <- diag(VV) + se_vec  # pre-computed sampling error
+### end v.1.4 ###
 
-  sample.var_temp<-matrix(data=NA, nrow=m, ncol=n)
-  for (i in 1:m){
-    sample.var_temp[i,] <- yy$vv[,i]/yy$nn[,i]
-  }
-  sample.var<-c(t(sample.var_temp))
-  diag(VV) <- diag(VV) + sample.var
-
-    y<-as.vector(y)
-    S <- mvtnorm::dmvnorm(y, mean = M, sigma = VV, log = TRUE)
+  y <- as.vector(y)
+  S <- mvtnorm::dmvnorm(y, mean = M, sigma = VV, log = TRUE)
 }

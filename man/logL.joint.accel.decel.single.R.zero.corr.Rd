@@ -4,7 +4,15 @@
 \alias{logL.joint.accel.decel.single.R.zero.corr}
 \title{Log-likelihoods for evolutionary models}
 \usage{
-logL.joint.accel.decel.single.R.zero.corr(init.par, y, m, n, anc.values, yy)
+logL.joint.accel.decel.single.R.zero.corr(
+  init.par,
+  y,
+  m,
+  n,
+  anc.values,
+  ta,
+  se_vec
+)
 }
 \arguments{
 \item{init.par}{initial (starting) parameters values}
@@ -17,16 +25,20 @@ logL.joint.accel.decel.single.R.zero.corr(init.par, y, m, n, anc.values, yy)
 
 \item{anc.values}{initial values for the ancestral trait values}
 
-\item{yy}{a multivariate evoTS object}
+\item{ta}{matrix of minimum times for each pair of time points}
+
+\item{se_vec}{pre-computed sampling error vector}
 }
 \value{
 The log-likelihood of the parameter estimates, given the data.
 }
 \description{
-Returns log-likelihood for a multivariate Unbiased Random Walk model with uncorrelated changes and with accelerating or decelerating rates of evolution through time.
+Returns log-likelihood for a multivariate Unbiased Random Walk model with
+uncorrelated changes and with accelerating or decelerating rates of evolution through time.
 }
 \details{
-In general, users will not be access these functions directly, but instead use the optimization functions, which use these functions to find the best-supported parameter values.
+In general, users will not be access these functions directly, but instead use the
+optimization functions, which use these functions to find the best-supported parameter values.
 }
 \author{
 Kjetil Lysne Voje

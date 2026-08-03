@@ -4,39 +4,10 @@
 \alias{make.multivar.evoTS}
 \title{Makes a multivariate data set of}
 \usage{
-make.multivar.evoTS(
-  evoTS.1 = NULL,
-  evoTS.2 = NULL,
-  evoTS.3 = NULL,
-  evoTS.4 = NULL,
-  evoTS.5 = NULL,
-  evoTS.6 = NULL,
-  evoTS.7 = NULL,
-  evoTS.8 = NULL,
-  evoTS.9 = NULL,
-  evoTS.10 = NULL
-)
+make.multivar.evoTS(...)
 }
 \arguments{
-\item{evoTS.1}{an univariate evolutionary sequences (time-series) on the format used in paleoTS}
-
-\item{evoTS.2}{an univariate evolutionary sequences (time-series) on the format used in paleoTS}
-
-\item{evoTS.3}{an univariate evolutionary sequences (time-series) on the format used in paleoTS (optional)}
-
-\item{evoTS.4}{an univariate evolutionary sequences (time-series) on the format used in paleoTS (optional)}
-
-\item{evoTS.5}{an univariate evolutionary sequences (time-series) on the format used in paleoTS (optional)}
-
-\item{evoTS.6}{an univariate evolutionary sequences (time-series) on the format used in paleoTS (optional)}
-
-\item{evoTS.7}{an univariate evolutionary sequences (time-series) on the format used in paleoTS (optional)}
-
-\item{evoTS.8}{an univariate evolutionary sequences (time-series) on the format used in paleoTS (optional)}
-
-\item{evoTS.9}{an univariate evolutionary sequences (time-series) on the format used in paleoTS (optional)}
-
-\item{evoTS.10}{an univariate evolutionary sequences (time-series) on the format used in paleoTS (optional)}
+\item{...}{two or more univariate evolutionary sequences (time-series) in the format used by paleoTS, passed as individual arguments.}
 }
 \value{
 a multivariate evoTS object that can be analysed with functions fitting multivariate models (e.g. fit.multivariate.OU, fit.multivariate.URW)

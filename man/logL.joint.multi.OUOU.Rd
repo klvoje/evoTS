@@ -4,7 +4,16 @@
 \alias{logL.joint.multi.OUOU}
 \title{Log-likelihoods for evolutionary models}
 \usage{
-logL.joint.multi.OUOU(init.par, yy, A.matrix, R.matrix)
+logL.joint.multi.OUOU(
+  init.par,
+  yy,
+  A.matrix,
+  R.matrix,
+  ta,
+  tij,
+  time_vec,
+  se_vec
+)
 }
 \arguments{
 \item{init.par}{initial (starting) parameters values}
@@ -13,7 +22,15 @@ logL.joint.multi.OUOU(init.par, yy, A.matrix, R.matrix)
 
 \item{A.matrix}{the pull matrix.}
 
-\item{R.matrix}{the drift matrix..}
+\item{R.matrix}{the drift matrix.}
+
+\item{ta}{matrix of minimum times for each pair of time points}
+
+\item{tij}{matrix of absolute time differences for each pair of time points}
+
+\item{time_vec}{rescaled time vector}
+
+\item{se_vec}{pre-computed sampling error vector}
 }
 \value{
 The log-likelihood of the parameter estimates, given the data.
@@ -22,7 +39,9 @@ The log-likelihood of the parameter estimates, given the data.
 Returns log-likelihood for a multivariate Ornstein-Uhlenbeck model.
 }
 \details{
-In general, users will not be access these functions directly, but instead use the optimization functions, which use these functions to find the best-supported parameter values.
+In general, users will not access this function directly, but instead use the
+optimization functions, which use this function to find the best-supported parameter
+values.
 }
 \author{
 Kjetil Lysne Voje

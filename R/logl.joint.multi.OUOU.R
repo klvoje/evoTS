@@ -8,322 +8,280 @@
 #'
 #' @param A.matrix the pull matrix.
 #'
-#' @param R.matrix the drift matrix..
+#' @param R.matrix the drift matrix.
 #'
-#' @details In general, users will not be access these functions directly, but instead use the optimization functions, which use these functions to find the best-supported parameter values.
+#' @param ta matrix of minimum times for each pair of time points
+#'
+#' @param tij matrix of absolute time differences for each pair of time points
+#'
+#' @param time_vec rescaled time vector
+#'
+#' @param se_vec pre-computed sampling error vector
+#'
+#' @details In general, users will not access this function directly, but instead use the
+#'   optimization functions, which use this function to find the best-supported parameter
+#'   values.
 #'
 #'@return The log-likelihood of the parameter estimates, given the data.
 #'
 #'@author Kjetil Lysne Voje
 
 
-logL.joint.multi.OUOU<-function (init.par, yy, A.matrix, R.matrix){
+### new in v.1.4 ###
+# `ta` (pairwise-minimum time matrix), `tij` (pairwise absolute time-difference matrix), `time_vec` (rescaled time vector), and
+# `se_vec` (pre-computed sampling error vector) are new arguments, computed once by the calling fit.multivariate.OU* function instead of being rebuilt
+# from `yy` on every call. `yy` itself is retained, but is now only used for m/X/y below.
+logL.joint.multi.OUOU <- function(init.par, yy, A.matrix, R.matrix,
+                                      ta, tij, time_vec, se_vec) {
 
-  m <-ncol(yy$xx) # number of traits
-  X <- yy$xx # Character matrix with dimensions n * m
-  y <- as.matrix(as.vector(X)) # Vectorized version of X
+  m   <- ncol(yy$xx)          # number of traits
+  X   <- yy$xx
+  y   <- as.matrix(as.vector(X))
+  n_t <- length(time_vec)     # number of time points
 
-  if(A.matrix=="diag" & R.matrix=="diag"){
+  ### -----------------------------------------------------------------------
+  ### Parameter unpacking (unchanged from original logL.joint.multi.OUOU)
+  ### -----------------------------------------------------------------------
 
-    ### Eigenvalue decomposition of A ###
-    A<-diag(c(init.par[1:m]))
-    P<-eigen(A)$vectors
-    D<-diag(eigen(A)$values)
+  if (A.matrix == "diag" & R.matrix == "diag") {
 
-  ### The R (drift) matrix ###
-  Chol<-diag(init.par[(m+1):(m*2)])
+    A    <- diag(c(init.par[1:m]))
+    P    <- eigen(A)$vectors
+    D    <- diag(eigen(A)$values)
+    Chol <- diag(init.par[(m + 1):(m * 2)])
 
-  ### Theta (optimal trait values) ###
-  optima<-c(init.par[((m*2)+1):(m*3)])
-
-  ### The ancestral trait values ###
-  anc<-c(init.par[((m*3)+1):(m*4)])
+    optima <- c(init.par[((m * 2) + 1):(m * 3)])
+    anc    <- c(init.par[((m * 3) + 1):(m * 4)])
   }
 
+  if (A.matrix == "diag" & R.matrix == "symmetric") {
 
-  if(A.matrix=="diag" & R.matrix=="symmetric"){
+    A    <- diag(c(init.par[1:m]))
+    P    <- eigen(A)$vectors
+    D    <- diag(eigen(A)$values)
+    Chol <- diag(init.par[(m + 1):(m * 2)])
 
-    ### Eigenvalue decomposition of A ###
-    A<-diag(c(init.par[1:m]))
-    P<-eigen(A)$vectors
-    D<-diag(eigen(A)$values)
+    nr.off.diag <- upper.tri(Chol)
+    l.upp.tri   <- length(nr.off.diag[nr.off.diag == TRUE])
+    Chol[upper.tri(Chol)] <- init.par[((length(diag(A)) * 2) + 1):((length(diag(A)) * 2) + l.upp.tri)]
 
-    ### The R (drift) matrix ###
-    Chol<-diag(init.par[(m+1):(m*2)])
-    nr.off.diag<-upper.tri(Chol)
-    l.upp.tri<-length(nr.off.diag[nr.off.diag==TRUE])
-    Chol[upper.tri(Chol)] <- init.par[((length(diag(A))*2)+1):((length(diag(A))*2)+l.upp.tri)]
-
-    ### Theta (optimal trait values) ###
-    optima<-c(init.par[((length(diag(A))*2)+l.upp.tri+1):((length(diag(A))*2)+l.upp.tri+m)])
-
-    ### The ancestral trait values ###
-    anc<-c(init.par[((length(diag(A))*2)+l.upp.tri+1+m):((length(diag(A))*2)+l.upp.tri+m+m)])
+    optima <- c(init.par[((length(diag(A)) * 2) + l.upp.tri + 1):((length(diag(A)) * 2) + l.upp.tri + m)])
+    anc    <- c(init.par[((length(diag(A)) * 2) + l.upp.tri + 1 + m):((length(diag(A)) * 2) + l.upp.tri + m + m)])
   }
 
-  if(A.matrix=="full" & R.matrix=="diag"){
+  if (A.matrix == "full" & R.matrix == "diag") {
 
-    ### Eigenvalue decomposition of A ###
-    A<-diag(c(init.par[1:m]))
-    nr.off.diag<-upper.tri(A)
-    l.upp.tri<-length(nr.off.diag[nr.off.diag==TRUE])
-    A[upper.tri(A)] <- init.par[(length(diag(A))+1):(length(diag(A))+l.upp.tri)]
-    A[lower.tri(A)] <- init.par[(length(diag(A))+l.upp.tri+1):(length(diag(A))+l.upp.tri+l.upp.tri)]
-    P<-eigen(A)$vectors
-    D<-diag(eigen(A)$values)
+    A <- diag(c(init.par[1:m]))
+    nr.off.diag <- upper.tri(A)
+    l.upp.tri   <- length(nr.off.diag[nr.off.diag == TRUE])
+    A[upper.tri(A)] <- init.par[(length(diag(A)) + 1):(length(diag(A)) + l.upp.tri)]
+    A[lower.tri(A)] <- init.par[(length(diag(A)) + l.upp.tri + 1):(length(diag(A)) + l.upp.tri + l.upp.tri)]
+    P <- eigen(A)$vectors
+    D <- diag(eigen(A)$values)
 
-    ### The R (drift) matrix ###
-    Chol<-diag(init.par[(length(diag(A))+l.upp.tri+l.upp.tri+1):(length(diag(A))+l.upp.tri+l.upp.tri+(length(diag(A))))])
+    Chol <- diag(init.par[(length(diag(A)) + l.upp.tri + l.upp.tri + 1):(length(diag(A)) + l.upp.tri + l.upp.tri + length(diag(A)))])
 
-    ### Theta (optimal trait values) ###
-    optima<-c(init.par[(length(diag(A))+l.upp.tri+l.upp.tri+(length(diag(A)))+1):(length(diag(A))+l.upp.tri+l.upp.tri+(length(diag(A)))+length(diag(A)))])
-
-    ### The ancestral trait values ###
-    anc<-c(init.par[(length(diag(A))+l.upp.tri+l.upp.tri+(length(diag(A)))+length(diag(A))+1):(length(diag(A))+l.upp.tri+l.upp.tri+(length(diag(A)))+length(diag(A))++length(diag(A)))])
-
+    optima <- c(init.par[(length(diag(A)) + l.upp.tri + l.upp.tri + length(diag(A)) + 1):(length(diag(A)) + l.upp.tri + l.upp.tri + length(diag(A)) + length(diag(A)))])
+    anc    <- c(init.par[(length(diag(A)) + l.upp.tri + l.upp.tri + length(diag(A)) + length(diag(A)) + 1):(length(diag(A)) + l.upp.tri + l.upp.tri + length(diag(A)) + length(diag(A)) + length(diag(A)))])
   }
 
-  if(A.matrix=="full" & R.matrix=="symmetric"){
+  if (A.matrix == "full" & R.matrix == "symmetric") {
 
-    ### Eigenvalue decomposition of A ###
-    A<-diag(c(init.par[1:m]))
-    nr.off.diag<-upper.tri(A)
-    l.upp.tri<-length(nr.off.diag[nr.off.diag==TRUE])
-    A[upper.tri(A)] <- init.par[(length(diag(A))+1):(length(diag(A))+l.upp.tri)]
-    A[lower.tri(A)] <- init.par[(length(diag(A))+l.upp.tri+1):(length(diag(A))+l.upp.tri+l.upp.tri)]
-    P<-eigen(A)$vectors
-    D<-diag(eigen(A)$values)
+    A <- diag(c(init.par[1:m]))
+    nr.off.diag <- upper.tri(A)
+    l.upp.tri   <- length(nr.off.diag[nr.off.diag == TRUE])
+    A[upper.tri(A)] <- init.par[(length(diag(A)) + 1):(length(diag(A)) + l.upp.tri)]
+    A[lower.tri(A)] <- init.par[(length(diag(A)) + l.upp.tri + 1):(length(diag(A)) + l.upp.tri + l.upp.tri)]
+    P <- eigen(A)$vectors
+    D <- diag(eigen(A)$values)
 
-    ### The R (drift) matrix ###
-    Chol<-diag(init.par[(length(diag(A))+l.upp.tri+l.upp.tri+1):(length(diag(A))+l.upp.tri+l.upp.tri+length(diag(A)))])
-    nr.off.diag.R<-upper.tri(Chol)
-    l.upp.tri.R<-length(nr.off.diag.R[nr.off.diag.R==TRUE])
-    Chol[upper.tri(Chol)] <- init.par[(length(diag(A))+l.upp.tri+l.upp.tri+length(diag(A))+1):(length(diag(A))+l.upp.tri+l.upp.tri+length(diag(A))+l.upp.tri.R)]
+    Chol <- diag(init.par[(length(diag(A)) + l.upp.tri + l.upp.tri + 1):(length(diag(A)) + l.upp.tri + l.upp.tri + length(diag(A)))])
+    nr.off.diag.R <- upper.tri(Chol)
+    l.upp.tri.R   <- length(nr.off.diag.R[nr.off.diag.R == TRUE])
+    Chol[upper.tri(Chol)] <- init.par[(length(diag(A)) + l.upp.tri + l.upp.tri + length(diag(A)) + 1):(length(diag(A)) + l.upp.tri + l.upp.tri + length(diag(A)) + l.upp.tri.R)]
 
-    ### Theta (optimal trait values) ###
-    optima<-c(init.par[(length(diag(A))+l.upp.tri+l.upp.tri+length(diag(A))+l.upp.tri.R+1):(length(diag(A))+l.upp.tri+l.upp.tri+length(diag(A))+l.upp.tri.R+length(diag(A)))])
-
-    ### The ancestral trait values ###
-    anc<-c(init.par[(length(diag(A))+l.upp.tri+l.upp.tri+length(diag(A))+l.upp.tri.R+length(diag(A))+1):(length(diag(A))+l.upp.tri+l.upp.tri+length(diag(A))+l.upp.tri.R+length(diag(A))+length(diag(A)))])
-
+    optima <- c(init.par[(length(diag(A)) + l.upp.tri + l.upp.tri + length(diag(A)) + l.upp.tri.R + 1):(length(diag(A)) + l.upp.tri + l.upp.tri + length(diag(A)) + l.upp.tri.R + length(diag(A)))])
+    anc    <- c(init.par[(length(diag(A)) + l.upp.tri + l.upp.tri + length(diag(A)) + l.upp.tri.R + length(diag(A)) + 1):(length(diag(A)) + l.upp.tri + l.upp.tri + length(diag(A)) + l.upp.tri.R + length(diag(A)) + length(diag(A)))])
   }
 
-  if(A.matrix=="upper.tri" & R.matrix=="diag"){
+  if (A.matrix == "upper.tri" & R.matrix == "diag") {
 
-    ### Eigenvalue decomposition of A ###
-    A<-diag(c(init.par[1:m]))
-    nr.off.diag<-upper.tri(A)
-    l.upp.tri<-length(nr.off.diag[nr.off.diag==TRUE])
-    A[upper.tri(A)] <- init.par[(length(diag(A))+1):(length(diag(A))+l.upp.tri)]
-    P<-eigen(A)$vectors
-    D<-diag(eigen(A)$values)
+    A <- diag(c(init.par[1:m]))
+    nr.off.diag <- upper.tri(A)
+    l.upp.tri   <- length(nr.off.diag[nr.off.diag == TRUE])
+    A[upper.tri(A)] <- init.par[(length(diag(A)) + 1):(length(diag(A)) + l.upp.tri)]
+    P <- eigen(A)$vectors
+    D <- diag(eigen(A)$values)
 
-    ### The R (drift) matrix ###
-    Chol<-diag(init.par[(length(diag(A))+l.upp.tri+1):((length(diag(A))+l.upp.tri+m))])
-
-    ### Theta (optimal trait values) ###
-    optima<-c(init.par[(length(diag(A))+l.upp.tri+m+1):((length(diag(A))+l.upp.tri+m+m))])
-
-    ### The ancestral trait values ###
-    anc<-c(init.par[(length(diag(A))+l.upp.tri+m+m+1):(length(diag(A))+l.upp.tri+m+m+m)])
-
+    Chol   <- diag(init.par[(length(diag(A)) + l.upp.tri + 1):((length(diag(A)) + l.upp.tri + m))])
+    optima <- c(init.par[(length(diag(A)) + l.upp.tri + m + 1):((length(diag(A)) + l.upp.tri + m + m))])
+    anc    <- c(init.par[(length(diag(A)) + l.upp.tri + m + m + 1):(length(diag(A)) + l.upp.tri + m + m + m)])
   }
 
-  if(A.matrix=="upper.tri" & R.matrix=="symmetric"){
+  if (A.matrix == "upper.tri" & R.matrix == "symmetric") {
 
-    ### Eigenvalue decomposition of A ###
-    A<-diag(c(init.par[1:m]))
-    nr.off.diag.A<-upper.tri(A)
-    l.upp.tri.A<-length(nr.off.diag.A[nr.off.diag.A==TRUE])
-    A[upper.tri(A)] <- init.par[(length(diag(A))+1):(length(diag(A))+l.upp.tri.A)]
-    P<-eigen(A)$vectors
-    D<-diag(eigen(A)$values)
+    A <- diag(c(init.par[1:m]))
+    nr.off.diag.A <- upper.tri(A)
+    l.upp.tri.A   <- length(nr.off.diag.A[nr.off.diag.A == TRUE])
+    A[upper.tri(A)] <- init.par[(length(diag(A)) + 1):(length(diag(A)) + l.upp.tri.A)]
+    P <- eigen(A)$vectors
+    D <- diag(eigen(A)$values)
 
-    ### The R (drift) matrix ###
-    Chol<-diag(init.par[(length(diag(A))+l.upp.tri.A+1):(length(diag(A))+l.upp.tri.A+m)])
-    nr.off.diag.R<-upper.tri(Chol)
-    l.upp.tri.R<-length(nr.off.diag.R[nr.off.diag.R==TRUE])
-    Chol[upper.tri(Chol)] <- init.par[(length(diag(A))+l.upp.tri.A+m+1):(length(diag(A))+l.upp.tri.A+m+l.upp.tri.R)]
+    Chol <- diag(init.par[(length(diag(A)) + l.upp.tri.A + 1):(length(diag(A)) + l.upp.tri.A + m)])
+    nr.off.diag.R <- upper.tri(Chol)
+    l.upp.tri.R   <- length(nr.off.diag.R[nr.off.diag.R == TRUE])
+    Chol[upper.tri(Chol)] <- init.par[(length(diag(A)) + l.upp.tri.A + m + 1):(length(diag(A)) + l.upp.tri.A + m + l.upp.tri.R)]
 
-    ### Theta (optimal trait values) ###
-    optima<-c(init.par[(length(diag(A))+l.upp.tri.A+m+l.upp.tri.R+1):(length(diag(A))+l.upp.tri.A+m+l.upp.tri.R+m)])
-
-    ### The ancestral trait values ###
-    anc<-c(init.par[(length(diag(A))+l.upp.tri.A+m+l.upp.tri.R+m+1):(length(diag(A))+l.upp.tri.A+m+l.upp.tri.R+m+m)])
+    optima <- c(init.par[(length(diag(A)) + l.upp.tri.A + m + l.upp.tri.R + 1):(length(diag(A)) + l.upp.tri.A + m + l.upp.tri.R + m)])
+    anc    <- c(init.par[(length(diag(A)) + l.upp.tri.A + m + l.upp.tri.R + m + 1):(length(diag(A)) + l.upp.tri.A + m + l.upp.tri.R + m + m)])
   }
 
-  if(A.matrix=="lower.tri" & R.matrix=="diag"){
+  if (A.matrix == "lower.tri" & R.matrix == "diag") {
 
-    ### Eigenvalue decomposition of A ###
-    A<-diag(c(init.par[1:m]))
-    nr.off.diag<-lower.tri(A)
-    l.low.tri<-length(nr.off.diag[nr.off.diag==TRUE])
-    A[lower.tri(A)] <- init.par[(length(diag(A))+1):(length(diag(A))+l.low.tri)]
-    P<-eigen(A)$vectors
-    D<-diag(eigen(A)$values)
+    A <- diag(c(init.par[1:m]))
+    nr.off.diag <- lower.tri(A)
+    l.low.tri   <- length(nr.off.diag[nr.off.diag == TRUE])
+    A[lower.tri(A)] <- init.par[(length(diag(A)) + 1):(length(diag(A)) + l.low.tri)]
+    P <- eigen(A)$vectors
+    D <- diag(eigen(A)$values)
 
-    ### The R (drift) matrix ###
-    Chol<-diag(init.par[(length(diag(A))+l.low.tri+1):((length(diag(A))+l.low.tri+m))])
-
-    ### Theta (optimal trait values) ###
-    optima<-c(init.par[(length(diag(A))+l.low.tri+m+1):((length(diag(A))+l.low.tri+m+m))])
-
-    ### The ancestral trait values ###
-    anc<-c(init.par[(length(diag(A))+l.low.tri+m+m+1):(length(diag(A))+l.low.tri+m+m+m)])
-
+    Chol   <- diag(init.par[(length(diag(A)) + l.low.tri + 1):((length(diag(A)) + l.low.tri + m))])
+    optima <- c(init.par[(length(diag(A)) + l.low.tri + m + 1):((length(diag(A)) + l.low.tri + m + m))])
+    anc    <- c(init.par[(length(diag(A)) + l.low.tri + m + m + 1):(length(diag(A)) + l.low.tri + m + m + m)])
   }
 
-  if(A.matrix=="lower.tri" & R.matrix=="symmetric"){
+  if (A.matrix == "lower.tri" & R.matrix == "symmetric") {
 
-    ### Eigenvalue decomposition of A ###
-    A<-diag(c(init.par[1:m]))
-    nr.off.diag.A<-lower.tri(A)
-    l.low.tri.A<-length(nr.off.diag.A[nr.off.diag.A==TRUE])
-    A[lower.tri(A)] <- init.par[(length(diag(A))+1):(length(diag(A))+l.low.tri.A)]
-    P<-eigen(A)$vectors
-    D<-diag(eigen(A)$values)
+    A <- diag(c(init.par[1:m]))
+    nr.off.diag.A <- lower.tri(A)
+    l.low.tri.A   <- length(nr.off.diag.A[nr.off.diag.A == TRUE])
+    A[lower.tri(A)] <- init.par[(length(diag(A)) + 1):(length(diag(A)) + l.low.tri.A)]
+    P <- eigen(A)$vectors
+    D <- diag(eigen(A)$values)
 
-    ### The R (drift) matrix ###
-    Chol<-diag(init.par[(length(diag(A))+l.low.tri.A+1):(length(diag(A))+l.low.tri.A+m)])
-    nr.off.diag.R<-upper.tri(Chol)
-    l.upp.tri.R<-length(nr.off.diag.R[nr.off.diag.R==TRUE])
-    Chol[upper.tri(Chol)] <- init.par[(length(diag(A))+l.low.tri.A+m+1):(length(diag(A))+l.low.tri.A+m+l.upp.tri.R)]
+    Chol <- diag(init.par[(length(diag(A)) + l.low.tri.A + 1):(length(diag(A)) + l.low.tri.A + m)])
+    nr.off.diag.R <- upper.tri(Chol)
+    l.upp.tri.R   <- length(nr.off.diag.R[nr.off.diag.R == TRUE])
+    Chol[upper.tri(Chol)] <- init.par[(length(diag(A)) + l.low.tri.A + m + 1):(length(diag(A)) + l.low.tri.A + m + l.upp.tri.R)]
 
-    ### Theta (optimal trait values) ###
-    optima<-c(init.par[(length(diag(A))+l.low.tri.A+m+l.upp.tri.R+1):(length(diag(A))+l.low.tri.A+m+l.upp.tri.R+m)])
-
-    ### The ancestral trait values ###
-    anc<-c(init.par[(length(diag(A))+l.low.tri.A+m+l.upp.tri.R+m+1):(length(diag(A))+l.low.tri.A+m+l.upp.tri.R+m+m)])
+    optima <- c(init.par[(length(diag(A)) + l.low.tri.A + m + l.upp.tri.R + 1):(length(diag(A)) + l.low.tri.A + m + l.upp.tri.R + m)])
+    anc    <- c(init.par[(length(diag(A)) + l.low.tri.A + m + l.upp.tri.R + m + 1):(length(diag(A)) + l.low.tri.A + m + l.upp.tri.R + m + m)])
   }
 
-  if(A.matrix=="OUBM"){
+  if (A.matrix == "OUBM") {
 
-    ### Eigenvalue decomposition of A ###
-    A<-diag(c(init.par[1:(m-1)],0.000001))
-    nr.off.diag.A<-upper.tri(A)
-    l.upp.tri.A<-length(nr.off.diag.A[nr.off.diag.A==TRUE])
-    A[upper.tri(A)] <- init.par[(m):(m-1+l.upp.tri.A)]
-    P<-eigen(A)$vectors
-    D<-diag(eigen(A)$values)
+    A <- diag(c(init.par[1:(m - 1)], 0.000001))
+    nr.off.diag.A <- upper.tri(A)
+    l.upp.tri.A   <- length(nr.off.diag.A[nr.off.diag.A == TRUE])
+    A[upper.tri(A)] <- init.par[(m):(m - 1 + l.upp.tri.A)]
+    P <- eigen(A)$vectors
+    D <- diag(eigen(A)$values)
 
-    ### The R (drift) matrix ###
-    Chol<-diag(init.par[(m+l.upp.tri.A):(m+m+l.upp.tri.A-1)])
-
-    ### Theta (optimal trait values) ###
-    optima<-c(init.par[(m+m+l.upp.tri.A):(m+m+m+l.upp.tri.A-1)])
-
-    ### The ancestral trait values ###
-    anc<-c(init.par[(m+m+m+l.upp.tri.A):(m+m+m+m+l.upp.tri.A-1)])
+    Chol   <- diag(init.par[(m + l.upp.tri.A):(m + m + l.upp.tri.A - 1)])
+    optima <- c(init.par[(m + m + l.upp.tri.A):(m + m + m + l.upp.tri.A - 1)])
+    anc    <- c(init.par[(m + m + m + l.upp.tri.A):(m + m + m + m + l.upp.tri.A - 1)])
   }
 
-  ### Define and rescale the time vector to unit length ###
-   time<-yy$tt[,1]/max(yy$tt[,1])
+### v.1.4 ###
+# v.1.3  computed the time vector, the per-time-point exp(-A*t) array, M, and VV3 by rebuilding everything from `yy$tt` inside this 
+# function on every call, using explicit i/j/k/l loops throughout. Rewritten below to use the pre-computed ta/tij/time_vec/se_vec arguments, 
+# vectorised matrix expressions in place of the innermost loops, and to add tryCatch/finite-value guards (see end of function) that were 
+#  not present in the release version. Also fixes a variable-shadowing bug in the previous version of the code where the loop variable `m` was reused inside 
+#  the trait-count-consuming exponent loop
+  
+  ### -----------------------------------------------------------------------
+  ### Optimization 1: pre-compute constants that are reused across time pairs
+  ### -----------------------------------------------------------------------
 
-  # Make a time matrix
-   tmp.matrix<-matrix(0,ncol=length(yy$vv[,1]), nrow=length(yy$vv[1,]))
-  for (i in 1:ncol(A)){
-    tmp.matrix[i,]<-time
+  # P_inv: computed once here instead of inside the i,j loop (original called
+  # solve(P) inside the loop, repeating the inversion n_t^2 times per call)
+  P_inv <- solve(P)
+
+  # d: eigenvalues of A as a plain vector
+  d <- diag(D)
+
+  # sum_d: m x m matrix of all pairwise eigenvalue sums (dk + dl).
+  # Replaces the innermost k,l double loop in the original.
+  sum_d <- outer(d, d, "+")
+
+  # right.side: the P^{-1} R P^{-T} factor in the integral; constant across all
+  # time pairs so it is computed once.
+  right.side <- P_inv %*% (Chol %*% t(Chol)) %*% t(P_inv)
+
+  ### -----------------------------------------------------------------------
+  ### Calculate expected trait values M (unified loop for all A.matrix types)
+  ### -----------------------------------------------------------------------
+
+  # In version 1.3, for diagonal A, the original used a fully vectorized formula across all time
+  # points simultaneously; for non-diagonal A it used an explicit loop.  The
+  # loop below is equivalent for all model types and also avoids building the
+  # exp_eigenvalues array.
+
+  anc_minus_theta <- anc - optima
+  M <- matrix(NA, nrow = m, ncol = n_t)
+
+  for (i in 1:n_t) {
+    eAt_i  <- P %*% diag(exp(-d * time_vec[i])) %*% P_inv
+    M[, i] <- eAt_i %*% anc_minus_theta + optima
   }
-  time<-tmp.matrix
+  M <- c(t(M))   # vectorize row-by-row to match ordering of y
 
-  ### Calculate exponent of eigenvalues from the A decomposition ###
+  ### -----------------------------------------------------------------------
+  ### Compute variance-covariance matrix VV3 (eq. 8 and 9 from Suppl. of Clavel et al. 2015)
+  ###
+  ### v.1.4 vs. v.1.3:
+  ###   - No tmp.VV intermediate array; VV3 is filled directly.
+  ###   - left.side computed by outer() instead of a k,l double loop.
+  ###   - exp decay vector computed by a single vectorized exp() call
+  ###     (also fixes variable-shadowing bug: original used 'm' as loop
+  ###     variable, overwriting the trait-count variable).
+  ###   - row/col block offsets pre-computed outside the inner loop.
+  ### -----------------------------------------------------------------------
 
-  exp_eigenvalues<-array(data=NA, dim=c(m, m, length(time[1,])))
+  VV3 <- matrix(0, nrow = n_t * m, ncol = n_t * m)
 
-  for (i in 1:length(time[1,])){
-    exp_eigenvalues_tmp<-rep(NA, m)
-      for (j in 1: m){
-        exp_eigenvalues_tmp[j]<-exp(-diag(D)[j]*time[1,i])
-      }
-      exp_eigenvalues[,,i]<-diag(exp_eigenvalues_tmp)
-  }
+  # Block-row and block-column starting offsets for each trait in VV3.
+  # VV3[(trait_r - 1)*n_t + time_a, (trait_c - 1)*n_t + time_b] holds the
+  # covariance of trait c at time a with trait r at time b (see assembly logic).
+  row_base <- (0:(m - 1)) * n_t   # length-m vector of row offsets
+  col_base <- row_base             # same for columns (symmetric block structure)
 
+  for (a in 1:n_t) {
+    for (b in 1:n_t) {
 
-  ### Calculate the expected trait evolution given A, anc, theta and time. ###
-  if(A.matrix=="full" || A.matrix=="upper.tri" || A.matrix=="lower.tri" || A.matrix=="OUBM")
-    {
-    M<-matrix(NA, ncol = length(time[1,]), nrow= m)
-    for (i in 1:length(time[1,]))
-      {
-      M[,i]<-((P%*%exp_eigenvalues[,,i]%*%solve(P))%*%anc) + (diag(c(rep(1,m)))- (P%*%exp_eigenvalues[,,i]%*%solve(P)))%*%optima
-      }
+      # Vectorized left.side: replaces the original double loop over k and l.
+      left.side  <- (1 - exp(-sum_d * ta[a, b])) / sum_d   # m x m matrix
+      left.right <- left.side * right.side                  # Hadamard product
+      integ      <- P %*% left.right %*% t(P)
+
+      # Vectorized exp decay: replaces the original inner loop over traits.
+      # Variable name 'exp_diag_b' avoids shadowing the outer 'm'.
+      exp_diag_b <- exp(-d * tij[a, b])                     # length-m vector
+      exp_mat_T  <- t(P %*% diag(exp_diag_b) %*% P_inv)    # transpose of exp(-A*tij)
+
+      tmp <- integ %*% exp_mat_T   # m x m block for time pair (a, b)
+
+      # Direct placement into VV3.
+      # VV3[row_base + a, col_base + b] is the m x m submatrix corresponding to
+      # time point a (rows) crossed with time point b (columns) across all trait
+      # pairs.  Setting it to t(tmp) replicates the block assembly from the
+      # original tmp.VV / List approach.
+      row_idx <- row_base + a
+      col_idx <- col_base + b
+      VV3[row_idx, col_idx] <- t(tmp)
     }
-
-  if(A.matrix=="diag")
-    {
-  M<-exp(-(P%*%D%*%solve(P))%*%time)*anc + optima*(1- exp(-(P%*%D%*%solve(P))%*%time))
-    }
-   M<-c(t(M)) # vectorize M
-
-
-  ### Compute the integral of the variance-covariance matrix (eq. 8 and 9 (page 3) from Suppl. from Clavel et al. 2015) ###
-
-  tmp.VV<-array(data=NA, dim=c(ncol=length(time[1,]), nrow=length(time[1,]), (ncol(A)*ncol(A)))) # Make a list that contains the block matrices in the VCOV.
-
-  # Create time matrices (ta and tij)
-  ff <- function(a, b) abs(a - b)
-  tij<-outer(as.vector(time[1,]), as.vector(time[1,]), ff) # tij -> time from species j to the most common ancestor of species i and j.
-  ta<-outer(as.vector(time[1,]), as.vector(time[1,]),pmin) #Ta -> time from the first sample to the most recent common ancestor of i and j.
-
-  right.side<-solve(P)%*% (Chol %*% t(Chol)) %*% (t(solve(P))) # the right side of the expression relative to the Hadamard product
-
-  left.side<-matrix(NA, nrow=nrow(A), ncol=ncol(A)) # the left side of the expression relative to the Hadamard product
-  for (i in 1:length(time[1,])){
-    for (j in 1:length(time[1,])){
-      for (k in 1:ncol(A)){
-        for (l in 1:ncol(A)){
-          left.side[k,l]<-(1-exp(-(diag(D)[k]+diag(D)[l])*ta[i,j]))*(1/(diag(D)[k]+diag(D)[l]))
-          }
-      }
-     # print(left.side)
-      left.right<-left.side*right.side # Hadamard product between left and right side
-      integ<-P%*%left.right%*%t(P) # The whole integral (except the matrix exponential)
-
-        exp_eigenvalues_2<-rep(NA,  m)
-        for (m in 1:m){
-        exp_eigenvalues_2[m]<-exp(-diag(D)[m]*tij[i,j])
-        }
-
-          tmp<-integ%*%(t(P%*%(diag(c(exp_eigenvalues_2)))%*%solve(P))) # The whole integral (including the matrix exponential)
-          vector.tmp<-as.vector(tmp) # vectorization of the trait*trait matrix
-          for (k in 1:(ncol(A)*ncol(A))){
-          tmp.VV[i,j,k]<-vector.tmp[k] # place the elements of the integral in each block matrix.
-        }
-      }
   }
 
-  ### Compile the varcovar (VV3) matrix from the list of block matrices (tmp.VV) ###
+  ### Add pre-computed sampling error to the diagonal ###
+  diag(VV3) <- diag(VV3) + se_vec
+  VV3 <- (VV3 + t(VV3)) / 2   # guard against floating-point asymmetry
 
-  VV3<-matrix(0, ncol=(ncol(tmp.VV[,,1])*ncol(A)), nrow=(ncol(tmp.VV[,,1])*ncol(A))) # Make an empty VCOV matrix.
+  if (any(!is.finite(M)) || any(!is.finite(VV3))) return(-1e20)
 
-  List<-list()
-  for(i in 1:length(tmp.VV[1,1,]))
-  {
-      List[[i]] <- tmp.VV[,,i] # Make each block matrix a separate element in the list "List"
-  }
-
-  #List[[3]]<-t( List[[3]])
-
-from.boundary<-seq(1,ncol(VV3), ncol(VV3)/ncol(A)) # create vectors defining the start...
-to.boundary<-(from.boundary-1)+length(tmp.VV[,1,1]) # and end of where in the VCOV matrix block matrices in List should be placed.
-from<-seq(1,length(tmp.VV[1,1,]), length(tmp.VV[1,1,])/ncol(A)) # create vectors defining the start and and end of which list in List that should be placed in VCOV.
-to<-(from-1)+ncol(A)
-
-for (i in 1:ncol(A)){
-  VV3[(from.boundary[i]:to.boundary[i]),]<-do.call(cbind, List[from[i]: to[i]]) # Make the VCOV matrix by binding together block matrices from List
-}
-
- #print(VV3)
-#### Add estimation error to the diagonal ###
-
-  tmp.matrix<-matrix(0,ncol=length(yy$vv[,1]), nrow=length(yy$vv[1,])) # Make empty matrix for sampling error
-  for (i in 1:ncol(A)){
-    tmp.matrix[i,]<-c(yy$vv[,i]/yy$nn[,i]) # add sampling error (sample variance divided by sample size)
-  }
-
-  diag(VV3) <- diag(VV3) + as.vector(t(tmp.matrix)) # Add sampling error to the diagonal of VCOV
-  VV3<-(VV3+t(VV3))/2 #Make sure round-off errors are not present in VV3
-
-  S <- mvtnorm::dmvnorm(t(y), mean = M, sigma = VV3, log = TRUE)
-
+  S <- tryCatch(
+    mvtnorm::dmvnorm(t(y), mean = M, sigma = VV3, log = TRUE),
+    error = function(e) -1e20
+  )
+  if (!is.finite(S)) return(-1e20)
+  S
 }
