@@ -18,7 +18,7 @@
 Release version of R
 Development version of R
 windows R-* (any version) windows-latest on GitHub
-atlas, R-devel (2024-06-18 r86781), Fedora Linux 38 (Container Image)
+atlas, R-devel (2026-06-18 r86781), Fedora Linux 38 (Container Image)
 
 ## R CMD check results
 0 errors v | 0 warnings v | 0 notes v
