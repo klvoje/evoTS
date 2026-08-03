@@ -4,7 +4,7 @@
 \alias{logL.joint.single.R.zero.corr}
 \title{Log-likelihoods for evolutionary models}
 \usage{
-logL.joint.single.R.zero.corr(init.par, C, y, m, n, anc.values, yy)
+logL.joint.single.R.zero.corr(init.par, C, y, m, n, anc.values, se_vec)
 }
 \arguments{
 \item{init.par}{initial (starting) parameters values}
@@ -19,7 +19,7 @@ logL.joint.single.R.zero.corr(init.par, C, y, m, n, anc.values, yy)
 
 \item{anc.values}{initial values for the ancestral trait values}
 
-\item{yy}{a multivariate evoTS object}
+\item{se_vec}{pre-computed sampling error vector}
 }
 \value{
 The log-likelihood of the parameter estimates, given the data.
@@ -28,7 +28,8 @@ The log-likelihood of the parameter estimates, given the data.
 Returns log-likelihood for a multivariate Unbiased Random Walk model with uncorrelated changes.
 }
 \details{
-In general, users will not be access these functions directly, but instead use the optimization functions, which use these functions to find the best-supported parameter values.
+In general, users will not be access these functions directly, but instead use the
+optimization functions, which use these functions to find the best-supported parameter values.
 }
 \author{
 Kjetil Lysne Voje

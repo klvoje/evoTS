@@ -42,7 +42,7 @@ First part of the output reports the log-likelihood of the model and its AICc sc
 Function to find maximum likelihood solutions for multivariate Unbiased Random Walk models fitted to two different segments of a multivariate evolutionary sequence (time-series).
 }
 \details{
-The function searches - using an optimization routine - for the maximum-likelihood solution for a multivariate Unbiased Random Walk model ti two non-overlapping segments in the time series.
+The function searches - using an optimization routine - for the maximum-likelihood solution for a multivariate Unbiased Random Walk model fitted to two non-overlapping segments in the time series.
 
 The argument 'method' is passed to the 'optim' function and is included for the convenience of users to better control the optimization routine. The the default method (L-BFGS-B) seems to work for most evolutionary sequences.
 

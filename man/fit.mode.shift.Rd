@@ -63,7 +63,7 @@ The models have been implemented to be compatible with the joint parameterizatio
 x <- paleoTS::sim.GRW(30)
 
 ## Fit a mode-shift model without defining a shift point (the example may take > 5 seconds to run)
-fit.mode.shift(x, model1="URW", model2="Stasis", shift.point=15)
+fit.mode.shift(x, model1="URW", model2="Stasis")
 }
 \references{
 Hunt, G. 2006. Fitting and comparing models of phyletic evolution: random walks and beyond. \emph{Paleobiology} 32:578–601

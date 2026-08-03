@@ -57,6 +57,10 @@ opt.single.R.zero.corr<-function (yy, method = "L-BFGS-B", hess = FALSE, pool = 
   }
 
   C<- outer(yy$tt[,1], yy$tt[,1], FUN = pmin)  #Create distance matrix
+### v.1.4 ###
+# sampling-error vector computed once here instead of being rebuilt from
+# yy inside the log-likelihood function on every optimizer call.
+  se_vec <- as.vector(t(yy$vv / yy$nn))  # pre-compute sampling error vector
 
   X <- yy$xx # Character matrix with dimensions n * m
   y <- as.matrix(as.vector(X)) # Vectorized version of X
@@ -67,6 +71,10 @@ opt.single.R.zero.corr<-function (yy, method = "L-BFGS-B", hess = FALSE, pool = 
 
   init.par<-c(init.trait.var, anc.values)
   lower.limit<-c(rep(0,length(init.trait.var)), rep(NA, length(anc.values)))
+### v.1.4 ###
+# New: per-trait data SD, used below to scale additive perturbations of
+# ancestral values during random restarts.
+  data.sd <- apply(yy$xx, 2, stats::sd)
 
   ### Start iterations from different starting values
   if (is.numeric(iterations)) {
@@ -77,21 +85,36 @@ opt.single.R.zero.corr<-function (yy, method = "L-BFGS-B", hess = FALSE, pool = 
 
     for (k in 1:1000000){
       tryCatch({
-      init.par_temp<-init.par
-      init.par<-rnorm(length(init.par_temp), init.par_temp, iter.sd)
-
+### v.1.4 ###
+# Verion 1.3 perturbed the whole parameter vector identically:
+# `init.par_temp<-init.par; init.par<-rnorm(length(init.par_temp), init.par_temp, iter.sd)`.
+# Now each parameter type is perturbed in a scale-appropriate way: multiplicative
+# log-normal jitter for the (positive) trait-variance parameters, data-SD-scaled
+# additive jitter for the ancestral values. Result is also clamped to the lower
+# bound (NA bounds treated as -Inf) so restarts can't violate constraints.
+      init.trait.var  <- init.trait.var * exp(rnorm(length(init.trait.var), 0, iter.sd))
+      anc.values      <- anc.values + rnorm(length(anc.values), 0, data.sd * iter.sd)
+      init.par        <- c(init.trait.var, anc.values)
+      init.par        <- pmax(replace(lower.limit, is.na(lower.limit), -Inf), init.par)
 
       if (method == "L-BFGS-B")  {
-        www[[k]]<-optim(init.par, fn = logL.joint.single.R.zero.corr, C = C, y = y, m = m, n = n, anc.values = anc.values, yy = yy,
-                        control = list(fnscale = -1, maxit=10000, trace = trace), method = "L-BFGS-B", hessian = hess, lower = lower.limit)
+### v.1.4 ###
+# `yy = yy` replaced by `se_vec = se_vec` (see pre-computation above); the
+# `lower` bound now replaces NA entries with -Inf before passing to optim().
+        www[[k]]<-optim(init.par, fn = logL.joint.single.R.zero.corr, C = C, y = y, m = m, n = n, anc.values = anc.values, se_vec = se_vec,
+                        control = list(fnscale = -1, maxit=10000, trace = trace), method = "L-BFGS-B", hessian = hess, lower = replace(lower.limit, is.na(lower.limit), -Inf))
       }
 
       if (method == "Nelder-Mead")  {
-        www[[k]]<-optim(init.par, fn = logL.joint.single.R.zero.corr, C = C, y = y, m = m, n = n, anc.values = anc.values, yy = yy,
+### v.1.4 ###
+# `yy = yy` replaced by `se_vec = se_vec` (see pre-computation above).
+        www[[k]]<-optim(init.par, fn = logL.joint.single.R.zero.corr, C = C, y = y, m = m, n = n, anc.values = anc.values, se_vec = se_vec,
                         control = list(fnscale = -1, maxit=10000, trace = trace), method = "Nelder-Mead" , hessian = hess)
       }
       if (method == "SANN")  {
-        www[[k]]<-optim(init.par, fn = logL.joint.single.R.zero.corr, C = C, y = y, m = m, n = n, anc.values = anc.values, yy = yy,
+### v.1.4 ###
+# `yy = yy` replaced by `se_vec = se_vec` (see pre-computation above).
+        www[[k]]<-optim(init.par, fn = logL.joint.single.R.zero.corr, C = C, y = y, m = m, n = n, anc.values = anc.values, se_vec = se_vec,
                         control = list(fnscale = -1, maxit=10000, trace = trace), method = "SANN" , hessian = hess, lower = lower.limit)
       }
       log.lik.tmp[k]<-www[[k]]$value
@@ -114,16 +137,23 @@ opt.single.R.zero.corr<-function (yy, method = "L-BFGS-B", hess = FALSE, pool = 
 
 
     if (method == "L-BFGS-B")  {
-      w<-optim(init.par, fn = logL.joint.single.R.zero.corr, C = C, y = y, m = m, n = n, anc.values = anc.values, yy = yy,
-               control = list(fnscale = -1, maxit=10000, trace = trace), method = "L-BFGS-B", hessian = hess, lower = lower.limit)
+### v.1.4 ###
+# `yy = yy` replaced by `se_vec = se_vec` (see pre-computation above); the
+# `lower` bound now replaces NA entries with -Inf before passing to optim().
+      w<-optim(init.par, fn = logL.joint.single.R.zero.corr, C = C, y = y, m = m, n = n, anc.values = anc.values, se_vec = se_vec,
+               control = list(fnscale = -1, maxit=10000, trace = trace), method = "L-BFGS-B", hessian = hess, lower = replace(lower.limit, is.na(lower.limit), -Inf))
     }
 
     if (method == "Nelder-Mead")  {
-      w<-optim(init.par, fn = logL.joint.single.R.zero.corr, C = C, y = y, m = m, n = n, anc.values = anc.values, yy = yy,
+### v.1.4 ###
+# `yy = yy` replaced by `se_vec = se_vec` (see pre-computation above).
+      w<-optim(init.par, fn = logL.joint.single.R.zero.corr, C = C, y = y, m = m, n = n, anc.values = anc.values, se_vec = se_vec,
                control = list(fnscale = -1, maxit=10000, trace = trace), method = "Nelder-Mead" , hessian = hess)
     }
     if (method == "SANN")  {
-      w<-optim(init.par, fn = logL.joint.single.R.zero.corr, C = C, y = y, m = m, n = n, anc.values = anc.values, yy = yy,
+### v.1.4 ###
+# `yy = yy` replaced by `se_vec = se_vec` (see pre-computation above).
+      w<-optim(init.par, fn = logL.joint.single.R.zero.corr, C = C, y = y, m = m, n = n, anc.values = anc.values, se_vec = se_vec,
                control = list(fnscale = -1, maxit=10000, trace = trace), method = "SANN" , hessian = hess, lower = lower.limit)
     }
     

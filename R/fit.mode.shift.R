@@ -61,6 +61,7 @@ fit.mode.shift<-function (y, model1=c("Stasis", "URW", "GRW", "OU"), model2=c("S
   GG<-as.matrix(GG)
   if (ncol(GG) == 1) print("Fitting the model for a user-defined shift point") else print("Searching all possible shift points in the evolutionary sequence")
 
+
   if(fit.all == TRUE){
   #Define number of shift points:
   nc <- ncol(GG)

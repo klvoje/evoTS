@@ -32,26 +32,37 @@ sim.multi.URW<-function(ns = 30, anc = c(0,0), R = matrix(c(0.5,0,0,0.5), nrow=2
                        vp = 0.1, nn = rep(30, ns), tt = 0:(ns - 1)){
   m<-ncol(R)
 
+  MM <- matrix(nrow = m, ncol = ns)
+  mm <- matrix(nrow = m, ncol = ns)
+  vv <- matrix(nrow = m, ncol = ns)
+  time <- tt / max(tt)
+  dt   <- diff(time)
 
-  MM <- matrix(nrow = ncol(R), ncol = ns)
-  mm <- matrix(nrow = ncol(R), ncol = ns)
-  vv <- matrix(nrow = ncol(R), ncol = ns)
-  time<-tt/max(tt)
-  dt <- diff(time)
+### v.1.4 ###
+# Bug fix. Version 1.3 drew all ns increments from a
+# single mvrnorm() call using Sigma = R * dt[1] (only the first inter-sample
+# interval), so every increment was scaled identically regardless of the
+# actual (possibly unequal) spacing of later time points,
 
-  Chol<-chol(R)
+# Also, now each of the ns-1 increments is drawn with its own dt[s]-scaled
+# covariance (correct for unevenly-spaced time series), and the first time
+# point is fixed exactly at the ancestral value.
+  
+  # Start at ancestral values; simulate ns-1 increments, each scaled by its own dt
+  MM[, 1] <- 0
+  for (s in 1:(ns - 1)) {
+    MM[, s + 1] <- MASS::mvrnorm(1, mu = rep(0, m), Sigma = R * dt[s])
+  }
+  for (i in 1:m) {
+    MM[i, ] <- cumsum(MM[i, ])
+  }
+  MM <- MM + anc
 
-  temp<-MASS::mvrnorm(n =(ns), mu=rep(0,m), Sigma=((t(Chol)%*%Chol)*(dt[1])))
-
-  for (i in 1:m){
-    MM[i,c(1:ns)] <- cumsum(c(temp[,i]) )
-    mm[i,c(1:ns)] <- MM[i,c(1:ns)] + rnorm(ns, 0, sqrt(vp/nn))
-    vv[i,c(1:ns)]<-rep(vp,(ns))
+  for (i in 1:m) {
+    mm[i, ] <- MM[i, ] + rnorm(ns, 0, sqrt(vp / nn))
+    vv[i, ] <- rep(vp, ns)
   }
 
-  MM<-MM+anc
-  mm<-mm+anc
-  
   List<-list()
   for (i in 1:m){
     List[[i]]<-paleoTS::as.paleoTS(mm = mm[i,], vv = vv[i,], nn = nn, tt = time, MM = MM[i,], label = "Created by sim.multi.BM", reset.time = FALSE)
@@ -61,7 +72,6 @@ sim.multi.URW<-function(ns = 30, anc = c(0,0), R = matrix(c(0.5,0,0,0.5), nrow=2
   if (m==3) yy<-make.multivar.evoTS(List[[1]], List[[2]], List[[3]])
   if (m==4) yy<-make.multivar.evoTS(List[[1]], List[[2]], List[[3]], List[[4]])
   if (m==5) yy<-make.multivar.evoTS(List[[1]], List[[2]], List[[3]], List[[4]], List[[5]])
-
 
   return(yy)
 }

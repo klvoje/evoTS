@@ -36,7 +36,7 @@ First part of the output reports the log-likelihood of the model and its AICc sc
 Function to find maximum likelihood solution to a multivariate Unbiased Random Walk model with uncorrelated trait changes and with decreasing (exponential decaying) rate of change through time.
 }
 \details{
-The function searches - using an optimization routine - for the maximum-likelihood solution for a multivariate Unbiased Random Walk model with uncorrelated trait changes and with increasing (exponential accelerating) rate of change through time.
+The function searches - using an optimization routine - for the maximum-likelihood solution for a multivariate Unbiased Random Walk model with uncorrelated trait changes and with decreasing (exponential decelerating) rate of change through time.
 
 The argument 'method' is passed to the 'optim' function and is included for the convenience of users to better control the optimization routine. The the default method (L-BFGS-B) seems to work for most evolutionary sequences.
 

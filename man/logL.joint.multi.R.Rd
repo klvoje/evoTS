@@ -4,12 +4,12 @@
 \alias{logL.joint.multi.R}
 \title{Log-likelihoods for evolutionary models}
 \usage{
-logL.joint.multi.R(init.par, C, y, m, n, anc.values, yy)
+logL.joint.multi.R(init.par, C, y, m, n, anc.values, se_vec)
 }
 \arguments{
 \item{init.par}{initial (starting) parameters values}
 
-\item{C}{distance matrix}
+\item{C}{distance matrix (list with two elements: C.1 and C.2)}
 
 \item{y}{vector containing all trait values from all traits}
 
@@ -19,16 +19,18 @@ logL.joint.multi.R(init.par, C, y, m, n, anc.values, yy)
 
 \item{anc.values}{initial values for the ancestral trait values}
 
-\item{yy}{a multivariate evoTS object}
+\item{se_vec}{pre-computed sampling error vector}
 }
 \value{
 The log-likelihood of the parameter estimates, given the data.
 }
 \description{
-Returns log-likelihood for a multivariate Unbiased Random Walk model fitted to separate segments of a multivariate time series.
+Returns log-likelihood for a multivariate Unbiased Random Walk model fitted
+to separate segments of a multivariate time series.
 }
 \details{
-In general, users will not be access these functions directly, but instead use the optimization functions, which use these functions to find the best-supported parameter values.
+In general, users will not be access these functions directly, but instead use the
+optimization functions, which use these functions to find the best-supported parameter values.
 }
 \author{
 Kjetil Lysne Voje

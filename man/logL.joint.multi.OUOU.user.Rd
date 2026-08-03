@@ -15,7 +15,11 @@ logL.joint.multi.OUOU.user(
   location.lower.tri.A,
   locations.R,
   location.diag.R,
-  location.upper.tri.R
+  location.upper.tri.R,
+  ta,
+  tij,
+  time_vec,
+  se_vec
 )
 }
 \arguments{
@@ -40,15 +44,26 @@ logL.joint.multi.OUOU.user(
 \item{location.diag.R}{location (row and column) of parameters (elements) in the diagonal of the R matrix that is estimated}
 
 \item{location.upper.tri.R}{location (row and column) of parameters (elements) in the upper triangle of the R matrix that is estimated}
+
+\item{ta}{matrix of minimum times for each pair of time points}
+
+\item{tij}{matrix of absolute time differences for each pair of time points}
+
+\item{time_vec}{rescaled time vector}
+
+\item{se_vec}{pre-computed sampling error vector}
 }
 \value{
 The log-likelihood of the parameter estimates, given the data.
 }
 \description{
-Returns log-likelihood for a multivariate Ornstein-Uhlenbeck model with used defined A and R matrices..
+Returns log-likelihood for a multivariate Ornstein-Uhlenbeck model
+with user-defined A and R matrices.
 }
 \details{
-In general, users will not be access these functions directly, but instead use the optimization functions, which use these functions to find the best-supported parameter values.
+In general, users will not access this function directly, but instead use the
+optimization functions, which use this function to find the best-supported parameter
+values.
 }
 \author{
 Kjetil Lysne Voje

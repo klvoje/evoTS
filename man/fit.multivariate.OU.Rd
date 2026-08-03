@@ -68,6 +68,8 @@ It is also possible to implement a model where the bottom layer (last trait in t
 
 The function searches - using an optimization routine - for the maximum-likelihood solution for the chosen multivariate Ornstein-Uhlenbeck model. The argument 'method' is passed to the 'optim' function and is included for the convenience of users to better control the optimization routine. Note that the the default method (Nelder-Mead) seems to work for most evolutionary sequences. The method L-BFGS-B allows box-constraints on some parameters (e.g. non-negative variance parameters) and is faster than Nelder-Mead, but is less stable than the default method (Nelder-Mead).
 
+For the "diag", "upper.tri", "lower.tri", and "OUBM" parameterizations of the A matrix, the diagonal elements of A are constrained to be positive (> 0), which ensures the A matrix is positive definite for diagonal and triangular structures. For the "full" parameterization, no such constraint is applied and the A matrix is not guaranteed to be positive definite.
+
 Initial estimates to start the optimization come from maximum-likelihood estimates of the univariate Ornstein-Uhlenbeck model (from the paleoTS package) fitted to each time-series separately.
 
 It is good practice to repeat any numerical optimization procedure from different starting points. This is especially important for complex models as the log-likelihood surface might contain more than one peak. The number of iterations is controlled by the argument 'iterations'. The function will report the model parameters from the iteration with the highest log-likelihood.

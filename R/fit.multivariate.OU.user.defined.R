@@ -36,13 +36,15 @@
 #' 
 #' @details This function provides users the flexibility to define their own A and R matrices. The possibility to define any A matrices enable detailed investigation of specific evolutionary hypotheses. The parameters to be estimated in the matrices are indicated by the value 1. All other entries in the matrix must be 0.
 #'
-#' The function searches - using an optimization routine - for the maximum-likelihood solution for the chosen multivariate Ornstein-Uhlenbeck model. The argument 'method' is passed to the 'optim' function and is included for the convenience of users to better control the optimization routine. Note that the the default method (Nelder-Mead) seems to work for most evolutionary sequences. The method L-BFGS-B allows box-constraints on some parameters (e.g. non-negative variance parameters) and is faster than Nelder-Mead, but is less stable than the default method (Nelder-Mead).
+#' The function searches using an optimization routine for the maximum-likelihood solution for the chosen multivariate Ornstein-Uhlenbeck model. The argument 'method' is passed to the 'optim' function and is included for the convenience of users to better control the optimization routine. Note that the the default method (Nelder-Mead) seems to work for most evolutionary sequences. The method L-BFGS-B allows box-constraints on some parameters (e.g. non-negative variance parameters) and is faster than Nelder-Mead, but is less stable than the default method (Nelder-Mead).
+#'
+#' The diagonal elements of the A matrix are constrained to be positive (> 0). Note that this does not guarantee positive definiteness of the A matrix for arbitrary user-defined structures.
 #'
 #' Initial estimates to start the optimization come from maximum-likelihood estimates of the univariate Ornstein-Uhlenbeck model (from the paleoTS package) fitted to each time-series separately.
 #'
 #' It is good practice to repeat any numerical optimization procedure from different starting points. This is especially important for complex models as the log-likelihood surface might contain more than one peak. The number of iterations is controlled by the argument 'iterations'. The function will report the model parameters from the iteration with the highest log-likelihood.
-#' 
-#' There is no guarantee that the likelihood can be computed with the initial parameters provided by the function. The starting values for fitting the multivariate OU model are based on maximum likelihood parameter estimates for the univariate OU model fitted to each trait separately, which seems to provide sensible (and working) initial parameter estimates for almost all tested data sets. However, the provided initial parameters may fail depending on the nature of the data. If an error message is returned saying "function cannot be evaluated at initial parameters", the user can try to start the optimization procedure from other initial parameter values using "user.init.diag.A", "user.init.upper.diag.A", "user.init.lower.diag.A", "user.init.diag.R", "user.init.off.diag.R", "user.init.theta", and "user.init.anc." It is usually the initial guess of the off-diagonal elements of the A and R matrices that prevents the optimization routine to work. It is therefore recommended to only try to change these initial values before experimenting with different starting values for the diagonal of the A and R matrices.  
+#'
+#' There is no guarantee that the likelihood can be computed with the initial parameters provided by the function. The starting values for fitting the multivariate OU model are based on maximum likelihood parameter estimates for the univariate OU model fitted to each trait separately, which seems to provide sensible (and working) initial parameter estimates for almost all tested data sets. However, the provided initial parameters may fail depending on the nature of the data. If an error message is returned saying "function cannot be evaluated at initial parameters", the user can try to start the optimization procedure from other initial parameter values using "user.init.diag.A", "user.init.upper.diag.A", "user.init.lower.diag.A", "user.init.diag.R", "user.init.off.diag.R", "user.init.theta", and "user.init.anc." It is usually the initial guess of the off-diagonal elements of the A and R matrices that prevents the optimization routine to work. It is therefore recommended to only try to change these initial values before experimenting with different starting values for the diagonal of the A and R matrices.
 #'
 #'@return First part of the output reports the log-likelihood of the model and its AICc score. The second part of the output is the maximum log-likelihood model parameters (ancestral.values, optima, A, and R). The half-life is also provided, which is the  The last part of the output gives information about the number of parameters in the model (K), number of samples in the data (n) and number of times the optimization routine was run (iter).
 #'
@@ -79,15 +81,29 @@ fit.multivariate.OU.user.defined<-function (yy, A.user=NULL, R.user=NULL, method
   m <-ncol(yy$xx) # number of traits
   
   
-  if (pool==TRUE) { 
+  if (pool==TRUE) {
     for (i in 1:m){
-      
+
       tmp<-paleoTS::as.paleoTS(yy$xx[,i], yy$vv[,i], yy$nn[,i], yy$tt[,i])
       tmp<- paleoTS::pool.var(tmp, ret.paleoTS = TRUE)
       yy$vv[,i]<-tmp$vv
     }
   }
-  
+
+### v.1.4 ###
+# New in v.1.4: time-based and sampling-error quantities computed once here, and
+# passed as extra arguments (ta, tij, time_vec, se_vec) into the optim() calls
+# below, instead of being rebuilt inside the log-likelihood function (which
+# still also receives `yy` itself, now only for m/X/y) on every call.
+  ### Pre-compute time-based and sampling-error quantities (constant during optimization) ###
+  time_vec <- yy$tt[,1] / max(yy$tt[,1])
+  tij      <- outer(time_vec, time_vec, function(a, b) abs(a - b))
+  ta       <- outer(time_vec, time_vec, pmin)
+
+  se_mat <- matrix(0, nrow = m, ncol = length(yy$vv[,1]))
+  for (i in 1:m) se_mat[i,] <- yy$vv[,i] / yy$nn[,i]
+  se_vec <- as.vector(t(se_mat))
+
   trait_array<-array(data=NA, dim=(c(length(yy$xx[,1]), 4, m)))
 
   for (i in 1:m){
@@ -118,30 +134,42 @@ fit.multivariate.OU.user.defined<-function (yy, A.user=NULL, R.user=NULL, method
   location.upper.tri.R<-which(locations.R[,1] < locations.R[,2])
   nr.upper.tri.R<-length(location.upper.tri.R)
 
+### v.1.4 ###
+# v.1.3 used the raw MLEs for diag.A/diag.R with no floor/boundary; now both
+# bounded at 1e-6 (keeps the initial A diagonal positive, R diagonal strictly
+# positive.
   for (i in 1:nr.init.diag.A)
   {
-    init.diag.A[i]<-paleoTS::opt.joint.OU(paleoTS::as.paleoTS(mm=trait_array[,1,i], vv=trait_array[,2,i], nn=trait_array[,3,i], tt=trait_array[,4,i]))$parameter[4]
+    init.diag.A[i]<-max(1e-6, paleoTS::opt.joint.OU(paleoTS::as.paleoTS(mm=trait_array[,1,i], vv=trait_array[,2,i], nn=trait_array[,3,i], tt=trait_array[,4,i]))$parameter[4])
   }
 
   for (i in 1:nr.init.diag.R)
   {
-    init.diag.R[i]<-paleoTS::opt.joint.URW(paleoTS::as.paleoTS(mm=trait_array[,1,i], vv=trait_array[,2,i], nn=trait_array[,3,i], tt=trait_array[,4,i]))$parameter[2]
+    init.diag.R[i]<-max(1e-6, paleoTS::opt.joint.URW(paleoTS::as.paleoTS(mm=trait_array[,1,i], vv=trait_array[,2,i], nn=trait_array[,3,i], tt=trait_array[,4,i]))$parameter[2])
   }
 
   init.upper.diag.A<-rep(0, nr.upper.tri.A)
   init.lower.diag.A<-rep(0, nr.lower.tri.A)
-  init.off.diag.R<-rep(0.5,nr.upper.tri.R)
+### v.1.4 ###
+# v.1.3 version used rep(0.5, ...) as the initial off-diagonal R (trait
+# correlation) guess. v.1.4  uses rep(0, ...), a more neutral starting point.
+  init.off.diag.R<-rep(0,nr.upper.tri.R)
 
   init.anc<-yy$xx[1,]
 
+### v.1.4 ###
+# v.1.3  used the last observed data point
+# (yy$xx[length(yy$xx[,1]),i]) as the initial theta guess for any trait whose
+# diagonal A entry is estimated (tmp_diag_A.user[i]==1). Version 1.4 now uses that trait's
+# column mean instead, a more sensible guess for the long-run mean.
+  trait.means<-colMeans(yy$xx)
   init.theta<-init.anc
   tmp_diag_A.user<-diag(A.user)
 
   for (i in 1:m)
     {
-    if (tmp_diag_A.user[i]==1) {init.theta[i]<-yy$xx[length(yy$xx[,1]),i]}
+    if (tmp_diag_A.user[i]==1) {init.theta[i]<-trait.means[i]}
   }
-
 
   #Check for user defined starting values
   if (is.null(user.init.diag.A) == FALSE) init.diag.A<-user.init.diag.A
@@ -153,7 +181,9 @@ fit.multivariate.OU.user.defined<-function (yy, A.user=NULL, R.user=NULL, method
   if (is.null(user.init.anc) == FALSE) init.anc<-user.init.anc
 
   init.par<-c(init.diag.A, init.upper.diag.A, init.lower.diag.A, init.diag.R, init.off.diag.R, init.theta, init.anc)
-  lower.limit<-c(rep(NA,length(init.diag.A)), rep(NA,length(init.upper.diag.A)),  rep(NA,length(init.lower.diag.A)), rep(0, length(init.diag.R)), rep(0, length(init.off.diag.R)), rep(NA, length(init.theta)), rep(NA, length(init.anc)))
+### v.1.4 ###
+# v.1.3  left init.diag.A's lower bound as rep(NA, ...) (unconstrained). These are bounded at 1e-6 per v.1.4
+  lower.limit<-c(rep(1e-6,length(init.diag.A)), rep(NA,length(init.upper.diag.A)),  rep(NA,length(init.lower.diag.A)), rep(0, length(init.diag.R)), rep(0, length(init.off.diag.R)), rep(NA, length(init.theta)), rep(NA, length(init.anc)))
 
   ##### Start of iteration routine #####
 
@@ -166,27 +196,55 @@ fit.multivariate.OU.user.defined<-function (yy, A.user=NULL, R.user=NULL, method
       tryCatch({
       #init.par<-rnorm(length(init.par_temp), init.par_temp, iter.sd)
 
-  init.par_temp<-c(init.diag.A, init.upper.diag.A, init.lower.diag.A, init.diag.R, init.off.diag.R, init.theta, init.anc)
-  init.par<-rnorm(length(init.par_temp), init.par_temp, iter.sd)
-  lower.limit<-c(rep(NA,length(init.diag.A)), rep(NA,length(init.upper.diag.A)),  rep(NA,length(init.lower.diag.A)), rep(0, length(init.diag.R)), rep(0, length(init.off.diag.R)), rep(NA, length(init.theta)), rep(NA, length(init.anc)))
+### v.1.4 ###
+# v.1.3 perturbed the whole parameter vector identically:
+# `init.par_temp<-c(...); init.par<-rnorm(length(init.par_temp), init.par_temp, iter.sd)`
+# (with lower.limit's diag.A entry left as rep(NA, ...)). Now each parameter
+# type is perturbed in a scale-appropriate way: multiplicative log-normal
+# jitter for the (positive) diag.A/diag.R parameters, small additive jitter
+# for the off-diagonal terms, and data-SD-scaled additive jitter for theta and
+# the ancestral values; lower.limit's diag.A entry is now 1e-6.
+  
+  # Scale-aware perturbations
+  data.sd           <- apply(yy$xx, 2, stats::sd)
+  init.diag.A       <- init.diag.A       * exp(rnorm(length(init.diag.A), 0, iter.sd))
+  init.diag.R       <- init.diag.R       * exp(rnorm(length(init.diag.R), 0, iter.sd))
+  init.upper.diag.A <- rnorm(length(init.upper.diag.A), init.upper.diag.A, iter.sd * 0.1)
+  init.lower.diag.A <- rnorm(length(init.lower.diag.A), init.lower.diag.A, iter.sd * 0.1)
+  init.off.diag.R   <- rnorm(length(init.off.diag.R), 0, iter.sd * 0.1)
+  init.theta        <- init.theta + rnorm(length(init.theta), 0, data.sd * iter.sd)
+  init.anc          <- init.anc   + rnorm(length(init.anc),   0, data.sd * iter.sd)
 
+  init.par<-c(init.diag.A, init.upper.diag.A, init.lower.diag.A, init.diag.R, init.off.diag.R, init.theta, init.anc)
+  lower.limit<-c(rep(1e-6,length(init.diag.A)), rep(NA,length(init.upper.diag.A)),  rep(NA,length(init.lower.diag.A)), rep(0, length(init.diag.R)), rep(0, length(init.off.diag.R)), rep(NA, length(init.theta)), rep(NA, length(init.anc)))
+
+      # ensure perturbed values respect lower bounds
+      init.par <- pmax(replace(lower.limit, is.na(lower.limit), -Inf), init.par)
 
      if (method == "Nelder-Mead")  {
+### v.1.4 ###
+# `ta = ta, tij = tij, time_vec = time_vec, se_vec = se_vec` added (yy is
+# retained for m/X/y — see pre-computation note above).
       www[[k]]<-try(optim(init.par, fn = logL.joint.multi.OUOU.user, yy = yy, A.user = A.user, R.user = R.user,
                       locations.A = locations.A, location.diag.A = location.diag.A, location.upper.tri.A = location.upper.tri.A, location.lower.tri.A = location.lower.tri.A,
                       locations.R = locations.R, location.diag.R = location.diag.R, location.upper.tri.R = location.upper.tri.R,
-                       control = list(fnscale = -1, maxit=1000000, trace = trace), method = "Nelder-Mead", hessian = hess), silent = TRUE)
+                      ta = ta, tij = tij, time_vec = time_vec, se_vec = se_vec,
+                      control = list(fnscale = -1, maxit=1000000, trace = trace), method = "Nelder-Mead", hessian = hess), silent = TRUE)
       if(inherits(www[[k]], "try-error") && grepl("function cannot be evaluated at initial parameters", attr(www[[k]], "condition")$message))
            stop("The initial parameters did not work. Trying a new set of candidate starting values.")
-      # The provided initial starting values for the parameters may not work (depends on the data). If this happens when running iterations, the user is informed by a message saying: "The initial parameters did not work. Trying a new set of candidate starting values." 
-      
+      # The provided initial starting values for the parameters may not work (depends on the data). If this happens when running iterations, the user is informed by a message saying: "The initial parameters did not work. Trying a new set of candidate starting values."
+
      }
-    
+
   if (method == "L-BFGS-B")  {
+### v.1.4 ###
+# `ta = ta, tij = tij, time_vec = time_vec, se_vec = se_vec` added (yy is
+# retained for m/X/y); `lower` now replaces NA entries with -Inf.
     www[[k]]<-optim(init.par, fn = logL.joint.multi.OUOU.user, yy = yy, A.user = A.user, R.user = R.user,
                     locations.A = locations.A, location.diag.A = location.diag.A, location.upper.tri.A = location.upper.tri.A, location.lower.tri.A = location.lower.tri.A,
                     locations.R = locations.R, location.diag.R = location.diag.R, location.upper.tri.R = location.upper.tri.R,
-                    control = list(fnscale = -1, maxit=1000000, trace = trace), method = "L-BFGS-B", hessian = hess, lower = lower.limit)
+                    ta = ta, tij = tij, time_vec = time_vec, se_vec = se_vec,
+                    control = list(fnscale = -1, maxit=1000000, trace = trace), method = "L-BFGS-B", hessian = hess, lower = replace(lower.limit, is.na(lower.limit), -Inf))
   }
     
     log.lik.tmp[k]<-www[[k]]$value
@@ -221,16 +279,24 @@ fit.multivariate.OU.user.defined<-function (yy, A.user=NULL, R.user=NULL, method
   if (is.numeric(iterations) == FALSE) {
 
     if (method == "Nelder-Mead")  {
+### v.1.4 ###
+# `ta = ta, tij = tij, time_vec = time_vec, se_vec = se_vec` added (yy is
+# retained for m/X/y — see pre-computation note above).
       w<-optim(init.par, fn = logL.joint.multi.OUOU.user, yy = yy, A.user = A.user, R.user = R.user,
                locations.A = locations.A, location.diag.A = location.diag.A, location.upper.tri.A = location.upper.tri.A, location.lower.tri.A = location.lower.tri.A,
                locations.R = locations.R, location.diag.R = location.diag.R, location.upper.tri.R = location.upper.tri.R,
+               ta = ta, tij = tij, time_vec = time_vec, se_vec = se_vec,
                control = list(fnscale = -1, maxit=1000000, trace = trace), method = "Nelder-Mead", hessian = hess)
     }
     if (method == "L-BFGS-B")  {
+### v.1.4 ###
+# `ta = ta, tij = tij, time_vec = time_vec, se_vec = se_vec` added (yy is
+# retained for m/X/y); `lower` now replaces NA entries with -Inf.
       w<-optim(init.par, fn = logL.joint.multi.OUOU.user, yy = yy, A.user = A.user, R.user = R.user,
                 locations.A = locations.A, location.diag.A = location.diag.A, location.upper.tri.A = location.upper.tri.A, location.lower.tri.A = location.lower.tri.A,
                 locations.R = locations.R, location.diag.R = location.diag.R, location.upper.tri.R = location.upper.tri.R,
-                control = list(fnscale = -1, maxit=1000000, trace = trace), method = "Nelder-Mead", hessian = hess, lower = lower.limit)
+                ta = ta, tij = tij, time_vec = time_vec, se_vec = se_vec,
+                control = list(fnscale = -1, maxit=1000000, trace = trace), method = "Nelder-Mead", hessian = hess, lower = replace(lower.limit, is.na(lower.limit), -Inf))
     }
 
   }

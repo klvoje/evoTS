@@ -14,51 +14,60 @@
 #'
 #' @param anc.values initial values for the ancestral trait values
 #'
-#' @param yy a multivariate evoTS object
+#' @param se_vec pre-computed sampling error vector
 #'
-#' @details In general, users will not be access these functions directly, but instead use the optimization functions, which use these functions to find the best-supported parameter values.
+#' @details In general, users will not be access these functions directly, but instead use the
+#'   optimization functions, which use these functions to find the best-supported parameter values.
 #'
 #'@return The log-likelihood of the parameter estimates, given the data.
 #'
 #'@author Kjetil Lysne Voje
 
 
-logL.joint.single.R<-function (init.par, C , y , m , n, anc.values, yy)
+### v.1.4 ###
+# `yy` is replaced by `se_vec`, a sampling-error vector pre-computed once by the calling opt.* function.
+logL.joint.single.R <- function(init.par, C, y, m, n, anc.values, se_vec)
 {
+  m <- length(anc.values)
+  chol <- diag(c(rep(0, m)))
+  diag(chol) <- c(init.par[1:m])
+  locations.R <- which(chol == 0, arr.ind = T)
+  location.upper.tri.R <- which(locations.R[,1] < locations.R[,2])
 
-  m<-length(anc.values)
-  chol<-diag(c(rep(0,m)))
-  diag(chol)<-c(init.par[1:m])
-  locations.R<-which(chol == 0, arr.ind = T)
-  location.upper.tri.R<-which(locations.R[,1] < locations.R[,2])
-
-  upper.first<-init.par[(m+1):(m+length(location.upper.tri.R))]
+  upper.first <- init.par[(m+1):(m+length(location.upper.tri.R))]
 
   for (i in 1:m){
-    chol[locations.R[,1][location.upper.tri.R[i]],locations.R[,2][location.upper.tri.R[i]]]<-upper.first[i]
+    chol[locations.R[,1][location.upper.tri.R[i]], locations.R[,2][location.upper.tri.R[i]]] <- upper.first[i]
   }
 
+  M.init <- init.par[(m+length(location.upper.tri.R)+1):(m+length(location.upper.tri.R)+m)]
+### v.1.4 ###
+# v.1.3 built M with a per-trait loop into M_temp, then transposed
+# and flattened it. Replaced with a single vectorized call.
+  M <- rep(M.init, each = n)  # vectorized: replaces the M_temp loop
 
-  M.init<-init.par[(m+length(location.upper.tri.R)+1):(m+length(location.upper.tri.R)+m)]
-  M_temp<-matrix(data=NA, nrow=m, ncol=n)
-  for (i in 1:m){
-    M_temp[i,] <- rep(M.init[i], n)
-  }
-  M<-c(t(M_temp)) # vectorize M
+  V  <- matrix(0, nrow = length(M), ncol = length(M))
+  VV <- V + kronecker(t(chol) %*% chol, C)
 
-    V <- matrix(0, nrow=length(M), ncol=length(M)) # making a variance-covariance matrix with dimensionality of n*m * n*m
-    VV <- V + kronecker(t(chol) %*% chol, C) # computing V as the kronecker product of the Cholesky decomposed R matrix multiplied with distance matrix C
+### v.1.4 ###
+# v.1.3 recomputed sample.var from yy$vv/yy$nn via a per-trait loop
+# every call; now added directly from the pre-computed se_vec (see signature).
+  diag(VV) <- diag(VV) + se_vec  # pre-computed sampling error
 
-    sample.var_temp<-matrix(data=NA, nrow=m, ncol=n)
-    for (i in 1:m){
-      sample.var_temp[i,] <- yy$vv[,i]/yy$nn[,i]
-    }
-    sample.var<-c(t(sample.var_temp))
-    diag(VV) <- diag(VV) + sample.var
+### v.1.4 ###
+# Guards against non-finite mean/covariance (e.g. during bad optimizer
+# proposals) by returning a large penalty instead of letting dmvnorm error out.
+  if (any(!is.finite(M)) || any(!is.finite(VV))) return(-1e20)
 
-      y<-as.vector(y)
-    S <- mvtnorm::dmvnorm(y, mean = M, sigma = VV, log = TRUE)
-
+  y <- as.vector(y)
+### v.1.4 ###
+# v.1.3 called dmvnorm directly and returned its result unguarded.
+# Now wrapped in tryCatch and finite-checked, both falling back to a large
+# penalty (-1e20) rather than crashing/propagating NA into the optimizer.
+  S <- tryCatch(
+    mvtnorm::dmvnorm(y, mean = M, sigma = VV, log = TRUE),
+    error = function(e) -1e20
+  )
+  if (!is.finite(S)) return(-1e20)
+  S
 }
-
-
