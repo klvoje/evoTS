@@ -38,8 +38,8 @@ sim.multi.URW<-function(ns = 30, anc = c(0,0), R = matrix(c(0.5,0,0,0.5), nrow=2
   time <- tt / max(tt)
   dt   <- diff(time)
 
-### v.1.4 ###
-# Bug fix. Version 1.3 drew all ns increments from a
+### v.1.0.4 ###
+# Bug fix. Version 1.0.3 drew all ns increments from a
 # single mvrnorm() call using Sigma = R * dt[1] (only the first inter-sample
 # interval), so every increment was scaled identically regardless of the
 # actual (possibly unequal) spacing of later time points,

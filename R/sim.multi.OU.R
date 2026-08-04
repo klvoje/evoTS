@@ -43,11 +43,11 @@ sim.multi.OU<-function(ns = 30, anc = c(0,0), optima = c(3, 2),
                        vp = 0.1, nn = rep(30, ns), tt = 0:(ns - 1)){
   m<-ncol(A)
 
-### v.1.4 ###
+### v.1.0.4 ###
 # An almost tottal rewrite of the codebody.
 #
 # 1) Two bugs are fixed:
-#    a) V.1.3's observed-value sampling loop was
+#    a) V.1.0.3's observed-value sampling loop was
 #       `for (i in 2:ns) { x <- MASS::mvrnorm(nn[j], mu = MM[j,i], Sigma = sqrt(vp)); ... }`
 #       (see below) — it started at i = 2, so mm[,1]/vv[,1] were never
 #       assigned and stayed NA for the first time point. It also indexed

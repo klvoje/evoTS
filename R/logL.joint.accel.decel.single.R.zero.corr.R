@@ -25,7 +25,7 @@
 #'@author Kjetil Lysne Voje
 
 
-### v.1.4 ###
+### v.1.0.4 ###
 # `yy` is replaced by `se_vec`, a sampling-error vector pre-computed once by the calling opt.* function.
 logL.joint.accel.decel.single.R.zero.corr <- function(init.par, y, m, n, anc.values, ta, se_vec)
 {
@@ -34,13 +34,13 @@ logL.joint.accel.decel.single.R.zero.corr <- function(init.par, y, m, n, anc.val
   diag(chol) <- c(init.par[1:m])
 
   M.init <- init.par[(m+1):(m+m)]
-### v.1.4 ###
-# v.1.3 built M with a per-trait loop into M_temp, then transposed
+### v.1.0.4 ###
+# v.1.0.3 built M with a per-trait loop into M_temp, then transposed
 # and flattened it. Replaced with a single vectorized call.
   M <- rep(M.init, each = n)  # vectorized: replaces the M_temp loop
 
-### v.1.4 ###
-# v.1.3 recomputed the full pairwise-min time matrix with outer()
+### v.1.0.4 ###
+# v.1.0.3 recomputed the full pairwise-min time matrix with outer()
 # on every call. Now built from the pre-computed `ta` argument instead.
   # C computed using pre-computed ta, avoiding recomputation of outer() on every call
   C <- (exp(init.par[length(init.par)] * ta) - 1) / init.par[length(init.par)]
@@ -48,11 +48,11 @@ logL.joint.accel.decel.single.R.zero.corr <- function(init.par, y, m, n, anc.val
   V  <- matrix(0, nrow = length(M), ncol = length(M))
   VV <- V + kronecker(t(chol) %*% chol, C)
 
-### v.1.4 ###
-# v.1.3 recomputed sample.var from yy$vv/yy$nn via a per-trait loop
+### v.1.0.4 ###
+# v.1.0.3 recomputed sample.var from yy$vv/yy$nn via a per-trait loop
 # every call; now added directly from the pre-computed se_vec (see signature).
   diag(VV) <- diag(VV) + se_vec  # pre-computed sampling error
-### end v.1.4 ###
+### end v.1.0.4 ###
 
   y <- as.vector(y)
   S <- mvtnorm::dmvnorm(y, mean = M, sigma = VV, log = TRUE)

@@ -56,7 +56,7 @@ opt.decel.single.R.zero.corr<-function (yy, method="L-BFGS-B", hess = FALSE, poo
     }
   }
 
-### v.1.4 ###
+### v.1.0.4 ###
 # time-distance matrix and sampling-error vector computed once here
 # instead of being rebuilt from yy inside the log-likelihood function on
 # every optimizer call.
@@ -74,7 +74,7 @@ opt.decel.single.R.zero.corr<-function (yy, method="L-BFGS-B", hess = FALSE, poo
   init.par<-c(init.trait.var, anc.values, r)
   lower.limit<-c(rep(0, length(init.trait.var)), rep(NA, (length(anc.values))), NA)
   upper.limit<-c(rep(NA, (length(init.trait.var) +  length(anc.values))), -1e-13)
-### v.1.4 ###
+### v.1.0.4 ###
 # per-trait data SD, used below to scale additive perturbations of
 # ancestral values during random restarts.
   data.sd <- apply(yy$xx, 2, stats::sd)
@@ -89,8 +89,8 @@ opt.decel.single.R.zero.corr<-function (yy, method="L-BFGS-B", hess = FALSE, poo
 
     for (k in 1:1000000){
       tryCatch({
-### v.1.4 ###
-# verion 1.3 perturbed the whole parameter vector identically, then
+### v.1.0.4 ###
+# Version 1.0.3 perturbed the whole parameter vector identically, then
 # forced the rate/variance parameters positive with abs() and re-negated r:
 # `init.par<-rnorm(...); init.par[...]<-abs(init.par[...]); init.par[last]<--init.par[last]`.
 # Now each parameter type is perturbed in a scale-appropriate way: multiplicative
@@ -106,7 +106,7 @@ opt.decel.single.R.zero.corr<-function (yy, method="L-BFGS-B", hess = FALSE, poo
       init.par        <- pmin(replace(upper.limit, is.na(upper.limit), Inf), init.par)
 
       if (method == "L-BFGS-B")  {
-### v.1.4 ###
+### v.1.0.4 ###
 # `yy = yy` replaced by `ta = ta, se_vec = se_vec` (see pre-computation above);
 # the `lower`/`upper` bounds now replace NA entries with -Inf/Inf.
         www[[k]]<-optim(init.par, fn = logL.joint.accel.decel.single.R.zero.corr, y = y, m = m, n = n, anc.values = anc.values, ta = ta, se_vec = se_vec,
@@ -114,13 +114,13 @@ opt.decel.single.R.zero.corr<-function (yy, method="L-BFGS-B", hess = FALSE, poo
       }
 
       if (method == "Nelder-Mead")  {
-### v.1.4 ###
+### v.1.0.4 ###
 # `yy = yy` replaced by `ta = ta, se_vec = se_vec` (see pre-computation above).
         www[[k]]<-optim(init.par, fn = logL.joint.accel.decel.single.R.zero.corr, y = y, m = m, n = n, anc.values = anc.values, ta = ta, se_vec = se_vec,
                    control = list(fnscale = -1, maxit=10000, trace = trace), method = "Nelder-Mead" , hessian = hess)
       }
       if (method == "SANN")  {
-### v.1.4 ###
+### v.1.0.4 ###
 # `yy = yy` replaced by `ta = ta, se_vec = se_vec` (see pre-computation above);
 # the `lower`/`upper` bounds now replace NA entries with -Inf/Inf.
         www[[k]]<-optim(init.par, fn = logL.joint.accel.decel.single.R.zero.corr, y = y, m = m, n = n, anc.values = anc.values, ta = ta, se_vec = se_vec,
@@ -156,7 +156,7 @@ if (length(na.exclude(log.lik.tmp)) == iterations){
 
 
     if (method == "L-BFGS-B")  {
-### v.1.4 ###
+### v.1.0.4 ###
 # `yy = yy` replaced by `ta = ta, se_vec = se_vec` (see pre-computation above);
 # the `lower`/`upper` bounds now replace NA entries with -Inf/Inf.
       w<-optim(init.par, fn = logL.joint.accel.decel.single.R.zero.corr, y = y, m = m, n = n, anc.values = anc.values, ta = ta, se_vec = se_vec,
@@ -164,13 +164,13 @@ if (length(na.exclude(log.lik.tmp)) == iterations){
     }
 
     if (method == "Nelder-Mead")  {
-### v.1.4 ###
+### v.1.0.4 ###
 # `yy = yy` replaced by `ta = ta, se_vec = se_vec` (see pre-computation above).
       w<-optim(init.par, fn = logL.joint.accel.decel.single.R.zero.corr, y = y, m = m, n = n, anc.values = anc.values, ta = ta, se_vec = se_vec,
                control = list(fnscale = -1, maxit=10000, trace = trace), method = "Nelder-Mead" , hessian = hess)
     }
     if (method == "SANN")  {
-### v.1.4 ###
+### v.1.0.4 ###
 # `yy = yy` replaced by `ta = ta, se_vec = se_vec` (see pre-computation above);
 # the `lower`/`upper` bounds now replace NA entries with -Inf/Inf.
       w<-optim(init.par, fn = logL.joint.accel.decel.single.R.zero.corr, y = y, m = m, n = n, anc.values = anc.values, ta = ta, se_vec = se_vec,

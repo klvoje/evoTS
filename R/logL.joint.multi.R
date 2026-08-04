@@ -25,7 +25,7 @@
 #'@author Kjetil Lysne Voje
 
 
-### v.1.4 ###
+### v.1.0.4 ###
 # `yy` is replaced by `se_vec`, a sampling-error vector pre-computed once by the calling opt.* function.
 logL.joint.multi.R <- function(init.par, C, y, m, n, anc.values, se_vec)
 {
@@ -48,8 +48,8 @@ logL.joint.multi.R <- function(init.par, C, y, m, n, anc.values, se_vec)
   cholesky <- array(c(var.covar.1, var.covar.2), dim = c(m, m, 2))
 
   M.init <- init.par[(m+m+length(location.upper.tri.R)+length(location.upper.tri.R)+1):(m+m+length(location.upper.tri.R)+length(location.upper.tri.R)+m)]
-### v.1.4 ###
-# V.1.3 built M with a per-trait loop into M_temp, then transposed
+### v.1.0.4 ###
+# V.1.0.3 built M with a per-trait loop into M_temp, then transposed
 # and flattened it. Replaced with a single vectorized call.
   M <- rep(M.init, each = n)  # vectorized: replaces the M_temp loop
 
@@ -58,19 +58,19 @@ logL.joint.multi.R <- function(init.par, C, y, m, n, anc.values, se_vec)
   tmp.2 <- V + kronecker(t(cholesky[,,2]) %*% cholesky[,,2], C[[2]])
   VV    <- tmp.1 + tmp.2
 
-### v.1.4 ###
-# V.1.3 recomputed sample.var from yy$vv/yy$nn via a per-trait loop
+### v.1.0.4 ###
+# V.1.0.3 recomputed sample.var from yy$vv/yy$nn via a per-trait loop
 # every call; now added directly from the pre-computed se_vec.
   diag(VV) <- diag(VV) + se_vec  # pre-computed sampling error
 
-### v.1.4 ###
+### v.1.0.4 ###
 # Guards against non-finite mean/covariance (e.g. during bad optimizer
 # proposals) by returning a large penalty instead of letting dmvnorm error out.
   if (any(!is.finite(M)) || any(!is.finite(VV))) return(-1e20)
 
   y <- as.vector(y)
-### v.1.4 ###
-# V.1.3 called dmvnorm directly and returned its result unguarded.
+### v.1.0.4 ###
+# V.1.0.3 called dmvnorm directly and returned its result unguarded.
 # Now wrapped in tryCatch and finite-checked, both falling back to a large
 # penalty (-1e20) rather than crashing/propagating NA into the optimizer.
   S <- tryCatch(

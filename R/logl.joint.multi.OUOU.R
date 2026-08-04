@@ -27,7 +27,7 @@
 #'@author Kjetil Lysne Voje
 
 
-### new in v.1.4 ###
+### new in v.1.0.4 ###
 # `ta` (pairwise-minimum time matrix), `tij` (pairwise absolute time-difference matrix), `time_vec` (rescaled time vector), and
 # `se_vec` (pre-computed sampling error vector) are new arguments, computed once by the calling fit.multivariate.OU* function instead of being rebuilt
 # from `yy` on every call. `yy` itself is retained, but is now only used for m/X/y below.
@@ -182,8 +182,8 @@ logL.joint.multi.OUOU <- function(init.par, yy, A.matrix, R.matrix,
     anc    <- c(init.par[(m + m + m + l.upp.tri.A):(m + m + m + m + l.upp.tri.A - 1)])
   }
 
-### v.1.4 ###
-# v.1.3  computed the time vector, the per-time-point exp(-A*t) array, M, and VV3 by rebuilding everything from `yy$tt` inside this 
+### v.1.0.4 ###
+# v.1.0.3  computed the time vector, the per-time-point exp(-A*t) array, M, and VV3 by rebuilding everything from `yy$tt` inside this 
 # function on every call, using explicit i/j/k/l loops throughout. Rewritten below to use the pre-computed ta/tij/time_vec/se_vec arguments, 
 # vectorised matrix expressions in place of the innermost loops, and to add tryCatch/finite-value guards (see end of function) that were 
 #  not present in the release version. Also fixes a variable-shadowing bug in the previous version of the code where the loop variable `m` was reused inside 
@@ -212,7 +212,7 @@ logL.joint.multi.OUOU <- function(init.par, yy, A.matrix, R.matrix,
   ### Calculate expected trait values M (unified loop for all A.matrix types)
   ### -----------------------------------------------------------------------
 
-  # In version 1.3, for diagonal A, the original used a fully vectorized formula across all time
+  # In version 1.0.3, for diagonal A, the original used a fully vectorized formula across all time
   # points simultaneously; for non-diagonal A it used an explicit loop.  The
   # loop below is equivalent for all model types and also avoids building the
   # exp_eigenvalues array.
@@ -229,7 +229,7 @@ logL.joint.multi.OUOU <- function(init.par, yy, A.matrix, R.matrix,
   ### -----------------------------------------------------------------------
   ### Compute variance-covariance matrix VV3 (eq. 8 and 9 from Suppl. of Clavel et al. 2015)
   ###
-  ### v.1.4 vs. v.1.3:
+  ### v.1.0.4 vs. v.1.0.3:
   ###   - No tmp.VV intermediate array; VV3 is filled directly.
   ###   - left.side computed by outer() instead of a k,l double loop.
   ###   - exp decay vector computed by a single vectorized exp() call

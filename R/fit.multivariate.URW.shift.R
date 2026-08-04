@@ -61,7 +61,7 @@ fit.multivariate.URW.shift<-function (yy, minb = 10, hess = FALSE, pool = TRUE, 
     }
   }
   
-### v.1.4 ###
+### v.1.0.4 ###
 # Sampling-error vector and per-trait data SD computed once instead
 # of being rebuilt from yy inside the log-likelihood function on every
 # optimizer call (se_vec) / recomputed at each restart (data.sd, used to
@@ -112,8 +112,8 @@ fit.multivariate.URW.shift<-function (yy, minb = 10, hess = FALSE, pool = TRUE, 
 
   # Define initial parameter values for the optimization routine
   init.trait.var<-apply(yy$xx,2,var)
-### v.1.4 ###
-# v.1.3  used cov(as.matrix(yy$xx)) (covariance of raw trait values)
+### v.1.0.4 ###
+# v.1.0.3  used cov(as.matrix(yy$xx)) (covariance of raw trait values)
 # as the initial trait-covariance guess. Now uses the covariance of the
 # differenced series, a more appropriate starting guess for a rate parameter.
   temp.matrix<-cov(apply(yy$xx, 2, diff))
@@ -125,7 +125,7 @@ fit.multivariate.URW.shift<-function (yy, minb = 10, hess = FALSE, pool = TRUE, 
 
   if (is.numeric(iterations) == FALSE){
 
-### v.1.4 ###
+### v.1.0.4 ###
 # the `lower` bound now replaces NA entries with -Inf before being passed to optim().
    if (method == "L-BFGS-B")  {
   w<-optim(init.par, fn = logL.joint.multi.R, C = C, y = y, m = m, n = n, anc.values = anc.values, se_vec = se_vec,
@@ -154,8 +154,8 @@ fit.multivariate.URW.shift<-function (yy, minb = 10, hess = FALSE, pool = TRUE, 
       log.lik.tmp<-rep(NA, 1000000)
       www<-list()
       
-### v.1.4 ###
-# Verion 1.3 perturbed the whole parameter vector identically:
+### v.1.0.4 ###
+# Verion 1.0.3 perturbed the whole parameter vector identically:
 # `init.par_temp<-init.par; init.par<-rnorm(length(init.par_temp), init.par_temp, iter.sd)`.
 # Now separate variance/covariance state is tracked per segment
 # (init.trait.var1/2, init.cov.traits1/2) and each parameter type is perturbed
@@ -180,7 +180,7 @@ fit.multivariate.URW.shift<-function (yy, minb = 10, hess = FALSE, pool = TRUE, 
           init.par         <- pmax(replace(lower.limit, is.na(lower.limit), -Inf), init.par)
 
 
-### v.1.4 ###
+### v.1.0.4 ###
 # `yy = yy` replaced by `se_vec = se_vec` (see pre-computation above) in all
 # three calls; the `lower` bound now replaces NA entries with -Inf.
           if (method == "L-BFGS-B")  {
@@ -275,8 +275,8 @@ fit.multivariate.URW.shift<-function (yy, minb = 10, hess = FALSE, pool = TRUE, 
       
       # Define initial parameter values for the optimization routine
       init.trait.var<-apply(yy$xx,2,var)
-### v.1.4 ###
-# v.1.3  used cov(as.matrix(yy$xx)) (covariance of raw trait values)
+### v.1.0.4 ###
+# v.1.0.3  used cov(as.matrix(yy$xx)) (covariance of raw trait values)
 # as the initial trait-covariance guess. Now uses the covariance of the
 # differenced series, a more appropriate starting guess for a rate parameter.
       temp.matrix<-cov(apply(yy$xx, 2, diff))
@@ -288,7 +288,7 @@ fit.multivariate.URW.shift<-function (yy, minb = 10, hess = FALSE, pool = TRUE, 
 
       if(is.numeric(iterations) == FALSE) {
 
-### v.1.4 ###
+### v.1.0.4 ###
 # `yy = yy` replaced by `se_vec = se_vec` (see pre-computation above) in all
 # three calls; the `lower` bound now replaces NA entries with -Inf.
       if (method == "L-BFGS-B")  {
@@ -316,9 +316,9 @@ fit.multivariate.URW.shift<-function (yy, minb = 10, hess = FALSE, pool = TRUE, 
         log.lik.tmp<-rep(NA, 1000000)
         www<-list()
 
-### v.1.4 ###
+### v.1.0.4 ###
 # Same restart-scheme change as above, applied here for the loop-over-all
-# shift-points branch. Verion 1.3 perturbed the whole parameter vector
+# shift-points branch. Verion 1.0.3 perturbed the whole parameter vector
 # identically. Now separate variance/covariance state per segment is
 # perturbed in a scale-appropriate way.
         init.trait.var1  <- init.trait.var
@@ -337,7 +337,7 @@ fit.multivariate.URW.shift<-function (yy, minb = 10, hess = FALSE, pool = TRUE, 
             init.par         <- pmax(replace(lower.limit, is.na(lower.limit), -Inf), init.par)
 
 
-### v.1.4 ###
+### v.1.0.4 ###
 # `yy = yy` replaced by `se_vec = se_vec` (see pre-computation above) in all
 # three calls; the `lower` bound now replaces NA entries with -Inf.
             if (method == "L-BFGS-B")  {

@@ -90,8 +90,8 @@ fit.multivariate.OU.user.defined<-function (yy, A.user=NULL, R.user=NULL, method
     }
   }
 
-### v.1.4 ###
-# New in v.1.4: time-based and sampling-error quantities computed once here, and
+### v.1.0.4 ###
+# New in v.1.0.4: time-based and sampling-error quantities computed once here, and
 # passed as extra arguments (ta, tij, time_vec, se_vec) into the optim() calls
 # below, instead of being rebuilt inside the log-likelihood function (which
 # still also receives `yy` itself, now only for m/X/y) on every call.
@@ -134,8 +134,8 @@ fit.multivariate.OU.user.defined<-function (yy, A.user=NULL, R.user=NULL, method
   location.upper.tri.R<-which(locations.R[,1] < locations.R[,2])
   nr.upper.tri.R<-length(location.upper.tri.R)
 
-### v.1.4 ###
-# v.1.3 used the raw MLEs for diag.A/diag.R with no floor/boundary; now both
+### v.1.0.4 ###
+# v.1.0.3 used the raw MLEs for diag.A/diag.R with no floor/boundary; now both
 # bounded at 1e-6 (keeps the initial A diagonal positive, R diagonal strictly
 # positive.
   for (i in 1:nr.init.diag.A)
@@ -150,17 +150,17 @@ fit.multivariate.OU.user.defined<-function (yy, A.user=NULL, R.user=NULL, method
 
   init.upper.diag.A<-rep(0, nr.upper.tri.A)
   init.lower.diag.A<-rep(0, nr.lower.tri.A)
-### v.1.4 ###
-# v.1.3 version used rep(0.5, ...) as the initial off-diagonal R (trait
-# correlation) guess. v.1.4  uses rep(0, ...), a more neutral starting point.
+### v.1.0.4 ###
+# v.1.0.3 version used rep(0.5, ...) as the initial off-diagonal R (trait
+# correlation) guess. v.1.0.4  uses rep(0, ...), a more neutral starting point.
   init.off.diag.R<-rep(0,nr.upper.tri.R)
 
   init.anc<-yy$xx[1,]
 
-### v.1.4 ###
-# v.1.3  used the last observed data point
+### v.1.0.4 ###
+# v.1.0.3  used the last observed data point
 # (yy$xx[length(yy$xx[,1]),i]) as the initial theta guess for any trait whose
-# diagonal A entry is estimated (tmp_diag_A.user[i]==1). Version 1.4 now uses that trait's
+# diagonal A entry is estimated (tmp_diag_A.user[i]==1). Version 1.0.4 now uses that trait's
 # column mean instead, a more sensible guess for the long-run mean.
   trait.means<-colMeans(yy$xx)
   init.theta<-init.anc
@@ -181,8 +181,8 @@ fit.multivariate.OU.user.defined<-function (yy, A.user=NULL, R.user=NULL, method
   if (is.null(user.init.anc) == FALSE) init.anc<-user.init.anc
 
   init.par<-c(init.diag.A, init.upper.diag.A, init.lower.diag.A, init.diag.R, init.off.diag.R, init.theta, init.anc)
-### v.1.4 ###
-# v.1.3  left init.diag.A's lower bound as rep(NA, ...) (unconstrained). These are bounded at 1e-6 per v.1.4
+### v.1.0.4 ###
+# v.1.0.3  left init.diag.A's lower bound as rep(NA, ...) (unconstrained). These are bounded at 1e-6 per v.1.0.4
   lower.limit<-c(rep(1e-6,length(init.diag.A)), rep(NA,length(init.upper.diag.A)),  rep(NA,length(init.lower.diag.A)), rep(0, length(init.diag.R)), rep(0, length(init.off.diag.R)), rep(NA, length(init.theta)), rep(NA, length(init.anc)))
 
   ##### Start of iteration routine #####
@@ -196,8 +196,8 @@ fit.multivariate.OU.user.defined<-function (yy, A.user=NULL, R.user=NULL, method
       tryCatch({
       #init.par<-rnorm(length(init.par_temp), init.par_temp, iter.sd)
 
-### v.1.4 ###
-# v.1.3 perturbed the whole parameter vector identically:
+### v.1.0.4 ###
+# v.1.0.3 perturbed the whole parameter vector identically:
 # `init.par_temp<-c(...); init.par<-rnorm(length(init.par_temp), init.par_temp, iter.sd)`
 # (with lower.limit's diag.A entry left as rep(NA, ...)). Now each parameter
 # type is perturbed in a scale-appropriate way: multiplicative log-normal
@@ -222,7 +222,7 @@ fit.multivariate.OU.user.defined<-function (yy, A.user=NULL, R.user=NULL, method
       init.par <- pmax(replace(lower.limit, is.na(lower.limit), -Inf), init.par)
 
      if (method == "Nelder-Mead")  {
-### v.1.4 ###
+### v.1.0.4 ###
 # `ta = ta, tij = tij, time_vec = time_vec, se_vec = se_vec` added (yy is
 # retained for m/X/y — see pre-computation note above).
       www[[k]]<-try(optim(init.par, fn = logL.joint.multi.OUOU.user, yy = yy, A.user = A.user, R.user = R.user,
@@ -237,7 +237,7 @@ fit.multivariate.OU.user.defined<-function (yy, A.user=NULL, R.user=NULL, method
      }
 
   if (method == "L-BFGS-B")  {
-### v.1.4 ###
+### v.1.0.4 ###
 # `ta = ta, tij = tij, time_vec = time_vec, se_vec = se_vec` added (yy is
 # retained for m/X/y); `lower` now replaces NA entries with -Inf.
     www[[k]]<-optim(init.par, fn = logL.joint.multi.OUOU.user, yy = yy, A.user = A.user, R.user = R.user,
@@ -279,7 +279,7 @@ fit.multivariate.OU.user.defined<-function (yy, A.user=NULL, R.user=NULL, method
   if (is.numeric(iterations) == FALSE) {
 
     if (method == "Nelder-Mead")  {
-### v.1.4 ###
+### v.1.0.4 ###
 # `ta = ta, tij = tij, time_vec = time_vec, se_vec = se_vec` added (yy is
 # retained for m/X/y — see pre-computation note above).
       w<-optim(init.par, fn = logL.joint.multi.OUOU.user, yy = yy, A.user = A.user, R.user = R.user,
@@ -289,7 +289,7 @@ fit.multivariate.OU.user.defined<-function (yy, A.user=NULL, R.user=NULL, method
                control = list(fnscale = -1, maxit=1000000, trace = trace), method = "Nelder-Mead", hessian = hess)
     }
     if (method == "L-BFGS-B")  {
-### v.1.4 ###
+### v.1.0.4 ###
 # `ta = ta, tij = tij, time_vec = time_vec, se_vec = se_vec` added (yy is
 # retained for m/X/y); `lower` now replaces NA entries with -Inf.
       w<-optim(init.par, fn = logL.joint.multi.OUOU.user, yy = yy, A.user = A.user, R.user = R.user,

@@ -42,7 +42,7 @@
 #'@author Kjetil Lysne Voje
 
 
-### new in v.1.4 ###
+### new in v.1.0.4 ###
 # Signature changed: `ta` (pairwise-minimum time matrix), `tij` (pairwise
 # absolute time-difference matrix), `time_vec` (rescaled time vector), and
 # `se_vec` (pre-computed sampling error vector) are new arguments, computed
@@ -83,12 +83,12 @@ logL.joint.multi.OUOU.user <- function(init.par, yy, A.user, R.user,
     }
   } else location.lower.tri.A <- NULL
 
-### v.1.4 ###
-# New: eigendecomposition computed once and reused (v.1.3 called
+### v.1.0.4 ###
+# New: eigendecomposition computed once and reused (v.1.0.3 called
 # eigen(A) a second time later to get D, repeating the decomposition).
-  # Eigendecomposition of A: computed once here (v.1.3 called eigen(A) twice)
+  # Eigendecomposition of A: computed once here (v.1.0.3 called eigen(A) twice)
   eig_A <- eigen(A)
-### end v.1.4 ###
+### end v.1.0.4 ###
   P     <- eig_A$vectors
   D     <- diag(eig_A$values)
 
@@ -109,15 +109,15 @@ logL.joint.multi.OUOU.user <- function(init.par, yy, A.user, R.user,
   ### The ancestral trait values ###
   anc <- c(init.par[(length(location.diag.A) + length(location.upper.tri.A) + length(location.lower.tri.A) + length(location.diag.R) + length(location.upper.tri.R) + m + 1):(length(location.diag.A) + length(location.upper.tri.A) + length(location.lower.tri.A) + length(location.diag.R) + length(location.upper.tri.R) + m + m)])
 
-### v.1.4 ###
-# To increase speed: v.1.3  computed the time vector, the per-time-point exp(-A*t)
+### v.1.0.4 ###
+# To increase speed: v.1.0.3  computed the time vector, the per-time-point exp(-A*t)
 # array, M, and VV3 by rebuilding everything from `yy$tt` inside this function
 # on every call, using explicit i/j/k/l loops throughout (including a nested
 # k,l loop for the VCV integral and a tmp.VV intermediate array for block
 # assembly). This has been rewritten to use the pre-computed ta/tij/time_vec/se_vec
 # arguments, vectorised matrix expressions in place of the innermost loops,
 # and to add tryCatch/finite-value guards (see end of function) that were not
-# present in v.1.3.
+# present in v.1.0.3.
 
 ### -----------------------------------------------------------------------
 ### Optimization: pre-compute constants that are reused across time pairs
@@ -153,7 +153,7 @@ logL.joint.multi.OUOU.user <- function(init.par, yy, A.user, R.user,
   ### -----------------------------------------------------------------------
   ### Compute variance-covariance matrix VV3(eq. 8 and 9 from Suppl. of Clavel et al. 2015)
   ###
-  ### v.1.4 vs. v.1.3:
+  ### v.1.0.4 vs. v.1.0.3:
   ###   - No tmp.VV intermediate array; VV3 is filled directly.
   ###   - left.side computed by outer() instead of a k,l double loop.
   ###   - exp decay vector computed by a single vectorized exp() call

@@ -58,7 +58,7 @@ opt.accel.single.R<-function (yy, method="L-BFGS-B", hess = FALSE, pool = TRUE, 
     }
   }
 
-### v.1.4 ###
+### v.1.0.4 ###
 # time-distance matrix and sampling-error vector computed once here
 # instead of being rebuilt from yy inside the log-likelihood function on
 # every optimizer call.
@@ -70,8 +70,8 @@ opt.accel.single.R<-function (yy, method="L-BFGS-B", hess = FALSE, pool = TRUE, 
 
   # Define initial parameter values for the optimization routine
   init.trait.var<-apply(yy$xx,2,stats::var)
-### v.1.4 ###
-# v.1.3 used cov(as.matrix(yy$xx)) (covariance of raw trait values)
+### v.1.0.4 ###
+# v.1.0.3 used cov(as.matrix(yy$xx)) (covariance of raw trait values)
 # as the initial trait-covariance guess. Now uses the covariance of the
 # differenced series, a more appropriate starting guess for a rate parameter.
   temp.matrix<-stats::cov(apply(yy$xx, 2, diff))
@@ -82,7 +82,7 @@ opt.accel.single.R<-function (yy, method="L-BFGS-B", hess = FALSE, pool = TRUE, 
   init.par<-c(init.trait.var, init.cov.traits, anc.values, r)
   lower.limit<-c(rep(0, length(init.trait.var)), rep(NA, (length(init.cov.traits) +length(anc.values))), 1e-13)
   upper.limit<-c(rep(NA, (length(init.trait.var) + length(init.cov.traits)+ length(anc.values))), NA)
-### v.1.4 ###
+### v.1.0.4 ###
 # per-trait data SD, used below to scale additive perturbations of
 # ancestral values during random restarts.
   data.sd <- apply(yy$xx, 2, stats::sd)
@@ -98,8 +98,8 @@ opt.accel.single.R<-function (yy, method="L-BFGS-B", hess = FALSE, pool = TRUE, 
 
       tryCatch({
 
-### v.1.4 ###
-# version 1.3 perturbed the whole parameter vector identically, then
+### v.1.0.4 ###
+# version 1.0.3 perturbed the whole parameter vector identically, then
 # forced the rate/variance parameters positive with abs():
 # `init.par<-rnorm(...); init.par[...]<-abs(init.par[...])`.
 # Now each parameter type is perturbed in a scale-appropriate way: multiplicative
@@ -117,7 +117,7 @@ opt.accel.single.R<-function (yy, method="L-BFGS-B", hess = FALSE, pool = TRUE, 
       init.par        <- pmin(replace(upper.limit, is.na(upper.limit), Inf), init.par)
 
       if (method == "L-BFGS-B")  {
-### v.1.4 ###
+### v.1.0.4 ###
 # `yy = yy` replaced by `ta = ta, se_vec = se_vec` (see pre-computation above);
 # the `lower`/`upper` bounds now replace NA entries with -Inf/Inf before
 # passing to optim().
@@ -126,13 +126,13 @@ opt.accel.single.R<-function (yy, method="L-BFGS-B", hess = FALSE, pool = TRUE, 
       }
 
       if (method == "Nelder-Mead")  {
-### v.1.4 ###
+### v.1.0.4 ###
 # `yy = yy` replaced by `ta = ta, se_vec = se_vec` (see pre-computation above).
         www[[k]]<-optim(init.par, fn = logL.joint.accel.decel.single.R, y = y, m = m, n = n, anc.values = anc.values, ta = ta, se_vec = se_vec,
                         control = list(fnscale = -1, maxit=10000, trace = trace), method = "Nelder-Mead" , hessian = hess)
       }
       if (method == "SANN")  {
-### v.1.4 ###
+### v.1.0.4 ###
 # `yy = yy` replaced by `ta = ta, se_vec = se_vec` (see pre-computation above);
 # the `lower`/`upper` bounds now replace NA entries with -Inf/Inf before
 # passing to optim().
@@ -169,7 +169,7 @@ opt.accel.single.R<-function (yy, method="L-BFGS-B", hess = FALSE, pool = TRUE, 
 
 
     if (method == "L-BFGS-B")  {
-### v.1.4 ###
+### v.1.0.4 ###
 # `yy = yy` replaced by `ta = ta, se_vec = se_vec` (see pre-computation above);
 # the `lower`/`upper` bounds now replace NA entries with -Inf/Inf.
       w<-optim(init.par, fn = logL.joint.accel.decel.single.R, y = y, m = m, n = n, anc.values = anc.values, ta = ta, se_vec = se_vec,
@@ -177,13 +177,13 @@ opt.accel.single.R<-function (yy, method="L-BFGS-B", hess = FALSE, pool = TRUE, 
     }
 
     if (method == "Nelder-Mead")  {
-### v.1.4 ###
+### v.1.0.4 ###
 # `yy = yy` replaced by `ta = ta, se_vec = se_vec` (see pre-computation above).
       w<-optim(init.par, fn = logL.joint.accel.decel.single.R, y = y, m = m, n = n, anc.values = anc.values, ta = ta, se_vec = se_vec,
                control = list(fnscale = -1, maxit=10000, trace = trace), method = "Nelder-Mead" , hessian = hess)
     }
     if (method == "SANN")  {
-### v.1.4 ###
+### v.1.0.4 ###
 # `yy = yy` replaced by `ta = ta, se_vec = se_vec` (see pre-computation above);
 # the `lower`/`upper` bounds now replace NA entries with -Inf/Inf.
       w<-optim(init.par, fn = logL.joint.accel.decel.single.R, y = y, m = m, n = n, anc.values = anc.values, ta = ta, se_vec = se_vec,

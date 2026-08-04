@@ -25,7 +25,7 @@
 #'@author Kjetil Lysne Voje
 
 
-### v.1.4 ###
+### v.1.0.4 ###
 # `yy` is replaced by `se_vec`, a sampling-error vector pre-computed once by the calling opt.* function.
 logL.joint.accel.decel.single.R <- function(init.par, y, m, n, anc.values, ta, se_vec)
 {
@@ -42,13 +42,13 @@ logL.joint.accel.decel.single.R <- function(init.par, y, m, n, anc.values, ta, s
   }
 
   M.init <- init.par[(m+length(location.upper.tri.R)+1):(m+length(location.upper.tri.R)+m)]
-### v.1.4 ###
-# v.1.3 built M with a per-trait loop into M_temp, then transposed
+### v.1.0.4 ###
+# v.1.0.3 built M with a per-trait loop into M_temp, then transposed
 # and flattened it. Replaced with a single vectorized call.
   M <- rep(M.init, each = n)  # vectorized: replaces the M_temp loop
 
-### v.1.4 ###
-# v.1.3 recomputed the full pairwise-min time matrix with outer()
+### v.1.0.4 ###
+# v.1.0.3 recomputed the full pairwise-min time matrix with outer()
 # on every call (commented-out and live variants both present). Now built
 # from the pre-computed `ta` argument instead.
   # C computed using pre-computed ta, avoiding recomputation of outer() on every call
@@ -57,8 +57,8 @@ logL.joint.accel.decel.single.R <- function(init.par, y, m, n, anc.values, ta, s
   V  <- matrix(0, nrow = length(M), ncol = length(M))
   VV <- V + kronecker(t(chol) %*% chol, C)
 
-### v.1.4 ###
-# v.1.3 recomputed sample.var from yy$vv/yy$nn via a per-trait loop
+### v.1.0.4 ###
+# v.1.0.3 recomputed sample.var from yy$vv/yy$nn via a per-trait loop
 # every call; now added directly from the pre-computed se_vec (see signature).
   diag(VV) <- diag(VV) + se_vec  # pre-computed sampling error
 

@@ -85,7 +85,7 @@ fit.multivariate.OU<-function (yy, A.matrix="diag", R.matrix="symmetric", method
     }
     }
 
-### v.1.4 ###
+### v.1.0.4 ###
 # time-based and sampling-error quantities computed once here, and
 # passed as extra arguments (ta, tij, time_vec, se_vec) into the optim() calls
 # below, instead of being rebuilt inside the log-likelihood function (which
@@ -121,8 +121,8 @@ fit.multivariate.OU<-function (yy, A.matrix="diag", R.matrix="symmetric", method
 
       if (A.matrix=="OUBM"){init.diag.A<-rep(NA,(m-1))}
 
-### v.1.4 ###
-# v.1.3  used the raw MLE for the OU diagonal-A initial guess with no
+### v.1.0.4 ###
+# v.1.0.3  used the raw MLE for the OU diagonal-A initial guess with no
 # floor/bound; now bounded at 1e-6 to keep the initial A matrix positive definite
       for (i in 1:length(init.diag.A))
       {
@@ -141,16 +141,16 @@ fit.multivariate.OU<-function (yy, A.matrix="diag", R.matrix="symmetric", method
         if (length(init.diag.A) != 1) init.off.diag.A<-rep(0, sum(upper.tri(diag(init.diag.A)), na.rm = TRUE))
         }
       if (A.matrix=="full"){init.off.diag.A<-rep(0, (sum(upper.tri(diag(init.diag.A)), na.rm = TRUE))*2)}
-### v.1.4 ###
-# version 1.3  used rep(0.5, ...) as the initial off-diagonal R (trait
-# correlation) guess. Verion 1.4  uses rep(0, ...), a more neutral starting point.
+### v.1.0.4 ###
+# version 1.0.3  used rep(0.5, ...) as the initial off-diagonal R (trait
+# correlation) guess. Verion 1.0.4  uses rep(0, ...), a more neutral starting point.
       init.off.diag.R<-rep(0, sum(upper.tri(diag(init.diag.R)), na.rm = TRUE))
-### end v.1.4 ###
+### end v.1.0.4 ###
 
       init.anc<-yy$xx[1,]
 
-### v.1.4 ###
-# v.1.3 version used the last observed data point (yy$xx[length(yy$xx[,1]),])
+### v.1.0.4 ###
+# v.1.0.3 version used the last observed data point (yy$xx[length(yy$xx[,1]),])
 # as the initial theta (OU optimum) guess; now uses the column means, a more
 # sensible guess for the long-run mean.
       init.theta<-colMeans(yy$xx)
@@ -165,7 +165,7 @@ fit.multivariate.OU<-function (yy, A.matrix="diag", R.matrix="symmetric", method
       if (is.null(user.init.theta) == FALSE) init.theta<-user.init.theta
       if (is.null(user.init.anc) == FALSE) init.anc<-user.init.anc
 
-### v.1.4 ###
+### v.1.0.4 ###
 # `lower.diag.A` gives every A-matrix parameterization except "full" a
 # 1e-6 floor on its diagonal.
       # Positive-definiteness constraint on diagonal A elements.
@@ -173,8 +173,8 @@ fit.multivariate.OU<-function (yy, A.matrix="diag", R.matrix="symmetric", method
       # For OUBM the BM trait is already absent from init.diag.A, so all elements here belong to OU traits and can safely be bounded below.
       lower.diag.A <- if (A.matrix == "full") rep(NA, length(init.diag.A)) else rep(1e-6, length(init.diag.A))
 
-### v.1.4 ###
-# v.1.3  perturbed the whole parameter vector identically inside
+### v.1.0.4 ###
+# v.1.0.3  perturbed the whole parameter vector identically inside
 # each of the 8 parameterization-specific blocks below:
 # `init.par_temp<-c(...); init.par<-rnorm(length(init.par_temp), init.par_temp, iter.sd)`.
 # Now hoisted to a single block above the parameterization branches, with
@@ -193,9 +193,9 @@ fit.multivariate.OU<-function (yy, A.matrix="diag", R.matrix="symmetric", method
       init.anc        <- init.anc   + rnorm(length(init.anc),   0, data.sd * iter.sd)
       if (A.matrix == "OUBM") init.theta[m] <- init.anc[m]
 
-### v.1.4 ###
+### v.1.0.4 ###
 # In all 8 parameterization blocks below, `lower.limit`'s first element
-# has changeed from v.1.3's `rep(NA, length(init.diag.A))` (A
+# has changeed from v.1.0.3's `rep(NA, length(init.diag.A))` (A
 # diagonal unconstrained) to `lower.diag.A` (A diagonal bounded at 1e-6,
 # except for "full"). init.par construction itself is unchanged.
     if(A.matrix=="diag" & R.matrix=="diag")
@@ -252,20 +252,20 @@ fit.multivariate.OU<-function (yy, A.matrix="diag", R.matrix="symmetric", method
       lower.limit<-c(lower.diag.A, rep(NA,length(init.off.diag.A)), rep(0, length(init.diag.R)), rep(NA, length(init.off.diag.R)), rep(NA, length(init.theta)), rep(NA, length(init.anc)))
     }
 
-### v.1.4 ###
+### v.1.0.4 ###
 # clamps the perturbed init.par to the lower bound (NA treated as -Inf)
 # before optimizing, so restarts can't violate the A/R positivity constraints.
       #ensure perturbed values respect lower bounds
       init.par <- pmax(replace(lower.limit, is.na(lower.limit), -Inf), init.par)
 
      if (method == "Nelder-Mead")  {
-### v.1.4 ###
+### v.1.0.4 ###
 # `ta = ta, tij = tij, time_vec = time_vec, se_vec = se_vec` added (yy is
 # retained for m/X/y — see pre-computation note above).
       www[[k]]<-try(optim(init.par, fn = logL.joint.multi.OUOU, yy = yy, A.matrix = A.matrix, R.matrix = R.matrix,
                        ta = ta, tij = tij, time_vec = time_vec, se_vec = se_vec,
                        control = list(fnscale = -1, maxit=1000000, trace = trace), method = "Nelder-Mead", hessian = hess), silent = TRUE)
-### end v.1.4 ###
+### end v.1.0.4 ###
       if(inherits(www[[k]], "try-error") && grepl("function cannot be evaluated at initial parameters", attr(www[[k]], "condition")$message))
         stop("The initial parameters did not work. Trying a new set of candidate starting values.")
       # The provided initial starting values for the parameters may not work (depends on the data). If this happens when running iterations, the user is informed by a message saying: "The initial parameters did not work. Trying a new set of candidate starting values."
@@ -273,14 +273,14 @@ fit.multivariate.OU<-function (yy, A.matrix="diag", R.matrix="symmetric", method
 
 
     if (method == "L-BFGS-B")  {
-### v.1.4 ###
+### v.1.0.4 ###
 # `ta = ta, tij = tij, time_vec = time_vec, se_vec = se_vec` added (yy is
 # retained for m/X/y); `lower` now replaces NA entries with -Inf before being
 # passed to optim().
       www[[k]]<-optim(init.par, fn = logL.joint.multi.OUOU, yy = yy, A.matrix = A.matrix, R.matrix = R.matrix,
                  ta = ta, tij = tij, time_vec = time_vec, se_vec = se_vec,
                  control = list(fnscale = -1, maxit=1000000, trace = trace), method = "L-BFGS-B" , hessian = hess, lower = replace(lower.limit, is.na(lower.limit), -Inf))
-### end v.1.4 ###
+### end v.1.0.4 ###
     }
     log.lik.tmp[k]<-www[[k]]$value
       
@@ -327,8 +327,8 @@ fit.multivariate.OU<-function (yy, A.matrix="diag", R.matrix="symmetric", method
 
       if (A.matrix=="OUBM"){init.diag.A<-rep(NA,(m-1))}
 
-### v.1.4 ###
-# v.1.3  used the raw MLEs for the diagonal-A and diagonal-R initial
+### v.1.0.4 ###
+# v.1.0.3  used the raw MLEs for the diagonal-A and diagonal-R initial
 # guesses with no floor/bounds; now both bounded at 1e-6 (keeps the initial A matrix
 # positive definite; keeps the initial R diagonal strictly positive).
         for (i in 1:length(init.diag.A))
@@ -340,7 +340,7 @@ fit.multivariate.OU<-function (yy, A.matrix="diag", R.matrix="symmetric", method
           {
           init.diag.R[i]<-max(1e-6, paleoTS::opt.joint.URW(paleoTS::as.paleoTS(mm=trait_array[,1,i], vv=trait_array[,2,i], nn=trait_array[,3,i], tt=trait_array[,4,i]))$parameter[2])
         }
-### end v.1.4 ###
+### end v.1.0.4 ###
 
 
       init.off.diag.A<-rep(0, sum(upper.tri(diag(init.diag.A)), na.rm = TRUE))
@@ -349,16 +349,16 @@ fit.multivariate.OU<-function (yy, A.matrix="diag", R.matrix="symmetric", method
         if (length(init.diag.A) != 1) init.off.diag.A<-rep(0, sum(upper.tri(diag(init.diag.A)), na.rm = TRUE))
       }
       if (A.matrix=="full"){init.off.diag.A<-rep(0, (sum(upper.tri(diag(init.diag.A)), na.rm = TRUE))*2)}
-### v.1.4 ###
-# v.1.3 version used rep(0.5, ...) as the initial off-diagonal R (trait
-# correlation) guess. Version 1.4  uses rep(0, ...), a more neutral starting point.
+### v.1.0.4 ###
+# v.1.0.3 version used rep(0.5, ...) as the initial off-diagonal R (trait
+# correlation) guess. Version 1.0.4  uses rep(0, ...), a more neutral starting point.
       init.off.diag.R<-rep(0, sum(upper.tri(diag(init.diag.R)), na.rm = TRUE))
 
       init.anc<-yy$xx[1,]
 
-### v.1.4 ###
-# v.1.3  used the last observed data point (yy$xx[length(yy$xx[,1]),])
-# as the initial theta (OU optimum) guess. V.1.4 uses the column means, a more
+### v.1.0.4 ###
+# v.1.0.3  used the last observed data point (yy$xx[length(yy$xx[,1]),])
+# as the initial theta (OU optimum) guess. V.1.0.4 uses the column means, a more
 # sensible guess for the long-run mean.
       init.theta<-colMeans(yy$xx)
       if (A.matrix=="OUBM"){init.theta[m]<-init.anc[m]}
@@ -371,17 +371,17 @@ fit.multivariate.OU<-function (yy, A.matrix="diag", R.matrix="symmetric", method
       if (is.null(user.init.theta) == FALSE) init.theta<-user.init.theta
       if (is.null(user.init.anc) == FALSE) init.anc<-user.init.anc
 
-### v.1.4 ###
+### v.1.0.4 ###
 # Same lower.diag.A constraint as in the iteration branch above: every A-matrix
 # parameterization except "full" gets its diagonal bounded at 1e-6, used below
-# in place of the `rep(NA, length(init.diag.A))` in v.1.3.
+# in place of the `rep(NA, length(init.diag.A))` in v.1.0.3.
       # Positive-definiteness constraint on diagonal A elements.
       # "full" is left unconstrained (reparameterisation would be needed).
       # For OUBM the BM trait is already absent from init.diag.A, so all
       # elements here belong to OU traits and can safely be bounded below.
       lower.diag.A <- if (A.matrix == "full") rep(NA, length(init.diag.A)) else rep(1e-6, length(init.diag.A))
 
-### v.1.4 ###
+### v.1.0.4 ###
 # In all 8 parameterization blocks below, `lower.limit`'s first element
 # changes from `rep(NA, length(init.diag.A))` to `lower.diag.A`.
       if(A.matrix=="diag" & R.matrix=="diag")
@@ -441,7 +441,7 @@ fit.multivariate.OU<-function (yy, A.matrix="diag", R.matrix="symmetric", method
 
     if (method == "L-BFGS-B")
     {
-### v.1.4 ###
+### v.1.0.4 ###
 # `ta = ta, tij = tij, time_vec = time_vec, se_vec = se_vec` added (yy is
 # retained for m/X/y); `lower` now replaces NA entries with -Inf.
       w<-optim(init.par, fn = logL.joint.multi.OUOU, yy = yy, A.matrix = A.matrix, R.matrix = R.matrix,
@@ -451,7 +451,7 @@ fit.multivariate.OU<-function (yy, A.matrix="diag", R.matrix="symmetric", method
 
     if (method == "Nelder-Mead")
     {
-### v.1.4 ###
+### v.1.0.4 ###
 # `ta = ta, tij = tij, time_vec = time_vec, se_vec = se_vec` added (yy is
 # retained for m/X/y — see pre-computation note above).
       w<-optim(init.par, fn = logL.joint.multi.OUOU, yy = yy, A.matrix = A.matrix, R.matrix = R.matrix,
