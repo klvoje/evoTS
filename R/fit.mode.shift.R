@@ -38,6 +38,7 @@
 #'
 #'@author Kjetil Lysne Voje
 #'
+#'@references Voje, K.L. Fitting and evaluating univariate and multivariate models of within-lineage evolution. \emph{Paleobiology} 49, 747–764 (2023).
 #'@references Hunt, G. 2006. Fitting and comparing models of phyletic evolution: random walks and beyond. \emph{Paleobiology} 32:578–601
 #'@references Hunt, G., Bell, M. A. & Travis, M. P. Evolution towards a new adaptive optimum: Phenotypic evolution in a fossil stickleback lineage. \emph{Evolution} 62:700–710 (2008)
 #'

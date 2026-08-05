@@ -34,6 +34,7 @@
 #'
 #'@author Kjetil Lysne Voje
 #'
+#'@references Voje, K.L. Fitting and evaluating univariate and multivariate models of within-lineage evolution. \emph{Paleobiology} 49, 747–764 (2023).
 #'@references Revell, L. J. & Harmon, L. Testing quantitative genetic hypotheses about the evolutionary rate matrix for continuous characters. \emph{Evolutionary Ecology Research} 10, 311–331 (2008).
 #'
 #'@export

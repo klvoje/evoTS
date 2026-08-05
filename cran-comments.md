@@ -3,7 +3,7 @@
 ## summary of the new changes
 
 # Bug fixes
-- Fixed a small bug in sim.multi.OU and sim.multi.URW functions. The latter function now correctly handles unequal time steps by scaling each random increment by its own time interval.
+- Fixed a bug in sim.multi.OU and sim.multi.URW functions. The latter function now correctly handles unequal time steps by scaling each random increment by its own time interval.
 - Fixed a factual error in the @details documentation of opt.decel.single.R.zero.corr, which incorrectly described the model as accelerating rather than decelerating.
 
 # Other changes

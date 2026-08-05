@@ -54,6 +54,7 @@
 #'
 #'@author Kjetil Lysne Voje
 #'
+#'@references Voje, K.L. Fitting and evaluating univariate and multivariate models of within-lineage evolution. \emph{Paleobiology} 49, 747–764 (2023).
 #'@references Reitan, T., Schweder, T. & Henderiks, J. Phenotypic evolution studied by layered stochastic differential equations. \emph{Ann Appl Statistics} 6, 1531–1551 (2012).
 #'@references Bartoszek, K., Pienaar, J., Mostad, P., Andersson, S. & Hansen, T. F. A phylogenetic comparative method for studying multivariate adaptation. \emph{J Theor Biol} 314, 204–215 (2012).
 #'@references Clavel, J., Escarguel, G. & Merceron, G. mvmorph: an r package for fitting multivariate evolutionary models to morphometric data. \emph{Methods Ecol Evol 6}, 1311–1319 (2015).
